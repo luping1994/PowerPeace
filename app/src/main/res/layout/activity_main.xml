@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimaryDark"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical"
+        tools:context="net.suntrans.powerpeace.MainActivity">
+
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/actionbarheight"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:theme="@style/Toolbar"
+            app:titleTextAppearance="@style/Toolbar.TitleText">
+
+            <net.suntrans.looney.widgets.SegmentedGroup
+                android:id="@+id/segmented_group"
+                android:layout_width="200dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="?attr/colorPrimary"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="4dp"
+                app:sc_border_width="1dp"
+                app:sc_corner_radius="2dp"
+                app:sc_tint_color="#006b95">
+
+                <RadioButton
+                    android:id="@+id/radio0"
+                    style="@style/RadioButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".5"
+                    android:checked="true"
+                    android:text="宿舍" />
+
+                <RadioButton
+                    android:id="@+id/radio1"
+                    style="@style/RadioButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".5"
+                    android:text="学生" />
+
+                <RadioButton
+                    android:id="@+id/radio2"
+                    style="@style/RadioButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".5"
+                    android:text="综合" />
+            </net.suntrans.looney.widgets.SegmentedGroup>
+
+        </android.support.v7.widget.Toolbar>
+
+        <net.suntrans.looney.widgets.IViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white">
+
+        </net.suntrans.looney.widgets.IViewPager>
+    </LinearLayout>
+
+</layout>
