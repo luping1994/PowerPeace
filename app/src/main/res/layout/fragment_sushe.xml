@@ -1,8 +1,7 @@
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -11,7 +10,7 @@
         <LinearLayout
             android:id="@+id/content"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_height="45dp"
             android:background="@color/colorPrimary"
             android:orientation="horizontal"
             android:paddingLeft="16dp"
@@ -24,11 +23,11 @@
                 android:layout_weight="1">
 
                 <android.support.v7.widget.AppCompatSpinner
-                    android:gravity="left"
                     android:id="@+id/xueyuan"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@null">
+                    android:background="@null"
+                    android:gravity="left">
 
                 </android.support.v7.widget.AppCompatSpinner>
 
@@ -78,9 +77,9 @@
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="4dp"
+                android:layout_marginBottom="8dp"
                 android:layout_marginLeft="8dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="8dp"
                 android:background="@color/white" />
 
             <RelativeLayout
@@ -104,9 +103,25 @@
                     android:src="@drawable/ic_arrowdown" />
 
             </RelativeLayout>
-
-
         </LinearLayout>
-    </RelativeLayout>
+
+      <FrameLayout
+          android:id="@+id/root"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent">
+         <android.support.v4.widget.SwipeRefreshLayout
+             android:layout_width="match_parent"
+             android:id="@+id/refreshLayout"
+             android:layout_height="match_parent">
+             <android.support.v7.widget.RecyclerView
+                 android:id="@+id/recyclerView"
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent"
+                 app:layoutManager="LinearLayoutManager">
+
+             </android.support.v7.widget.RecyclerView>
+         </android.support.v4.widget.SwipeRefreshLayout>
+      </FrameLayout>
+    </LinearLayout>
 
 </layout>
