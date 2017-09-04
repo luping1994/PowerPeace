@@ -3,6 +3,7 @@ package net.suntrans.powerpeace.api;
 
 import net.suntrans.powerpeace.bean.LoginEntity;
 import net.suntrans.powerpeace.bean.MenuBean;
+import net.suntrans.powerpeace.bean.StudentInfoEntity;
 import net.suntrans.powerpeace.bean.SusheEntity;
 
 import retrofit2.http.Field;
@@ -65,10 +66,10 @@ public interface Api {
      * @return
      */
     @FormUrlEncoded
-    @POST("/api/inquiry/Inquiry_Student_Info")
-    Observable<SusheEntity> getStudentDetail(@Field("departmentID") String departmentID,
-                                             @Field("building") String building,
-                                             @Field("floor") String floor);
+    @POST("api/inquiry/Inquiry_Student_Info")
+    Observable<StudentInfoEntity> getStudent(@Field("departmentID") String departmentID,
+                                                   @Field("building") String building,
+                                                   @Field("floor") String floor);
 
 
 }

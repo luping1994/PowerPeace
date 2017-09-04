@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseSectionQuickAdapter;
@@ -58,6 +59,7 @@ public class SusheFragment extends BasedFragment {
     private String currentBuilding = "0";
     private String currentFloor = "0";
 
+
     public SusheFragment() {
     }
 
@@ -100,6 +102,34 @@ public class SusheFragment extends BasedFragment {
         floorDatas = new ArrayList<>();
 
 
+        stateView.setOnRetryClickListener(new StateView.OnRetryClickListener() {
+            @Override
+            public void onRetryClick() {
+                getSusheDatas(currentXueyuan, currentBuilding, currentFloor);
+            }
+        });
+        susheDatas = new ArrayList<>();
+        adapter = new MyAdapter(R.layout.item_sushe, R.layout.item_suhe_header, susheDatas);
+        binding.recyclerView.setAdapter(adapter);
+
+        binding.refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getSusheDatas(currentXueyuan, currentBuilding, currentFloor);
+            }
+        });
+        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                UiUtils.showToast("我被点击了" + position);
+            }
+        });
+    }
+
+    private void initSpinner() {
+
+
+
         xueyuanAdapter = new ArrayAdapter<String>(getContext(), R.layout.item_spinner, R.id.tv_spinner, xueyuanMenuDatas);
         buildingAdapter = new ArrayAdapter<String>(getContext(), R.layout.item_spinner, R.id.tv_spinner, buildingDatas);
         floorAdapter = new ArrayAdapter<String>(getContext(), R.layout.item_spinner, R.id.tv_spinner, floorDatas);
@@ -107,6 +137,8 @@ public class SusheFragment extends BasedFragment {
         binding.xueyuan.setAdapter(xueyuanAdapter);
         binding.building.setAdapter(buildingAdapter);
         binding.floor.setAdapter(floorAdapter);
+
+
         binding.xueyuan.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
@@ -118,7 +150,7 @@ public class SusheFragment extends BasedFragment {
                 }
                 buildingAdapter.notifyDataSetChanged();
                 currentXueyuan = datas.get(position).departmentID + "";
-                if (binding.building.getSelectedItemPosition()==0){
+                if (binding.building.getSelectedItemPosition() == 0) {
                     floorDatas.clear();
                     floorDatas.add("所有");
                     for (int i = 0; i < datas.get(xueyuanPosition).sublist.get(0).floors.size(); i++) {
@@ -127,10 +159,9 @@ public class SusheFragment extends BasedFragment {
                     }
                     floorAdapter.notifyDataSetChanged();
                     binding.floor.setSelection(0);
-                }else {
+                } else {
                     binding.building.setSelection(0);
                 }
-
 
                 getSusheDatas(currentXueyuan, datas.get(position).sublist.get(0).building + "", "0");
 
@@ -146,7 +177,6 @@ public class SusheFragment extends BasedFragment {
         binding.building.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                buildingPostion = position;
                 floorDatas.clear();
                 floorDatas.add("所有");
                 for (int i = 0; i < datas.get(xueyuanPosition).sublist.get(position).floors.size(); i++) {
@@ -155,10 +185,10 @@ public class SusheFragment extends BasedFragment {
                 }
                 floorAdapter.notifyDataSetChanged();
 
+                buildingPostion = position;
                 currentBuilding = datas.get(xueyuanPosition).sublist.get(position).building + "";
-
-//              getSusheDatas(currentXueyuan, datas.get(position).sublist.get(0).building + "", currentFloor);
-
+//
+                getSusheDatas(currentXueyuan, currentBuilding, currentFloor);
 
 
             }
@@ -179,35 +209,13 @@ public class SusheFragment extends BasedFragment {
                 } else {
                     currentFloor = datas.get(xueyuanPosition).sublist.get(buildingPostion).floors.get(position - 1).floor + "";
                 }
-//                getSusheDatas(currentXueyuan, currentBuilding, currentFloor);
+                getSusheDatas(currentXueyuan, currentBuilding, currentFloor);
 
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
-            }
-        });
-        stateView.setOnRetryClickListener(new StateView.OnRetryClickListener() {
-            @Override
-            public void onRetryClick() {
-                getSusheDatas(currentXueyuan, currentBuilding, currentFloor);
-            }
-        });
-        susheDatas = new ArrayList<>();
-        adapter = new MyAdapter(R.layout.item_sushe, R.layout.item_suhe_header, susheDatas);
-        binding.recyclerView.setAdapter(adapter);
-
-        binding.refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                getSusheDatas(currentXueyuan,currentBuilding,currentFloor);
-            }
-        });
-        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                UiUtils.showToast("我被点击了"+position);
             }
         });
     }
@@ -269,21 +277,23 @@ public class SusheFragment extends BasedFragment {
                 if (o.info == null || o.info.size() == 0) {
                     throw new RuntimeException("菜单为空");
                 }
-                xueyuanMenuDatas.clear();
+                if (xueyuanMenuDatas != null)
+                    xueyuanMenuDatas.clear();
                 datas.clear();
                 datas.addAll(o.info);
+
                 for (MenuBean.InfoBean info :
                         datas) {
                     xueyuanMenuDatas.add(info.departmentName);
                 }
-                xueyuanAdapter.notifyDataSetChanged();
+                initSpinner();
                 getSusheDatas(o.info.get(0).departmentID + "", o.info.get(0).sublist.get(0).building + "", 0 + "");
             }
         });
     }
 
     private void getSusheDatas(String departmentID, String building, String floor) {
-        System.out.println(departmentID+"."+building+"."+floor);
+        System.out.println(departmentID + "." + building + "." + floor);
         addSubscription(api.getSusheInfo(departmentID, building, floor), new Subscriber<SusheEntity>() {
             @Override
             public void onCompleted() {
