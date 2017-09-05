@@ -20,10 +20,8 @@ import net.suntrans.looney.utils.UiUtils;
 import net.suntrans.powerpeace.R;
 import net.suntrans.powerpeace.bean.MenuBean;
 import net.suntrans.powerpeace.bean.StudentInfoEntity;
-import net.suntrans.powerpeace.bean.SusheEntity;
 import net.suntrans.powerpeace.bean.StudentSelection;
 import net.suntrans.powerpeace.databinding.FragmentStudentBinding;
-import net.suntrans.powerpeace.databinding.FragmentSusheBinding;
 import net.suntrans.powerpeace.ui.decoration.DefaultDecoration;
 import net.suntrans.stateview.StateView;
 
@@ -200,7 +198,6 @@ public class StudentFragment extends BasedFragment {
         susheDatas = new ArrayList<>();
         adapter = new MyAdapter(R.layout.item_student, R.layout.item_student_header, susheDatas);
         binding.recyclerView.setAdapter(adapter);
-//        binding.recyclerView.addItemDecoration();
         binding.refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -218,14 +215,6 @@ public class StudentFragment extends BasedFragment {
 
     class MyAdapter extends BaseSectionQuickAdapter<StudentSelection, BaseViewHolder> {
 
-        /**
-         * Same as QuickAdapter#QuickAdapter(Context,int) but with
-         * some initialization data.
-         *
-         * @param layoutResId      The layout resource id of each item.
-         * @param sectionHeadResId The section head layout id for each item
-         * @param data             A new list is created out of this one to avoid mutable list
-         */
         public MyAdapter(int layoutResId, int sectionHeadResId, List<StudentSelection> data) {
             super(layoutResId, sectionHeadResId, data);
         }

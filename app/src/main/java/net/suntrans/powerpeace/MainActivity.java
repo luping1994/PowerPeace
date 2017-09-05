@@ -1,5 +1,6 @@
 package net.suntrans.powerpeace;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
@@ -13,6 +14,7 @@ import android.widget.RadioGroup;
 import net.suntrans.powerpeace.adapter.FragmentAdapter;
 import net.suntrans.powerpeace.databinding.ActivityMainBinding;
 import net.suntrans.powerpeace.ui.activity.BasedActivity;
+import net.suntrans.powerpeace.ui.activity.SettingActivity;
 import net.suntrans.powerpeace.ui.fragment.StudentFragment;
 import net.suntrans.powerpeace.ui.fragment.SusheFragment;
 
@@ -72,9 +74,12 @@ public class MainActivity extends BasedActivity implements View.OnClickListener 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.setting) {
+
             return true;
         }
         if (item.getItemId() == android.R.id.home){
+            Intent intent = new Intent(this, SettingActivity.class);
+            startActivity(intent);
             return true;
         }
         return true;

@@ -67,6 +67,8 @@ dependencies {
     compile 'com.android.support:cardview-v7:' + rootProject.supportLibVersion
     compile project(':looney')
     compile project(':stateview')
+    compile 'com.android.support:support-v4:' + rootProject.supportLibVersion
+
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
     compile 'io.reactivex:rxandroid:1.2.1'
@@ -76,8 +78,7 @@ dependencies {
     compile 'com.alibaba:fastjson:1.1.56.android'
     compile 'com.pgyersdk:sdk:2.6.9'
     compile 'me.weyye.hipermission:library:1.0.3'
-    compile 'com.android.support:support-v4:'+ rootProject.supportLibVersion
-    testCompile 'junit:junit:4.12'
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.22'
-
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    testCompile 'junit:junit:4.12'
 }

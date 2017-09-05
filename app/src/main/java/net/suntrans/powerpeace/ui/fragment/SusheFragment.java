@@ -1,11 +1,13 @@
 package net.suntrans.powerpeace.ui.fragment;
 
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -23,6 +25,8 @@ import net.suntrans.powerpeace.bean.MenuBean;
 import net.suntrans.powerpeace.bean.SusheEntity;
 import net.suntrans.powerpeace.bean.SusheSelection;
 import net.suntrans.powerpeace.databinding.FragmentSusheBinding;
+import net.suntrans.powerpeace.ui.activity.SusheDetailActivity;
+import net.suntrans.powerpeace.ui.decoration.DefaultDecoration;
 import net.suntrans.stateview.StateView;
 
 import java.util.ArrayList;
@@ -122,6 +126,11 @@ public class SusheFragment extends BasedFragment {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 UiUtils.showToast("我被点击了" + position);
+                Intent intent = new Intent(getActivity(), SusheDetailActivity.class);
+                intent.putExtra("title",susheDatas.get(position).susheName);
+                intent.putExtra("room_id",susheDatas.get(position).room_id);
+                intent.putExtra("whole_name",susheDatas.get(position).wholeName);
+                startActivity(intent);
             }
         });
     }
@@ -178,7 +187,6 @@ public class SusheFragment extends BasedFragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
                 floorDatas.clear();
-                floorDatas.add("所有");
                 for (int i = 0; i < datas.get(xueyuanPosition).sublist.get(position).floors.size(); i++) {
                     int floor = datas.get(xueyuanPosition).sublist.get(position).floors.get(i).floor;
                     floorDatas.add(floor + "层");
@@ -198,6 +206,7 @@ public class SusheFragment extends BasedFragment {
 
             }
         });
+        binding.recyclerView.addItemDecoration(new DefaultDecoration());
 
         binding.floor.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -325,6 +334,9 @@ public class SusheFragment extends BasedFragment {
                                 new SusheSelection(j == 0 ? true : false, o.info.get(i).departmentName + "-"
                                         + o.info.get(i).building + "舍-" + o.info.get(i).floor + "层");
                         susheSelection.susheName = o.info.get(i).sublist.get(j).dormitory + "";
+                        susheSelection.room_id = o.info.get(i).sublist.get(j).room_id+"";
+                        susheSelection.wholeName=o.info.get(i).departmentName + "-"
+                                + o.info.get(i).building + "舍-"+o.info.get(i).sublist.get(j).dormitory;
                         susheDatas.add(susheSelection);
                     }
                 }
@@ -334,4 +346,5 @@ public class SusheFragment extends BasedFragment {
             }
         });
     }
+
 }

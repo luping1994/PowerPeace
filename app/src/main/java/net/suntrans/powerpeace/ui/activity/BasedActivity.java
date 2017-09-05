@@ -10,9 +10,18 @@ import android.view.ViewGroup;
 
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
+import net.suntrans.powerpeace.api.Api;
+import net.suntrans.powerpeace.api.RetrofitHelper;
+
 import java.lang.reflect.Field;
 import java.util.LinkedList;
 import java.util.List;
+
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by Looney on 2017/1/5.
@@ -40,6 +49,7 @@ public class BasedActivity extends RxAppCompatActivity implements SlidingPaneLay
         synchronized (mlist) {
             mlist.remove(this);
         }
+        onUnsubscribe();
         super.onDestroy();
     }
 
@@ -125,4 +135,29 @@ public class BasedActivity extends RxAppCompatActivity implements SlidingPaneLay
         }
         return super.onOptionsItemSelected(item);
     }
+
+
+    protected Api api = RetrofitHelper.getApi();
+    protected CompositeSubscription mCompositeSubscription;
+
+
+
+    public void addSubscription(Observable observable, Subscriber subscriber) {
+        if (mCompositeSubscription == null) {
+            mCompositeSubscription = new CompositeSubscription();
+        }
+        mCompositeSubscription.add(observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber));
+    }
+
+
+    //RXjava取消注册，以避免内存泄露
+    public void onUnsubscribe() {
+        if (mCompositeSubscription != null && mCompositeSubscription.hasSubscriptions()) {
+            mCompositeSubscription.unsubscribe();
+        }
+    }
+
 }

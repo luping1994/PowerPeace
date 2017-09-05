@@ -3,6 +3,7 @@ package net.suntrans.powerpeace.api;
 
 import net.suntrans.powerpeace.bean.LoginEntity;
 import net.suntrans.powerpeace.bean.MenuBean;
+import net.suntrans.powerpeace.bean.RoomInfolEntity;
 import net.suntrans.powerpeace.bean.StudentInfoEntity;
 import net.suntrans.powerpeace.bean.SusheEntity;
 
@@ -57,7 +58,7 @@ public interface Api {
      */
     @FormUrlEncoded
     @POST("api/inquiry/Inquiry_Room_Detail_Byrid")
-    Observable<SusheEntity> getSusheDetail(@Field("room_id") String room_id);
+    Observable<RoomInfolEntity> getSusheDetail(@Field("room_id") String room_id);
 
     /**
      * 管理员查询学生

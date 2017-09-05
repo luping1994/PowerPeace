@@ -34,7 +34,7 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MainActivity" />
         <activity
             android:name=".ui.activity.WelcomeActivity"
             android:screenOrientation="portrait">
@@ -46,8 +46,11 @@
         </activity>
         <activity
             android:name=".Login1Activity"
-            android:label="@string/title_activity_login1"></activity>
+            android:label="@string/title_activity_login1" />
         <activity android:name=".ui.activity.Login1Activity" />
+        <activity android:name=".ui.activity.SusheDetailActivity" />
+        <activity android:name=".ui.activity.PostageHisActivity" />
+        <activity android:name=".ui.activity.SettingActivity"></activity>
     </application>
 
 </manifest>
