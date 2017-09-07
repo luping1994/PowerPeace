@@ -7,7 +7,7 @@ import java.util.Map;
  * Created by Looney on 2017/9/5.
  */
 
-public class RoomInfolEntity {
+public class RoomInfolEntity extends ResultBody{
 
 
     /**
@@ -19,8 +19,8 @@ public class RoomInfolEntity {
      * account : [{"id":1,"balans":2}]
      */
 
-    public int code;
-    public String message;
+//    public int code;
+//    public String message;
     public List<Map<String,String>> room_stu;
     public List<Map<String,String>> meter_info;
     public List<Map<String,String>> dev_channel;

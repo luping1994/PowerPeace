@@ -44,13 +44,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
-            android:name=".Login1Activity"
-            android:label="@string/title_activity_login1" />
-        <activity android:name=".ui.activity.Login1Activity" />
-        <activity android:name=".ui.activity.SusheDetailActivity" />
-        <activity android:name=".ui.activity.PostageHisActivity" />
-        <activity android:name=".ui.activity.SettingActivity"></activity>
+            android:name=".ui.activity.Login1Activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.SusheDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.PostageHisActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.SettingActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.AmmeterHisActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

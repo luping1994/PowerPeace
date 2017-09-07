@@ -1,6 +1,7 @@
 package net.suntrans.powerpeace.api;
 
 
+import net.suntrans.powerpeace.bean.HisEntity;
 import net.suntrans.powerpeace.bean.LoginEntity;
 import net.suntrans.powerpeace.bean.MenuBean;
 import net.suntrans.powerpeace.bean.RoomInfolEntity;
@@ -71,6 +72,17 @@ public interface Api {
     Observable<StudentInfoEntity> getStudent(@Field("departmentID") String departmentID,
                                                    @Field("building") String building,
                                                    @Field("floor") String floor);
+
+    /**
+     * 管理员查询历史数据
+     *
+     * @param
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api/inquiry/Inquiry_Ammeter_History")
+    Observable<HisEntity> getMeterHis(@Field("room_id") String room_id,
+                                      @Field("data_type") String data_type);
 
 
 }

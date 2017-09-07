@@ -18,6 +18,7 @@ import net.suntrans.powerpeace.R;
 import net.suntrans.powerpeace.bean.RoomInfoSelection;
 import net.suntrans.powerpeace.bean.RoomInfolEntity;
 import net.suntrans.powerpeace.databinding.ActivitySusheDetailBinding;
+import net.suntrans.powerpeace.rx.BaseSubscriber;
 import net.suntrans.powerpeace.ui.decoration.DefaultDecoration;
 import net.suntrans.stateview.StateView;
 
@@ -33,16 +34,19 @@ import rx.Subscriber;
  * Created by Looney on 2017/9/4.
  */
 
-public class SusheDetailActivity extends BasedActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class SusheDetailActivity extends BasedActivity implements SwipeRefreshLayout.OnRefreshListener, StateView.OnRetryClickListener {
 
     private ActivitySusheDetailBinding binding;
     private List<RoomInfoSelection> datas = new ArrayList<>();
     private MyAdapter adapter;
-    private Map<String, String> mMeterDictionaries;
+    private Map<String, String> mMeterDictionaries;//电表中英字典
     private Map<String, String> meterInfo;//电表参数map
     private String room_id;
     private StateView stateView;
     private String whole_name;
+    private int mRefreshType = STATE_VIEW_REFRESH;
+    private static final int SWIP_REFRESH_LAYOUT = 0x01;
+    private static final int STATE_VIEW_REFRESH = 0x02;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -57,7 +61,7 @@ public class SusheDetailActivity extends BasedActivity implements SwipeRefreshLa
 
         room_id = getIntent().getStringExtra("room_id");
         stateView = StateView.inject(findViewById(R.id.content));
-
+        stateView.setOnRetryClickListener(this);
         initDictiomaries();
         adapter = new MyAdapter(R.layout.item_roominfo, R.layout.item_roominfo_header, datas);
         binding.recyclerView.setAdapter(adapter);
@@ -69,15 +73,20 @@ public class SusheDetailActivity extends BasedActivity implements SwipeRefreshLa
                 RoomInfoSelection selection = datas.get(position);
                 switch (selection.type) {
                     case RoomInfoSelection.TYPE_ACCOUNT:
-                        UiUtils.showToast("您点击了账户信息");
-                        Intent intent = new Intent(SusheDetailActivity.this,PostageHisActivity.class);
-                        intent.putExtra("title",getIntent().getStringExtra("title"));
+                        LogUtil.i("您点击了账户信息");
+                        Intent intent = new Intent(SusheDetailActivity.this, PostageHisActivity.class);
+                        intent.putExtra("title", getIntent().getStringExtra("title"));
                         startActivity(intent);
                         break;
                     case RoomInfoSelection.TYPE_DEV_CHANNEL:
 
                         break;
                     case RoomInfoSelection.TYPE_METER_INFO: {
+                        Intent intent2 = new Intent(SusheDetailActivity.this, AmmeterHisActivity.class);
+                        intent2.putExtra("title", getIntent().getStringExtra("title"));
+                        intent2.putExtra("paramName", selection.name);
+                        intent2.putExtra("room_id", room_id);
+                        startActivity(intent2);
                         break;
                     }
                     case RoomInfoSelection.TYPE_ROOM_STU:
@@ -94,13 +103,20 @@ public class SusheDetailActivity extends BasedActivity implements SwipeRefreshLa
         mMeterDictionaries = new HashMap<>();
         mMeterDictionaries.put("PR_value", "功率因数");
         mMeterDictionaries.put("E_value", "用电量");
-        mMeterDictionaries.put("I_value", "电压");
-        mMeterDictionaries.put("V_value", "电流");
+        mMeterDictionaries.put("I_value", "电流");
+        mMeterDictionaries.put("V_value", "电压");
         mMeterDictionaries.put("P_value", "功率");
     }
 
     @Override
     public void onRefresh() {
+        mRefreshType = SWIP_REFRESH_LAYOUT;
+        getData(room_id);
+    }
+
+    @Override
+    public void onRetryClick() {
+        mRefreshType = STATE_VIEW_REFRESH;
         getData(room_id);
     }
 
@@ -126,8 +142,8 @@ public class SusheDetailActivity extends BasedActivity implements SwipeRefreshLa
             if (item.type.equals(RoomInfoSelection.TYPE_WHOLE_NAME)) {
                 helper.getView(R.id.root).setVisibility(View.GONE);
                 helper.getView(R.id.wholeName).setVisibility(View.VISIBLE);
-                helper.setText(R.id.wholeName,whole_name);
-            }else {
+                helper.setText(R.id.wholeName, whole_name);
+            } else {
                 helper.getView(R.id.root).setVisibility(View.VISIBLE);
                 helper.getView(R.id.wholeName).setVisibility(View.GONE);
 
@@ -158,7 +174,11 @@ public class SusheDetailActivity extends BasedActivity implements SwipeRefreshLa
 
     private void getData(String room_id) {
         LogUtil.i(room_id);
-        addSubscription(api.getSusheDetail(room_id), new Subscriber<RoomInfolEntity>() {
+        if (mRefreshType == STATE_VIEW_REFRESH) {
+            stateView.showLoading();
+            binding.recyclerView.setVisibility(View.INVISIBLE);
+        }
+        addSubscription(api.getSusheDetail(room_id), new BaseSubscriber<RoomInfolEntity>(this) {
             @Override
             public void onCompleted() {
 
@@ -166,15 +186,23 @@ public class SusheDetailActivity extends BasedActivity implements SwipeRefreshLa
 
             @Override
             public void onError(Throwable e) {
+                super.onError(e);
                 e.printStackTrace();
-                if (binding.refreshLayout != null)
-                    binding.refreshLayout.setRefreshing(false);
+                if (mRefreshType == STATE_VIEW_REFRESH) {
+                    stateView.showRetry();
+                } else {
+                    if (binding.refreshLayout != null)
+                        binding.refreshLayout.setRefreshing(false);
+                }
+
             }
 
             @Override
             public void onNext(RoomInfolEntity info) {
                 refreshLayout(info);
                 binding.refreshLayout.setRefreshing(false);
+                binding.recyclerView.setVisibility(View.VISIBLE);
+                stateView.showContent();
             }
         });
     }
@@ -227,8 +255,6 @@ public class SusheDetailActivity extends BasedActivity implements SwipeRefreshLa
             }
 
         }
-
-
 
 
         RoomInfoSelection wholename = new RoomInfoSelection(true, "宿舍详情");

@@ -10,7 +10,7 @@ import java.util.Map;
 public class PostageEntity {
     public int code;
     public String msg;
-    public List<Map<String, String>> lists;
+    public List<PostageInfo> lists;
 
 
     public static class PostageInfo {
@@ -25,21 +25,28 @@ public class PostageEntity {
      * {
      *     "code":200;
      *     "msg":"请求成功!"
-     *     "lists":[
-     *        {
+     *
+     *     "result"{
+     *
+     *        "totalCHuzhang":"20元" //本月出账总金额
+     *        "totalLuzhang":"20元" //本月入账总金额
+     *        "lists":[
+     *         {
      *          "msg":"王铁锤充值30.00元",
      *          "created_at":"2017-09-04",
      *          "type":"2"
      *          "money":30.00
-     *        },
-     *        {
+     *         },
+     *         {
      *           "msg":"宿舍用电2.0度",
      *          "created_at":"2017-09-04",
      *          "type":"1"
      *          "money":3.00
-     *        }
+     *         }
      *
      *     ]
+     *     }
+     *
      * }
      *
      */

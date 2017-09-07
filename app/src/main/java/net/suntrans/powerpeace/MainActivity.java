@@ -17,6 +17,7 @@ import net.suntrans.powerpeace.ui.activity.BasedActivity;
 import net.suntrans.powerpeace.ui.activity.SettingActivity;
 import net.suntrans.powerpeace.ui.fragment.StudentFragment;
 import net.suntrans.powerpeace.ui.fragment.SusheFragment;
+import net.suntrans.powerpeace.ui.fragment.ZongHeFragment;
 
 import static android.os.Build.VERSION_CODES.M;
 
@@ -45,8 +46,10 @@ public class MainActivity extends BasedActivity implements View.OnClickListener 
         FragmentAdapter adapter = new FragmentAdapter(getSupportFragmentManager());
         SusheFragment fragment = new SusheFragment();
         StudentFragment fragment2 = new StudentFragment();
+        ZongHeFragment fragment3 = new ZongHeFragment();
         adapter.addFragment(fragment,"SuShe");
         adapter.addFragment(fragment2,"Student");
+        adapter.addFragment(fragment3,"Zonghe");
         binding.viewpager.setAdapter(adapter);
         binding.segmentedGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override

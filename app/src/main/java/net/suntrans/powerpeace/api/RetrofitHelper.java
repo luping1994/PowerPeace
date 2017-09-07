@@ -2,6 +2,7 @@ package net.suntrans.powerpeace.api;
 
 import net.suntrans.looney.utils.LogUtil;
 import net.suntrans.powerpeace.App;
+import net.suntrans.powerpeace.converter.MyGsonConverterFactory;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -37,7 +38,19 @@ public class RetrofitHelper {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .client(mOkHttpClient)
-                .addConverterFactory(GsonConverterFactory.create())
+//                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(MyGsonConverterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .build();
+        return retrofit.create(Api.class);
+    }
+
+    public static Api getLoginApi() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .client(mOkHttpClient)
+//                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(MyGsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
         return retrofit.create(Api.class);

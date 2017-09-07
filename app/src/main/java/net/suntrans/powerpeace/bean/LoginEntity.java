@@ -4,7 +4,7 @@ package net.suntrans.powerpeace.bean;
  * Created by Looney on 2017/8/31.
  */
 
-public class LoginEntity {
+public class LoginEntity extends ResultBody<LoginEntity.InfoBean>{
 
     /**
      * code : 1
@@ -13,9 +13,6 @@ public class LoginEntity {
      * token : ace3a291dc5b40d6ace30b0d61860055Mh0IH7
      */
 
-    public int code;
-    public String message;
-    public InfoBean info;
     public String token;
 
     public static class InfoBean {

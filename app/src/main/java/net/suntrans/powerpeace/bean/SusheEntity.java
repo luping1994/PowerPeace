@@ -6,12 +6,7 @@ import java.util.List;
  * Created by Looney on 2017/9/1.
  */
 
-public class SusheEntity {
-
-    public int code;
-    public String message;
-    public List<InfoBean> info;
-
+public class SusheEntity extends ResultBody<List<SusheEntity.InfoBean>>{
     public static class InfoBean {
 
         public String departmentName;

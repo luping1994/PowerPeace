@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -24,6 +23,7 @@ import net.suntrans.powerpeace.bean.MenuBean;
 import net.suntrans.powerpeace.bean.StudentInfoEntity;
 import net.suntrans.powerpeace.bean.StudentSelection;
 import net.suntrans.powerpeace.databinding.FragmentStudentBinding;
+import net.suntrans.powerpeace.databinding.FragmentZongheBinding;
 import net.suntrans.powerpeace.rx.BaseSubscriber;
 import net.suntrans.powerpeace.ui.decoration.DefaultDecoration;
 import net.suntrans.stateview.StateView;
@@ -32,18 +32,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import rx.Subscriber;
-
-import static com.pgyersdk.c.a.f;
-
 /**
  * 学生Fragment
  */
-public class StudentFragment extends BasedFragment {
+public class ZongHeFragment extends BasedFragment {
 
 
-    private static final java.lang.String TAG = "StudentFragment";
-    private FragmentStudentBinding binding;
+    private static final String TAG = "ZongHeFragment";
+    private FragmentZongheBinding binding;
     protected StateView stateView;
 
 
@@ -69,7 +65,7 @@ public class StudentFragment extends BasedFragment {
     private static final int STATE_VIEW_REFRESH = 0x02;
 
 
-    public StudentFragment() {
+    public ZongHeFragment() {
     }
 
 
@@ -83,7 +79,7 @@ public class StudentFragment extends BasedFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_student, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_zonghe, container, false);
         stateView = StateView.inject(binding.root);
         return binding.getRoot();
     }
@@ -125,7 +121,6 @@ public class StudentFragment extends BasedFragment {
             }
         });
         binding.refreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
-
         initSpinner();
     }
 
@@ -209,7 +204,7 @@ public class StudentFragment extends BasedFragment {
                 xueyuanAdapter.notifyDataSetChanged();
                 buildingAdapter.notifyDataSetChanged();
                 floorAdapter.notifyDataSetChanged();
-                headers = new String[]{xueyuanMenuDatas.get(0), buildingDatas.get(0), floorDatas.get(0)};
+                headers = new String[]{xueyuanMenuDatas.get(0), buildingDatas.get(0)};
                 binding.headerMenu.setDropDownMenu(Arrays.asList(headers), popupViews, binding.root);
 
                 getStudentDatas(o.info.get(0).departmentID + "", o.info.get(0).sublist.get(0).building + "", o.info.get(0).sublist.get(0).floors.get(0).floor + "");
@@ -293,7 +288,7 @@ public class StudentFragment extends BasedFragment {
 
         popupViews.add(xueyuanView);
         popupViews.add(buildView);
-        popupViews.add(floorView);
+//        popupViews.add(floorView);
 
         xueyuanView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -323,7 +318,7 @@ public class StudentFragment extends BasedFragment {
                 for (int i = 0; i < datas.get(xueyuanPosition).sublist.get(buildingPostion).floors.size(); i++) {
                     floorDatas.add(datas.get(xueyuanPosition).sublist.get(buildingPostion).floors.get(i).floor_name);
                 }
-                binding.headerMenu.setTabText(4, floorDatas.get(0));
+//                binding.headerMenu.setTabText(4, floorDatas.get(0));
 //                floorAdapter.notifyDataSetChanged();
 
                 xueyuanAdapter.setCheckItem(position);
@@ -348,7 +343,7 @@ public class StudentFragment extends BasedFragment {
                 for (int i = 0; i < datas.get(xueyuanPosition).sublist.get(position).floors.size(); i++) {
                     floorDatas.add(datas.get(xueyuanPosition).sublist.get(position).floors.get(i).floor_name);
                 }
-                binding.headerMenu.setTabText(4, "所有");
+//                binding.headerMenu.setTabText(4, "所有");
 //                floorAdapter.notifyDataSetChanged();
                 binding.headerMenu.closeMenu();
 
