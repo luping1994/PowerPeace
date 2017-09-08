@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -67,20 +68,40 @@
                     android:text="月" />
             </net.suntrans.looney.widgets.SegmentedGroup>
 
-            <com.github.mikephil.charting.charts.LineChart
-                android:id="@+id/chart1"
+            <FrameLayout
+                android:id="@+id/content"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_above="@+id/seekBar1"
-                android:layout_weight="1" />
+                android:layout_height="match_parent">
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1">
+                    <com.github.mikephil.charting.charts.LineChart
+                        android:id="@+id/mChart"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_above="@+id/seekBar1"
+                        android:layout_weight="1" />
 
-            </android.support.v7.widget.RecyclerView>
+                    <TextView
+                        android:id="@+id/headerTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:background="@color/bgBlue"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="16dp" />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        app:layoutManager="@string/LinearLayoutManager">
+
+                    </android.support.v7.widget.RecyclerView>
+                </LinearLayout>
+            </FrameLayout>
         </LinearLayout>
     </LinearLayout>
 </layout>

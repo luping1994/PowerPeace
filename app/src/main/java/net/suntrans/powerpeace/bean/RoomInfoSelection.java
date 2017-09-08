@@ -21,6 +21,7 @@ public class RoomInfoSelection extends SectionEntity {
     public int imgResId;
     public String  id;
     public String  num;
+    public String  studentID;
     public RoomInfoSelection(boolean isHeader, String header) {
         super(isHeader, header);
     }

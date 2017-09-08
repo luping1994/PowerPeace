@@ -1,6 +1,7 @@
 package net.suntrans.powerpeace.ui.fragment;
 
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -25,6 +26,8 @@ import net.suntrans.powerpeace.bean.StudentInfoEntity;
 import net.suntrans.powerpeace.bean.StudentSelection;
 import net.suntrans.powerpeace.databinding.FragmentStudentBinding;
 import net.suntrans.powerpeace.rx.BaseSubscriber;
+import net.suntrans.powerpeace.ui.activity.StudentInfoActivity;
+import net.suntrans.powerpeace.ui.activity.SusheDetailActivity;
 import net.suntrans.powerpeace.ui.decoration.DefaultDecoration;
 import net.suntrans.stateview.StateView;
 
@@ -121,7 +124,10 @@ public class StudentFragment extends BasedFragment {
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                UiUtils.showToast("我被点击了" + position);
+                Intent intent1 = new Intent(getContext(),StudentInfoActivity.class);
+                intent1.putExtra("name",susheDatas.get(position).susheName);
+                intent1.putExtra("studentID",susheDatas.get(position).studentID);
+                startActivity(intent1);
             }
         });
         binding.refreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
@@ -261,6 +267,7 @@ public class StudentFragment extends BasedFragment {
                                             + o.info.get(i).building + "舍-" + o.info.get(i).dormitory + "");
                             studentSelection.susheName = o.info.get(i).sublist.get(j).name + "";
                             studentSelection.academy = o.info.get(i).sublist.get(j).academy + "";
+                            studentSelection.studentID = o.info.get(i).sublist.get(j).studentID + "";
                             susheDatas.add(studentSelection);
                         }
                     }
@@ -344,11 +351,11 @@ public class StudentFragment extends BasedFragment {
                 }
                 binding.headerMenu.setTabText(buildingDatas.get(position));
                 floorDatas.clear();
-                floorDatas.add("所有");
+//                floorDatas.add("所有");
                 for (int i = 0; i < datas.get(xueyuanPosition).sublist.get(position).floors.size(); i++) {
                     floorDatas.add(datas.get(xueyuanPosition).sublist.get(position).floors.get(i).floor_name);
                 }
-                binding.headerMenu.setTabText(4, "所有");
+                binding.headerMenu.setTabText(4, floorDatas.get(0));
 //                floorAdapter.notifyDataSetChanged();
                 binding.headerMenu.closeMenu();
 

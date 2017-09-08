@@ -126,6 +126,7 @@ public class SusheFragment extends BasedFragment {
             }
         });
         susheDatas = new ArrayList<>();
+        binding.recyclerView.addItemDecoration(new DefaultDecoration());
         adapter = new MyAdapter(R.layout.item_sushe, R.layout.item_suhe_header, susheDatas);
         binding.recyclerView.setAdapter(adapter);
 

@@ -4,9 +4,13 @@ package net.suntrans.powerpeace.api;
 import net.suntrans.powerpeace.bean.HisEntity;
 import net.suntrans.powerpeace.bean.LoginEntity;
 import net.suntrans.powerpeace.bean.MenuBean;
+import net.suntrans.powerpeace.bean.ResultBody;
 import net.suntrans.powerpeace.bean.RoomInfolEntity;
+import net.suntrans.powerpeace.bean.StudentDetailInfo;
 import net.suntrans.powerpeace.bean.StudentInfoEntity;
 import net.suntrans.powerpeace.bean.SusheEntity;
+
+import java.util.List;
 
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -72,6 +76,16 @@ public interface Api {
     Observable<StudentInfoEntity> getStudent(@Field("departmentID") String departmentID,
                                                    @Field("building") String building,
                                                    @Field("floor") String floor);
+
+    /**
+     * 管理员查询学生
+     *
+     * @param
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api/inquiry/Inquiry_Student_Detail_BySid")
+    Observable<ResultBody<List<StudentDetailInfo>>> getStudentInfoDetail(@Field("studentID") String studentID);
 
     /**
      * 管理员查询历史数据

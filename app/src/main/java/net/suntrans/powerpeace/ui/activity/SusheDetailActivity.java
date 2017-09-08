@@ -6,6 +6,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -40,6 +42,7 @@ public class SusheDetailActivity extends BasedActivity implements SwipeRefreshLa
     private List<RoomInfoSelection> datas = new ArrayList<>();
     private MyAdapter adapter;
     private Map<String, String> mMeterDictionaries;//电表中英字典
+    private Map<String, String> mAccountDictionaries;//账户栏目中英字典
     private Map<String, String> meterInfo;//电表参数map
     private String room_id;
     private StateView stateView;
@@ -90,6 +93,10 @@ public class SusheDetailActivity extends BasedActivity implements SwipeRefreshLa
                         break;
                     }
                     case RoomInfoSelection.TYPE_ROOM_STU:
+                        Intent intent1 = new Intent(SusheDetailActivity.this, StudentInfoActivity.class);
+                        intent1.putExtra("name", selection.name);
+                        intent1.putExtra("studentID", selection.studentID);
+                        startActivity(intent1);
                         break;
                 }
                 UiUtils.showToast("您点击了" + selection.name);
@@ -101,11 +108,19 @@ public class SusheDetailActivity extends BasedActivity implements SwipeRefreshLa
 
     private void initDictiomaries() {
         mMeterDictionaries = new HashMap<>();
+        mAccountDictionaries = new HashMap<>();
+
         mMeterDictionaries.put("PR_value", "功率因数");
         mMeterDictionaries.put("E_value", "用电量");
         mMeterDictionaries.put("I_value", "电流");
         mMeterDictionaries.put("V_value", "电压");
         mMeterDictionaries.put("P_value", "功率");
+
+        mAccountDictionaries.put("balans", "账户余额");
+        mAccountDictionaries.put("status", "账户状态");
+        mAccountDictionaries.put("dayuse", "当日用电量");
+        mAccountDictionaries.put("monthuse", "当月用电量");
+
     }
 
     @Override
@@ -215,21 +230,28 @@ public class SusheDetailActivity extends BasedActivity implements SwipeRefreshLa
         List<Map<String, String>> room_stu = info.room_stu;
 
         if (account != null) {
-            for (int i = 0; i < account.size(); i++) {
-                Map<String, String> map = account.get(i);
-                RoomInfoSelection selection = null;
-                if (i == 0) {
-                    selection = new RoomInfoSelection(true, "账户信息");
+            int i = 0;
+            Map<String, String> map = account.get(0);
+            for (Map.Entry<String, String> entry : map.entrySet()) {
+                RoomInfoSelection zhanhuxinxi = null;
 
-                } else {
-                    selection = new RoomInfoSelection(false, "账户信息");
+                String key = entry.getKey();
+                String value = entry.getValue();
+                if (mAccountDictionaries.get(key) != null) {
+                    if (i == 0)
+                        zhanhuxinxi = new RoomInfoSelection(true, "账户信息");
+                    else
+                        zhanhuxinxi = new RoomInfoSelection(false, "");
+                    zhanhuxinxi.type = RoomInfoSelection.TYPE_ACCOUNT;
+                    zhanhuxinxi.name = mAccountDictionaries.get(key);
+                    zhanhuxinxi.value = value;
+                    datas.add(zhanhuxinxi);
+                    i++;
 
                 }
-                selection.type = RoomInfoSelection.TYPE_ACCOUNT;
-                selection.name = "账户余额";
-                selection.value = map.get("balans");
-                datas.add(selection);
             }
+
+
         }
 
 
@@ -301,6 +323,7 @@ public class SusheDetailActivity extends BasedActivity implements SwipeRefreshLa
                 }
                 selection.type = RoomInfoSelection.TYPE_ROOM_STU;
                 selection.name = stu.get("name");
+                selection.studentID = stu.get("studentID");
                 datas.add(selection);
                 i++;
             }
@@ -311,4 +334,18 @@ public class SusheDetailActivity extends BasedActivity implements SwipeRefreshLa
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_pay, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.pay) {
+            startActivity(new Intent(this, PayActivity.class));
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
