@@ -66,6 +66,16 @@ public interface Api {
     Observable<RoomInfolEntity> getSusheDetail(@Field("room_id") String room_id);
 
     /**
+     * 管理员查询宿舍详细信息
+     *
+     * @param
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api/inquiry/Inquiry_Room_Detail_Bysid")
+    Observable<RoomInfolEntity> getSusheDetailBysid(@Field("username") String username);
+
+    /**
      * 管理员查询学生
      *
      * @param

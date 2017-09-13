@@ -2,14 +2,13 @@ package net.suntrans.powerpeace.ui.fragment;
 
 import net.suntrans.powerpeace.api.Api;
 import net.suntrans.powerpeace.api.RetrofitHelper;
-import net.suntrans.stateview.StateView;
 
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
-
+import android.content.Context;
 /**
  * Created by Looney on 2017/8/31.
  */
@@ -42,5 +41,22 @@ public class BasedFragment extends LazyLoadFragment {
     public void onDestroyView() {
         super.onDestroyView();
         onUnsubscribe();
+    }
+
+
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+    protected OnFragmentInteractionListener mListener;
+    public interface OnFragmentInteractionListener{
+        void sendOrder(String s);
     }
 }

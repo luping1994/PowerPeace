@@ -17,25 +17,25 @@
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:theme="@style/Toolbar"
             app:titleTextAppearance="@style/Toolbar.TitleText" />
-
         <FrameLayout
+            android:background="@color/bgcolor"
             android:id="@+id/content"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <android.support.v4.widget.SwipeRefreshLayout
-                android:background="@color/bgcolor"
-                android:id="@+id/refreshLayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+            <!--<android.support.v4.widget.SwipeRefreshLayout-->
+                <!--android:background="@color/bgcolor"-->
+                <!--android:id="@+id/refreshLayout"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent">-->
 
-                <android.support.v7.widget.RecyclerView
-                    app:layoutManager="LinearLayoutManager"
-                    android:id="@+id/recyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                <!--<android.support.v7.widget.RecyclerView-->
+                    <!--app:layoutManager="LinearLayoutManager"-->
+                    <!--android:id="@+id/recyclerView"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent">-->
 
-                </android.support.v7.widget.RecyclerView>
-            </android.support.v4.widget.SwipeRefreshLayout>
+                <!--</android.support.v7.widget.RecyclerView>-->
+            <!--</android.support.v4.widget.SwipeRefreshLayout>-->
         </FrameLayout>
     </LinearLayout>
 </layout>

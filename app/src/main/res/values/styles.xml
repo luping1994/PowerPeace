@@ -5,6 +5,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowAnimationStyle">@style/MyWindowAnimTheme</item>
     </style>
 
     <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
@@ -17,5 +18,13 @@
     </style>
 
     <style name="Toolbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar"></style>
+
+
+    <style name="MyWindowAnimTheme">
+        <item name="android:activityOpenEnterAnimation">@anim/activity_open_bottom_in</item>
+        <item name="android:activityOpenExitAnimation">@anim/activity_open_exit</item>
+        <item name="android:activityCloseEnterAnimation">@anim/activity_open_exit</item>
+        <item name="android:activityCloseExitAnimation">@anim/activity_close_bottom_out</item>
+    </style>
 
 </resources>

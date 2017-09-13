@@ -124,9 +124,9 @@ public class StudentFragment extends BasedFragment {
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                Intent intent1 = new Intent(getContext(),StudentInfoActivity.class);
-                intent1.putExtra("name",susheDatas.get(position).susheName);
-                intent1.putExtra("studentID",susheDatas.get(position).studentID);
+                Intent intent1 = new Intent(getContext(), StudentInfoActivity.class);
+                intent1.putExtra("name", susheDatas.get(position).susheName);
+                intent1.putExtra("studentID", susheDatas.get(position).studentID);
                 startActivity(intent1);
             }
         });
@@ -395,9 +395,14 @@ public class StudentFragment extends BasedFragment {
     }
 
     private void getData() {
-        getStudentDatas(datas.get(xueyuanPosition).departmentID + "",
-                datas.get(xueyuanPosition).sublist.get(buildingPostion).building + "",
-                datas.get(xueyuanPosition).sublist.get(buildingPostion).floors.get(floorPostion).floor + "");
+        if (datas.size() == 0) {
+            getMenuData();
+        } else {
+            getStudentDatas(datas.get(xueyuanPosition).departmentID + "",
+                    datas.get(xueyuanPosition).sublist.get(buildingPostion).building + "",
+                    datas.get(xueyuanPosition).sublist.get(buildingPostion).floors.get(floorPostion).floor + "");
+        }
+
     }
 
 }

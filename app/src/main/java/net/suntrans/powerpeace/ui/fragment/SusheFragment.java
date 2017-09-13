@@ -1,6 +1,7 @@
 package net.suntrans.powerpeace.ui.fragment;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -50,8 +51,7 @@ public class SusheFragment extends BasedFragment {
     private static final String ARG_PARAM2 = "param2";
     private static final java.lang.String TAG = "SusheFragment";
 
-    private String mParam1;
-    private String mParam2;
+
     private FragmentSusheBinding binding;
     protected StateView stateView;
 
@@ -78,26 +78,9 @@ public class SusheFragment extends BasedFragment {
     private static final int STATE_VIEW_REFRESH = 0x02;
 
 
-    public SusheFragment() {
-    }
 
-    public static SusheFragment newInstance(String param1, String param2) {
-        SusheFragment fragment = new SusheFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -421,6 +404,10 @@ public class SusheFragment extends BasedFragment {
     }
 
     private void getData() {
+        if (datas.size() == 0) {
+            getMenuData();
+            return;
+        }
         String floorParm = "0";
         if (floorPostion == 0) {
             floorParm = "0";
