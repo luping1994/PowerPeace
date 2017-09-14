@@ -3,11 +3,17 @@
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/headerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimary"
-        android:fitsSystemWindows="true"
+        android:fitsSystemWindows="false"
         android:orientation="vertical">
+
+        <View
+            android:id="@+id/statusbar"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorPrimaryDark" />
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -21,8 +27,7 @@
 
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/bgcolor">
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -202,17 +207,17 @@
                     android:background="@color/bgBlue" />
 
                 <!--<TextView-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="35dp"-->
-                    <!--android:background="@color/bgBlue"-->
-                    <!--android:gravity="center_vertical"-->
-                    <!--android:paddingLeft="@dimen/activity_horizontal_margin"-->
-                    <!--android:text="人员信息" />-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="35dp"-->
+                <!--android:background="@color/bgBlue"-->
+                <!--android:gravity="center_vertical"-->
+                <!--android:paddingLeft="@dimen/activity_horizontal_margin"-->
+                <!--android:text="人员信息" />-->
                 <!--<android.support.v7.widget.RecyclerView-->
-                    <!--android:id="@+id/recyclerView"-->
-                    <!--app:layoutManager="@string/LinearLayoutManager"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="match_parent">-->
+                <!--android:id="@+id/recyclerView"-->
+                <!--app:layoutManager="@string/LinearLayoutManager"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent">-->
 
                 <!--</android.support.v7.widget.RecyclerView>-->
             </LinearLayout>

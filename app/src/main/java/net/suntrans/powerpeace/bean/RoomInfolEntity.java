@@ -22,7 +22,7 @@ public class RoomInfolEntity extends ResultBody{
 //    public int code;
 //    public String message;
     public List<Map<String,String>> room_stu;
-    public List<Map<String,String>> meter_info;
+    public List<RoomInfoSelection> meter_info;
     public List<Map<String,String>> dev_channel;
     public List<Map<String,String>> account;
 

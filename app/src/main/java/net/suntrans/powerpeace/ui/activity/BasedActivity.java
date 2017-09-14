@@ -1,5 +1,6 @@
 package net.suntrans.powerpeace.ui.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -7,11 +8,14 @@ import android.support.v4.widget.SlidingPaneLayout;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
+import net.suntrans.powerpeace.R;
 import net.suntrans.powerpeace.api.Api;
 import net.suntrans.powerpeace.api.RetrofitHelper;
+import net.suntrans.powerpeace.utils.StatusBarCompat;
 
 import java.lang.reflect.Field;
 import java.util.LinkedList;
@@ -36,12 +40,12 @@ public class BasedActivity extends RxAppCompatActivity implements SlidingPaneLay
         super.onCreate(savedInstanceState);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(Color.TRANSPARENT);
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
         }
         synchronized (mlist) {
             mlist.add(this);
         }
-
     }
 
     @Override
@@ -68,8 +72,14 @@ public class BasedActivity extends RxAppCompatActivity implements SlidingPaneLay
     @Override
     public void finish() {
         super.finish();
+        overridePendingTransition(R.anim.activity_open_exit, R.anim.activity_close_bottom_out);
     }
 
+    @Override
+    public void startActivity(Intent intent) {
+        super.startActivity(intent);
+        overridePendingTransition(R.anim.activity_open_bottom_in,R.anim.activity_open_exit);
+    }
 
     private void initSlideBackClose() {
         if (isSupportSwipeBack()) {
@@ -140,7 +150,6 @@ public class BasedActivity extends RxAppCompatActivity implements SlidingPaneLay
 
     protected Api api = RetrofitHelper.getApi();
     protected CompositeSubscription mCompositeSubscription;
-
 
 
     public void addSubscription(Observable observable, Subscriber subscriber) {

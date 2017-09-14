@@ -34,6 +34,7 @@ import net.suntrans.powerpeace.databinding.ActivityAmmeterHisBinding;
 import net.suntrans.powerpeace.rx.BaseSubscriber;
 import net.suntrans.powerpeace.ui.decoration.DefaultDecoration;
 import net.suntrans.powerpeace.utils.DateUtils;
+import net.suntrans.powerpeace.utils.StatusBarCompat;
 import net.suntrans.stateview.StateView;
 
 import java.util.ArrayList;
@@ -69,6 +70,10 @@ public class AmmeterHisActivity extends BasedActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_ammeter_his);
+
+        StatusBarCompat.compat(binding.headerView);
+
+
         room_id = getIntent().getStringExtra("room_id");
         paramName = getIntent().getStringExtra("paramName");
         binding.toolbar.setTitle(getIntent().getStringExtra("title") + paramName);
@@ -124,6 +129,11 @@ public class AmmeterHisActivity extends BasedActivity {
 
         dictionaries.put("用电量", "6");
         dictionaries.put("用电量Unit", "(度)");
+
+
+        dictionaries.put(DISPLAY_DAY, "最近24小时");
+        dictionaries.put(DISPLAY_MONTH, "最近一月");
+        dictionaries.put(DISPLAY_WEEK, "最近一周");
     }
 
     private void initChart() {
@@ -221,7 +231,7 @@ public class AmmeterHisActivity extends BasedActivity {
 //        mChart.setVisibleYRange(20f, AxisDependency.LEFT);
 //        mChart.centerViewTo(20, 50, AxisDependency.LEFT);
 
-        binding.mChart.animateX(2500);
+//        binding.mChart.animateX(2500);
         //mChart.invalidate();
 
         // get the legend (only possible after setting data)
@@ -246,7 +256,7 @@ public class AmmeterHisActivity extends BasedActivity {
 
 
     private void getData() {
-        LogUtil.i(room_id);
+        LogUtil.i("room id is:"+room_id);
         stateView.showLoading();
         binding.content.setVisibility(View.INVISIBLE);
         addSubscription(api.getMeterHis(room_id, dictionaries.get(paramName)), new BaseSubscriber<HisEntity>(this) {
@@ -272,6 +282,7 @@ public class AmmeterHisActivity extends BasedActivity {
         ArrayList<Entry> values = new ArrayList<Entry>();
         List<String> ls = new ArrayList<>();
         ls.clear();
+        values.clear();
         if (mDisplayType == DISPLAY_WEEK) {
             if (hisEntity.week_data == null || hisEntity.week_data.size() == 0) {
                 stateView.showEmpty();
@@ -292,21 +303,21 @@ public class AmmeterHisActivity extends BasedActivity {
         if (mDisplayType == DISPLAY_MONTH) {
             if (hisEntity.month_data == null || hisEntity.month_data.size() == 0) {
                 stateView.showEmpty();
-
                 return;
             }
             for (int i = 0; i < hisEntity.month_data.size(); i++) {
                 float val = 0f;
-                if (hisEntity.month_data.get(hisEntity.month_data.size()-1-i).data != null)
-                    val = Float.parseFloat(hisEntity.month_data.get(hisEntity.month_data.size()-1-i).data);
+                if (hisEntity.month_data.get(hisEntity.month_data.size() - 1 - i).data != null)
+                    val = Float.parseFloat(hisEntity.month_data.get(hisEntity.month_data.size() - 1 - i).data);
                 values.add(new Entry(i, val));
-
-                String substring = hisEntity.month_data.get(hisEntity.month_data.size()-1-i).update_time.substring(8, 10);
+                String substring = hisEntity.month_data.get(hisEntity.month_data.size() - 1 - i).update_time.substring(8, 10);
                 if (substring.substring(0, 1).equals("0"))
                     substring = substring.substring(1, 2);
-                ls.add(substring+"日");
+                ls.add(substring + "日");
             }
+
         }
+
         if (mDisplayType == DISPLAY_DAY) {
             if (hisEntity.day_data == null || hisEntity.day_data.size() == 0) {
                 stateView.showEmpty();
@@ -334,11 +345,17 @@ public class AmmeterHisActivity extends BasedActivity {
                 binding.mChart.getData().getDataSetCount() > 0) {
             set1 = (LineDataSet) binding.mChart.getData().getDataSetByIndex(0);
             set1.setValues(values);
+            set1.setLabel(dictionaries.get(mDisplayType)+paramName + dictionaries.get(paramName + "Unit"));
+            List<Entry> values1 = set1.getValues();
+            for (Entry s :
+                    values1) {
+                System.out.println(s.toString());
+            }
             binding.mChart.getData().notifyDataChanged();
             binding.mChart.notifyDataSetChanged();
         } else {
             // create a dataset and give it a type
-            set1 = new LineDataSet(values, "DataSet 1");
+            set1 = new LineDataSet(values, dictionaries.get(mDisplayType)+paramName + dictionaries.get(paramName + "Unit"));
 
             set1.setDrawIcons(false);
 

@@ -12,6 +12,7 @@ import net.suntrans.powerpeace.bean.ResultBody;
 import net.suntrans.powerpeace.bean.StudentDetailInfo;
 import net.suntrans.powerpeace.databinding.ActivityStudentInfoBinding;
 import net.suntrans.powerpeace.rx.BaseSubscriber;
+import net.suntrans.powerpeace.utils.StatusBarCompat;
 
 import java.util.List;
 
@@ -27,6 +28,9 @@ public class StudentInfoActivity extends BasedActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_student_info);
+
+        StatusBarCompat.compat(binding.headerView);
+
         binding.toolbar.setTitle(getIntent().getStringExtra("name"));
 
         studentID = getIntent().getStringExtra("studentID");

@@ -6,7 +6,7 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-    <LinearLayout
+    <LinearLayout11
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_marginTop="40dp"
@@ -32,7 +32,7 @@
             android:gravity="center|left"
             android:text="--"
             android:textColor="@color/black" />
-    </LinearLayout>
+    </LinearLayout11>
 
 
     <LinearLayout
@@ -51,7 +51,7 @@
             android:textColor="@color/black"
             android:textSize="16sp" />
 
-        <net.suntrans.bikecharge.view.EditView
+        <net.suntrans.looney.widgets.EditView
             android:maxLines="1"
             android:inputType="numberDecimal"
             android:id="@+id/money"

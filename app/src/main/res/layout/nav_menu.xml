@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -9,7 +10,9 @@
         android:orientation="vertical"
         tools:showIn="@layout/activity_main">
 
-        <include layout="@layout/nav_header_main" />
+        <include
+            android:id="@+id/header"
+            layout="@layout/nav_header_main" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -39,24 +42,30 @@
                 android:layout_alignParentBottom="true"
                 android:orientation="horizontal">
 
-                <Button
+                <net.suntrans.looney.widgets.DrawableCenterTextView
                     android:id="@+id/setting"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="?attr/selectableItemBackground"
-                    android:text="设置" />
+                    android:drawableLeft="@drawable/ic_setting"
+                    android:drawablePadding="8dp"
+                    android:gravity="center_vertical"
+                    android:text="设置"
+                    android:textColor="@color/textColor" />
 
 
-                <Button
+                <net.suntrans.looney.widgets.DrawableCenterTextView
                     android:id="@+id/exit"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="?attr/selectableItemBackground"
-                    android:gravity="center"
+                    android:drawableLeft="@drawable/ic_exit"
+                    android:drawablePadding="8dp"
+                    android:gravity="center_vertical"
                     android:text="退出"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/textColor" />
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>

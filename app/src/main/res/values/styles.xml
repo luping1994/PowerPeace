@@ -20,7 +20,7 @@
     <style name="Toolbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar"></style>
 
 
-    <style name="MyWindowAnimTheme">
+    <style name="MyWindowAnimTheme" parent="@android:style/Animation">
         <item name="android:activityOpenEnterAnimation">@anim/activity_open_bottom_in</item>
         <item name="android:activityOpenExitAnimation">@anim/activity_open_exit</item>
         <item name="android:activityCloseEnterAnimation">@anim/activity_open_exit</item>

@@ -3,13 +3,20 @@
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/headerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimaryDark"
-        android:fitsSystemWindows="true"
+        android:fitsSystemWindows="false"
         android:orientation="vertical"
         tools:context="net.suntrans.powerpeace.ui.activity.PostageHisActivity">
+
+        <View
+            android:id="@+id/statusbar"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorPrimaryDark" />
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -23,7 +30,8 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary">
 
             <LinearLayout
                 android:id="@+id/header"
@@ -162,7 +170,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/header">
 
-                <net.suntrans.looney.widgets.SegmentedGroup xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
+                <net.suntrans.looney.widgets.SegmentedGroup
                     android:id="@+id/segmented_group"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -207,7 +215,7 @@
             android:id="@+id/refreshLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/bgcolor">
+            >
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerView"

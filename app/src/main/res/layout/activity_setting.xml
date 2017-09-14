@@ -32,6 +32,7 @@
                 android:orientation="vertical">
 
                 <LinearLayout
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:layout_marginTop="30dp"
@@ -51,6 +52,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:layout_marginTop="16dp"
@@ -58,7 +60,6 @@
 
                     <TextView
                         android:id="@+id/changeMima"
-
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="?attr/selectableItemBackground"
@@ -107,6 +108,7 @@
                 </FrameLayout>
 
                 <LinearLayout
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:layout_marginTop="16dp"
@@ -127,6 +129,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:layout_marginTop="16dp"
@@ -134,7 +137,6 @@
 
                     <TextView
                         android:background="?attr/selectableItemBackground"
-
                         android:id="@+id/signOut"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -147,6 +149,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:layout_marginTop="16dp"

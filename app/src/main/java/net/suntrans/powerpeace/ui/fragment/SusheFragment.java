@@ -1,30 +1,22 @@
 package net.suntrans.powerpeace.ui.fragment;
 
 
-import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseSectionQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
 import net.suntrans.looney.utils.LogUtil;
-import net.suntrans.looney.utils.UiUtils;
 import net.suntrans.powerpeace.R;
 import net.suntrans.powerpeace.adapter.ListDropDownAdapter;
 import net.suntrans.powerpeace.bean.MenuBean;
@@ -38,10 +30,7 @@ import net.suntrans.stateview.StateView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.EventListener;
 import java.util.List;
-
-import rx.Subscriber;
 
 /**
  * 宿舍Fragment
@@ -129,6 +118,7 @@ public class SusheFragment extends BasedFragment {
                 intent.putExtra("room_id", susheDatas.get(position).room_id);
                 intent.putExtra("whole_name", susheDatas.get(position).wholeName);
                 startActivity(intent);
+
             }
         });
         binding.refreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));

@@ -44,7 +44,6 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
     private MyAdapter adapter;
     private Map<String, String> mMeterDictionaries;//电表中英字典
     private Map<String, String> mAccountDictionaries;//账户栏目中英字典
-    private Map<String, String> meterInfo;//电表参数map
     private String param;
     private StateView stateView;
     private String whole_name;
@@ -53,14 +52,15 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
     private static final int STATE_VIEW_REFRESH = 0x02;
     private String role;
 
-    public static SusheDetailFragment newInstance(String param,String role){
+    public static SusheDetailFragment newInstance(String param, String role) {
         SusheDetailFragment fragment = new SusheDetailFragment();
         Bundle bundle = new Bundle();
-        bundle.putString("param",param);
-        bundle.putString("role",role);
+        bundle.putString("param", param);
+        bundle.putString("role", role);
         fragment.setArguments(bundle);
         return fragment;
     }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -161,7 +161,7 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
         protected void convertHead(BaseViewHolder helper, RoomInfoSelection item) {
             helper.setText(R.id.headerName, item.header);
             helper.setText(R.id.name, item.name);
-            helper.setText(R.id.value, item.value);
+            helper.setText(R.id.value, item.value+item.unit);
             if (item.type.equals(RoomInfoSelection.TYPE_DEV_CHANNEL)) {
                 helper.getView(R.id.normal).setVisibility(View.GONE);
                 helper.getView(R.id.switchRl).setVisibility(View.VISIBLE);
@@ -184,7 +184,7 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
         @Override
         protected void convert(BaseViewHolder helper, RoomInfoSelection item) {
             helper.setText(R.id.name, item.name);
-            helper.setText(R.id.value, item.value);
+            helper.setText(R.id.value, item.value+item.unit);
             if (item.type.equals(RoomInfoSelection.TYPE_DEV_CHANNEL)) {
                 helper.getView(R.id.normal).setVisibility(View.GONE);
                 helper.getView(R.id.switchRl).setVisibility(View.VISIBLE);
@@ -197,7 +197,7 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
     }
 
     private void getData(String room_id) {
-        LogUtil.i(room_id);
+        LogUtil.i("room_id="+room_id);
         if (mRefreshType == STATE_VIEW_REFRESH) {
             stateView.showLoading();
             binding.recyclerView.setVisibility(View.INVISIBLE);
@@ -235,7 +235,7 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
         datas.clear();
         List<Map<String, String>> account = info.account;
         List<Map<String, String>> dev_channel = info.dev_channel;
-        List<Map<String, String>> meter_info = info.meter_info;
+        List<RoomInfoSelection> meter_info = info.meter_info;
         List<Map<String, String>> room_stu = info.room_stu;
 
         if (account != null) {
@@ -259,8 +259,6 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
 
                 }
             }
-
-
         }
 
 
@@ -295,27 +293,37 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
 
 
         if (meter_info != null) {
-            meterInfo = meter_info.get(0);
-            int i = 0;
-            for (Map.Entry<String, String> entry : meterInfo.entrySet()) {
-                String key = entry.getKey();
-                String value = entry.getValue();
-                if (key.equals("id")) {
-                    continue;
-                }
-                RoomInfoSelection selection = null;
-
+            for (int i = 0; i < meter_info.size(); i++) {
+                RoomInfoSelection selection = meter_info.get(i);
                 if (i == 0) {
-                    selection = new RoomInfoSelection(true, "电量信息");
+                    selection.isHeader = true;
+                    selection.header = "用电信息";
                 } else {
-                    selection = new RoomInfoSelection(false, "电量信息");
+                    selection.isHeader = false;
                 }
                 selection.type = RoomInfoSelection.TYPE_METER_INFO;
-                selection.name = mMeterDictionaries.get(key);
-                selection.value = value;
                 datas.add(selection);
-                i++;
+
             }
+//            for (Map.Entry<String, String> entry : meterInfo.entrySet()) {
+//                String key = entry.getKey();
+//                String value = entry.getValue();
+//                if (key.equals("id")) {
+//                    continue;
+//                }
+//                RoomInfoSelection selection = null;
+//
+//                if (i == 0) {
+//                    selection = new RoomInfoSelection(true, "电量信息");
+//                } else {
+//                    selection = new RoomInfoSelection(false, "电量信息");
+//                }
+//                selection.type = RoomInfoSelection.TYPE_METER_INFO;
+//                selection.name = mMeterDictionaries.get(key);
+//                selection.value = value;
+//                datas.add(selection);
+//                i++;
+//            }
         }
 
         if (room_stu != null) {

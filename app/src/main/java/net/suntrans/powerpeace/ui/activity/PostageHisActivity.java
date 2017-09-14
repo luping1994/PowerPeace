@@ -13,10 +13,12 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
 import net.suntrans.looney.fragments.DataPickerDialogFragment;
+import net.suntrans.looney.utils.LogUtil;
 import net.suntrans.powerpeace.R;
 import net.suntrans.powerpeace.bean.PostageEntity;
 import net.suntrans.powerpeace.databinding.ActivityPostageHisBinding;
 import net.suntrans.powerpeace.ui.decoration.DefaultDecoration;
+import net.suntrans.powerpeace.utils.StatusBarCompat;
 import net.suntrans.stateview.StateView;
 
 import java.util.ArrayList;
@@ -41,8 +43,11 @@ public class PostageHisActivity extends BasedActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_postage_his);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_postage_his);
+
+        StatusBarCompat.compat(binding.headerView);
+
+
         binding.toolbar.setTitle(getIntent().getStringExtra("title") + "资费记录");
         setSupportActionBar(binding.toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -63,14 +68,14 @@ public class PostageHisActivity extends BasedActivity implements View.OnClickLis
         for (int i = 0; i < 8; i++) {
             boolean chongzhi = i % 2 == 0;
             PostageEntity.PostageInfo info = new PostageEntity.PostageInfo();
-            if (!chongzhi){
-                info.money ="-"+ i+".00元";
+            if (!chongzhi) {
+                info.money = "-" + i + ".00元";
                 info.msg = "宿舍用电20.23度";
                 info.type = "1";
                 info.created_at = mYear + "年" + mMonth + "月" + mDay + "日";
                 datas.add(info);
-            }else {
-                info.money = "+"+i+".00元";
+            } else {
+                info.money = "+" + i + ".00元";
                 info.msg = "王晓庆充值30元";
                 info.type = "2";
                 info.created_at = mYear + "年" + mMonth + "月" + mDay + "日";
@@ -79,19 +84,19 @@ public class PostageHisActivity extends BasedActivity implements View.OnClickLis
 
         }
         copy.addAll(datas);
-        adapter = new Myadapter(R.layout.item_postage_his,copy);
+        adapter = new Myadapter(R.layout.item_postage_his, copy);
         binding.recyclerView.addItemDecoration(new DefaultDecoration());
         binding.recyclerView.setAdapter(adapter);
         binding.radio1.setChecked(true);
         binding.segmentedGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
-                switch (checkedId){
+                switch (checkedId) {
                     case R.id.radio0:
                         copy.clear();
                         for (PostageEntity.PostageInfo info :
                                 datas) {
-                            if (info.type.equals("1")){
+                            if (info.type.equals("1")) {
                                 copy.add(info);
                             }
                         }
@@ -104,7 +109,7 @@ public class PostageHisActivity extends BasedActivity implements View.OnClickLis
                         copy.clear();
                         for (PostageEntity.PostageInfo info :
                                 datas) {
-                            if (info.type.equals("2")){
+                            if (info.type.equals("2")) {
                                 copy.add(info);
                             }
                         }
@@ -132,7 +137,7 @@ public class PostageHisActivity extends BasedActivity implements View.OnClickLis
         date = format;
         binding.year.setText(year + "年");
         binding.month.setText(month + "");
-        System.out.println(format);
+        LogUtil.i(format);
     }
 
     class Myadapter extends BaseQuickAdapter<PostageEntity.PostageInfo, BaseViewHolder> {
@@ -143,9 +148,9 @@ public class PostageHisActivity extends BasedActivity implements View.OnClickLis
 
         @Override
         protected void convert(BaseViewHolder helper, PostageEntity.PostageInfo item) {
-            helper.setText(R.id.msg,item.msg);
-            helper.setText(R.id.created_at,item.created_at);
-            helper.setText(R.id.money,item.money);
+            helper.setText(R.id.msg, item.msg);
+            helper.setText(R.id.created_at, item.created_at);
+            helper.setText(R.id.money, item.money);
         }
     }
 }

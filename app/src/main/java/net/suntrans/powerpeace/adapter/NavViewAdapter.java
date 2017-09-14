@@ -38,7 +38,7 @@ public class NavViewAdapter extends BaseQuickAdapter<NavViewItem,BaseViewHolder>
         NavViewItem item0 = new NavViewItem(R.drawable.ic_message,"我的消息");
         NavViewItem item1 = new NavViewItem(R.drawable.ic_help,"帮助中心");
         NavViewItem item2 = new NavViewItem(R.drawable.ic_feedback,"问题反馈");
-        NavViewItem item3 = new NavViewItem(R.drawable.ic_info,"关于");
+        NavViewItem item3 = new NavViewItem(R.drawable.ic_about,"关于");
         navViewItems.add(item0);
         navViewItems.add(item1);
         navViewItems.add(item2);

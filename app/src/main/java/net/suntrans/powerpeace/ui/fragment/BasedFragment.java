@@ -1,5 +1,6 @@
 package net.suntrans.powerpeace.ui.fragment;
 
+import net.suntrans.powerpeace.R;
 import net.suntrans.powerpeace.api.Api;
 import net.suntrans.powerpeace.api.RetrofitHelper;
 
@@ -9,6 +10,8 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 import android.content.Context;
+import android.content.Intent;
+
 /**
  * Created by Looney on 2017/8/31.
  */
@@ -16,7 +19,6 @@ import android.content.Context;
 public class BasedFragment extends LazyLoadFragment {
     protected Api api = RetrofitHelper.getApi();
     protected CompositeSubscription mCompositeSubscription;
-
 
 
     public void addSubscription(Observable observable, Subscriber subscriber) {
@@ -58,5 +60,12 @@ public class BasedFragment extends LazyLoadFragment {
     protected OnFragmentInteractionListener mListener;
     public interface OnFragmentInteractionListener{
         void sendOrder(String s);
+    }
+
+    @Override
+    public void startActivity(Intent intent) {
+        super.startActivity(intent);
+        getActivity().overridePendingTransition(R.anim.activity_open_bottom_in,R.anim.activity_open_exit);
+
     }
 }

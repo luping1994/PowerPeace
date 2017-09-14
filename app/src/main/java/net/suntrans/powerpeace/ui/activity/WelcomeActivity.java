@@ -97,6 +97,8 @@ public class WelcomeActivity extends AppCompatActivity {
                     break;
                 case 1:
                     startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
+                    overridePendingTransition(R.anim.main_open_enter,R.anim.main_open_exit);
+
                     finish();
                     break;
             }
