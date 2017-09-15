@@ -18,6 +18,8 @@ import net.suntrans.looney.utils.UiUtils;
 import net.suntrans.powerpeace.App;
 import net.suntrans.powerpeace.MainActivity;
 import net.suntrans.powerpeace.R;
+import net.suntrans.powerpeace.StudentMainActivity;
+import net.suntrans.powerpeace.api.RetrofitHelper;
 
 import me.weyye.hipermission.HiPermission;
 import me.weyye.hipermission.PermissionCallback;
@@ -71,18 +73,32 @@ public class WelcomeActivity extends AppCompatActivity {
 
     private void check() {
         boolean isSignOut = App.getSharedPreferences().getBoolean("isSignOut", true);
-        if (isSignOut){
-            handler.sendEmptyMessageDelayed(0,1500);
-        }else {
-            handler.sendEmptyMessageDelayed(1,1500);
+
+        String token = App.getSharedPreferences().getString("token", "-1");
+        if (token.equals("-1")) {
+            handler.sendEmptyMessageDelayed(0, 1500);
+
+        } else {
+            int role = App.getSharedPreferences().getInt("role", -1);
+            if (role == 0) {
+                handler.sendEmptyMessageDelayed(1, 1500);
+            } else if (role == 1) {
+                handler.sendEmptyMessageDelayed(2, 1500);
+
+            } else {
+                handler.sendEmptyMessageDelayed(0, 1500);
+
+            }
+
         }
+
 
     }
 
-    Handler handler = new Handler(){
+    Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what){
+            switch (msg.what) {
                 case 0:
                     Intent intent = new Intent(WelcomeActivity.this, Login1Activity.class);
                     intent.putExtra(
@@ -97,7 +113,13 @@ public class WelcomeActivity extends AppCompatActivity {
                     break;
                 case 1:
                     startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
-                    overridePendingTransition(R.anim.main_open_enter,R.anim.main_open_exit);
+                    overridePendingTransition(R.anim.main_open_enter, R.anim.main_open_exit);
+
+                    finish();
+                    break;
+                case 2:
+                    startActivity(new Intent(WelcomeActivity.this, StudentMainActivity.class));
+                    overridePendingTransition(R.anim.main_open_enter, R.anim.main_open_exit);
 
                     finish();
                     break;
@@ -110,4 +132,6 @@ public class WelcomeActivity extends AppCompatActivity {
         super.onDestroy();
         handler.removeCallbacksAndMessages(null);
     }
+
+
 }

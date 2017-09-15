@@ -9,6 +9,8 @@ import net.suntrans.powerpeace.bean.RoomInfolEntity;
 import net.suntrans.powerpeace.bean.StudentDetailInfo;
 import net.suntrans.powerpeace.bean.StudentInfoEntity;
 import net.suntrans.powerpeace.bean.SusheEntity;
+import net.suntrans.powerpeace.bean.UserInfoEntity;
+import net.suntrans.powerpeace.bean.ZongheEntity;
 
 import java.util.List;
 
@@ -107,6 +109,27 @@ public interface Api {
     @POST("api/inquiry/Inquiry_Ammeter_History")
     Observable<HisEntity> getMeterHis(@Field("room_id") String room_id,
                                       @Field("data_type") String data_type);
+
+    /**
+     * 管理员查询综合数据
+     *
+     * @param
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api/inquiry/Inquiry_3Ammeter_Current")
+    Observable<ZongheEntity> getZongheData(@Field("departmentID") String departmentID,
+                                           @Field("building") String building);
+
+    /**
+     *学生用户通过用户名查询用户信息
+     *
+     * @param
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api/inquiry/Inquiry_StudentInfo_Byusername")
+    Observable<UserInfoEntity> getUserInfo(@Field("username") String username);
 
 
 }

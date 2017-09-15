@@ -67,6 +67,7 @@
         <activity android:name=".ui.activity.HelpActivity" />
         <activity android:name=".ui.activity.AboutActivity" />
         <activity android:name=".ui.activity.PersonActivity" />
+        <activity android:name=".StudentMainActivity" />
 
         <service android:name=".network.WebSocketService" />
     </application>

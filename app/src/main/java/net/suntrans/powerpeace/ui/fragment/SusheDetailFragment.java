@@ -8,12 +8,15 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseSectionQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
 import net.suntrans.looney.utils.LogUtil;
+import net.suntrans.looney.widgets.LoadingDialog;
+import net.suntrans.looney.widgets.SwitchButton;
 import net.suntrans.powerpeace.R;
 import net.suntrans.powerpeace.bean.RoomInfoSelection;
 import net.suntrans.powerpeace.bean.RoomInfolEntity;
@@ -51,6 +54,7 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
     private static final int SWIP_REFRESH_LAYOUT = 0x01;
     private static final int STATE_VIEW_REFRESH = 0x02;
     private String role;
+    private LoadingDialog dialog;
 
     public static SusheDetailFragment newInstance(String param, String role) {
         SusheDetailFragment fragment = new SusheDetailFragment();
@@ -118,6 +122,14 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
                 }
             }
         });
+        adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                System.out.println(datas.get(position).name+",id="+datas.get(position).id+",状态为："+datas.get(position).status);
+                datas.get(position).status = !datas.get(position).status;
+                adapter.notifyDataSetChanged();
+            }
+        });
 
     }
 
@@ -161,10 +173,18 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
         protected void convertHead(BaseViewHolder helper, RoomInfoSelection item) {
             helper.setText(R.id.headerName, item.header);
             helper.setText(R.id.name, item.name);
-            helper.setText(R.id.value, item.value+item.unit);
+            helper.setText(R.id.value, item.value + item.unit);
+            helper.addOnClickListener(R.id.switchRl);
+
+            if (item.imgResId != -1) {
+                ImageView view = helper.getView(R.id.image);
+                view.setImageResource(item.imgResId);
+            }
             if (item.type.equals(RoomInfoSelection.TYPE_DEV_CHANNEL)) {
                 helper.getView(R.id.normal).setVisibility(View.GONE);
                 helper.getView(R.id.switchRl).setVisibility(View.VISIBLE);
+                SwitchButton switchButton = helper.getView(R.id.switchButton);
+                switchButton.setCheckedImmediately(item.status);
             } else {
                 helper.getView(R.id.normal).setVisibility(View.VISIBLE);
                 helper.getView(R.id.switchRl).setVisibility(View.GONE);
@@ -176,7 +196,6 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
             } else {
                 helper.getView(R.id.root).setVisibility(View.VISIBLE);
                 helper.getView(R.id.wholeName).setVisibility(View.GONE);
-
             }
 
         }
@@ -184,10 +203,17 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
         @Override
         protected void convert(BaseViewHolder helper, RoomInfoSelection item) {
             helper.setText(R.id.name, item.name);
-            helper.setText(R.id.value, item.value+item.unit);
+            helper.setText(R.id.value, item.value + item.unit);
+            helper.addOnClickListener(R.id.switchRl);
+            if (item.imgResId != -1) {
+                ImageView view = helper.getView(R.id.image);
+                view.setImageResource(item.imgResId);
+            }
             if (item.type.equals(RoomInfoSelection.TYPE_DEV_CHANNEL)) {
                 helper.getView(R.id.normal).setVisibility(View.GONE);
                 helper.getView(R.id.switchRl).setVisibility(View.VISIBLE);
+                SwitchButton switchButton = helper.getView(R.id.switchButton);
+                switchButton.setCheckedImmediately(item.status);
             } else {
                 helper.getView(R.id.normal).setVisibility(View.VISIBLE);
                 helper.getView(R.id.switchRl).setVisibility(View.GONE);
@@ -197,7 +223,7 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
     }
 
     private void getData(String room_id) {
-        LogUtil.i("room_id="+room_id);
+        LogUtil.i("room_id=" + room_id);
         if (mRefreshType == STATE_VIEW_REFRESH) {
             stateView.showLoading();
             binding.recyclerView.setVisibility(View.INVISIBLE);
@@ -254,6 +280,23 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
                     zhanhuxinxi.type = RoomInfoSelection.TYPE_ACCOUNT;
                     zhanhuxinxi.name = mAccountDictionaries.get(key);
                     zhanhuxinxi.value = value;
+                    switch (key) {
+                        case "balans":
+                            zhanhuxinxi.imgResId = R.drawable.ic_butie;
+                            break;
+                        case "status":
+                            zhanhuxinxi.imgResId = R.drawable.ic_zhuangtai;
+                            zhanhuxinxi.value = value.equals("0")?"正常":"不正常";
+                            break;
+                        case "dayuse":
+                            zhanhuxinxi.imgResId = R.drawable.ic_dl;
+
+                            break;
+                        case "monthuse":
+                            zhanhuxinxi.imgResId = R.drawable.ic_dl;
+
+                            break;
+                    }
                     datas.add(zhanhuxinxi);
                     i++;
 
@@ -279,6 +322,7 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
                 selection.id = map.get("id");
                 selection.num = map.get("num");
                 selection.status = map.get("status").equals("true") ? true : false;
+                selection.imgResId = R.drawable.ic_channel;
 
                 datas.add(selection);
             }
@@ -300,6 +344,21 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
                     selection.header = "用电信息";
                 } else {
                     selection.isHeader = false;
+                }
+                if (selection.name.contains("电压")) {
+                    selection.imgResId = R.drawable.ic_dianya;
+                }
+                if (selection.name.contains("电流")) {
+                    selection.imgResId = R.drawable.ic_dianliu;
+                }
+                if (selection.name.contains("功率")) {
+                    selection.imgResId = R.drawable.ic_gonglv;
+                }
+                if (selection.name.contains("功率因数")) {
+                    selection.imgResId = R.drawable.ic_gonglvyinsu;
+                }
+                if (selection.name.contains("电表")) {
+                    selection.imgResId = R.drawable.ic_dl;
                 }
                 selection.type = RoomInfoSelection.TYPE_METER_INFO;
                 datas.add(selection);
@@ -332,7 +391,6 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
             for (Map<String, String> stu :
                     room_stu) {
                 RoomInfoSelection selection = null;
-
                 if (i == 0) {
                     selection = new RoomInfoSelection(true, "学生信息");
                 } else {
@@ -341,6 +399,7 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
                 selection.type = RoomInfoSelection.TYPE_ROOM_STU;
                 selection.name = stu.get("name");
                 selection.studentID = stu.get("studentID");
+                selection.imgResId = R.drawable.ic_person;
                 datas.add(selection);
                 i++;
             }

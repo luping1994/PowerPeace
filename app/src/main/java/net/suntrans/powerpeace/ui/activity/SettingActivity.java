@@ -10,8 +10,10 @@ import android.view.View;
 
 import net.suntrans.looney.utils.UiUtils;
 import net.suntrans.powerpeace.App;
+import net.suntrans.powerpeace.MainActivity;
 import net.suntrans.powerpeace.R;
 import net.suntrans.powerpeace.databinding.ActivitySettingBinding;
+import net.suntrans.powerpeace.utils.StatusBarCompat;
 
 public class SettingActivity extends BasedActivity {
 
@@ -21,6 +23,8 @@ public class SettingActivity extends BasedActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_setting);
+        StatusBarCompat.compat(binding.headerView);
+
         binding.toolbar.setTitle("设置");
         setSupportActionBar(binding.toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -31,7 +35,7 @@ public class SettingActivity extends BasedActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.signOut:
-                App.getSharedPreferences().edit().clear().commit();
+                App.getSharedPreferences().edit().putString("token","-1").commit();
                 killAll();
                 Intent intent = new Intent(this, Login1Activity.class);
                 intent.putExtra(
@@ -48,7 +52,9 @@ public class SettingActivity extends BasedActivity {
                 break;
             case R.id.exit:
                 android.os.Process.killProcess(android.os.Process.myPid());
-
+                break;
+            case R.id.profile:
+                startActivity(new Intent(this, PersonActivity.class));
                 break;
         }
     }

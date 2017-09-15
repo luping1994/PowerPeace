@@ -21,8 +21,10 @@ import net.suntrans.powerpeace.bean.MenuBean;
 import net.suntrans.powerpeace.bean.ZongheEntity;
 import net.suntrans.powerpeace.bean.ZongheSelection;
 import net.suntrans.powerpeace.databinding.FragmentZongheBinding;
+import net.suntrans.powerpeace.databinding.FragmentZongheCopyBinding;
 import net.suntrans.powerpeace.rx.BaseSubscriber;
 import net.suntrans.powerpeace.ui.decoration.DefaultDecoration;
+import net.suntrans.stateview.StateView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,12 +35,12 @@ import java.util.Map;
 /**
  * 综合Fragment
  */
-public class ZongHeFragment extends BasedFragment {
+public class ZongHeFragmentCopy extends BasedFragment {
 
 
     private static final String TAG = "ZongHeFragment";
-    private FragmentZongheBinding binding;
-//    protected StateView stateView;
+    private FragmentZongheCopyBinding binding;
+    protected StateView stateView;
 
 
     private List<View> popupViews = new ArrayList<>();
@@ -53,7 +55,6 @@ public class ZongHeFragment extends BasedFragment {
 
 
     private List<MenuBean.InfoBean> datas = new ArrayList<>();
-    private MyAdapter adapter;
     private String[] headers;
 
     private int mRefreshType = STATE_VIEW_REFRESH;
@@ -73,7 +74,7 @@ public class ZongHeFragment extends BasedFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_zonghe, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_zonghe_copy, container, false);
         return binding.getRoot();
     }
 
@@ -86,6 +87,7 @@ public class ZongHeFragment extends BasedFragment {
         super.onViewCreated(view, savedInstanceState);
 
         initZidian();
+        stateView = StateView.inject(binding.root);
 
         xueyuanMenuDatas = new ArrayList<>();
         buildingDatas = new ArrayList<>();
@@ -100,50 +102,26 @@ public class ZongHeFragment extends BasedFragment {
             }
         });
 
-        adapter = new MyAdapter(R.layout.item_zonghe, R.layout.item_zonghe_header, adapterDatas);
-        binding.recyclerView.setAdapter(adapter);
+        stateView.setOnRetryClickListener(new StateView.OnRetryClickListener() {
+            @Override
+            public void onRetryClick() {
+                mRefreshType = STATE_VIEW_REFRESH;
+                getData();
 
-        binding.recyclerView.addItemDecoration(new DefaultDecoration());
+            }
+        });
+
+
+
         binding.refreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
         initSpinner();
     }
 
     private void initZidian() {
-        zidian = new HashMap<>();
-        zidian.put("aV_value", "A相电压");
-        zidian.put("bV_value", "B相电压");
-        zidian.put("cV_value", "C相电压");
 
-        zidian.put("aA_value", "A相电流");
-        zidian.put("bA_value", "B相电流");
-        zidian.put("cA_value", "C相电流");
-
-        zidian.put("aP_value", "有功功率");
-        zidian.put("rP_value", "无功功率");
-        zidian.put("E_value", "总用电量");
-        zidian.put("E_day_value", "本日用电量");
-        zidian.put("E_month_value", "本月用电量");
     }
 
-    class MyAdapter extends BaseSectionQuickAdapter<ZongheSelection, BaseViewHolder> {
 
-        public MyAdapter(int layoutResId, int sectionHeadResId, List<ZongheSelection> data) {
-            super(layoutResId, sectionHeadResId, data);
-        }
-
-        @Override
-        protected void convertHead(BaseViewHolder helper, ZongheSelection item) {
-            helper.setText(R.id.name, item.name);
-            helper.setText(R.id.value, item.value);
-            helper.setText(R.id.headerName,item.header);
-        }
-
-        @Override
-        protected void convert(BaseViewHolder helper, ZongheSelection item) {
-            helper.setText(R.id.name, item.name);
-            helper.setText(R.id.value, item.value);
-        }
-    }
 
     @Override
     protected void onFragmentFirstVisible() {
@@ -202,7 +180,7 @@ public class ZongHeFragment extends BasedFragment {
                 buildingAdapter.notifyDataSetChanged();
 //                floorAdapter.notifyDataSetChanged();
                 headers = new String[]{xueyuanMenuDatas.get(0), buildingDatas.get(0)};
-                binding.headerMenu.setDropDownMenu(Arrays.asList(headers), popupViews, binding.refreshLayout);
+                binding.headerMenu.setDropDownMenu(Arrays.asList(headers), popupViews, binding.root);
 
                 getZonngheDatas(o.info.get(0).departmentID + "", o.info.get(0).sublist.get(0).building + "", o.info.get(0).sublist.get(0).floors.get(0).floor + "");
             }
@@ -211,7 +189,11 @@ public class ZongHeFragment extends BasedFragment {
 
     private void getZonngheDatas(String departmentID, String building, String floor) {
         LogUtil.i(TAG, departmentID + "." + building + "." + floor);
+        if (mRefreshType == STATE_VIEW_REFRESH) {
+            stateView.showLoading();
+        } else if (mRefreshType == SWIP_REFRESH_LAYOUT) {
 
+        }
         addSubscription(api.getZongheData(departmentID, building), new BaseSubscriber<ZongheEntity>(getActivity()) {
             @Override
             public void onCompleted() {
@@ -223,7 +205,8 @@ public class ZongHeFragment extends BasedFragment {
                 super.onError(e);
                 e.printStackTrace();
                 if (mRefreshType == STATE_VIEW_REFRESH) {
-
+                    binding.refreshLayout.setVisibility(View.INVISIBLE);
+                    stateView.showRetry();
                 } else if (mRefreshType == SWIP_REFRESH_LAYOUT) {
                     binding.refreshLayout.setRefreshing(false);
                 }
@@ -232,27 +215,24 @@ public class ZongHeFragment extends BasedFragment {
 
             @Override
             public void onNext(ZongheEntity data) {
-//                System.out.println(data.toString());
-//                binding.refreshLayout.setRefreshing(false);
-//
-//                Map<String, String> map = data.info.get(0);
-//                int i = 0;
-//                adapterDatas.clear();
-//                for (Map.Entry<String, String> entry :
-//                        map.entrySet()) {
-//                    ZongheSelection da = null;
-//                    if (i == 0)
-//                        da = new ZongheSelection(true, "信息学院2舍");
-//                    else
-//                        da = new ZongheSelection(false, "信息学院2舍");
-//                    i++;
-//
-//                    da.name = zidian.get(entry.getKey());
-//                    da.value = entry.getValue();
-//                    adapterDatas.add(da);
-//                }
-//
-//                adapter.notifyDataSetChanged();
+                binding.refreshLayout.setVisibility(View.VISIBLE);
+                stateView.showContent();
+                binding.refreshLayout.setRefreshing(false);
+                ZongheEntity.Zonghe zonghe = data.info.get(0);
+                binding.AV.setText(zonghe.aV_value);
+                binding.BV.setText(zonghe.bV_value);
+                binding.CV.setText(zonghe.cV_value);
+
+                binding.aAValue.setText(zonghe.aA_value);
+                binding.bAValue.setText(zonghe.bA_value);
+                binding.cAValue.setText(zonghe.cA_value);
+
+                binding.aPValue.setText(zonghe.aP_value);
+                binding.rPValue.setText(zonghe.rP_value);
+
+                binding.EValue.setText(zonghe.E_value);
+                binding.EDayValue.setText(zonghe.E_day_value);
+                binding.EMonthValue.setText(zonghe.E_month_value);
             }
         });
     }
@@ -300,14 +280,17 @@ public class ZongHeFragment extends BasedFragment {
                 for (int i = 0; i < datas.get(xueyuanPosition).sublist.get(buildingPostion).floors.size(); i++) {
                     floorDatas.add(datas.get(xueyuanPosition).sublist.get(buildingPostion).floors.get(i).floor_name);
                 }
-                binding.headerMenu.setTabText(4, "所有");
+//                binding.headerMenu.setTabText(4, "所有");
 
                 xueyuanAdapter.setCheckItem(position);
                 buildingAdapter.setCheckItem(0);
-                floorAdapter.setCheckItem(0);
+//                floorAdapter.setCheckItem(0);
 
 
                 mRefreshType = STATE_VIEW_REFRESH;
+                binding.headerName.setText(datas.get(xueyuanPosition).departmentName+"--"+datas.get(xueyuanPosition).sublist.get(buildingPostion).building_name+"用电状态");
+                binding.headerNam2.setText(datas.get(xueyuanPosition).departmentName+"--"+datas.get(xueyuanPosition).sublist.get(buildingPostion).building_name+"用电量");
+
                 getZonngheDatas(datas.get(xueyuanPosition).departmentID + "",
                         datas.get(xueyuanPosition).sublist.get(buildingPostion).building + "", "0");
             }
@@ -338,6 +321,9 @@ public class ZongHeFragment extends BasedFragment {
 //                floorAdapter.setCheckItem(0);
 
                 mRefreshType = STATE_VIEW_REFRESH;
+
+                binding.headerName.setText(datas.get(xueyuanPosition).departmentName+"--"+datas.get(xueyuanPosition).sublist.get(buildingPostion).building_name+"用电状态");
+                binding.headerNam2.setText(datas.get(xueyuanPosition).departmentName+"--"+datas.get(xueyuanPosition).sublist.get(buildingPostion).building_name+"用电量");
                 getZonngheDatas(datas.get(xueyuanPosition).departmentID + "",
                         datas.get(xueyuanPosition).sublist.get(buildingPostion).building + "",
                         "0");

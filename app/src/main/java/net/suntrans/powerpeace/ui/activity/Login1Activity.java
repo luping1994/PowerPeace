@@ -25,13 +25,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import net.suntrans.looney.utils.LogUtil;
 import net.suntrans.looney.utils.UiUtils;
 import net.suntrans.looney.widgets.LoadingDialog;
 import net.suntrans.powerpeace.App;
 import net.suntrans.powerpeace.MainActivity;
 import net.suntrans.powerpeace.R;
+import net.suntrans.powerpeace.StudentMainActivity;
 import net.suntrans.powerpeace.api.RetrofitHelper;
 import net.suntrans.powerpeace.bean.LoginEntity;
+import net.suntrans.powerpeace.bean.UserInfoEntity;
+import net.suntrans.powerpeace.bean.ZongheEntity;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -269,18 +273,25 @@ public class Login1Activity extends BasedActivity {
 
                     @Override
                     public void onNext(LoginEntity result) {
-                        if (dialog != null)
-                            dialog.dismiss();
+
                         if (result.code == 1) {
                             UiUtils.showToast("登录成功!");
                             App.getSharedPreferences().edit().putString("token", result.token)
                                     .putInt("role", result.info.role)
                                     .putString("username", result.info.username)
                                     .putString("password", password)
-                                    .putBoolean("isSignOut",false)
+                                    .putBoolean("isSignOut", false)
                                     .commit();
-                            startActivity(new Intent(Login1Activity.this, MainActivity.class));
-                            finish();
+                            System.out.println(result.info.role );
+                            if (result.info.role == 0) {
+                                if (dialog != null)
+                                    dialog.dismiss();
+                                startActivity(new Intent(Login1Activity.this, MainActivity.class));
+                                finish();
+                            } else {
+                                getUserInfo(result.info.username);
+                            }
+
                         } else {
                             UiUtils.showToast("账号或密码错误!");
                         }
@@ -290,7 +301,7 @@ public class Login1Activity extends BasedActivity {
 
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
-        return email.length() >=4;
+        return email.length() >= 4;
     }
 
     private boolean isPasswordValid(String password) {
@@ -304,6 +315,42 @@ public class Login1Activity extends BasedActivity {
     protected void onDestroy() {
         super.onDestroy();
         handler.removeCallbacksAndMessages(null);
+    }
+
+
+    private void getUserInfo(String userName) {
+        RetrofitHelper.getApi()
+                .getUserInfo(userName)
+                .compose(this.<UserInfoEntity>bindToLifecycle())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<UserInfoEntity>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        UiUtils.showToast("连接服务器出错了,登录失败");
+                        if (dialog != null)
+                            dialog.dismiss();
+                    }
+
+                    @Override
+                    public void onNext(UserInfoEntity info) {
+                        System.out.println(info.toString());
+                        if (dialog != null)
+                            dialog.dismiss();
+                        if (info.code == 1) {
+                            App.getSharedPreferences().edit().putString("room_id", info.info.get(0).room_id + "").commit();
+                            startActivity(new Intent(Login1Activity.this, StudentMainActivity.class));
+                            finish();
+                        } else {
+                            UiUtils.showToast("登录失败,请检查您的用户名");
+                        }
+                    }
+                });
     }
 
 }

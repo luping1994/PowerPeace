@@ -40,6 +40,7 @@ import net.suntrans.powerpeace.ui.fragment.BasedFragment;
 import net.suntrans.powerpeace.ui.fragment.StudentFragment;
 import net.suntrans.powerpeace.ui.fragment.SusheFragment;
 import net.suntrans.powerpeace.ui.fragment.ZongHeFragment;
+import net.suntrans.powerpeace.ui.fragment.ZongHeFragmentCopy;
 import net.suntrans.powerpeace.utils.StatusBarCompat;
 
 public class MainActivity extends BasedActivity implements View.OnClickListener
@@ -116,7 +117,7 @@ public class MainActivity extends BasedActivity implements View.OnClickListener
         FragmentAdapter adapter = new FragmentAdapter(getSupportFragmentManager());
         SusheFragment fragment = new SusheFragment();
         StudentFragment fragment2 = new StudentFragment();
-        ZongHeFragment fragment3 = new ZongHeFragment();
+        ZongHeFragmentCopy fragment3 = new ZongHeFragmentCopy();
         adapter.addFragment(fragment, "SuShe");
         adapter.addFragment(fragment2, "Student");
         adapter.addFragment(fragment3, "Zonghe");

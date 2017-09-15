@@ -347,10 +347,10 @@ public class AmmeterHisActivity extends BasedActivity {
             set1.setValues(values);
             set1.setLabel(dictionaries.get(mDisplayType)+paramName + dictionaries.get(paramName + "Unit"));
             List<Entry> values1 = set1.getValues();
-            for (Entry s :
-                    values1) {
-                System.out.println(s.toString());
-            }
+//            for (Entry s :
+//                    values1) {
+//                System.out.println(s.toString());
+//            }
             binding.mChart.getData().notifyDataChanged();
             binding.mChart.notifyDataSetChanged();
         } else {

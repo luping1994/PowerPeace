@@ -61,6 +61,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <net.suntrans.looney.widgets.SwitchButton
+                android:clickable="false"
+                android:id="@+id/switchButton"
                 app:kswBackDrawable="@drawable/switch_bottom_white"
                 app:kswThumbDrawable="@drawable/switch_top_circle"
                 android:layout_alignParentRight="true"

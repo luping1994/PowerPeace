@@ -6,10 +6,16 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimaryDark"
-        android:fitsSystemWindows="true"
+        android:fitsSystemWindows="false"
+        android:id="@+id/headerView"
         android:orientation="vertical"
         tools:context="net.suntrans.powerpeace.ui.activity.PostageHisActivity">
+
+        <View
+            android:id="@+id/statusbar"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorPrimaryDark" />
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -23,40 +29,44 @@
 
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/bgBlue">
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
+                <View
+                    android:background="#f2f3f5"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp" />
+
                 <LinearLayout
-                    android:visibility="gone"
+                    android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
-                    android:layout_marginTop="30dp"
-                    android:background="@color/white">
+                    android:background="@color/white"
+                    android:visibility="visible">
 
                     <TextView
-                        android:id="@+id/changePhone"
+                        android:id="@+id/profile"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="?attr/selectableItemBackground"
                         android:gravity="center_vertical"
                         android:onClick="onClick"
                         android:paddingLeft="@dimen/activity_horizontal_margin"
-                        android:text="修改手机号"
+                        android:text="个人资料"
                         android:textColor="@color/black"
                         android:textSize="15sp" />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:layout_marginTop="16dp"
-                    android:background="@color/white">
+                    android:background="@color/white"
+                    android:visibility="gone">
 
                     <TextView
                         android:id="@+id/changeMima"
@@ -97,29 +107,38 @@
                             android:id="@+id/version"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:layout_alignParentRight="true"
+                            android:layout_toLeftOf="@+id/arrow"
                             android:gravity="center_vertical"
                             android:onClick="onClick"
                             android:paddingLeft="@dimen/activity_horizontal_margin"
-                            android:paddingRight="@dimen/activity_horizontal_margin"
-                            android:text="当前版本v1.0.0"
+                            android:text="已是最新版本"
                             android:textSize="15sp" />
+
+                        <ImageView
+                            android:id="@+id/arrow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="8dp"
+                            android:src="@drawable/ic_arrow_right"
+                            android:visibility="invisible" />
                     </RelativeLayout>
                 </FrameLayout>
 
                 <LinearLayout
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:layout_marginTop="16dp"
-                    android:background="@color/white">
+                    android:background="@color/white"
+                    android:visibility="gone">
 
                     <TextView
-                        android:background="?attr/selectableItemBackground"
-
                         android:id="@+id/about"
+
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:background="?attr/selectableItemBackground"
                         android:gravity="center_vertical"
                         android:onClick="onClick"
                         android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -129,17 +148,17 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:layout_marginTop="16dp"
-                    android:background="@color/white">
+                    android:background="@color/white"
+                    android:visibility="visible">
 
                     <TextView
-                        android:background="?attr/selectableItemBackground"
                         android:id="@+id/signOut"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:background="?attr/selectableItemBackground"
                         android:gravity="center_vertical"
                         android:onClick="onClick"
                         android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -149,17 +168,17 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:layout_marginTop="16dp"
-                    android:background="@color/white">
+                    android:background="@color/white"
+                    android:visibility="gone">
 
                     <TextView
-                        android:background="?attr/selectableItemBackground"
                         android:id="@+id/exit"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:background="?attr/selectableItemBackground"
                         android:gravity="center_vertical"
                         android:onClick="onClick"
                         android:paddingLeft="@dimen/activity_horizontal_margin"

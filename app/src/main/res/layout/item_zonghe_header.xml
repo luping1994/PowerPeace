@@ -45,7 +45,16 @@
             android:layout_marginLeft="16dp"
             android:layout_weight="1">
 
+            <TextView
+                android:gravity="center"
+                android:layout_marginRight="8dp"
+                android:id="@+id/value"
+                android:textColor="@color/textColor"
+                android:layout_toLeftOf="@+id/img"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
             <ImageView
+                android:id="@+id/img"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
