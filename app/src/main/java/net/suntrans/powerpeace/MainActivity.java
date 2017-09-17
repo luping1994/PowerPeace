@@ -25,6 +25,7 @@ import android.widget.RadioGroup;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.github.mikephil.charting.formatter.IFillFormatter;
+import com.pgyersdk.update.PgyUpdateManager;
 
 import net.suntrans.looney.utils.UiUtils;
 import net.suntrans.powerpeace.adapter.FragmentAdapter;
@@ -42,6 +43,8 @@ import net.suntrans.powerpeace.ui.fragment.SusheFragment;
 import net.suntrans.powerpeace.ui.fragment.ZongHeFragment;
 import net.suntrans.powerpeace.ui.fragment.ZongHeFragmentCopy;
 import net.suntrans.powerpeace.utils.StatusBarCompat;
+
+import static net.suntrans.powerpeace.BuildConfig.DEBUG;
 
 public class MainActivity extends BasedActivity implements View.OnClickListener
         , BasedFragment.OnFragmentInteractionListener {
@@ -77,6 +80,9 @@ public class MainActivity extends BasedActivity implements View.OnClickListener
         binding.drawer.setDrawerListener(toggle);
         toggle.syncState();
         init();
+        if (!DEBUG){
+            PgyUpdateManager.register(this,"net.suntrans.powerpeace.fileProvider");
+        }
     }
 
     private void initRecyclerView() {
@@ -198,6 +204,7 @@ public class MainActivity extends BasedActivity implements View.OnClickListener
         super.onDestroy();
         unbindService(connection);
         handler.removeCallbacksAndMessages(null);
+        PgyUpdateManager.unregister();
     }
 
     @Override
