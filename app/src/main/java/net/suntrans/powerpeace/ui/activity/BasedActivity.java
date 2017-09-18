@@ -10,8 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
+import com.pgyersdk.feedback.PgyFeedback;
+import com.pgyersdk.feedback.PgyFeedbackShakeManager;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
+import net.suntrans.powerpeace.MainActivity;
 import net.suntrans.powerpeace.R;
 import net.suntrans.powerpeace.api.Api;
 import net.suntrans.powerpeace.api.RetrofitHelper;
@@ -36,16 +39,47 @@ public class BasedActivity extends RxAppCompatActivity implements SlidingPaneLay
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-//        initSlideBackClose();
         super.onCreate(savedInstanceState);
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(Color.TRANSPARENT);
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
         }
+
         synchronized (mlist) {
             mlist.add(this);
         }
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        System.out.println("onresume");
+        initPgyFeedback();
+
+    }
+
+    private void initPgyFeedback() {
+        // 自定义摇一摇的灵敏度，默认为950，数值越小灵敏度越高。
+        PgyFeedbackShakeManager.setShakingThreshold(500);
+        com.pgyersdk.activity.FeedbackActivity.setBarBackgroundColor("#50a0d2");
+        com.pgyersdk.activity.FeedbackActivity.setBarButtonPressedColor("#50a0d2");
+        // 以对话框的形式弹出，对话框只支持竖屏
+        PgyFeedbackShakeManager.unregister();
+        PgyFeedbackShakeManager.register(this,false);
+        // 设置颜色选择器的背景色
+//        com.pgyersdk.activity.FeedbackActivity.setColorPickerBackgroundColor("#50a0d2");
+        // 以对话框的形式弹出，对话框只支持竖屏
+//        PgyFeedbackShakeManager.register(this);
+
+        // 以Activity的形式打开，这种情况下必须在AndroidManifest.xml配置FeedbackActivity
+        // 打开沉浸式,默认为false
+        // FeedbackActivity.setBarImmersive(true);
+        //PgyFeedbackShakeManager.register(MainActivity.this, true); 相当于使用Dialog的方式；
+//        PgyFeedbackShakeManager.register(this, false);
     }
 
     @Override
@@ -55,6 +89,19 @@ public class BasedActivity extends RxAppCompatActivity implements SlidingPaneLay
         }
         onUnsubscribe();
         super.onDestroy();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        System.out.println("onpause");
+        PgyFeedbackShakeManager.unregister();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
     }
 
     public void killAll() {
@@ -78,7 +125,7 @@ public class BasedActivity extends RxAppCompatActivity implements SlidingPaneLay
     @Override
     public void startActivity(Intent intent) {
         super.startActivity(intent);
-        overridePendingTransition(R.anim.activity_open_bottom_in,R.anim.activity_open_exit);
+        overridePendingTransition(R.anim.activity_open_bottom_in, R.anim.activity_open_exit);
     }
 
     private void initSlideBackClose() {

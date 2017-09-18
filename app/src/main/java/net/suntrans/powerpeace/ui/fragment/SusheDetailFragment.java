@@ -3,17 +3,16 @@ package net.suntrans.powerpeace.ui.fragment;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.BoolRes;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseSectionQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-
 import net.suntrans.looney.utils.LogUtil;
 import net.suntrans.looney.widgets.LoadingDialog;
 import net.suntrans.looney.widgets.SwitchButton;
@@ -23,18 +22,15 @@ import net.suntrans.powerpeace.bean.RoomInfolEntity;
 import net.suntrans.powerpeace.databinding.FragmentSusheDetailBinding;
 import net.suntrans.powerpeace.rx.BaseSubscriber;
 import net.suntrans.powerpeace.ui.activity.AmmeterHisActivity;
+import net.suntrans.powerpeace.ui.activity.LogActivity;
 import net.suntrans.powerpeace.ui.activity.PostageHisActivity;
 import net.suntrans.powerpeace.ui.activity.StudentInfoActivity;
-import net.suntrans.powerpeace.ui.activity.SusheDetailActivity;
 import net.suntrans.powerpeace.ui.decoration.DefaultDecoration;
 import net.suntrans.stateview.StateView;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static android.databinding.DataBindingUtil.inflate;
 
 /**
  * Created by Looney on 2017/9/13.
@@ -118,6 +114,13 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
                         intent1.putExtra("name", selection.name);
                         intent1.putExtra("studentID", selection.studentID);
                         startActivity(intent1);
+                        break;
+                    case RoomInfoSelection.TYPE_CHANNEL_LOG:
+                        Intent intent2 = new Intent(getActivity(), LogActivity.class);
+                        intent2.putExtra("title", getActivity().getIntent().getStringExtra("title"));
+                        intent2.putExtra("paramName", selection.name);
+                        intent2.putExtra("room_id", param);
+                        startActivity(intent2);
                         break;
                 }
             }
@@ -294,7 +297,6 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
                             break;
                         case "monthuse":
                             zhanhuxinxi.imgResId = R.drawable.ic_dl;
-
                             break;
                     }
                     datas.add(zhanhuxinxi);
@@ -323,12 +325,20 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
                 selection.num = map.get("num");
                 selection.status = map.get("status").equals("true") ? true : false;
                 selection.imgResId = R.drawable.ic_channel;
+                selection.addr = map.get("addr");
 
                 datas.add(selection);
             }
 
         }
 
+
+        RoomInfoSelection log = new RoomInfoSelection(false, "状态日志");
+        log.name = "状态日志";
+        log.type = RoomInfoSelection.TYPE_CHANNEL_LOG;
+        log.imgResId = R.drawable.ic_zhuangtai;
+        log.value = "";
+        datas.add(log);
 
         RoomInfoSelection wholename = new RoomInfoSelection(true, "宿舍详情");
         wholename.name = whole_name;
@@ -387,7 +397,6 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
 
         if (room_stu != null) {
             int i = 0;
-
             for (Map<String, String> stu :
                     room_stu) {
                 RoomInfoSelection selection = null;
@@ -404,7 +413,6 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
                 i++;
             }
         }
-
 
         adapter.notifyDataSetChanged();
 

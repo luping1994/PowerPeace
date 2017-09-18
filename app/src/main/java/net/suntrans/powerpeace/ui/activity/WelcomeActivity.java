@@ -2,12 +2,14 @@ package net.suntrans.powerpeace.ui.activity;
 
 import android.Manifest;
 import android.app.ActivityOptions;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
@@ -21,8 +23,12 @@ import net.suntrans.powerpeace.R;
 import net.suntrans.powerpeace.StudentMainActivity;
 import net.suntrans.powerpeace.api.RetrofitHelper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import me.weyye.hipermission.HiPermission;
 import me.weyye.hipermission.PermissionCallback;
+import me.weyye.hipermission.PermissonItem;
 
 /**
  * Created by Looney on 2017/8/31.
@@ -46,47 +52,63 @@ public class WelcomeActivity extends AppCompatActivity {
 
 
     public void checkPermission() {
+        final List<PermissonItem> permissionItems = new ArrayList<PermissonItem>();
+        permissionItems.add(new PermissonItem(Manifest.permission.WRITE_EXTERNAL_STORAGE, "存储权限", R.drawable.permission_ic_memory));
+        permissionItems.add(new PermissonItem(Manifest.permission.RECORD_AUDIO, "允许录制音频", R.drawable.ic_settings_voice_black_24dp));
         HiPermission.create(this)
-                .checkSinglePermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, new PermissionCallback() {
+                .permissions(permissionItems)
+                .checkMutiPermission(new PermissionCallback() {
                     @Override
                     public void onClose() {
+                        new AlertDialog.Builder(WelcomeActivity.this)
+                                .setMessage("未获得某些必要的运行权限,部分功能将不可用,是否继续?")
+                                .setPositiveButton("进入应用", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        check();
+                                    }
+                                }).setNegativeButton("退出", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                finish();
+                            }
+                        }).create().show();
 
                     }
 
                     @Override
                     public void onFinish() {
-                        LogUtil.i("权限授予完成");
+//                        LogUtil.i("结束了我的儿子");
+                        check();
                     }
 
                     @Override
                     public void onDeny(String permisson, int position) {
-                        UiUtils.showToast("您已经拒绝授予存储权限,应用无法运行");
+                        LogUtil.i("拒绝了权限" + permisson+","+position);
                     }
 
                     @Override
                     public void onGuarantee(String permisson, int position) {
-                        LogUtil.i("权限通过");
-                        check();
+                        LogUtil.i("允许：" + permisson);
                     }
                 });
     }
 
     private void check() {
-        boolean isSignOut = App.getSharedPreferences().getBoolean("isSignOut", true);
 
         String token = App.getSharedPreferences().getString("token", "-1");
         if (token.equals("-1")) {
-            handler.sendEmptyMessageDelayed(0, 1500);
+            handler.sendEmptyMessageDelayed(START_LOGIN, 1500);
 
         } else {
             int role = App.getSharedPreferences().getInt("role", -1);
             if (role == 0) {
-                handler.sendEmptyMessageDelayed(1, 1500);
+                handler.sendEmptyMessageDelayed(START_MAIN_ADMIN, 1500);
             } else if (role == 1) {
-                handler.sendEmptyMessageDelayed(2, 1500);
+                handler.sendEmptyMessageDelayed(START_MAIN_STU, 1500);
 
             } else {
-                handler.sendEmptyMessageDelayed(0, 1500);
+                handler.sendEmptyMessageDelayed(START_LOGIN, 1500);
 
             }
 
@@ -95,11 +117,15 @@ public class WelcomeActivity extends AppCompatActivity {
 
     }
 
+
+    private static final int START_LOGIN=0;
+    private static final int START_MAIN_ADMIN=1;
+    private static final int START_MAIN_STU=2;
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
-                case 0:
+                case START_LOGIN:
                     Intent intent = new Intent(WelcomeActivity.this, Login1Activity.class);
                     intent.putExtra(
                             Login1Activity.EXTRA_TRANSITION, Login1Activity.TRANSITION_SLIDE_BOTTOM);
@@ -111,13 +137,13 @@ public class WelcomeActivity extends AppCompatActivity {
                     }
                     finish();
                     break;
-                case 1:
+                case START_MAIN_ADMIN:
                     startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
                     overridePendingTransition(R.anim.main_open_enter, R.anim.main_open_exit);
 
                     finish();
                     break;
-                case 2:
+                case START_MAIN_STU:
                     startActivity(new Intent(WelcomeActivity.this, StudentMainActivity.class));
                     overridePendingTransition(R.anim.main_open_enter, R.anim.main_open_exit);
 

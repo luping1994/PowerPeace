@@ -15,6 +15,7 @@ public class RoomInfoSelection extends SectionEntity {
     public static final String TYPE_METER_INFO= "meter_info";
     public static final String TYPE_ROOM_STU= "room_stu";
     public static final String TYPE_WHOLE_NAME= "whole_name";
+    public static final String TYPE_CHANNEL_LOG= "channel_log";
 
     public String type;
     public String value;
@@ -26,6 +27,7 @@ public class RoomInfoSelection extends SectionEntity {
     public String unit="";
     public String name;
     public String data_type;
+    public String addr;
     public RoomInfoSelection(boolean isHeader, String header) {
         super(isHeader, header);
     }

@@ -42,6 +42,14 @@ public class UserInfoEntity {
         public int telephone;
         public String academy;
 
+
+
+        public String tel_num;
+        public String sex;
+        public String email;
+        public String username;
+        public String status;
+
         @Override
         public String toString() {
             return "UserInfo{" +

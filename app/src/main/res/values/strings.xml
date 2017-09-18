@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">学生公寓用电</string>
+    <string name="app_name">学生公寓能管</string>
     <string name="title_activity_login1">登录</string>
 
     <!-- Strings related to login -->
@@ -15,8 +15,9 @@
         completions."
     </string>
     <string name="company_reserved">Copyright © 2017 广州三川智控工程装备有限公司版权所有</string>
+    <string name="company_name_CH">广州三川智控工程装备有限公司</string>
+    <string name="company_name_EN">Copyright © 2017 Suntrans. All rights reserved.</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="LinearLayoutManager">LinearLayoutManager</string>
     <string name="navigation_drawer_open">打开</string>
     <string name="navigation_drawer_close" >关闭</string>

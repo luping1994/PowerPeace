@@ -2,6 +2,7 @@ package net.suntrans.powerpeace.api;
 
 
 import net.suntrans.powerpeace.bean.HisEntity;
+import net.suntrans.powerpeace.bean.LogInfoEntity;
 import net.suntrans.powerpeace.bean.LoginEntity;
 import net.suntrans.powerpeace.bean.MenuBean;
 import net.suntrans.powerpeace.bean.ResultBody;
@@ -34,7 +35,7 @@ public interface Api {
      */
     @FormUrlEncoded
     @POST("api/account/login")
-    Observable<LoginEntity> login(@Field("username") String username,@Field("password") String password);
+    Observable<LoginEntity> login(@Field("username") String username, @Field("password") String password);
 
     /**
      * 获取管理员首页三级菜单
@@ -86,8 +87,8 @@ public interface Api {
     @FormUrlEncoded
     @POST("api/inquiry/Inquiry_Student_Info")
     Observable<StudentInfoEntity> getStudent(@Field("departmentID") String departmentID,
-                                                   @Field("building") String building,
-                                                   @Field("floor") String floor);
+                                             @Field("building") String building,
+                                             @Field("floor") String floor);
 
     /**
      * 管理员查询学生
@@ -122,7 +123,7 @@ public interface Api {
                                            @Field("building") String building);
 
     /**
-     *学生用户通过用户名查询用户信息
+     * 学生用户通过用户名查询用户信息
      *
      * @param
      * @return
@@ -130,6 +131,17 @@ public interface Api {
     @FormUrlEncoded
     @POST("api/inquiry/Inquiry_StudentInfo_Byusername")
     Observable<UserInfoEntity> getUserInfo(@Field("username") String username);
+
+    /**
+     * 学生用户通过用户名查询用户信息
+     *
+     * @param
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api/inquiry/Inquiry_Channel_Control_Log")
+    Observable<LogInfoEntity> getLogInfo(@Field("room_id") String room_id,
+                                         @Field("inquirytime") String time);
 
 
 }

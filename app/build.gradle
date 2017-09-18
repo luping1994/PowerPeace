@@ -76,7 +76,7 @@ dependencies {
     compile 'com.trello:rxlifecycle-components:1.0'
     compile 'com.squareup.retrofit2:retrofit:2.2.0'
     compile 'com.alibaba:fastjson:1.1.56.android'
-    compile 'com.pgyersdk:sdk:2.6.9'
+    compile 'com.pgyersdk:sdk:2.7.4'
     compile 'me.weyye.hipermission:library:1.0.3'
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.22'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'

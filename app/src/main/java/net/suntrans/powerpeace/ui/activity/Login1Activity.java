@@ -54,15 +54,9 @@ public class Login1Activity extends BasedActivity {
      */
     private static final int REQUEST_READ_CONTACTS = 0;
 
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
+
     // UI references.
-    private AutoCompleteTextView mEmailView;
+    private EditText mEmailView;
     private EditText mPasswordView;
     private LoadingDialog dialog;
     private Toolbar toolbar;
@@ -73,19 +67,19 @@ public class Login1Activity extends BasedActivity {
         super.onCreate(savedInstanceState);
         applyTransition();
         setContentView(R.layout.activity_login1);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("登录");
-        toolbar.setNavigationIcon(R.drawable.ic_clear);
-
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
+//        toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        toolbar.setTitle("登录");
+//        toolbar.setNavigationIcon(R.drawable.ic_clear);
+//
+//        setSupportActionBar(toolbar);
+//        ActionBar actionBar = getSupportActionBar();
 
 
         String username = App.getSharedPreferences().getString("username", "");
         String password = App.getSharedPreferences().getString("password", "");
 
         // Set up the login form.
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+        mEmailView = (EditText) findViewById(R.id.email);
 
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {

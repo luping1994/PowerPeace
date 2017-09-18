@@ -5,7 +5,7 @@ import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.databinding.DataBindingUtil;
-import android.os.Build;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -19,12 +19,10 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.github.mikephil.charting.formatter.IFillFormatter;
+import com.pgyersdk.feedback.PgyFeedback;
 import com.pgyersdk.update.PgyUpdateManager;
 
 import net.suntrans.looney.utils.UiUtils;
@@ -34,13 +32,13 @@ import net.suntrans.powerpeace.databinding.ActivityMainBinding;
 import net.suntrans.powerpeace.network.WebSocketService;
 import net.suntrans.powerpeace.ui.activity.AboutActivity;
 import net.suntrans.powerpeace.ui.activity.BasedActivity;
+import net.suntrans.powerpeace.ui.activity.FeedbackActivity;
 import net.suntrans.powerpeace.ui.activity.HelpActivity;
 import net.suntrans.powerpeace.ui.activity.PersonActivity;
 import net.suntrans.powerpeace.ui.activity.SettingActivity;
 import net.suntrans.powerpeace.ui.fragment.BasedFragment;
 import net.suntrans.powerpeace.ui.fragment.StudentFragment;
 import net.suntrans.powerpeace.ui.fragment.SusheFragment;
-import net.suntrans.powerpeace.ui.fragment.ZongHeFragment;
 import net.suntrans.powerpeace.ui.fragment.ZongHeFragmentCopy;
 import net.suntrans.powerpeace.utils.StatusBarCompat;
 
@@ -80,8 +78,8 @@ public class MainActivity extends BasedActivity implements View.OnClickListener
         binding.drawer.setDrawerListener(toggle);
         toggle.syncState();
         init();
-        if (!DEBUG){
-            PgyUpdateManager.register(this,"net.suntrans.powerpeace.fileProvider");
+        if (!DEBUG) {
+            PgyUpdateManager.register(this, "net.suntrans.powerpeace.fileProvider");
         }
     }
 
@@ -95,12 +93,16 @@ public class MainActivity extends BasedActivity implements View.OnClickListener
         navViewAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                switch (position){
+                switch (position) {
                     case 0:
                         break;
                     case 3:
                         binding.drawer.closeDrawers();
                         handler.sendEmptyMessageDelayed(START_ABOUT_ACTIVITY, 500);
+                        break;
+                    case 2:
+                        binding.drawer.closeDrawers();
+                        handler.sendEmptyMessageDelayed(START_FEEDBACK_ACTIVITY, 500);
                         break;
                 }
             }
@@ -204,7 +206,8 @@ public class MainActivity extends BasedActivity implements View.OnClickListener
         super.onDestroy();
         unbindService(connection);
         handler.removeCallbacksAndMessages(null);
-        PgyUpdateManager.unregister();
+        if (!DEBUG)
+            PgyUpdateManager.unregister();
     }
 
     @Override
@@ -216,6 +219,7 @@ public class MainActivity extends BasedActivity implements View.OnClickListener
     private static final int START_SETTING_ACTIVITY = 0;
     private static final int START_HELP_ACTIVITY = 1;
     private static final int START_ABOUT_ACTIVITY = 2;
+    private static final int START_FEEDBACK_ACTIVITY = 3;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -229,6 +233,17 @@ public class MainActivity extends BasedActivity implements View.OnClickListener
                     break;
                 case START_ABOUT_ACTIVITY:
                     intent.setClass(MainActivity.this, AboutActivity.class);
+                    break;
+                case START_FEEDBACK_ACTIVITY:
+                    intent.setClass(MainActivity.this, FeedbackActivity.class);
+
+                    // 以对话框的形式弹出
+//                    PgyFeedback.getInstance().showDialog(MainActivity.this);
+//                    com.pgyersdk.activity.FeedbackActivity.setBarBackgroundColor("#50a0d2");
+//                    com.pgyersdk.activity.FeedbackActivity.setBarButtonPressedColor("#50a0d2");
+// 以Activity的形式打开，这种情况下必须在AndroidManifest.xml配置FeedbackActivity
+// 打开沉浸式,默认为false
+//                    PgyFeedback.getInstance().showActivity(MainActivity.this);
                     break;
             }
             startActivity(intent);
