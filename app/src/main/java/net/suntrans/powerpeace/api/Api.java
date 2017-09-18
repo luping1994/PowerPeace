@@ -120,7 +120,8 @@ public interface Api {
     @FormUrlEncoded
     @POST("api/inquiry/Inquiry_3Ammeter_Current")
     Observable<ZongheEntity> getZongheData(@Field("departmentID") String departmentID,
-                                           @Field("building") String building);
+                                           @Field("building") String building,
+                                           @Field("floor") String floor);
 
     /**
      * 学生用户通过用户名查询用户信息

@@ -54,7 +54,7 @@ public class WelcomeActivity extends AppCompatActivity {
     public void checkPermission() {
         final List<PermissonItem> permissionItems = new ArrayList<PermissonItem>();
         permissionItems.add(new PermissonItem(Manifest.permission.WRITE_EXTERNAL_STORAGE, "存储权限", R.drawable.permission_ic_memory));
-        permissionItems.add(new PermissonItem(Manifest.permission.RECORD_AUDIO, "允许录制音频", R.drawable.ic_settings_voice_black_24dp));
+        permissionItems.add(new PermissonItem(Manifest.permission.RECORD_AUDIO, "允许录制音频", R.drawable.permission_ic_memory));
         HiPermission.create(this)
                 .permissions(permissionItems)
                 .checkMutiPermission(new PermissionCallback() {

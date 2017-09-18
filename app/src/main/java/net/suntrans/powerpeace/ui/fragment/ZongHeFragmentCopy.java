@@ -38,7 +38,7 @@ import java.util.Map;
 public class ZongHeFragmentCopy extends BasedFragment {
 
 
-    private static final String TAG = "ZongHeFragment";
+    private static final String TAG = "ZongHeFragmentCopy";
     private FragmentZongheCopyBinding binding;
     protected StateView stateView;
 
@@ -178,8 +178,8 @@ public class ZongHeFragmentCopy extends BasedFragment {
 
                 xueyuanAdapter.notifyDataSetChanged();
                 buildingAdapter.notifyDataSetChanged();
-//                floorAdapter.notifyDataSetChanged();
-                headers = new String[]{xueyuanMenuDatas.get(0), buildingDatas.get(0)};
+                floorAdapter.notifyDataSetChanged();
+                headers = new String[]{xueyuanMenuDatas.get(0), buildingDatas.get(0),floorDatas.get(0)};
                 binding.headerMenu.setDropDownMenu(Arrays.asList(headers), popupViews, binding.root);
 
                 getZonngheDatas(o.info.get(0).departmentID + "", o.info.get(0).sublist.get(0).building + "", o.info.get(0).sublist.get(0).floors.get(0).floor + "");
@@ -194,7 +194,7 @@ public class ZongHeFragmentCopy extends BasedFragment {
         } else if (mRefreshType == SWIP_REFRESH_LAYOUT) {
 
         }
-        addSubscription(api.getZongheData(departmentID, building), new BaseSubscriber<ZongheEntity>(getActivity()) {
+        addSubscription(api.getZongheData(departmentID, building,floor), new BaseSubscriber<ZongheEntity>(getActivity()) {
             @Override
             public void onCompleted() {
 
@@ -249,8 +249,16 @@ public class ZongHeFragmentCopy extends BasedFragment {
         buildView.setDividerHeight(0);
         buildView.setAdapter(buildingAdapter);
 
+
+        final ListView floorView = new ListView(getContext());
+        floorAdapter = new ListDropDownAdapter(getContext(), floorDatas);
+        floorView.setDividerHeight(0);
+        floorView.setAdapter(floorAdapter);
+
         popupViews.add(xueyuanView);
         popupViews.add(buildView);
+        popupViews.add(floorView);
+
 
         xueyuanView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -276,15 +284,15 @@ public class ZongHeFragmentCopy extends BasedFragment {
 
                 //更新楼层spinner
                 floorDatas.clear();
-                floorDatas.add("所有");
+//                floorDatas.add("所有");
                 for (int i = 0; i < datas.get(xueyuanPosition).sublist.get(buildingPostion).floors.size(); i++) {
                     floorDatas.add(datas.get(xueyuanPosition).sublist.get(buildingPostion).floors.get(i).floor_name);
                 }
-//                binding.headerMenu.setTabText(4, "所有");
+                binding.headerMenu.setTabText(4, datas.get(xueyuanPosition).sublist.get(buildingPostion).floors.get(floorPostion).floor_name);
 
                 xueyuanAdapter.setCheckItem(position);
                 buildingAdapter.setCheckItem(0);
-//                floorAdapter.setCheckItem(0);
+                floorAdapter.setCheckItem(0);
 
 
                 mRefreshType = STATE_VIEW_REFRESH;
@@ -292,7 +300,8 @@ public class ZongHeFragmentCopy extends BasedFragment {
                 binding.headerNam2.setText(datas.get(xueyuanPosition).departmentName+"--"+datas.get(xueyuanPosition).sublist.get(buildingPostion).building_name+"用电量");
 
                 getZonngheDatas(datas.get(xueyuanPosition).departmentID + "",
-                        datas.get(xueyuanPosition).sublist.get(buildingPostion).building + "", "0");
+                        datas.get(xueyuanPosition).sublist.get(buildingPostion).building + "",
+                        datas.get(xueyuanPosition).sublist.get(buildingPostion).floors.get(floorPostion).floor+"");
             }
         });
 
@@ -305,11 +314,11 @@ public class ZongHeFragmentCopy extends BasedFragment {
                 }
                 binding.headerMenu.setTabText(buildingDatas.get(position));
                 floorDatas.clear();
-                floorDatas.add("所有");
+//                floorDatas.add("所有");
                 for (int i = 0; i < datas.get(xueyuanPosition).sublist.get(position).floors.size(); i++) {
                     floorDatas.add(datas.get(xueyuanPosition).sublist.get(position).floors.get(i).floor_name);
                 }
-//                binding.headerMenu.setTabText(4, "所有");
+                binding.headerMenu.setTabText(4, datas.get(xueyuanPosition).sublist.get(buildingPostion).floors.get(floorPostion).floor_name);
                 binding.headerMenu.closeMenu();
 
                 buildingPostion = position;
@@ -318,15 +327,48 @@ public class ZongHeFragmentCopy extends BasedFragment {
 
                 xueyuanAdapter.setCheckItem(position);
                 buildingAdapter.setCheckItem(position);
-//                floorAdapter.setCheckItem(0);
+                floorAdapter.setCheckItem(0);
 
                 mRefreshType = STATE_VIEW_REFRESH;
 
                 binding.headerName.setText(datas.get(xueyuanPosition).departmentName+"--"+datas.get(xueyuanPosition).sublist.get(buildingPostion).building_name+"用电状态");
                 binding.headerNam2.setText(datas.get(xueyuanPosition).departmentName+"--"+datas.get(xueyuanPosition).sublist.get(buildingPostion).building_name+"用电量");
-                getZonngheDatas(datas.get(xueyuanPosition).departmentID + "",
-                        datas.get(xueyuanPosition).sublist.get(buildingPostion).building + "",
-                        "0");
+//                getZonngheDatas(datas.get(xueyuanPosition).departmentID + "",
+//                        datas.get(xueyuanPosition).sublist.get(buildingPostion).building + "",
+//                        "0");
+                getData();
+            }
+        });
+
+
+        floorView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (floorPostion == position) {
+                    binding.headerMenu.closeMenu();
+                    return;
+                }
+
+                floorAdapter.setCheckItem(position);
+                binding.headerMenu.setTabText(floorDatas.get(position));
+
+                floorPostion = position;
+
+                binding.headerMenu.closeMenu();
+
+
+                mRefreshType = STATE_VIEW_REFRESH;
+                getData();
+//                if (position == 0) {
+//                    getZonngheDatas(datas.get(xueyuanPosition).departmentID + "",
+//                            datas.get(xueyuanPosition).sublist.get(buildingPostion).building + "",
+//                            "0");
+//                } else {
+//                    getZonngheDatas(datas.get(xueyuanPosition).departmentID + "",
+//                            datas.get(xueyuanPosition).sublist.get(buildingPostion).building + "",
+//                            datas.get(xueyuanPosition).sublist.get(buildingPostion).floors.get(floorPostion ).floor + "");
+//                }
+
             }
         });
 
@@ -337,14 +379,14 @@ public class ZongHeFragmentCopy extends BasedFragment {
             getMenuData();
             return;
         }
-//        String floorParm = "0";
+        String floorParm = "0";
 //        if (floorPostion == 0) {
 //            floorParm = "0";
 //        } else {
-//            floorParm = datas.get(xueyuanPosition).sublist.get(buildingPostion).floors.get(floorPostion - 1).floor + "";
+            floorParm = datas.get(xueyuanPosition).sublist.get(buildingPostion).floors.get(floorPostion).floor + "";
 //        }
         getZonngheDatas(datas.get(xueyuanPosition).departmentID + "",
-                datas.get(xueyuanPosition).sublist.get(buildingPostion).building + "","");
+                datas.get(xueyuanPosition).sublist.get(buildingPostion).building + "",floorParm);
     }
 
 }

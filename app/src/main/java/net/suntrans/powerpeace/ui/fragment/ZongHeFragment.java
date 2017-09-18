@@ -212,7 +212,7 @@ public class ZongHeFragment extends BasedFragment {
     private void getZonngheDatas(String departmentID, String building, String floor) {
         LogUtil.i(TAG, departmentID + "." + building + "." + floor);
 
-        addSubscription(api.getZongheData(departmentID, building), new BaseSubscriber<ZongheEntity>(getActivity()) {
+        addSubscription(api.getZongheData(departmentID, building,floor), new BaseSubscriber<ZongheEntity>(getActivity()) {
             @Override
             public void onCompleted() {
 
