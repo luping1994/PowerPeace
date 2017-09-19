@@ -274,7 +274,7 @@ public class Login1Activity extends BasedActivity {
                                     .putInt("role", result.info.role)
                                     .putString("username", result.info.username)
                                     .putString("password", password)
-                                    .putBoolean("isSignOut", false)
+                                    .putString("user_id",result.info.userId)
                                     .commit();
                             System.out.println(result.info.role );
                             if (result.info.role == 0) {
@@ -283,9 +283,8 @@ public class Login1Activity extends BasedActivity {
                                 startActivity(new Intent(Login1Activity.this, MainActivity.class));
                                 finish();
                             } else {
-                                getUserInfo(result.info.username);
+                                getUserInfo(result.info.username,result.info.role+"");
                             }
-
                         } else {
                             UiUtils.showToast("账号或密码错误!");
                         }
@@ -312,9 +311,9 @@ public class Login1Activity extends BasedActivity {
     }
 
 
-    private void getUserInfo(String userName) {
+    private void getUserInfo(String userName,String role) {
         RetrofitHelper.getApi()
-                .getUserInfo(userName)
+                .getUserInfo(userName,role)
                 .compose(this.<UserInfoEntity>bindToLifecycle())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())

@@ -6,7 +6,7 @@ import java.util.List;
  * Created by Looney on 2017/9/15.
  */
 
-public class UserInfoEntity {
+public class UserInfoEntity extends ResultBody<List<UserInfoEntity.UserInfo>>{
 
     /**
      * code : 1
@@ -14,9 +14,9 @@ public class UserInfoEntity {
      * info : [{"studentID":2013301470027,"room_id":21,"IDnumber":0,"major":"66","name":"王晓青","telephone":0,"academy":"动力与机械学院"}]
      */
 
-    public int code;
-    public String message;
-    public List<UserInfo> info;
+//    public int code;
+//    public String message;
+//    public List<UserInfo> info;
 
     @Override
     public String toString() {
@@ -60,6 +60,11 @@ public class UserInfoEntity {
                     ", name='" + name + '\'' +
                     ", telephone=" + telephone +
                     ", academy='" + academy + '\'' +
+                    ", tel_num='" + tel_num + '\'' +
+                    ", sex='" + sex + '\'' +
+                    ", email='" + email + '\'' +
+                    ", username='" + username + '\'' +
+                    ", status='" + status + '\'' +
                     '}';
         }
     }

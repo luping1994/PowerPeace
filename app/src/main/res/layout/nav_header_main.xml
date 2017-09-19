@@ -17,15 +17,16 @@
             android:id="@+id/imageView"
             android:layout_width="64dp"
             android:layout_height="64dp"
-            android:src="@drawable/avatar" />
+            android:src="@drawable/logo2" />
 
         <TextView
+            android:id="@+id/username"
             android:layout_marginBottom="20dp"
             android:layout_marginTop="16dp"
             android:textSize="16sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Admin"
+            android:text="--"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     </LinearLayout>

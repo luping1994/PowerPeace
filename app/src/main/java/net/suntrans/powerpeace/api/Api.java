@@ -131,7 +131,7 @@ public interface Api {
      */
     @FormUrlEncoded
     @POST("api/inquiry/Inquiry_StudentInfo_Byusername")
-    Observable<UserInfoEntity> getUserInfo(@Field("username") String username);
+    Observable<UserInfoEntity> getUserInfo(@Field("username") String username,@Field("role") String role);
 
     /**
      * 学生用户通过用户名查询用户信息

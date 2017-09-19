@@ -1,4 +1,5 @@
 package net.suntrans.powerpeace;
+
 import android.content.ComponentName;
 import android.content.ContextWrapper;
 import android.content.Intent;
@@ -14,19 +15,24 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.KeyEvent;
 import android.view.View;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.pgyersdk.update.PgyUpdateManager;
+
 import net.suntrans.looney.utils.UiUtils;
 import net.suntrans.powerpeace.adapter.NavViewAdapter;
 import net.suntrans.powerpeace.databinding.ActivityStuMainBinding;
 import net.suntrans.powerpeace.network.WebSocketService;
 import net.suntrans.powerpeace.ui.activity.AboutActivity;
 import net.suntrans.powerpeace.ui.activity.BasedActivity;
+import net.suntrans.powerpeace.ui.activity.FeedbackActivity;
 import net.suntrans.powerpeace.ui.activity.HelpActivity;
+import net.suntrans.powerpeace.ui.activity.MsgCenterActivity;
 import net.suntrans.powerpeace.ui.activity.PersonActivity;
 import net.suntrans.powerpeace.ui.activity.SettingActivity;
 import net.suntrans.powerpeace.ui.fragment.SusheDetailFragment;
 import net.suntrans.powerpeace.utils.StatusBarCompat;
+
 import static net.suntrans.powerpeace.BuildConfig.DEBUG;
 
 /**
@@ -47,6 +53,7 @@ public class StudentMainActivity extends BasedActivity implements View.OnClickLi
         public void onServiceDisconnected(ComponentName name) {
         }
     };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,14 +71,14 @@ public class StudentMainActivity extends BasedActivity implements View.OnClickLi
                 this, binding.drawer, binding.toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         binding.drawer.setDrawerListener(toggle);
         toggle.syncState();
-        String room_id = App.getSharedPreferences().getString("room_id","-1");
-        SusheDetailFragment fragment =SusheDetailFragment.newInstance(room_id, Constants.ADMIN);
-        getSupportFragmentManager().beginTransaction().replace(R.id.content,fragment).commit();
+        String room_id = App.getSharedPreferences().getString("room_id", "-1");
+        SusheDetailFragment fragment = SusheDetailFragment.newInstance(room_id, Constants.ADMIN);
+        getSupportFragmentManager().beginTransaction().replace(R.id.content, fragment).commit();
 
         initRecyclerView();
 
-        if (!DEBUG){
-            PgyUpdateManager.register(this,"net.suntrans.powerpeace.fileProvider");
+        if (!DEBUG) {
+            PgyUpdateManager.register(this, "net.suntrans.powerpeace.fileProvider");
         }
     }
 
@@ -85,11 +92,14 @@ public class StudentMainActivity extends BasedActivity implements View.OnClickLi
         navViewAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                switch (position){
+                binding.drawer.closeDrawers();
+
+                switch (position) {
                     case 0:
+                        handler.sendEmptyMessageDelayed(START_MSG_ACTIVITY, 500);
+
                         break;
                     case 3:
-                        binding.drawer.closeDrawers();
                         handler.sendEmptyMessageDelayed(START_ABOUT_ACTIVITY, 500);
                         break;
                 }
@@ -117,9 +127,7 @@ public class StudentMainActivity extends BasedActivity implements View.OnClickLi
                 binding.drawer.closeDrawers();
                 handler.sendEmptyMessageDelayed(START_SETTING_ACTIVITY, 500);
                 break;
-
         }
-
     }
 
 
@@ -132,7 +140,6 @@ public class StudentMainActivity extends BasedActivity implements View.OnClickLi
                 binding.drawer.closeDrawers();
                 return true;
             }
-
             System.arraycopy(mHits, 1, mHits, 0, mHits.length - 1);
             mHits[mHits.length - 1] = SystemClock.uptimeMillis();
             if (mHits[0] >= (SystemClock.uptimeMillis() - 2000)) {
@@ -156,23 +163,38 @@ public class StudentMainActivity extends BasedActivity implements View.OnClickLi
     }
 
 
-    private static final int START_SETTING_ACTIVITY = 0;
-    private static final int START_HELP_ACTIVITY = 1;
-    private static final int START_ABOUT_ACTIVITY = 2;
+    private static final int START_MSG_ACTIVITY = 0;
+    private static final int START_SETTING_ACTIVITY = 1;
+    private static final int START_HELP_ACTIVITY = 2;
+    private static final int START_ABOUT_ACTIVITY = 3;
+    private static final int START_FEEDBACK_ACTIVITY = 4;
+
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
+
             Intent intent = new Intent();
+
             switch (msg.what) {
+
+                case START_MSG_ACTIVITY:
+                    intent.setClass(StudentMainActivity.this, MsgCenterActivity.class);
+                    break;
                 case START_SETTING_ACTIVITY:
                     intent.setClass(StudentMainActivity.this, SettingActivity.class);
                     break;
+
                 case START_HELP_ACTIVITY:
                     intent.setClass(StudentMainActivity.this, HelpActivity.class);
                     break;
+
                 case START_ABOUT_ACTIVITY:
                     intent.setClass(StudentMainActivity.this, AboutActivity.class);
                     break;
+                case START_FEEDBACK_ACTIVITY:
+                    intent.setClass(StudentMainActivity.this, FeedbackActivity.class);
+                    break;
+
             }
             startActivity(intent);
         }

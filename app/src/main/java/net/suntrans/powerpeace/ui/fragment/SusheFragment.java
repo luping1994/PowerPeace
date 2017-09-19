@@ -317,14 +317,14 @@ public class SusheFragment extends BasedFragment {
                 List<MenuBean.InfoBean.SublistBeanX> fristbuildings = datas.get(0).sublist;
                 for (MenuBean.InfoBean.SublistBeanX build :
                         fristbuildings) {
-                    buildingDatas.add(build.building + "舍");
+                    buildingDatas.add(build.building_name);
 
                 }
                 List<MenuBean.InfoBean.SublistBeanX.SublistBean> fristFloors = datas.get(0).sublist.get(0).floors;
                 floorDatas.add("所有");
                 for (MenuBean.InfoBean.SublistBeanX.SublistBean floor :
                         fristFloors) {
-                    floorDatas.add(floor.floor + "层");
+                    floorDatas.add(floor.floor_name);
                 }
 
                 xueyuanAdapter.notifyDataSetChanged();
@@ -377,7 +377,7 @@ public class SusheFragment extends BasedFragment {
                     for (int j = 0; j < o.info.get(i).sublist.size(); j++) {
                         SusheSelection susheSelection =
                                 new SusheSelection(j == 0 ? true : false, o.info.get(i).departmentName + "-"
-                                        + o.info.get(i).building + "舍-" + o.info.get(i).floor + "层");
+                                        + o.info.get(i).building_name + "-" + o.info.get(i).floor_name + "");
                         susheSelection.susheName = o.info.get(i).sublist.get(j).dormitory + "";
                         susheSelection.room_id = o.info.get(i).sublist.get(j).room_id + "";
                         susheSelection.wholeName = o.info.get(i).departmentName + "-"

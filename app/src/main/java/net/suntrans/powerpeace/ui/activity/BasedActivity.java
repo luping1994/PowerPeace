@@ -57,8 +57,7 @@ public class BasedActivity extends RxAppCompatActivity implements SlidingPaneLay
     @Override
     protected void onResume() {
         super.onResume();
-        System.out.println("onresume");
-        initPgyFeedback();
+//        initPgyFeedback();
 
     }
 
@@ -94,8 +93,8 @@ public class BasedActivity extends RxAppCompatActivity implements SlidingPaneLay
     @Override
     protected void onPause() {
         super.onPause();
-        System.out.println("onpause");
-        PgyFeedbackShakeManager.unregister();
+//        System.out.println("onpause");
+//        PgyFeedbackShakeManager.unregister();
     }
 
     @Override

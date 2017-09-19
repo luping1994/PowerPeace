@@ -11,6 +11,8 @@ public class SusheEntity extends ResultBody<List<SusheEntity.InfoBean>>{
 
         public String departmentName;
         public int departmentID;
+        public int floor_name;
+        public int building_name;
         public int floor;
         public int building;
         public List<SusheInfo> sublist;

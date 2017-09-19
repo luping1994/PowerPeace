@@ -5,5 +5,5 @@
         app:showAsAction="always"
         android:id="@+id/pay"
         android:enabled="true"
-        android:title="缴费" />
+        android:title="关闭所有" />
 </menu>

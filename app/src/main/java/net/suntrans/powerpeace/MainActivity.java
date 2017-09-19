@@ -28,12 +28,17 @@ import com.pgyersdk.update.PgyUpdateManager;
 import net.suntrans.looney.utils.UiUtils;
 import net.suntrans.powerpeace.adapter.FragmentAdapter;
 import net.suntrans.powerpeace.adapter.NavViewAdapter;
+import net.suntrans.powerpeace.api.RetrofitHelper;
+import net.suntrans.powerpeace.bean.UserInfoEntity;
 import net.suntrans.powerpeace.databinding.ActivityMainBinding;
 import net.suntrans.powerpeace.network.WebSocketService;
+import net.suntrans.powerpeace.rx.BaseSubscriber;
 import net.suntrans.powerpeace.ui.activity.AboutActivity;
 import net.suntrans.powerpeace.ui.activity.BasedActivity;
 import net.suntrans.powerpeace.ui.activity.FeedbackActivity;
 import net.suntrans.powerpeace.ui.activity.HelpActivity;
+import net.suntrans.powerpeace.ui.activity.Login1Activity;
+import net.suntrans.powerpeace.ui.activity.MsgCenterActivity;
 import net.suntrans.powerpeace.ui.activity.PersonActivity;
 import net.suntrans.powerpeace.ui.activity.SettingActivity;
 import net.suntrans.powerpeace.ui.fragment.BasedFragment;
@@ -41,6 +46,10 @@ import net.suntrans.powerpeace.ui.fragment.StudentFragment;
 import net.suntrans.powerpeace.ui.fragment.SusheFragment;
 import net.suntrans.powerpeace.ui.fragment.ZongHeFragmentCopy;
 import net.suntrans.powerpeace.utils.StatusBarCompat;
+
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 import static net.suntrans.powerpeace.BuildConfig.DEBUG;
 
@@ -59,6 +68,8 @@ public class MainActivity extends BasedActivity implements View.OnClickListener
         public void onServiceDisconnected(ComponentName name) {
         }
     };
+    private String username;
+    private int role;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,16 +104,20 @@ public class MainActivity extends BasedActivity implements View.OnClickListener
         navViewAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                binding.drawer.closeDrawers();
+
                 switch (position) {
                     case 0:
+                        handler.sendEmptyMessageDelayed(START_MSG_ACTIVITY, 500);
                         break;
-                    case 3:
-                        binding.drawer.closeDrawers();
-                        handler.sendEmptyMessageDelayed(START_ABOUT_ACTIVITY, 500);
+                    case 1:
+                        handler.sendEmptyMessageDelayed(START_HELP_ACTIVITY, 500);
                         break;
                     case 2:
-                        binding.drawer.closeDrawers();
                         handler.sendEmptyMessageDelayed(START_FEEDBACK_ACTIVITY, 500);
+                        break;
+                    case 3:
+                        handler.sendEmptyMessageDelayed(START_ABOUT_ACTIVITY, 500);
                         break;
                 }
             }
@@ -121,6 +136,10 @@ public class MainActivity extends BasedActivity implements View.OnClickListener
 
 
     private void init() {
+
+        username = App.getSharedPreferences().getString("username", "-1");
+        role = App.getSharedPreferences().getInt("role", 1);
+
         binding.viewpager.setOffscreenPageLimit(2);
         FragmentAdapter adapter = new FragmentAdapter(getSupportFragmentManager());
         SusheFragment fragment = new SusheFragment();
@@ -215,16 +234,20 @@ public class MainActivity extends BasedActivity implements View.OnClickListener
 
     }
 
+    private static final int START_MSG_ACTIVITY = 0;
+    private static final int START_SETTING_ACTIVITY = 1;
+    private static final int START_HELP_ACTIVITY = 2;
+    private static final int START_ABOUT_ACTIVITY = 3;
+    private static final int START_FEEDBACK_ACTIVITY = 4;
 
-    private static final int START_SETTING_ACTIVITY = 0;
-    private static final int START_HELP_ACTIVITY = 1;
-    private static final int START_ABOUT_ACTIVITY = 2;
-    private static final int START_FEEDBACK_ACTIVITY = 3;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             Intent intent = new Intent();
             switch (msg.what) {
+                case START_MSG_ACTIVITY:
+                    intent.setClass(MainActivity.this, MsgCenterActivity.class);
+                    break;
                 case START_SETTING_ACTIVITY:
                     intent.setClass(MainActivity.this, SettingActivity.class);
                     break;
@@ -236,18 +259,48 @@ public class MainActivity extends BasedActivity implements View.OnClickListener
                     break;
                 case START_FEEDBACK_ACTIVITY:
                     intent.setClass(MainActivity.this, FeedbackActivity.class);
-
-                    // 以对话框的形式弹出
-//                    PgyFeedback.getInstance().showDialog(MainActivity.this);
-//                    com.pgyersdk.activity.FeedbackActivity.setBarBackgroundColor("#50a0d2");
-//                    com.pgyersdk.activity.FeedbackActivity.setBarButtonPressedColor("#50a0d2");
-// 以Activity的形式打开，这种情况下必须在AndroidManifest.xml配置FeedbackActivity
-// 打开沉浸式,默认为false
-//                    PgyFeedback.getInstance().showActivity(MainActivity.this);
                     break;
             }
             startActivity(intent);
 
         }
     };
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getUserInfo(username, role + "");
+    }
+
+    private void getUserInfo(String userName, String role) {
+        RetrofitHelper.getApi()
+                .getUserInfo(userName, role)
+                .compose(this.<UserInfoEntity>bindToLifecycle())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new BaseSubscriber<UserInfoEntity>(this) {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        e.printStackTrace();
+
+                    }
+
+                    @Override
+                    public void onNext(UserInfoEntity info) {
+                        System.out.println(info.toString());
+                        if (info.code == 1) {
+                            binding.navView.header.username.setText(info.info.get(0).username);
+                        } else {
+
+                        }
+                    }
+                });
+    }
 }

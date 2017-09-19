@@ -15,7 +15,11 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import net.suntrans.looney.fragments.DataPickerDialogFragment;
 import net.suntrans.looney.utils.LogUtil;
 import net.suntrans.powerpeace.R;
+import net.suntrans.powerpeace.api.ApiHelper;
+import net.suntrans.powerpeace.bean.LogInfoEntity;
+import net.suntrans.powerpeace.bean.MenuBean;
 import net.suntrans.powerpeace.bean.PostageEntity;
+import net.suntrans.powerpeace.bean.UserInfoEntity;
 import net.suntrans.powerpeace.databinding.ActivityLogBinding;
 import net.suntrans.powerpeace.databinding.ActivityPostageHisBinding;
 import net.suntrans.powerpeace.ui.decoration.DefaultDecoration;
@@ -26,18 +30,23 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class LogActivity extends BasedActivity implements View.OnClickListener, DataPickerDialogFragment.OnDateSetChangerListener {
+import static android.R.attr.data;
+
+public class LogActivity extends BasedActivity implements View.OnClickListener, DataPickerDialogFragment.OnDateSetChangerListener, ApiHelper.OnDataGetListener, StateView.OnRetryClickListener {
 
     private ActivityLogBinding binding;
-    private StateView stateView;
     private String date;
     private int mYear;
     private int mMonth;
     private int mDay;
-    private List<PostageEntity.PostageInfo> datas;
-    private List<PostageEntity.PostageInfo> copy;
+    private List<LogInfoEntity.LogInfo> datas;
+    private List<LogInfoEntity.LogInfo> copy;
     private Myadapter adapter;
-
+    private ApiHelper helper;
+    private String room_id;
+    private StateView stateView;
+    private int currentCheckedId = R.id.radio0;
+    private String time;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +54,8 @@ public class LogActivity extends BasedActivity implements View.OnClickListener, 
 
         StatusBarCompat.compat(binding.headerView);
 
-
+        stateView = StateView.inject(binding.content);
+        stateView.setOnRetryClickListener(this);
         binding.toolbar.setTitle(getIntent().getStringExtra("title") + "操作记录");
         setSupportActionBar(binding.toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -61,8 +71,16 @@ public class LogActivity extends BasedActivity implements View.OnClickListener, 
         binding.year.setText(mYear + "年");
         binding.month.setText(mMonth + "");
 
+        time = new StringBuilder()
+                .append(mYear)
+                .append("-")
+                .append(pad(mMonth))
+                .append("-")
+                .append(pad(mDay))
+                .toString();
         datas = new ArrayList<>();
         copy = new ArrayList<>();
+        room_id = getIntent().getStringExtra("room_id");
 //        for (int i = 0; i < 8; i++) {
 //            boolean chongzhi = i % 2 == 0;
 //            PostageEntity.PostageInfo info = new PostageEntity.PostageInfo();
@@ -82,17 +100,18 @@ public class LogActivity extends BasedActivity implements View.OnClickListener, 
 //
 //        }
         copy.addAll(datas);
-        adapter = new Myadapter(R.layout.item_postage_his, copy);
+        adapter = new Myadapter(R.layout.item_log_his, copy);
         binding.recyclerView.addItemDecoration(new DefaultDecoration());
         binding.recyclerView.setAdapter(adapter);
         binding.radio1.setChecked(true);
         binding.segmentedGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+                currentCheckedId = checkedId;
                 switch (checkedId) {
                     case R.id.radio0:
                         copy.clear();
-                        for (PostageEntity.PostageInfo info :
+                        for (LogInfoEntity.LogInfo info :
                                 datas) {
                             if (info.type.equals("1")) {
                                 copy.add(info);
@@ -105,7 +124,7 @@ public class LogActivity extends BasedActivity implements View.OnClickListener, 
                         break;
                     case R.id.radio2:
                         copy.clear();
-                        for (PostageEntity.PostageInfo info :
+                        for (LogInfoEntity.LogInfo info :
                                 datas) {
                             if (info.type.equals("2")) {
                                 copy.add(info);
@@ -116,6 +135,12 @@ public class LogActivity extends BasedActivity implements View.OnClickListener, 
                 adapter.notifyDataSetChanged();
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getData(time);
     }
 
     @Override
@@ -135,20 +160,93 @@ public class LogActivity extends BasedActivity implements View.OnClickListener, 
         date = format;
         binding.year.setText(year + "年");
         binding.month.setText(month + "");
-        LogUtil.i(format);
+        time = format;
+        getData(time);
     }
 
-    class Myadapter extends BaseQuickAdapter<PostageEntity.PostageInfo, BaseViewHolder> {
+    @Override
+    public void onRetryClick() {
+            getData(time);
+    }
 
-        public Myadapter(@LayoutRes int layoutResId, @Nullable List<PostageEntity.PostageInfo> data) {
+
+    class Myadapter extends BaseQuickAdapter<LogInfoEntity.LogInfo, BaseViewHolder> {
+
+        public Myadapter(@LayoutRes int layoutResId, @Nullable List<LogInfoEntity.LogInfo> data) {
             super(layoutResId, data);
         }
 
         @Override
-        protected void convert(BaseViewHolder helper, PostageEntity.PostageInfo item) {
-            helper.setText(R.id.msg, item.msg);
+        protected void convert(BaseViewHolder helper, LogInfoEntity.LogInfo item) {
+            String action = item.status?"打开":"关闭";
+            helper.setText(R.id.msg, item.name+ item.message);
             helper.setText(R.id.created_at, item.created_at);
-            helper.setText(R.id.money, item.money);
         }
     }
+
+    private void getData(String time) {
+        if (helper == null)
+            helper = new ApiHelper();
+        stateView.showLoading();
+        binding.recyclerView.setVisibility(View.INVISIBLE);
+        helper.getLogInfo(room_id, time, this);
+    }
+
+
+    @Override
+    public void onUserInfoReturned(UserInfoEntity infoEntity) {
+
+    }
+
+    @Override
+    public void onLogInfoReturned(LogInfoEntity infoEntity) {
+        stateView.showContent();
+        binding.recyclerView.setVisibility(View.VISIBLE);
+        System.out.println(infoEntity.info);
+        datas.clear();
+        datas.addAll(infoEntity.info);
+        refreshLayout();
+    }
+
+    private void refreshLayout() {
+        switch (currentCheckedId) {
+            case R.id.radio0:
+                copy.clear();
+                for (LogInfoEntity.LogInfo info :
+                        datas) {
+                    if (info.type.equals("1")) {
+                        copy.add(info);
+                    }
+                }
+                break;
+            case R.id.radio1:
+                copy.clear();
+                copy.addAll(datas);
+                break;
+            case R.id.radio2:
+                copy.clear();
+                for (LogInfoEntity.LogInfo info :
+                        datas) {
+                    if (info.type.equals("2")) {
+                        copy.add(info);
+                    }
+                }
+                break;
+        }
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onError(Throwable e) {
+        e.printStackTrace();
+        stateView.showRetry();
+    }
+
+    private static String pad(int c) {
+        if (c >= 10)
+            return String.valueOf(c);
+        else
+            return "0" + String.valueOf(c);
+    }
+
 }

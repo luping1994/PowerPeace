@@ -7,16 +7,22 @@ import android.view.View;
 
 import net.suntrans.powerpeace.R;
 import net.suntrans.powerpeace.api.ApiHelper;
+import net.suntrans.powerpeace.api.RetrofitHelper;
+import net.suntrans.powerpeace.bean.LogInfoEntity;
 import net.suntrans.powerpeace.bean.UserInfoEntity;
 import net.suntrans.powerpeace.databinding.ActivityPersonalBinding;
+import net.suntrans.powerpeace.rx.BaseSubscriber;
 import net.suntrans.powerpeace.ui.fragment.ChangeNameFragment;
 import net.suntrans.powerpeace.utils.StatusBarCompat;
+
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Looney on 2017/9/14.
  */
 
-public class PersonActivity extends BasedActivity implements View.OnClickListener, ChangeNameFragment.ChangeNameListener, ApiHelper.OnDataGetListener {
+public class PersonActivity extends BasedActivity implements View.OnClickListener, ChangeNameFragment.ChangeNameListener {
     private static final String TAG = "PersonActivity";
     private static final String FRG_TAG = "CHANGE_NAME";
     private int currentSelected;
@@ -64,25 +70,48 @@ public class PersonActivity extends BasedActivity implements View.OnClickListene
     }
 
 
-    private void getUserInfo(String userName) {
-        if (helper == null)
-            helper = new ApiHelper();
-        helper.getUserInfo(userName,this);
-    }
-
     @Override
     public void changeName(String... name) {
         System.out.println(name[0] + "," + name[1] + "," + name[2]);
     }
 
-    @Override
-    public void onUserInfoReturned(UserInfoEntity infoEntity) {
-        System.out.println(infoEntity.toString());
-    }
+
+
+
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        helper.onUnsubscribe();
+    }
+
+    private void getUserInfo(String userName,String role) {
+        RetrofitHelper.getApi()
+                .getUserInfo(userName,role)
+                .compose(this.<UserInfoEntity>bindToLifecycle())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new BaseSubscriber<UserInfoEntity>(this) {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        e.printStackTrace();
+
+                    }
+
+                    @Override
+                    public void onNext(UserInfoEntity info) {
+                        System.out.println(info.toString());
+                        if (info.code == 1) {
+
+                        } else {
+
+                        }
+                    }
+                });
     }
 }

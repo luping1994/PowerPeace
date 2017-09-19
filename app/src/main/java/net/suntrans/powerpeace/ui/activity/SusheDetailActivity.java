@@ -2,6 +2,7 @@ package net.suntrans.powerpeace.ui.activity;
 
 import android.content.ComponentName;
 import android.content.ContextWrapper;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.databinding.DataBindingUtil;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -114,7 +116,15 @@ public class SusheDetailActivity extends BasedActivity  implements BasedFragment
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.pay) {
-            startActivity(new Intent(this, PayActivity.class));
+            new AlertDialog.Builder(this)
+                    .setMessage("是否关闭所有设备?")
+                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    }).setNegativeButton("取消",null)
+                    .create().show();
             return true;
         }
         return super.onOptionsItemSelected(item);

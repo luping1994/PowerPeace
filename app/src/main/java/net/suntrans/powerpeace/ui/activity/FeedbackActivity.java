@@ -54,31 +54,7 @@ public class FeedbackActivity extends BasedActivity implements View.OnClickListe
         PgyFeedbackShakeManager.unregister();
     }
 
-    private void getUserInfo(String userName) {
-        RetrofitHelper.getApi()
-                .getUserInfo(userName)
-                .compose(this.<UserInfoEntity>bindToLifecycle())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new Subscriber<UserInfoEntity>() {
-                    @Override
-                    public void onCompleted() {
 
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        UiUtils.showToast("连接服务器出错了,登录失败");
-
-                    }
-
-                    @Override
-                    public void onNext(UserInfoEntity info) {
-                        System.out.println(info.toString());
-
-                    }
-                });
-    }
 
 
 }

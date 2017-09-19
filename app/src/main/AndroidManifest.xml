@@ -88,6 +88,7 @@
 
         <!-- 可选-->
         <activity android:name="com.pgyersdk.activity.FeedbackActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activity.MsgCenterActivity" />
 
         <service android:name=".network.WebSocketService" />
     </application>
