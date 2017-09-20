@@ -30,7 +30,7 @@ public class MyAxisValueFormatter implements IAxisValueFormatter
 //        XAxis axis1 = (XAxis) axis;
 //        axis1.getPosition().
         int index = (int) value;
-        if (index == xRealValues.size()-1){
+        if (index <= xRealValues.size()-1){
             return xRealValues.get(index);
         }
         return "";

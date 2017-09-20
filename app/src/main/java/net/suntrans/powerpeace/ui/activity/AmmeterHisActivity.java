@@ -61,7 +61,7 @@ public class AmmeterHisActivity extends BasedActivity {
     private String room_id;
     private String paramName;
     private Map<String, String> dictionaries;
-    private String mDisplayType = DISPLAY_WEEK;
+    private String mDisplayType = DISPLAY_DAY;
     private HisEntity data;
     private MyAdapter adapter;
     private StateView stateView;
@@ -90,7 +90,7 @@ public class AmmeterHisActivity extends BasedActivity {
         binding.recyclerView.setAdapter(adapter);
         binding.recyclerView.addItemDecoration(new DefaultDecoration());
         binding.headerTitle.setText(paramName + dictionaries.get(paramName + "Unit"));
-        binding.radio1.setChecked(true);
+        binding.radio0.setChecked(true);
         binding.segmentedGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
@@ -367,6 +367,7 @@ public class AmmeterHisActivity extends BasedActivity {
             set1.setLineWidth(1f);
             set1.setCircleRadius(3f);
             set1.setDrawCircleHole(false);
+            set1.setDrawValues(false);
             set1.setValueTextSize(9f);
             set1.setDrawFilled(true);
             set1.setFormLineWidth(1f);
@@ -378,7 +379,7 @@ public class AmmeterHisActivity extends BasedActivity {
                 Drawable drawable = ContextCompat.getDrawable(this, R.drawable.fade_chart);
                 set1.setFillDrawable(drawable);
             } else {
-                set1.setFillColor(Color.BLACK);
+                set1.setFillColor(getResources().getColor(R.color.colorPrimary));
             }
 
             ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();

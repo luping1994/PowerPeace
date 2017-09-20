@@ -7,7 +7,7 @@ android {
         applicationId "net.suntrans.powerpeace"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 3
+        versionCode 4
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -42,9 +42,9 @@ android {
             def fileName
             if (outputFile != null && outputFile.name.endsWith('.apk')) {
                 if (variant.buildType.name.equals('release')) {
-                    fileName = "peacepower_${defaultConfig.versionName}_${defaultConfig.versionCode}.apk"
+                    fileName = "lp_${defaultConfig.versionName}_${defaultConfig.versionCode}.apk"
                 } else if (variant.buildType.name.equals('debug')) {
-                    fileName = "peacepower_${defaultConfig.versionName}_${defaultConfig.versionCode}_debug.apk"
+                    fileName = "lp_${defaultConfig.versionName}_${defaultConfig.versionCode}_debug.apk"
                 }
                 output.outputFile = new File(outputFile.parent, fileName)
             }
