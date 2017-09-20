@@ -10,9 +10,9 @@ public class SusheEntity extends ResultBody<List<SusheEntity.InfoBean>>{
     public static class InfoBean {
 
         public String departmentName;
+        public String floor_name;
+        public String building_name;
         public int departmentID;
-        public int floor_name;
-        public int building_name;
         public int floor;
         public int building;
         public List<SusheInfo> sublist;

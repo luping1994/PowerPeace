@@ -19,6 +19,7 @@ import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseSectionQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.trello.rxlifecycle.android.ActivityEvent;
 
 import net.suntrans.looney.utils.LogUtil;
 import net.suntrans.looney.utils.UiUtils;
@@ -29,11 +30,14 @@ import net.suntrans.powerpeace.bean.RoomInfolEntity;
 import net.suntrans.powerpeace.databinding.ActivitySusheDetailBinding;
 import net.suntrans.powerpeace.network.WebSocketService;
 import net.suntrans.powerpeace.rx.BaseSubscriber;
+import net.suntrans.powerpeace.rx.RxBus;
 import net.suntrans.powerpeace.ui.decoration.DefaultDecoration;
 import net.suntrans.powerpeace.ui.fragment.BasedFragment;
 import net.suntrans.powerpeace.ui.fragment.SusheDetailFragment;
 import net.suntrans.powerpeace.utils.StatusBarCompat;
 import net.suntrans.stateview.StateView;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.EventListener;
@@ -100,6 +104,35 @@ public class SusheDetailActivity extends BasedActivity  implements BasedFragment
 
     private void init() {
 
+        RxBus.getInstance()
+                .toObserverable(String.class)
+                .compose(this.<String>bindUntilEvent(ActivityEvent.DESTROY))
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+                        if (s.equals(WebSocketService.CONNECT_SUCCESS)) {
+                            JSONObject jsonObject = new JSONObject();
+                            try {
+                                jsonObject.put("room_id", Integer.valueOf(room_id));
+                                sendOrder(jsonObject.toString());
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                });
+
+
         Intent intent = new Intent();
         intent.setClass(this, WebSocketService.class);
         bindService(intent, connection, ContextWrapper.BIND_AUTO_CREATE);
@@ -138,6 +171,7 @@ public class SusheDetailActivity extends BasedActivity  implements BasedFragment
 
     @Override
     public void sendOrder(String s) {
-
+        if (ibinder!=null)
+            ibinder.sendOrder(s);
     }
 }

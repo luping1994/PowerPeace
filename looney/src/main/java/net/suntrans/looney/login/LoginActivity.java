@@ -4,7 +4,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import net.suntrans.looney.App;
+import net.suntrans.looney.AppBase;
 import net.suntrans.looney.R;
 import net.suntrans.looney.databinding.ActivityLoginBinding;
 import net.suntrans.looney.utils.UiUtils;
@@ -24,8 +24,8 @@ public abstract class LoginActivity extends AppCompatActivity implements Login.V
             return;
         }
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
-        String username = App.getSharedPreferences().getString("username", "");
-        String password = App.getSharedPreferences().getString("password", "");
+        String username = AppBase.getSharedPreferences().getString("username", "");
+        String password = AppBase.getSharedPreferences().getString("password", "");
         info = new LoginModel(username, password);
         presenter = new LoginPresenter(this);
         binding.setUser(info);

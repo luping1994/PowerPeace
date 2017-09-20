@@ -3,6 +3,7 @@ package net.suntrans.powerpeace.ui.fragment;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.BoolRes;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -10,27 +11,47 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseSectionQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.trello.rxlifecycle.android.FragmentEvent;
+
 import net.suntrans.looney.utils.LogUtil;
+import net.suntrans.looney.utils.UiUtils;
 import net.suntrans.looney.widgets.LoadingDialog;
 import net.suntrans.looney.widgets.SwitchButton;
+import net.suntrans.powerpeace.App;
 import net.suntrans.powerpeace.R;
 import net.suntrans.powerpeace.bean.RoomInfoSelection;
 import net.suntrans.powerpeace.bean.RoomInfolEntity;
 import net.suntrans.powerpeace.databinding.FragmentSusheDetailBinding;
+import net.suntrans.powerpeace.network.CmdMsg;
+import net.suntrans.powerpeace.network.WebSocketService;
 import net.suntrans.powerpeace.rx.BaseSubscriber;
+import net.suntrans.powerpeace.rx.RxBus;
 import net.suntrans.powerpeace.ui.activity.AmmeterHisActivity;
 import net.suntrans.powerpeace.ui.activity.LogActivity;
 import net.suntrans.powerpeace.ui.activity.PostageHisActivity;
 import net.suntrans.powerpeace.ui.activity.StudentInfoActivity;
 import net.suntrans.powerpeace.ui.decoration.DefaultDecoration;
+import net.suntrans.powerpeace.utils.ParseCMD;
 import net.suntrans.stateview.StateView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
+import static com.pgyersdk.c.a.d;
 
 /**
  * Created by Looney on 2017/9/13.
@@ -51,6 +72,9 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
     private static final int STATE_VIEW_REFRESH = 0x02;
     private String role;
     private LoadingDialog dialog;
+    private String userid;
+    private String currentAddr;
+    //    private String room_id;
 
     public static SusheDetailFragment newInstance(String param, String role) {
         SusheDetailFragment fragment = new SusheDetailFragment();
@@ -76,12 +100,16 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
     }
 
     private void init(View view) {
+
+        userid = App.getSharedPreferences().getString("user_id", "-1");
+
         param = getArguments().getString("param");
         role = getArguments().getString("role");
         whole_name = getActivity().getIntent().getStringExtra("whole_name");
         stateView = StateView.inject(view.findViewById(R.id.content));
         stateView.setOnRetryClickListener(this);
         binding.refreshLayout.setOnRefreshListener(this);
+
 
         adapter = new MyAdapter(R.layout.item_roominfo, R.layout.item_roominfo_header, datas);
         binding.recyclerView.setAdapter(adapter);
@@ -128,11 +156,63 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
         adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                System.out.println(datas.get(position).name+",id="+datas.get(position).id+",状态为："+datas.get(position).status);
-                datas.get(position).status = !datas.get(position).status;
-                adapter.notifyDataSetChanged();
+//                System.out.println(datas.get(position).name+",id="+datas.get(position).id+",状态为："
+//                        +datas.get(position).status
+//                        +",addr="+datas.get(position).addr
+//                        +",dev_id="+datas.get(position).id);
+                boolean togleStatus = !datas.get(position).status;
+                currentAddr = datas.get(position).addr;
+                JSONObject jsonObject = new JSONObject();
+                System.out.println(datas.get(position).addr);
+                try {
+                    jsonObject.put("device", "4100");
+                    jsonObject.put("action", "switch");
+                    jsonObject.put("user_id", Integer.valueOf(userid));
+                    jsonObject.put("room_id", Integer.valueOf(param));
+                    jsonObject.put("channel_id", Integer.valueOf(datas.get(position).id));
+                    jsonObject.put("command", togleStatus ? 1 : 0);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                mListener.sendOrder(jsonObject.toString());
+                if (dialog == null) {
+                    dialog = new LoadingDialog(getContext());
+                    dialog.setCancelable(false);
+                    dialog.setWaitText("请稍后...");
+                }
+                dialog.show();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        UiUtils.showToast("设备长时间无应答");
+                        dialog.dismiss();
+                    }
+                }, 10000);
+//              adapter.notifyDataSetChanged();
             }
         });
+
+        RxBus.getInstance().toObserverable(CmdMsg.class)
+                .compose(this.<CmdMsg>bindUntilEvent(FragmentEvent.DESTROY_VIEW))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<CmdMsg>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(CmdMsg cmdMsg) {
+                        parseCmd(cmdMsg);
+                    }
+                });
 
     }
 
@@ -289,7 +369,7 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
                             break;
                         case "status":
                             zhanhuxinxi.imgResId = R.drawable.ic_zhuangtai;
-                            zhanhuxinxi.value = value.equals("0")?"正常":"不正常";
+                            zhanhuxinxi.value = value.equals("0") ? "正常" : "不正常";
                             break;
                         case "dayuse":
                             zhanhuxinxi.imgResId = R.drawable.ic_dl;
@@ -422,5 +502,65 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
     public void onResume() {
         super.onResume();
         getData(param);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        handler.removeCallbacksAndMessages(null);
+    }
+
+    Handler handler = new Handler();
+
+    private void parseCmd(CmdMsg cmdMsg) {
+        if (cmdMsg.status == 1) {
+            try {
+                JSONObject jsonObject = new JSONObject(cmdMsg.msg);
+                String code = jsonObject.getString("code");
+                if (code.equals("200")) {
+                    JSONObject result = jsonObject.getJSONObject("result");
+                    String addr = result.getString("addr");
+                    if (!addr.equals(currentAddr)) {
+                        return;
+                    }
+                    System.out.println("我被执行了");
+                    handler.removeCallbacksAndMessages(null);
+                    String channel = String.valueOf(result.getInt("num"));
+                    String command = String.valueOf(result.getInt("status"));
+//                    Map<String, String> map = ParseCMD.check((short) channel, (short) command);
+                    for (int i = 0; i < datas.size(); i++) {
+                        if (!datas.get(i).type.equals(RoomInfoSelection.TYPE_DEV_CHANNEL)) {
+                            continue;
+                        }
+//                        if (datas.get(i).addr.equals(addr)) {
+//                        for (Map.Entry<String, String> entry : map.entrySet()) {
+//                            String number = entry.getKey();
+//                            String status = entry.getValue();
+                        if (datas.get(i).num.equals(channel)) {
+                            datas.get(i).status = command.equals("1");
+                        }
+//                        }
+
+//                        }
+                    }
+                    if (dialog != null)
+                        dialog.dismiss();
+                    adapter.notifyDataSetChanged();
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else if (cmdMsg.status == 0) {
+//            if (cmdMsg.msg.equals(WebSocketService.CONNECT_SUCCESS)) {
+//                JSONObject jsonObject = new JSONObject();
+//                try {
+//                    jsonObject.put("room_id", Integer.valueOf(param));
+//
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+        }
     }
 }

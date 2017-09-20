@@ -18,11 +18,13 @@ import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.pgyersdk.update.PgyUpdateManager;
+import com.trello.rxlifecycle.android.ActivityEvent;
 
 import net.suntrans.looney.utils.UiUtils;
 import net.suntrans.powerpeace.adapter.NavViewAdapter;
 import net.suntrans.powerpeace.databinding.ActivityStuMainBinding;
 import net.suntrans.powerpeace.network.WebSocketService;
+import net.suntrans.powerpeace.rx.RxBus;
 import net.suntrans.powerpeace.ui.activity.AboutActivity;
 import net.suntrans.powerpeace.ui.activity.BasedActivity;
 import net.suntrans.powerpeace.ui.activity.FeedbackActivity;
@@ -30,8 +32,14 @@ import net.suntrans.powerpeace.ui.activity.HelpActivity;
 import net.suntrans.powerpeace.ui.activity.MsgCenterActivity;
 import net.suntrans.powerpeace.ui.activity.PersonActivity;
 import net.suntrans.powerpeace.ui.activity.SettingActivity;
+import net.suntrans.powerpeace.ui.fragment.BasedFragment;
 import net.suntrans.powerpeace.ui.fragment.SusheDetailFragment;
 import net.suntrans.powerpeace.utils.StatusBarCompat;
+
+import org.json.JSONObject;
+
+import rx.Subscriber;
+import rx.schedulers.Schedulers;
 
 import static net.suntrans.powerpeace.BuildConfig.DEBUG;
 
@@ -39,7 +47,7 @@ import static net.suntrans.powerpeace.BuildConfig.DEBUG;
  * Created by Looney on 2017/9/15.
  */
 
-public class StudentMainActivity extends BasedActivity implements View.OnClickListener {
+public class StudentMainActivity extends BasedActivity implements View.OnClickListener, BasedFragment.OnFragmentInteractionListener {
 
     private ActivityStuMainBinding binding;
     private WebSocketService.ibinder ibinder;
@@ -53,6 +61,7 @@ public class StudentMainActivity extends BasedActivity implements View.OnClickLi
         public void onServiceDisconnected(ComponentName name) {
         }
     };
+    private String room_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +80,7 @@ public class StudentMainActivity extends BasedActivity implements View.OnClickLi
                 this, binding.drawer, binding.toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         binding.drawer.setDrawerListener(toggle);
         toggle.syncState();
-        String room_id = App.getSharedPreferences().getString("room_id", "-1");
+        room_id = App.getSharedPreferences().getString("room_id", "-1");
         SusheDetailFragment fragment = SusheDetailFragment.newInstance(room_id, Constants.ADMIN);
         getSupportFragmentManager().beginTransaction().replace(R.id.content, fragment).commit();
 
@@ -83,6 +92,34 @@ public class StudentMainActivity extends BasedActivity implements View.OnClickLi
     }
 
     private void initRecyclerView() {
+
+        RxBus.getInstance()
+                .toObserverable(String.class)
+                .compose(this.<String>bindUntilEvent(ActivityEvent.DESTROY))
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+                        if (s.equals(WebSocketService.CONNECT_SUCCESS)) {
+                            JSONObject jsonObject = new JSONObject();
+                            try {
+                                jsonObject.put("room_id", Integer.valueOf(room_id));
+                                sendOrder(jsonObject.toString());
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                });
 
         Intent intent = new Intent();
         intent.setClass(this, WebSocketService.class);
@@ -97,7 +134,12 @@ public class StudentMainActivity extends BasedActivity implements View.OnClickLi
                 switch (position) {
                     case 0:
                         handler.sendEmptyMessageDelayed(START_MSG_ACTIVITY, 500);
-
+                        break;
+                    case 1:
+                        handler.sendEmptyMessageDelayed(START_HELP_ACTIVITY, 500);
+                        break;
+                    case 2:
+                        handler.sendEmptyMessageDelayed(START_FEEDBACK_ACTIVITY, 500);
                         break;
                     case 3:
                         handler.sendEmptyMessageDelayed(START_ABOUT_ACTIVITY, 500);
@@ -115,6 +157,8 @@ public class StudentMainActivity extends BasedActivity implements View.OnClickLi
                 startActivity(new Intent(StudentMainActivity.this, PersonActivity.class));
             }
         });
+        String username = App.getSharedPreferences().getString("username", "--");
+        binding.navView.header.username.setText(username);
     }
 
     @Override
@@ -159,7 +203,8 @@ public class StudentMainActivity extends BasedActivity implements View.OnClickLi
         super.onDestroy();
         unbindService(connection);
         handler.removeCallbacksAndMessages(null);
-        PgyUpdateManager.unregister();
+        if (!DEBUG)
+            PgyUpdateManager.unregister();
     }
 
 
@@ -199,4 +244,10 @@ public class StudentMainActivity extends BasedActivity implements View.OnClickLi
             startActivity(intent);
         }
     };
+
+    @Override
+    public void sendOrder(String s) {
+        if (ibinder != null)
+            ibinder.sendOrder(s);
+    }
 }

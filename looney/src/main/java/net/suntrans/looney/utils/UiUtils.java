@@ -19,7 +19,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-import net.suntrans.looney.App;
+import net.suntrans.looney.AppBase;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,7 +33,7 @@ public class UiUtils {
 
     public static void showToast(String str) {
         if (mToast == null) {
-            mToast = Toast.makeText(App.getApplication(), str, Toast.LENGTH_SHORT);
+            mToast = Toast.makeText(AppBase.getApplication(), str, Toast.LENGTH_SHORT);
         }
         mToast.setText(str);
         mToast.show();
@@ -41,7 +41,7 @@ public class UiUtils {
 
     public static void showToastLong(String str) {
         if (mToast == null) {
-            mToast = Toast.makeText(App.getApplication(), str, Toast.LENGTH_LONG);
+            mToast = Toast.makeText(AppBase.getApplication(), str, Toast.LENGTH_LONG);
         }
         mToast.setText(str);
         mToast.show();
@@ -64,7 +64,7 @@ public class UiUtils {
     }
 
     public static Resources getResource1() {
-        return App.getApplication().getResources();
+        return AppBase.getApplication().getResources();
     }
 
     /**
@@ -93,7 +93,7 @@ public class UiUtils {
     }
 
     public static Context getContext() {
-        return App.getApplication();
+        return AppBase.getApplication();
     }
 
     //	public static void runOnUiThread(Runnable runnable) {

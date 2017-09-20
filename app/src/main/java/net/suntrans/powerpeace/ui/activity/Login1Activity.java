@@ -246,6 +246,26 @@ public class Login1Activity extends BasedActivity {
         }
     }
 
+
+
+    private boolean isEmailValid(String email) {
+        //TODO: Replace this with your own logic
+        return email.length() >= 4;
+    }
+
+    private boolean isPasswordValid(String password) {
+        //TODO: Replace this with your own logic
+        return password.length() > 4;
+    }
+
+    Handler handler = new Handler();
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        handler.removeCallbacksAndMessages(null);
+    }
+
     private void LoginFromServer(String username, final String password) {
         RetrofitHelper.getApi().login(username, password)
                 .compose(this.<LoginEntity>bindToLifecycle())
@@ -292,26 +312,9 @@ public class Login1Activity extends BasedActivity {
                 });
     }
 
-    private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
-        return email.length() >= 4;
-    }
-
-    private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
-        return password.length() > 4;
-    }
-
-    Handler handler = new Handler();
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        handler.removeCallbacksAndMessages(null);
-    }
-
 
     private void getUserInfo(String userName,String role) {
+        System.out.println("username="+userName+",role="+role);
         RetrofitHelper.getApi()
                 .getUserInfo(userName,role)
                 .compose(this.<UserInfoEntity>bindToLifecycle())
@@ -325,6 +328,7 @@ public class Login1Activity extends BasedActivity {
 
                     @Override
                     public void onError(Throwable e) {
+                        e.printStackTrace();
                         UiUtils.showToast("连接服务器出错了,登录失败");
                         if (dialog != null)
                             dialog.dismiss();

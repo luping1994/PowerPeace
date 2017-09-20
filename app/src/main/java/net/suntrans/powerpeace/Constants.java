@@ -6,6 +6,7 @@ public class Constants {
     public static final String APP_ID = "wx689c48c5966a9c88";
     public static final String ADMIN ="ADMIN" ;
     public static final String STUDENT ="STUDENT" ;
+    public static  String ROOM_ID ="-1" ;
 
     public static class ShowMsgActivity {
 		public static final String STitle = "showmsg_title";

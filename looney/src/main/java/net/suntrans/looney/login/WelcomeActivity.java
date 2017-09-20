@@ -7,7 +7,7 @@ import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.view.WindowManager;
 
-import net.suntrans.looney.App;
+import net.suntrans.looney.AppBase;
 import net.suntrans.looney.utils.LogUtil;
 
 import java.util.List;
@@ -30,7 +30,7 @@ public abstract class WelcomeActivity extends AppCompatActivity {
         setContentView(getLayoutRes());
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 //        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-        isfrist = App.getSharedPreferences().getBoolean("isfrist", true);
+        isfrist = AppBase.getSharedPreferences().getBoolean("isfrist", true);
 
         init();
     }
@@ -52,11 +52,11 @@ public abstract class WelcomeActivity extends AppCompatActivity {
         }
         ischeck = true;
         try {
-            String access_token = App.getSharedPreferences().getString("access_token", "-1");
-            String expires_in = App.getSharedPreferences().getString("expires_in", "-1");
-            String user_id = App.getSharedPreferences().getString("user_id", "-1");
+            String access_token = AppBase.getSharedPreferences().getString("access_token", "-1");
+            String expires_in = AppBase.getSharedPreferences().getString("expires_in", "-1");
+            String user_id = AppBase.getSharedPreferences().getString("user_id", "-1");
 
-            long firsttime = App.getSharedPreferences().getLong("firsttime", -1l);
+            long firsttime = AppBase.getSharedPreferences().getLong("firsttime", -1l);
             long currenttime = System.currentTimeMillis();
             long d = (currenttime - firsttime) / 1000;
 

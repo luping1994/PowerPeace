@@ -297,7 +297,7 @@ public class SusheFragment extends BasedFragment {
 
             @Override
             public void onNext(MenuBean o) {
-                LogUtil.i(o.message);
+//                LogUtil.i(o.message);
 
                 if (o.info == null || o.info.size() == 0) {
                     throw new RuntimeException("菜单为空");

@@ -13,7 +13,11 @@ import android.support.annotation.Nullable;
 
 
 import net.suntrans.looney.utils.LogUtil;
+import net.suntrans.powerpeace.App;
 import net.suntrans.powerpeace.rx.RxBus;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import okhttp3.WebSocket;
 
@@ -47,8 +51,8 @@ public class WebSocketService extends Service implements WebSocketWrapper.onRece
         binder = new ibinder() {
             @Override
             public boolean sendOrder(String order) {
-                boolean isSuccess =  webSocketWrapper.sendMessage(order);
-                if (!isSuccess){
+                boolean isSuccess = webSocketWrapper.sendMessage(order);
+                if (!isSuccess) {
                     webSocketWrapper.connect();
                 }
                 return isSuccess;
@@ -60,9 +64,10 @@ public class WebSocketService extends Service implements WebSocketWrapper.onRece
 
     @Override
     public void onMessage(String s) {
+        System.out.println("websocket收到:" + s);
         CmdMsg msg = new CmdMsg();
-        msg.status=1;
-        msg.msg=s;
+        msg.status = 1;
+        msg.msg = s;
         RxBus.getInstance().post(msg);
     }
 
@@ -70,24 +75,24 @@ public class WebSocketService extends Service implements WebSocketWrapper.onRece
     public void onFailure(Throwable t) {
         t.printStackTrace();
         CmdMsg msg = new CmdMsg();
-        msg.status=0;
-        msg.msg="连接服务器失败";
+        msg.status = 0;
+        msg.msg = "连接服务器失败";
         RxBus.getInstance().post(msg);
     }
 
-
-
+public static final String CONNECT_SUCCESS="通讯成功";
     @Override
     public void onOpen() {
+        System.out.println("websocket 连接成功~");
         CmdMsg msg = new CmdMsg();
-        msg.status=0;
-        msg.msg="通讯成功";
-        RxBus.getInstance().post(msg);
+//        msg.status = 0;
+//        msg.msg = CONNECT_SUCCESS;
+        RxBus.getInstance().post(CONNECT_SUCCESS);
     }
 
     @Override
     public void onClosing(WebSocket webSocket, int code, String reason) {
-        LogUtil.e("关闭码："+code+"关闭原因："+reason);
+        LogUtil.e("关闭码：" + code + "关闭原因：" + reason);
     }
 
     public class ibinder extends Binder {

@@ -25,7 +25,7 @@ public class MyAxisValueFormatter implements IAxisValueFormatter
 
     @Override
     public String getFormattedValue(float value, AxisBase axis) {
-        System.out.println("value before formatted is:"+value);
+//        System.out.println("value before formatted is:"+value);
 //        System.out.println("value after formatted is:"+xRealValues.get((int) value));
 //        XAxis axis1 = (XAxis) axis;
 //        axis1.getPosition().

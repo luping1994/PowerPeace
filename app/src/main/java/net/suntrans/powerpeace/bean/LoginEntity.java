@@ -32,10 +32,11 @@ public class LoginEntity extends ResultBody<LoginEntity.InfoBean>{
         public int sex;
         public String tel_num;
         public String avatar;
-        public long creationDate;
+        public String creationDate;
         public String userId;
-        public Object email;
+        public String email;
         public String username;
+        public String studentID;
         public int status;
     }
 }

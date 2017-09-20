@@ -34,12 +34,12 @@ public class UserInfoEntity extends ResultBody<List<UserInfoEntity.UserInfo>>{
          * academy : 动力与机械学院
          */
 
-        public long studentID;
-        public int room_id;
-        public int IDnumber;
+        public String studentID;
+        public String room_id;
+        public String IDnumber;
         public String major;
         public String name;
-        public int telephone;
+        public String telephone;
         public String academy;
 
 

@@ -1,11 +1,8 @@
 package net.suntrans.looney;
 
-import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.util.Log;
 
 import net.suntrans.looney.utils.LogUtil;
 
@@ -20,7 +17,7 @@ import java.io.OutputStream;
  * Created by Looney on 2017/2/20.
  */
 
-public class App extends Application {
+public class AppBase extends Application {
     public static Application getApplication() {
         return application;
     }
@@ -85,7 +82,7 @@ public class App extends Application {
 
         // 第一次运行应用程序时，加载数据库到data/data/当前包的名称/database/<db_name>
 
-        File dir = new File("data/data/" + App.getApplication().getPackageName() + "/databases");
+        File dir = new File("data/data/" + AppBase.getApplication().getPackageName() + "/databases");
         LogUtil.i("!dir.exists()=" + !dir.exists());
         LogUtil.i("!dir.isDirectory()=" + !dir.isDirectory());
 
@@ -102,7 +99,7 @@ public class App extends Application {
             try {
                 file.createNewFile();
 
-                inputStream = App.getApplication().getClass().getClassLoader().getResourceAsStream("assets/" + SqliteFileName);
+                inputStream = AppBase.getApplication().getClass().getClassLoader().getResourceAsStream("assets/" + SqliteFileName);
                 outputStream = new FileOutputStream(file);
 
                 byte[] buffer = new byte[1024];

@@ -22,6 +22,8 @@ import net.suntrans.powerpeace.MainActivity;
 import net.suntrans.powerpeace.R;
 import net.suntrans.powerpeace.StudentMainActivity;
 import net.suntrans.powerpeace.api.RetrofitHelper;
+import net.suntrans.powerpeace.bean.LoginEntity;
+import net.suntrans.powerpeace.bean.UserInfoEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,12 +31,15 @@ import java.util.List;
 import me.weyye.hipermission.HiPermission;
 import me.weyye.hipermission.PermissionCallback;
 import me.weyye.hipermission.PermissonItem;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Looney on 2017/8/31.
  */
 
-public class WelcomeActivity extends AppCompatActivity {
+public class WelcomeActivity extends BasedActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,7 +89,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
                     @Override
                     public void onDeny(String permisson, int position) {
-                        LogUtil.i("拒绝了权限" + permisson+","+position);
+                        LogUtil.i("拒绝了权限" + permisson + "," + position);
                     }
 
                     @Override
@@ -97,20 +102,31 @@ public class WelcomeActivity extends AppCompatActivity {
     private void check() {
 
         String token = App.getSharedPreferences().getString("token", "-1");
-        if (token.equals("-1")) {
-            handler.sendEmptyMessageDelayed(START_LOGIN, 1500);
+        String userName = App.getSharedPreferences().getString("username", "-1");
+        String password = App.getSharedPreferences().getString("password", "-1");
 
+        if (userName.equals("-1")) {
+            handler.sendEmptyMessageDelayed(START_LOGIN, 1500);
         } else {
             int role = App.getSharedPreferences().getInt("role", -1);
-            if (role == 0) {
-                handler.sendEmptyMessageDelayed(START_MAIN_ADMIN, 1500);
-            } else if (role == 1) {
-                handler.sendEmptyMessageDelayed(START_MAIN_STU, 1500);
-
-            } else {
-                handler.sendEmptyMessageDelayed(START_LOGIN, 1500);
-
-            }
+            System.out.println(userName+","+role);
+            LoginFromServer(userName,password);
+//            if (role == 0) {
+//                handler.sendEmptyMessageDelayed(START_MAIN_ADMIN, 1500);
+//            } else if (role == 1) {
+//                String roomid = App.getSharedPreferences().getString("room_id", "-1");
+//
+//                if (roomid.equals("-1")) {
+//                    handler.sendEmptyMessageDelayed(START_LOGIN, 1500);
+//
+//                } else {
+//
+//                    handler.sendEmptyMessageDelayed(START_MAIN_STU, 1500);
+//                }
+//
+//            } else {
+//                handler.sendEmptyMessageDelayed(START_LOGIN, 1500);
+//            }
 
         }
 
@@ -118,9 +134,9 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
 
-    private static final int START_LOGIN=0;
-    private static final int START_MAIN_ADMIN=1;
-    private static final int START_MAIN_STU=2;
+    private static final int START_LOGIN = 0;
+    private static final int START_MAIN_ADMIN = 1;
+    private static final int START_MAIN_STU = 2;
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -160,4 +176,77 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
 
+    private void LoginFromServer(String username, final String password) {
+        RetrofitHelper.getApi().login(username, password)
+                .compose(this.<LoginEntity>bindToLifecycle())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<LoginEntity>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        handler.sendEmptyMessageDelayed(START_LOGIN, 1500);
+                    }
+
+                    @Override
+                    public void onNext(LoginEntity result) {
+                        if (result.code == 1) {
+                            App.getSharedPreferences().edit().putString("token", result.token)
+                                    .putInt("role", result.info.role)
+                                    .putString("username", result.info.username)
+                                    .putString("password", password)
+                                    .putString("user_id",result.info.userId)
+                                    .commit();
+                            if (result.info.role == 0) {
+
+                                startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
+                                finish();
+                            } else {
+                                getUserInfo(result.info.username,result.info.role+"");
+                            }
+                        } else {
+                            handler.sendEmptyMessageDelayed(START_LOGIN, 1500);
+                        }
+                    }
+                });
+    }
+
+
+    private void getUserInfo(String userName,String role) {
+        System.out.println("username="+userName+",role="+role);
+        RetrofitHelper.getApi()
+                .getUserInfo(userName,role)
+                .compose(this.<UserInfoEntity>bindToLifecycle())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<UserInfoEntity>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        handler.sendEmptyMessageDelayed(START_LOGIN, 1500);
+                    }
+
+                    @Override
+                    public void onNext(UserInfoEntity info) {
+                        System.out.println(info.toString());
+                        if (info.code == 1) {
+                            App.getSharedPreferences().edit().putString("room_id", info.info.get(0).room_id + "").commit();
+                            startActivity(new Intent(WelcomeActivity.this, StudentMainActivity.class));
+                            finish();
+                        } else {
+                            handler.sendEmptyMessageDelayed(START_LOGIN, 1500);
+                        }
+                    }
+                });
+    }
 }

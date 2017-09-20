@@ -96,9 +96,9 @@ public class MainActivity extends BasedActivity implements View.OnClickListener
 
     private void initRecyclerView() {
 
-        Intent intent = new Intent();
-        intent.setClass(this, WebSocketService.class);
-        bindService(intent, connection, ContextWrapper.BIND_AUTO_CREATE);
+//        Intent intent = new Intent();
+//        intent.setClass(this, WebSocketService.class);
+//        bindService(intent, connection, ContextWrapper.BIND_AUTO_CREATE);
 
         NavViewAdapter navViewAdapter = new NavViewAdapter(NavViewAdapter.getLayoutRes(), NavViewAdapter.getItems());
         navViewAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -223,7 +223,7 @@ public class MainActivity extends BasedActivity implements View.OnClickListener
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unbindService(connection);
+//        unbindService(connection);
         handler.removeCallbacksAndMessages(null);
         if (!DEBUG)
             PgyUpdateManager.unregister();
@@ -231,7 +231,8 @@ public class MainActivity extends BasedActivity implements View.OnClickListener
 
     @Override
     public void sendOrder(String s) {
-
+        if (ibinder != null)
+            ibinder.sendOrder(s);
     }
 
     private static final int START_MSG_ACTIVITY = 0;
