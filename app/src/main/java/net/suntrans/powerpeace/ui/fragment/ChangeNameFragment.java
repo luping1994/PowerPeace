@@ -86,6 +86,7 @@ public class ChangeNameFragment extends DialogFragment {
                             UiUtils.showToast("不能为空!");
                             return;
                         }
+                        if (listener!=null)
                         listener.changeName(name,name11,name22);
                     }
                 })

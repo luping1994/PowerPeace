@@ -36,6 +36,7 @@ import net.suntrans.powerpeace.api.RetrofitHelper;
 import net.suntrans.powerpeace.bean.LoginEntity;
 import net.suntrans.powerpeace.bean.UserInfoEntity;
 import net.suntrans.powerpeace.bean.ZongheEntity;
+import net.suntrans.powerpeace.rx.BaseSubscriber;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -232,8 +233,7 @@ public class Login1Activity extends BasedActivity {
                 dialog.setCancelable(false);
             }
             dialog.show();
-            App.getSharedPreferences().edit().putString("username", email)
-                    .putString("password", password).commit();
+
             LoginFromServer(email, password);
 //            handler.postDelayed(new Runnable() {
 //                @Override
@@ -271,7 +271,7 @@ public class Login1Activity extends BasedActivity {
                 .compose(this.<LoginEntity>bindToLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<LoginEntity>() {
+                .subscribe(new BaseSubscriber<LoginEntity>(this) {
                     @Override
                     public void onCompleted() {
 
@@ -280,9 +280,9 @@ public class Login1Activity extends BasedActivity {
                     @Override
                     public void onError(Throwable e) {
                         e.printStackTrace();
+                        super.onError(e);
                         if (dialog != null)
                             dialog.dismiss();
-                        UiUtils.showToast("服务器错误");
                     }
 
                     @Override

@@ -297,7 +297,7 @@ public class MainActivity extends BasedActivity implements View.OnClickListener
                     public void onNext(UserInfoEntity info) {
                         System.out.println(info.toString());
                         if (info.code == 1) {
-                            binding.navView.header.username.setText(info.info.get(0).username);
+                            binding.navView.header.username.setText(info.info.get(0).name);
                         } else {
 
                         }

@@ -105,7 +105,7 @@ public class WelcomeActivity extends BasedActivity {
         String userName = App.getSharedPreferences().getString("username", "-1");
         String password = App.getSharedPreferences().getString("password", "-1");
 
-        if (userName.equals("-1")) {
+        if (userName.equals("-1")||token.equals("-1")) {
             handler.sendEmptyMessageDelayed(START_LOGIN, 1500);
         } else {
             int role = App.getSharedPreferences().getInt("role", -1);

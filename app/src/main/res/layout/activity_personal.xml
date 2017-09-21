@@ -29,7 +29,7 @@
             android:background="#f2f4f5" />
 
         <RelativeLayout
-            android:id="@+id/name"
+            android:id="@+id/nameRl"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="?attr/selectableItemBackground">
@@ -43,12 +43,13 @@
                 android:textColor="@color/textColor" />
 
             <TextView
+                android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
                 android:gravity="center_vertical"
                 android:paddingRight="@dimen/activity_horizontal_margin"
-                android:text="王铁锤" />
+                android:text="--" />
         </RelativeLayout>
 
         <View
@@ -59,7 +60,7 @@
             android:background="#f2f4f5" />
 
         <RelativeLayout
-            android:id="@+id/phone"
+            android:id="@+id/phoneRl"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="?attr/selectableItemBackground">
@@ -73,12 +74,13 @@
                 android:textColor="@color/textColor" />
 
             <TextView
+                android:id="@+id/phone"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
                 android:gravity="center_vertical"
                 android:paddingRight="@dimen/activity_horizontal_margin"
-                android:text="13807942349" />
+                android:text="--" />
         </RelativeLayout>
 
         <View
@@ -89,7 +91,7 @@
             android:background="#f2f4f5" />
 
         <RelativeLayout
-            android:id="@+id/xueyuan"
+            android:id="@+id/xueyuanRl"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="?attr/selectableItemBackground">
@@ -99,16 +101,17 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:text="所属学院"
+                android:text="所属学院/专业"
                 android:textColor="@color/textColor" />
 
             <TextView
+                android:id="@+id/xueyuan"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
                 android:gravity="center_vertical"
                 android:paddingRight="@dimen/activity_horizontal_margin"
-                android:text="信息学院" />
+                android:text="--" />
         </RelativeLayout>
 
         <View

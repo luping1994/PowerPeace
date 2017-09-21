@@ -11,6 +11,7 @@ public class SusheSelection extends SectionEntity<SusheEntity.SusheInfo> {
     public String susheName;
     public String room_id;
     public String wholeName;
+    public String status;
     public SusheSelection(boolean isHeader, String header) {
         super(isHeader, header);
     }

@@ -40,7 +40,7 @@ public class MyGsonResponseBodyConverter<T> implements Converter<ResponseBody, T
         //这样，我们就成功的将该异常交给onError()去处理了。
         if (!re.isOk()) {
             value.close();
-            LogUtil.e(re.code+"");
+            LogUtil.e(re.code+""+re.message);
             throw new ApiException(re.code, re.message);
         }
 

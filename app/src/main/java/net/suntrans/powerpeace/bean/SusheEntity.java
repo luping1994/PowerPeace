@@ -20,7 +20,8 @@ public class SusheEntity extends ResultBody<List<SusheEntity.InfoBean>>{
     }
 
     public static class SusheInfo {
-        public int room_id;
-        public int dormitory;
+        public String room_id;
+        public String dormitory;
+        public String status;
     }
 }

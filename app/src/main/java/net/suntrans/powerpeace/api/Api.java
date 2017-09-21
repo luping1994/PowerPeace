@@ -134,7 +134,7 @@ public interface Api {
     Observable<UserInfoEntity> getUserInfo(@Field("username") String username,@Field("role") String role);
 
     /**
-     * 学生用户通过用户名查询用户信息
+     * 学生用户通过用户名查询rizhi
      *
      * @param
      * @return
@@ -143,6 +143,19 @@ public interface Api {
     @POST("api/inquiry/Inquiry_Channel_Control_Log")
     Observable<LogInfoEntity> getLogInfo(@Field("room_id") String room_id,
                                          @Field("inquirytime") String time);
+
+
+    @FormUrlEncoded
+    @POST("api/feedback")
+    Observable<ResultBody> postSuggestion(@Field("suggestion") String suggestion);
+
+    @FormUrlEncoded
+    @POST("api/account/password")
+    Observable<ResultBody> changePassword(@Field("oldPwd") String oldPwd,@Field("newPwd") String newPwd);
+
+    @FormUrlEncoded
+    @POST("api/account/profile")
+    Observable<ResultBody> changePhone(@Field("tel") String tel);
 
 
 }

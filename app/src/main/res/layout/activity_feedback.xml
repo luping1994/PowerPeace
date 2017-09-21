@@ -23,50 +23,124 @@
             app:theme="@style/Toolbar"
             app:titleTextAppearance="@style/Toolbar.TitleText" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="16dp"
-            android:background="#f2f4f5" />
-
-        <net.suntrans.looney.widgets.EditView
-            android:id="@+id/oldPass"
-            android:layout_width="match_parent"
-            android:layout_height="140dp"
-            android:layout_marginTop="16dp"
-            android:background="@null"
-            android:gravity="start"
-            android:hint="请输入使用过程中遇到的问题或建议"
-            android:maxLength="70"
-            android:padding="8dp"
-            android:paddingLeft="16dp"
-            android:textSize="16sp" />
-
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:background="@drawable/bt_feedback"
-            android:text="提    交"
-            android:textColor="@color/white" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:background="#f2f4f5" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#f2f4f5"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:text="Tips:您可以手机任何页面摇动手机截取当前屏幕来反馈您的问题" />
-
-        <View
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#f2f4f5" />
+            android:background="#f2f4f5"
+            android:orientation="vertical">
+
+            <TextView
+                android:paddingBottom="4dp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="bottom"
+                android:paddingLeft="16dp"
+                android:text="选择反馈类型" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:background="#888888" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+
+                <RadioGroup
+                    android:id="@+id/radiogroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp">
+
+                    <android.support.v7.widget.AppCompatRadioButton
+                        android:id="@+id/chanpinjianyi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="产品建议"
+                        android:textColor="@color/textColor" />
+
+                    <android.support.v7.widget.AppCompatRadioButton
+                        android:id="@+id/chengxucuowu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="程序错误"
+                        android:textColor="@color/textColor" />
+                </RadioGroup>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="162dp"
+                android:paddingBottom="16dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="16dp">
+
+                <net.suntrans.looney.widgets.EditView
+                    android:id="@+id/jianyi"
+                    android:layout_width="match_parent"
+                    android:layout_height="140dp"
+                    android:background="@color/white"
+                    android:gravity="start"
+                    android:hint="您的意见对我们非常重要，意见一经采纳您将免费获赠增值服务或产品"
+                    android:maxLength="200"
+                    android:padding="8dp"
+                    android:paddingLeft="16dp"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginRight="16dp"
+                    android:text="200" />
+
+            </RelativeLayout>
+
+
+            <EditText
+                android:id="@+id/email"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@color/white"
+                android:hint="联系方式(邮箱/QQ)"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:textSize="15sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:background="#f2f4f5" />
+
+            <Button
+                android:visibility="gone"
+                android:id="@+id/commit"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:background="@drawable/bt_feedback"
+                android:text="提    交"
+                android:textColor="@color/white" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#f2f4f5"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:text="Tips:您可以手机任何页面摇动手机截取当前屏幕来反馈您的问题"
+                android:visibility="gone" />
+
+        </LinearLayout>
     </LinearLayout>
 </layout>

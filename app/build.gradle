@@ -84,5 +84,5 @@ dependencies {
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
     compile 'de.hdodenhof:circleimageview:2.1.0'
-
+    compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
 }

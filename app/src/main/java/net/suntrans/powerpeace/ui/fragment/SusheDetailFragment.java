@@ -121,10 +121,10 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
                 RoomInfoSelection selection = datas.get(position);
                 switch (selection.type) {
                     case RoomInfoSelection.TYPE_ACCOUNT:
-                        LogUtil.i("您点击了账户信息");
-                        Intent intent = new Intent(getActivity(), PostageHisActivity.class);
-                        intent.putExtra("title", getActivity().getIntent().getStringExtra("title"));
-                        startActivity(intent);
+//                        LogUtil.i("您点击了账户信息");
+//                        Intent intent = new Intent(getActivity(), PostageHisActivity.class);
+//                        intent.putExtra("title", getActivity().getIntent().getStringExtra("title"));
+//                        startActivity(intent);
                         break;
                     case RoomInfoSelection.TYPE_DEV_CHANNEL:
 
@@ -188,7 +188,7 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
                         UiUtils.showToast("设备长时间无应答");
                         dialog.dismiss();
                     }
-                }, 10000);
+                }, 5000);
 //              adapter.notifyDataSetChanged();
             }
         });
@@ -265,10 +265,17 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
             }
             if (item.type.equals(RoomInfoSelection.TYPE_DEV_CHANNEL)) {
                 helper.getView(R.id.normal).setVisibility(View.GONE);
+                helper.getView(R.id.image_arrow).setVisibility(View.VISIBLE);
                 helper.getView(R.id.switchRl).setVisibility(View.VISIBLE);
                 SwitchButton switchButton = helper.getView(R.id.switchButton);
                 switchButton.setCheckedImmediately(item.status);
+            } else if (item.type.equals(RoomInfoSelection.TYPE_ACCOUNT)) {
+                helper.getView(R.id.image_arrow).setVisibility(View.GONE);
+
+                helper.getView(R.id.normal).setVisibility(View.VISIBLE);
+                helper.getView(R.id.switchRl).setVisibility(View.GONE);
             } else {
+                helper.getView(R.id.image_arrow).setVisibility(View.VISIBLE);
                 helper.getView(R.id.normal).setVisibility(View.VISIBLE);
                 helper.getView(R.id.switchRl).setVisibility(View.GONE);
             }
@@ -297,7 +304,14 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
                 helper.getView(R.id.switchRl).setVisibility(View.VISIBLE);
                 SwitchButton switchButton = helper.getView(R.id.switchButton);
                 switchButton.setCheckedImmediately(item.status);
+                helper.getView(R.id.image_arrow).setVisibility(View.VISIBLE);
+            } else if (item.type.equals(RoomInfoSelection.TYPE_ACCOUNT)) {
+
+                helper.getView(R.id.image_arrow).setVisibility(View.GONE);
+                helper.getView(R.id.normal).setVisibility(View.VISIBLE);
+                helper.getView(R.id.switchRl).setVisibility(View.GONE);
             } else {
+                helper.getView(R.id.image_arrow).setVisibility(View.VISIBLE);
                 helper.getView(R.id.normal).setVisibility(View.VISIBLE);
                 helper.getView(R.id.switchRl).setVisibility(View.GONE);
             }
@@ -546,6 +560,15 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
                     if (dialog != null)
                         dialog.dismiss();
                     adapter.notifyDataSetChanged();
+                } else if (code.equals("202")) {
+                    String addr = jsonObject.getString("addr");
+                    if (!addr.equals(currentAddr)) {
+                        return;
+                    }
+                    handler.removeCallbacksAndMessages(null);
+                    UiUtils.showToast("无控制权限");
+                    if (dialog != null)
+                        dialog.dismiss();
                 }
 
             } catch (Exception e) {

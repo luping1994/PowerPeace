@@ -5,7 +5,6 @@ package net.suntrans.powerpeace.api;
  */
 
 public class ApiErrorCode {
-    public static final int OK=1;
     public static final int ERROR=0;
     public static final int UNAUTHORIZED=401;
     public static final int ERROR_NO_INTERNET=-1;

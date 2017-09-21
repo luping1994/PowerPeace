@@ -21,6 +21,7 @@
     <string name="LinearLayoutManager">LinearLayoutManager</string>
     <string name="navigation_drawer_open">打开</string>
     <string name="navigation_drawer_close" >关闭</string>
+    <string name="github_qqbrowser_kernel">网页由 www.suntrans.net 提供 \n QQ浏览器X5内核提供支持</string>
 
     <string-array name="test">
         <item>信息学部</item>

@@ -3,6 +3,7 @@ package net.suntrans.powerpeace.ui.fragment;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -65,10 +66,6 @@ public class SusheFragment extends BasedFragment {
     private int mRefreshType = STATE_VIEW_REFRESH;
     private static final int SWIP_REFRESH_LAYOUT = 0x01;
     private static final int STATE_VIEW_REFRESH = 0x02;
-
-
-
-
 
 
     @Override
@@ -262,11 +259,24 @@ public class SusheFragment extends BasedFragment {
         protected void convertHead(BaseViewHolder helper, SusheSelection item) {
             helper.setText(R.id.headerName, item.header);
             helper.setText(R.id.name, item.susheName);
+            helper.setText(R.id.status, item.status.equals("0") ? "已锁定" : "正常");
+            if (item.status.equals("0")) {
+                helper.setTextColor(R.id.status, Color.RED);
+            } else {
+                helper.setTextColor(R.id.status, Color.GRAY);
+            }
         }
 
         @Override
         protected void convert(BaseViewHolder helper, SusheSelection item) {
             helper.setText(R.id.name, item.susheName);
+            helper.setText(R.id.status, item.status.equals("0") ? "已锁定" : "正常");
+            if (item.status.equals("0")) {
+                helper.setTextColor(R.id.status, Color.RED);
+            } else {
+                helper.setTextColor(R.id.status, Color.GRAY);
+            }
+
         }
     }
 
@@ -382,6 +392,7 @@ public class SusheFragment extends BasedFragment {
                         susheSelection.room_id = o.info.get(i).sublist.get(j).room_id + "";
                         susheSelection.wholeName = o.info.get(i).departmentName + "-"
                                 + o.info.get(i).building + "舍-" + o.info.get(i).sublist.get(j).dormitory;
+                        susheSelection.status = o.info.get(i).sublist.get(j).status;
                         susheDatas.add(susheSelection);
                     }
                 }
