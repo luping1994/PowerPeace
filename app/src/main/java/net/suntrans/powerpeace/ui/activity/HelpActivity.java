@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -57,11 +58,15 @@ public class HelpActivity extends BasedActivity {
         binding.webview.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
-                super.onProgressChanged(view, newProgress);
+                //get the newProgress and refresh progress bar
+                binding.progressbar.setProgress(newProgress);
+                if (newProgress==100){
+                    binding.progressbar.setVisibility(View.GONE);
+                }
             }
         });
 
-        binding.webview.loadUrl("http://172.16.1.170:8080/help/index.html");
+        binding.webview.loadUrl("http://g.suntrans.net:8088/SuntransTest-Peace/help/");
 
 
     }

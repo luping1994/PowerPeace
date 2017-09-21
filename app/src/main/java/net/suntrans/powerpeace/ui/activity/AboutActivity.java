@@ -50,7 +50,7 @@ public class AboutActivity extends BasedActivity {
 
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.putExtra(Intent.EXTRA_SUBJECT,"");
-        shareIntent.putExtra(Intent.EXTRA_TEXT,  "智能配电app下载地址:https://www.pgyer.com/5xcP");
+        shareIntent.putExtra(Intent.EXTRA_TEXT,  "下载地址:https://www.pgyer.com/4qzv");
         shareIntent.setType("text/plain");
        startActivity(Intent.createChooser(shareIntent, desc));
     }
