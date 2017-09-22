@@ -203,9 +203,9 @@ public class WelcomeActivity extends BasedActivity {
                                     .putString("user_id",result.info.userId)
                                     .commit();
                             if (result.info.role == 0) {
-
-                                startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
-                                finish();
+                                handler.sendEmptyMessageDelayed(START_MAIN_ADMIN,1000);
+//                                startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
+//                                finish();
                             } else {
                                 getUserInfo(result.info.username,result.info.role+"");
                             }
@@ -241,8 +241,8 @@ public class WelcomeActivity extends BasedActivity {
                         System.out.println(info.toString());
                         if (info.code == 1) {
                             App.getSharedPreferences().edit().putString("room_id", info.info.get(0).room_id + "").commit();
-                            startActivity(new Intent(WelcomeActivity.this, StudentMainActivity.class));
-                            finish();
+                            handler.sendEmptyMessageDelayed(START_MAIN_STU,1000);
+
                         } else {
                             handler.sendEmptyMessageDelayed(START_LOGIN, 1500);
                         }

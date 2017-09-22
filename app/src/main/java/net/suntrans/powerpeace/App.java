@@ -1,14 +1,10 @@
 package net.suntrans.powerpeace;
 
-import android.app.Application;
-import android.content.SharedPreferences;
-
 import com.pgyersdk.crash.PgyCrashManager;
 
-import static net.suntrans.powerpeace.BuildConfig.DEBUG;
-import android.content.Context;
-
 import net.suntrans.looney.AppBase;
+
+import static net.suntrans.powerpeace.BuildConfig.DEBUG;
 
 /**
  * Created by Looney on 2017/8/31.

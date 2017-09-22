@@ -78,7 +78,12 @@ public class AmmeterHisActivity extends BasedActivity {
         paramName = getIntent().getStringExtra("paramName");
         binding.toolbar.setTitle(getIntent().getStringExtra("title") + paramName);
         stateView = StateView.inject(binding.content);
-
+        stateView.setOnRetryClickListener(new StateView.OnRetryClickListener() {
+            @Override
+            public void onRetryClick() {
+                getData();
+            }
+        });
         setSupportActionBar(binding.toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(true);
@@ -258,13 +263,14 @@ public class AmmeterHisActivity extends BasedActivity {
     private void getData() {
         LogUtil.i("room id is:"+room_id);
         stateView.showLoading();
-        binding.content.setVisibility(View.INVISIBLE);
+        binding.mainContent.setVisibility(View.INVISIBLE);
         addSubscription(api.getMeterHis(room_id, dictionaries.get(paramName)), new BaseSubscriber<HisEntity>(this) {
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
                 e.printStackTrace();
                 stateView.showRetry();
+                binding.mainContent.setVisibility(View.INVISIBLE);
             }
 
             @Override
@@ -283,6 +289,11 @@ public class AmmeterHisActivity extends BasedActivity {
         List<String> ls = new ArrayList<>();
         ls.clear();
         values.clear();
+        if (hisEntity==null){
+            stateView.showEmpty();
+
+            return;
+        }
         if (mDisplayType == DISPLAY_WEEK) {
             if (hisEntity.week_data == null || hisEntity.week_data.size() == 0) {
                 stateView.showEmpty();
@@ -395,7 +406,7 @@ public class AmmeterHisActivity extends BasedActivity {
 
         setRecyclerViewDatas(data);
         stateView.showContent();
-        binding.content.setVisibility(View.VISIBLE);
+        binding.mainContent.setVisibility(View.VISIBLE);
     }
 
     private List<HisEntity.HisItem> datas = new ArrayList<>();

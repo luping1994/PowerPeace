@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.BoolRes;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
@@ -12,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.alibaba.fastjson.JSON;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseSectionQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -23,19 +23,18 @@ import net.suntrans.looney.widgets.LoadingDialog;
 import net.suntrans.looney.widgets.SwitchButton;
 import net.suntrans.powerpeace.App;
 import net.suntrans.powerpeace.R;
+import net.suntrans.powerpeace.bean.ControlBody;
 import net.suntrans.powerpeace.bean.RoomInfoSelection;
 import net.suntrans.powerpeace.bean.RoomInfolEntity;
+import net.suntrans.powerpeace.bean.ControlResult;
 import net.suntrans.powerpeace.databinding.FragmentSusheDetailBinding;
 import net.suntrans.powerpeace.network.CmdMsg;
-import net.suntrans.powerpeace.network.WebSocketService;
 import net.suntrans.powerpeace.rx.BaseSubscriber;
 import net.suntrans.powerpeace.rx.RxBus;
 import net.suntrans.powerpeace.ui.activity.AmmeterHisActivity;
 import net.suntrans.powerpeace.ui.activity.LogActivity;
-import net.suntrans.powerpeace.ui.activity.PostageHisActivity;
 import net.suntrans.powerpeace.ui.activity.StudentInfoActivity;
 import net.suntrans.powerpeace.ui.decoration.DefaultDecoration;
-import net.suntrans.powerpeace.utils.ParseCMD;
 import net.suntrans.stateview.StateView;
 
 import org.json.JSONException;
@@ -49,9 +48,6 @@ import java.util.Map;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
-import static com.pgyersdk.c.a.d;
 
 /**
  * Created by Looney on 2017/9/13.
@@ -121,10 +117,16 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
                 RoomInfoSelection selection = datas.get(position);
                 switch (selection.type) {
                     case RoomInfoSelection.TYPE_ACCOUNT:
-//                        LogUtil.i("您点击了账户信息");
-//                        Intent intent = new Intent(getActivity(), PostageHisActivity.class);
-//                        intent.putExtra("title", getActivity().getIntent().getStringExtra("title"));
-//                        startActivity(intent);
+                        if (selection.name.equals("当日用电量")
+                                || selection.name.equals("当月用电量")
+                                || selection.name.equals("总用电量")) {
+                            Intent intent3 = new Intent(getActivity(), AmmeterHisActivity.class);
+                            intent3.putExtra("title", getActivity().getIntent().getStringExtra("title"));
+                            intent3.putExtra("paramName", "用电量");
+                            intent3.putExtra("room_id", param);
+                            startActivity(intent3);
+                        }
+
                         break;
                     case RoomInfoSelection.TYPE_DEV_CHANNEL:
 
@@ -162,20 +164,22 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
 //                        +",dev_id="+datas.get(position).id);
                 boolean togleStatus = !datas.get(position).status;
                 currentAddr = datas.get(position).addr;
-                JSONObject jsonObject = new JSONObject();
-                System.out.println(datas.get(position).addr);
+                String order = "";
                 try {
-                    jsonObject.put("device", "4100");
-                    jsonObject.put("action", "switch");
-                    jsonObject.put("user_id", Integer.valueOf(userid));
-                    jsonObject.put("room_id", Integer.valueOf(param));
-                    jsonObject.put("channel_id", Integer.valueOf(datas.get(position).id));
-                    jsonObject.put("command", togleStatus ? 1 : 0);
+                    ControlBody controlBody = new ControlBody();
+                    controlBody.device = "4100";
+                    controlBody.action = "switch";
+                    controlBody.user_id = Integer.parseInt(userid);
+                    controlBody.web_type = 701;
+                    controlBody.room_id = Integer.parseInt(param);
+                    controlBody.channel_id = Integer.parseInt(datas.get(position).id);
+                    controlBody.command = Integer.parseInt(togleStatus ? "1" : "0");
 
-                } catch (JSONException e) {
+                    order = JSON.toJSONString(controlBody);
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
-                mListener.sendOrder(jsonObject.toString());
+                mListener.sendOrder(order);
                 if (dialog == null) {
                     dialog = new LoadingDialog(getContext());
                     dialog.setCancelable(false);
@@ -231,6 +235,7 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
         mAccountDictionaries.put("status", "账户状态");
         mAccountDictionaries.put("dayuse", "当日用电量");
         mAccountDictionaries.put("monthuse", "当月用电量");
+        mAccountDictionaries.put("totaluse", "总用电量");
 
     }
 
@@ -270,7 +275,15 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
                 SwitchButton switchButton = helper.getView(R.id.switchButton);
                 switchButton.setCheckedImmediately(item.status);
             } else if (item.type.equals(RoomInfoSelection.TYPE_ACCOUNT)) {
-                helper.getView(R.id.image_arrow).setVisibility(View.GONE);
+                if (item.name.equals("当日用电量")
+                        || item.name.equals("当月用电量")
+                        || item.name.equals("总用电量")) {
+                    helper.getView(R.id.image_arrow).setVisibility(View.VISIBLE);
+                } else {
+                    helper.getView(R.id.image_arrow).setVisibility(View.GONE);
+
+                }
+
 
                 helper.getView(R.id.normal).setVisibility(View.VISIBLE);
                 helper.getView(R.id.switchRl).setVisibility(View.GONE);
@@ -307,7 +320,14 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
                 helper.getView(R.id.image_arrow).setVisibility(View.VISIBLE);
             } else if (item.type.equals(RoomInfoSelection.TYPE_ACCOUNT)) {
 
-                helper.getView(R.id.image_arrow).setVisibility(View.GONE);
+                if (item.name.equals("当日用电量")
+                        || item.name.equals("当月用电量")
+                        || item.name.equals("总用电量")) {
+                    helper.getView(R.id.image_arrow).setVisibility(View.VISIBLE);
+                } else {
+                    helper.getView(R.id.image_arrow).setVisibility(View.GONE);
+
+                }
                 helper.getView(R.id.normal).setVisibility(View.VISIBLE);
                 helper.getView(R.id.switchRl).setVisibility(View.GONE);
             } else {
@@ -390,6 +410,9 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
 
                             break;
                         case "monthuse":
+                            zhanhuxinxi.imgResId = R.drawable.ic_dl;
+                            break;
+                        case "totaluse":
                             zhanhuxinxi.imgResId = R.drawable.ic_dl;
                             break;
                     }
@@ -527,46 +550,40 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
     Handler handler = new Handler();
 
     private void parseCmd(CmdMsg cmdMsg) {
+
         if (cmdMsg.status == 1) {
             try {
                 JSONObject jsonObject = new JSONObject(cmdMsg.msg);
-                String code = jsonObject.getString("code");
-                if (code.equals("200")) {
-                    JSONObject result = jsonObject.getJSONObject("result");
-                    String addr = result.getString("addr");
-                    if (!addr.equals(currentAddr)) {
+                int code = jsonObject.getInt("code");
+                if (code == 200) {
+                    ControlResult result = JSON.parseObject(cmdMsg.msg, ControlResult.class);
+                    if (!result.result.addr.equals(currentAddr)) {
                         return;
                     }
-                    System.out.println("我被执行了");
                     handler.removeCallbacksAndMessages(null);
-                    String channel = String.valueOf(result.getInt("num"));
-                    String command = String.valueOf(result.getInt("status"));
-//                    Map<String, String> map = ParseCMD.check((short) channel, (short) command);
                     for (int i = 0; i < datas.size(); i++) {
                         if (!datas.get(i).type.equals(RoomInfoSelection.TYPE_DEV_CHANNEL)) {
                             continue;
                         }
-//                        if (datas.get(i).addr.equals(addr)) {
-//                        for (Map.Entry<String, String> entry : map.entrySet()) {
-//                            String number = entry.getKey();
-//                            String status = entry.getValue();
-                        if (datas.get(i).num.equals(channel)) {
-                            datas.get(i).status = command.equals("1");
-                        }
-//                        }
 
-//                        }
+                        if (datas.get(i).num.equals(result.result.num)) {
+                            datas.get(i).status = result.result.status.equals("1");
+                        }
+
                     }
                     if (dialog != null)
                         dialog.dismiss();
                     adapter.notifyDataSetChanged();
-                } else if (code.equals("202")) {
-                    String addr = jsonObject.getString("addr");
-                    if (!addr.equals(currentAddr)) {
+                } else if (code == 202) {
+                    if (!jsonObject.get("addr").equals(currentAddr)) {
                         return;
                     }
                     handler.removeCallbacksAndMessages(null);
                     UiUtils.showToast("无控制权限");
+                    if (dialog != null)
+                        dialog.dismiss();
+                }else if (code == 212){
+                    UiUtils.showToast("非法操作");
                     if (dialog != null)
                         dialog.dismiss();
                 }
@@ -575,15 +592,7 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
                 e.printStackTrace();
             }
         } else if (cmdMsg.status == 0) {
-//            if (cmdMsg.msg.equals(WebSocketService.CONNECT_SUCCESS)) {
-//                JSONObject jsonObject = new JSONObject();
-//                try {
-//                    jsonObject.put("room_id", Integer.valueOf(param));
-//
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//            }
+            UiUtils.showToast(cmdMsg.msg);
         }
     }
 }

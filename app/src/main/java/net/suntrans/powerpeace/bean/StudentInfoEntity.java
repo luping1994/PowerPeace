@@ -34,7 +34,9 @@ public class StudentInfoEntity extends ResultBody<List<StudentInfoEntity.InfoBea
         public String dormitory;
         public String floor;
         public String building;
+        public String buildingName;
         public List<SublistBean> sublist;
+        public String floor_name;
 
         public static class SublistBean {
             /**

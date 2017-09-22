@@ -264,16 +264,22 @@ public class StudentFragment extends BasedFragment {
                         for (int j = 0; j < o.info.get(i).sublist.size(); j++) {
                             StudentSelection studentSelection =
                                     new StudentSelection(j == 0 ? true : false, o.info.get(i).departmentName + "-"
-                                            + o.info.get(i).building + "舍-" + o.info.get(i).dormitory + "");
+                                             + o.info.get(i).dormitory + "");
                             studentSelection.susheName = o.info.get(i).sublist.get(j).name + "";
                             studentSelection.academy = o.info.get(i).sublist.get(j).academy + "";
                             studentSelection.studentID = o.info.get(i).sublist.get(j).studentID + "";
                             susheDatas.add(studentSelection);
                         }
                     }
-                    binding.recyclerView.setVisibility(View.VISIBLE);
-                    stateView.showContent();
+
                     binding.refreshLayout.setRefreshing(false);
+                    if (susheDatas.size()==0){
+                        stateView.showEmpty();
+                        binding.recyclerView.setVisibility(View.INVISIBLE);
+                    }else {
+                        binding.recyclerView.setVisibility(View.VISIBLE);
+                        stateView.showContent();
+                    }
                 }
 
                 adapter.notifyDataSetChanged();

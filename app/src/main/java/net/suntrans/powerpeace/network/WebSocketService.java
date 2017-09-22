@@ -13,6 +13,7 @@ import android.support.annotation.Nullable;
 
 
 import net.suntrans.looney.utils.LogUtil;
+import net.suntrans.looney.utils.UiUtils;
 import net.suntrans.powerpeace.App;
 import net.suntrans.powerpeace.rx.RxBus;
 
@@ -74,6 +75,7 @@ public class WebSocketService extends Service implements WebSocketWrapper.onRece
     @Override
     public void onFailure(Throwable t) {
         t.printStackTrace();
+
         CmdMsg msg = new CmdMsg();
         msg.status = 0;
         msg.msg = "连接服务器失败";

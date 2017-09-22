@@ -3,6 +3,7 @@ package net.suntrans.powerpeace.api;
 import android.content.Context;
 import android.content.Intent;
 
+import net.suntrans.looney.utils.LogUtil;
 import net.suntrans.looney.utils.UiUtils;
 import net.suntrans.powerpeace.ui.activity.BasedActivity;
 
@@ -41,9 +42,11 @@ public class ApiErrorHelper {
 //                }
             } else if (code == ApiErrorCode.ERROR_NO_INTERNET) {
                 UiUtils.showToast("网络连接不可用");
-            }else if (code == ApiErrorCode.ERROR){
-                UiUtils.showToast(((ApiException)e).msg);
+            } else if (code == ApiErrorCode.ERROR) {
+                UiUtils.showToast(((ApiException) e).msg);
             }
+        } else if (e instanceof IOException) {
+            LogUtil.e("IOException");
         } else {
             UiUtils.showToast("服务器错误");
         }

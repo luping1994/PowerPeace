@@ -321,7 +321,6 @@ public class SusheFragment extends BasedFragment {
                         datas) {
                     xueyuanMenuDatas.add(info.departmentName);
 
-
                 }
 
                 List<MenuBean.InfoBean.SublistBeanX> fristbuildings = datas.get(0).sublist;
@@ -372,7 +371,7 @@ public class SusheFragment extends BasedFragment {
 
             @Override
             public void onNext(SusheEntity o) {
-                if (o.info == null || o.info.size() == 0) {
+                if (o.info == null || o.info.size() == 0 ) {
                     if (mRefreshType == STATE_VIEW_REFRESH) {
                         stateView.showEmpty();
                         binding.recyclerView.setVisibility(View.INVISIBLE);
@@ -397,8 +396,13 @@ public class SusheFragment extends BasedFragment {
                     }
                 }
                 binding.refreshLayout.setRefreshing(false);
-                binding.recyclerView.setVisibility(View.VISIBLE);
-                stateView.showContent();
+                if (susheDatas.size()==0){
+                    stateView.showEmpty();
+                    binding.recyclerView.setVisibility(View.INVISIBLE);
+                }else {
+                    binding.recyclerView.setVisibility(View.VISIBLE);
+                    stateView.showContent();
+                }
                 adapter.notifyDataSetChanged();
             }
         });

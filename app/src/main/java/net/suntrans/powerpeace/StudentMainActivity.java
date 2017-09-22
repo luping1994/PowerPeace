@@ -133,16 +133,16 @@ public class StudentMainActivity extends BasedActivity implements View.OnClickLi
 
                 switch (position) {
                     case 0:
-                        handler.sendEmptyMessageDelayed(START_MSG_ACTIVITY, 500);
+                        handler.sendEmptyMessageDelayed(START_MSG_ACTIVITY, 400);
                         break;
                     case 1:
-                        handler.sendEmptyMessageDelayed(START_HELP_ACTIVITY, 500);
+                        handler.sendEmptyMessageDelayed(START_HELP_ACTIVITY, 400);
                         break;
                     case 2:
-                        handler.sendEmptyMessageDelayed(START_FEEDBACK_ACTIVITY, 500);
+                        handler.sendEmptyMessageDelayed(START_FEEDBACK_ACTIVITY, 400);
                         break;
                     case 3:
-                        handler.sendEmptyMessageDelayed(START_ABOUT_ACTIVITY, 500);
+                        handler.sendEmptyMessageDelayed(START_ABOUT_ACTIVITY, 400);
                         break;
                 }
             }
@@ -169,7 +169,7 @@ public class StudentMainActivity extends BasedActivity implements View.OnClickLi
                 break;
             case R.id.setting:
                 binding.drawer.closeDrawers();
-                handler.sendEmptyMessageDelayed(START_SETTING_ACTIVITY, 500);
+                handler.sendEmptyMessageDelayed(START_SETTING_ACTIVITY, 400);
                 break;
         }
     }
