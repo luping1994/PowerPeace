@@ -24,6 +24,7 @@ import net.suntrans.powerpeace.StudentMainActivity;
 import net.suntrans.powerpeace.api.RetrofitHelper;
 import net.suntrans.powerpeace.bean.LoginEntity;
 import net.suntrans.powerpeace.bean.UserInfoEntity;
+import net.suntrans.powerpeace.rx.BaseSubscriber;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -181,7 +182,7 @@ public class WelcomeActivity extends BasedActivity {
                 .compose(this.<LoginEntity>bindToLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<LoginEntity>() {
+                .subscribe(new BaseSubscriber<LoginEntity>(this) {
                     @Override
                     public void onCompleted() {
 
@@ -189,6 +190,7 @@ public class WelcomeActivity extends BasedActivity {
 
                     @Override
                     public void onError(Throwable e) {
+                        super.onError(e);
                         e.printStackTrace();
                         handler.sendEmptyMessageDelayed(START_LOGIN, 1500);
                     }
@@ -224,7 +226,7 @@ public class WelcomeActivity extends BasedActivity {
                 .compose(this.<UserInfoEntity>bindToLifecycle())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(new Subscriber<UserInfoEntity>() {
+                .subscribe(new BaseSubscriber<UserInfoEntity>(this) {
                     @Override
                     public void onCompleted() {
 
@@ -232,6 +234,7 @@ public class WelcomeActivity extends BasedActivity {
 
                     @Override
                     public void onError(Throwable e) {
+                        super.onError(e);
                         e.printStackTrace();
                         handler.sendEmptyMessageDelayed(START_LOGIN, 1500);
                     }

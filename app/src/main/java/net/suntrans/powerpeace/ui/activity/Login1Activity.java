@@ -337,7 +337,7 @@ public class Login1Activity extends BasedActivity {
                 .compose(this.<UserInfoEntity>bindToLifecycle())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(new Subscriber<UserInfoEntity>() {
+                .subscribe(new BaseSubscriber<UserInfoEntity>(this) {
                     @Override
                     public void onCompleted() {
 
@@ -345,8 +345,8 @@ public class Login1Activity extends BasedActivity {
 
                     @Override
                     public void onError(Throwable e) {
+                        super.onError(e);
                         e.printStackTrace();
-                        UiUtils.showToast("连接服务器出错了,登录失败");
                         if (dialog != null)
                             dialog.dismiss();
                     }
