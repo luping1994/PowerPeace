@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">学生公寓能管</string>
+    <string name="app_name">三川智舍</string>
     <string name="title_activity_login1">登录</string>
 
     <!-- Strings related to login -->
@@ -20,7 +20,7 @@
 
     <string name="LinearLayoutManager">LinearLayoutManager</string>
     <string name="navigation_drawer_open">打开</string>
-    <string name="navigation_drawer_close" >关闭</string>
+    <string name="navigation_drawer_close">关闭</string>
     <string name="github_qqbrowser_kernel">网页由 www.suntrans.net 提供 \n QQ浏览器X5内核提供技术支持</string>
 
     <string-array name="test">

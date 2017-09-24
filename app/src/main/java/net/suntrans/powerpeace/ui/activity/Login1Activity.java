@@ -134,6 +134,23 @@ public class Login1Activity extends BasedActivity {
         mEmailView.setText(username);
         mPasswordView.setText(password);
 
+        findViewById(R.id.wangjimima).setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Login1Activity.this,FindPasswordActivity.class));
+
+            }
+        });
+
+        findViewById(R.id.jihuo).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Login1Activity.this,JihuoActivity.class));
+            }
+        });
+
+
     }
 
     private void applyTransition() {

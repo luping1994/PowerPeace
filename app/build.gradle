@@ -80,9 +80,9 @@ dependencies {
     compile 'me.weyye.hipermission:library:1.0.3'
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.22'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    testCompile 'junit:junit:4.12'
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
+    testCompile 'junit:junit:4.12'
 }
