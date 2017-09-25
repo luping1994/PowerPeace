@@ -95,8 +95,17 @@
         <activity android:name=".ui.activity.FindPasswordActivity" />
 
         <service android:name=".network.WebSocketService" />
+        <service android:name=".MyService" />
 
-        <activity android:name=".ui.activity.JihuoActivity"></activity>
+        <activity
+            android:name=".ui.activity.JihuoActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
+        <activity
+            android:theme="@style/TranslucentTheme"
+            android:name=".ui.activity.AlertActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

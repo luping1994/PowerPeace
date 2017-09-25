@@ -39,7 +39,7 @@ public class ZongheEntity {
         public String cV_value;
         public String bA_value;
         public String rP_value;
-        public int PR_value;
+        public String PR_value;
         public String E_value;
         public String bV_value;
         public String aA_value;

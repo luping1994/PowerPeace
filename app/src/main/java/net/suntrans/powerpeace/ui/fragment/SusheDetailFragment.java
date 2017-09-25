@@ -2,9 +2,11 @@ package net.suntrans.powerpeace.ui.fragment;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +35,7 @@ import net.suntrans.powerpeace.rx.BaseSubscriber;
 import net.suntrans.powerpeace.rx.RxBus;
 import net.suntrans.powerpeace.ui.activity.AmmeterHisActivity;
 import net.suntrans.powerpeace.ui.activity.LogActivity;
+import net.suntrans.powerpeace.ui.activity.PostageHisActivity;
 import net.suntrans.powerpeace.ui.activity.StudentInfoActivity;
 import net.suntrans.powerpeace.ui.decoration.DefaultDecoration;
 import net.suntrans.stateview.StateView;
@@ -121,6 +124,12 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
                                 || selection.name.equals("当月用电量")
                                 || selection.name.equals("总用电量")) {
                             Intent intent3 = new Intent(getActivity(), AmmeterHisActivity.class);
+                            intent3.putExtra("title", getActivity().getIntent().getStringExtra("title"));
+                            intent3.putExtra("paramName", "用电量");
+                            intent3.putExtra("room_id", param);
+                            startActivity(intent3);
+                        }else if (selection.name.equals("账户余额")){
+                            Intent intent3 = new Intent(getActivity(), PostageHisActivity.class);
                             intent3.putExtra("title", getActivity().getIntent().getStringExtra("title"));
                             intent3.putExtra("paramName", "用电量");
                             intent3.putExtra("room_id", param);
@@ -267,6 +276,8 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
             if (item.imgResId != -1) {
                 ImageView view = helper.getView(R.id.image);
                 view.setImageResource(item.imgResId);
+                DrawableCompat.setTint(view.getDrawable(), getContext().getResources().getColor(R.color.colorPrimary));
+
             }
             if (item.type.equals(RoomInfoSelection.TYPE_DEV_CHANNEL)) {
                 helper.getView(R.id.normal).setVisibility(View.GONE);
@@ -307,10 +318,12 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
         protected void convert(BaseViewHolder helper, RoomInfoSelection item) {
             helper.setText(R.id.name, item.name);
             helper.setText(R.id.value, item.value + item.unit);
+
             helper.addOnClickListener(R.id.switchRl);
             if (item.imgResId != -1) {
                 ImageView view = helper.getView(R.id.image);
                 view.setImageResource(item.imgResId);
+                DrawableCompat.setTint(view.getDrawable(), getContext().getResources().getColor(R.color.colorPrimary));
             }
             if (item.type.equals(RoomInfoSelection.TYPE_DEV_CHANNEL)) {
                 helper.getView(R.id.normal).setVisibility(View.GONE);
@@ -322,7 +335,7 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
 
                 if (item.name.equals("当日用电量")
                         || item.name.equals("当月用电量")
-                        || item.name.equals("总用电量")) {
+                        || item.name.equals("总用电量")|| item.name.equals("账户余额")) {
                     helper.getView(R.id.image_arrow).setVisibility(View.VISIBLE);
                 } else {
                     helper.getView(R.id.image_arrow).setVisibility(View.GONE);
@@ -403,7 +416,7 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
                             break;
                         case "status":
                             zhanhuxinxi.imgResId = R.drawable.ic_zhuangtai;
-                            zhanhuxinxi.value = value.equals("0") ? "正常" : "不正常";
+                            zhanhuxinxi.value = value.equals("1") ? "正常" : "欠费";
                             break;
                         case "dayuse":
                             zhanhuxinxi.imgResId = R.drawable.ic_dl;
@@ -524,6 +537,7 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
                 }
                 selection.type = RoomInfoSelection.TYPE_ROOM_STU;
                 selection.name = stu.get("name");
+                selection.value = stu.get("academy");
                 selection.studentID = stu.get("studentID");
                 selection.imgResId = R.drawable.ic_person;
                 datas.add(selection);

@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="false"
         android:orientation="vertical"
-        tools:context="net.suntrans.powerpeace.ui.activity.PostageHisActivity">
+      >
 
         <View
             android:id="@+id/statusbar"

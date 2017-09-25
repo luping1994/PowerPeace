@@ -23,10 +23,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitHelper {
 
-
-    //public static final String BASE_URL = "http://www.suntrans.net:8956";
     public static final String BASE_URL = "http://g.suntrans.net:8088/SuntransTest-Peace/";
-//    public static final String BASE_URL2 = "http://adminiot.suntrans-cloud.com/";
 
     private static OkHttpClient mOkHttpClient;
 
@@ -38,8 +35,8 @@ public class RetrofitHelper {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .client(mOkHttpClient)
+                    .addConverterFactory(MyGsonConverterFactory.create())
 //                .addConverterFactory(GsonConverterFactory.create())
-                .addConverterFactory(MyGsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
         return retrofit.create(Api.class);
@@ -58,23 +55,26 @@ public class RetrofitHelper {
 
 
     private static void initOkHttpClient() {
-
+        System.out.println("wobeizhixingle=======================");
         Interceptor netInterceptor =
                 new Interceptor() {
                     @Override
                     public Response intercept(Chain chain) throws IOException {
 
                         String header = App.getSharedPreferences().getString("token", "-1");
-                        header = "Bearer " + header;
                         LogUtil.i(header);
                         Request original = chain.request();
 
                         RequestBody newBody = original.body();
+
+
                         if (original.body() instanceof FormBody) {
                             newBody = addParamsToFormBody((FormBody) original.body());
+                        } else {
+                            newBody =    addParamsToFormBody();
                         }
                         Request newRequest = original.newBuilder()
-                                .header("Authorization", header)
+//                                .header("Authorization", header)
                                 .method(original.method(), newBody)
                                 .build();
 
@@ -107,7 +107,7 @@ public class RetrofitHelper {
         String header = App.getSharedPreferences().getString("token", "raVnKIh8Rv");
 //        String group = App.getSharedPreferences().getString("group", "raVnKIh8Rv");
 //        String id = App.getSharedPreferences().getString("id", "-1");
-        LogUtil.i("token",header);
+        LogUtil.i("token", header);
         builder.add("token", header);
 //        builder.add("group", group);
 //        builder.add("id", id);
@@ -117,4 +117,24 @@ public class RetrofitHelper {
         }
         return builder.build();
     }
+
+    /**
+     * 为FormBody类型请求体添加参数
+     *
+     * @return
+     */
+    private static FormBody addParamsToFormBody() {
+        FormBody.Builder builder = new FormBody.Builder();
+        String header = App.getSharedPreferences().getString("token", "raVnKIh8Rv");
+//        String group = App.getSharedPreferences().getString("group", "raVnKIh8Rv");
+//        String id = App.getSharedPreferences().getString("id", "-1");
+        LogUtil.i("token", header);
+        builder.add("token", header);
+//        builder.add("group", group);
+//        builder.add("id", id);
+
+        return builder.build();
+    }
+
+
 }

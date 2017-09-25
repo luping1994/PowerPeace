@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#50a0d2</color>
-    <color name="colorPrimaryDark">#50a0d2</color>
-    <color name="colorAccent">#50a0d2</color>
+    <color name="colorPrimary">#5bd4df</color>
+    <color name="colorPrimaryDark">#5bd4df</color>
+    <color name="colorAccent">#5bd4df</color>
     <color name="mainTextColor">#444444</color>
     <color name="bgcolor">#f6f6f6</color>
     <color name="black">#000000</color>
     <color name="secondtextcolor">#c3c3c3</color>
-    <color name="bgBlue">#c6e2ff</color>
+    <color name="bgBlue">#eeeeee</color>
+    <!--<color name="bgBlue">#c6e2ff</color>-->
     <color name="gray">#cccccc</color>
     <color name="check_bg">#f2f2f2</color>
     <color name="drop_down_unselected">#111111</color>

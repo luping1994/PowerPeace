@@ -42,7 +42,6 @@ public class ZongHeFragmentCopy extends BasedFragment {
     private FragmentZongheCopyBinding binding;
     protected StateView stateView;
 
-
     private List<View> popupViews = new ArrayList<>();
 
     private List<String> xueyuanMenuDatas;
@@ -131,7 +130,11 @@ public class ZongHeFragmentCopy extends BasedFragment {
 
 
     private void getMenuData() {
+        if (mRefreshType == STATE_VIEW_REFRESH) {
+            stateView.showLoading();
+        } else if (mRefreshType == SWIP_REFRESH_LAYOUT) {
 
+        }
         addSubscription(api.getThreeMenu(), new BaseSubscriber<MenuBean>(getActivity()) {
             @Override
             public void onCompleted() {
@@ -142,6 +145,12 @@ public class ZongHeFragmentCopy extends BasedFragment {
             public void onError(Throwable e) {
                 super.onError(e);
                 e.printStackTrace();
+                if (mRefreshType == STATE_VIEW_REFRESH) {
+                    binding.refreshLayout.setVisibility(View.INVISIBLE);
+                    stateView.showRetry();
+                } else if (mRefreshType == SWIP_REFRESH_LAYOUT) {
+                    binding.refreshLayout.setRefreshing(false);
+                }
             }
 
             @Override

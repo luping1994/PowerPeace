@@ -84,9 +84,12 @@ public class MainActivity extends BasedActivity implements View.OnClickListener
         actionBar.setDisplayShowCustomEnabled(false);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayShowHomeEnabled(true);
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, binding.drawer, binding.toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+
         binding.drawer.setDrawerListener(toggle);
+
         toggle.syncState();
         init();
         if (!DEBUG) {
@@ -108,16 +111,23 @@ public class MainActivity extends BasedActivity implements View.OnClickListener
 
                 switch (position) {
                     case 0:
-                        handler.sendEmptyMessageDelayed(START_MSG_ACTIVITY, 400);
                         break;
                     case 1:
-                        handler.sendEmptyMessageDelayed(START_HELP_ACTIVITY, 400);
+                        handler.sendEmptyMessageDelayed(START_MSG_ACTIVITY, 400);
+                        break;
+                    case 4:
+                        handler.sendEmptyMessageDelayed(START_SETTING_ACTIVITY, 400);
+
                         break;
                     case 2:
-                        handler.sendEmptyMessageDelayed(START_FEEDBACK_ACTIVITY, 400);
+                        handler.sendEmptyMessageDelayed(START_ABOUT_ACTIVITY, 400);
                         break;
                     case 3:
-                        handler.sendEmptyMessageDelayed(START_ABOUT_ACTIVITY, 400);
+                        handler.sendEmptyMessageDelayed(START_FEEDBACK_ACTIVITY, 400);
+                        break;
+
+                    case 5:
+                        android.os.Process.killProcess(android.os.Process.myPid());
                         break;
                 }
             }
@@ -188,7 +198,6 @@ public class MainActivity extends BasedActivity implements View.OnClickListener
                 break;
             case R.id.setting:
                 binding.drawer.closeDrawers();
-                handler.sendEmptyMessageDelayed(START_SETTING_ACTIVITY, 400);
                 break;
 
         }
@@ -259,7 +268,7 @@ public class MainActivity extends BasedActivity implements View.OnClickListener
                     intent.setClass(MainActivity.this, AboutActivity.class);
                     break;
                 case START_FEEDBACK_ACTIVITY:
-                    intent.setClass(MainActivity.this, FeedbackActivity.class);
+                    intent.setClass(MainActivity.this, HelpActivity.class);
                     break;
             }
             startActivity(intent);
@@ -295,9 +304,8 @@ public class MainActivity extends BasedActivity implements View.OnClickListener
 
                     @Override
                     public void onNext(UserInfoEntity info) {
-                        System.out.println(info.toString());
                         if (info.code == 1) {
-                            binding.navView.header.username.setText(info.info.get(0).name);
+                            binding.navView.header.username.setText(info.info.get(0).name==null?"Suntrans":info.info.get(0).name);
                         } else {
 
                         }

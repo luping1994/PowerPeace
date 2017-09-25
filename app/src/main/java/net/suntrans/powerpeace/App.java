@@ -1,5 +1,7 @@
 package net.suntrans.powerpeace;
 
+import android.content.Intent;
+
 import com.pgyersdk.crash.PgyCrashManager;
 
 import net.suntrans.looney.AppBase;
@@ -29,6 +31,7 @@ public class App extends AppBase{
     public void onCreate() {
         super.onCreate();
 //        application =this;
+        startService(new Intent(this,MyService.class));
         if (!DEBUG){
             PgyCrashManager.register(this);
         }

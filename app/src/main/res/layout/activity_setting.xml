@@ -9,7 +9,7 @@
         android:fitsSystemWindows="false"
         android:id="@+id/headerView"
         android:orientation="vertical"
-        tools:context="net.suntrans.powerpeace.ui.activity.PostageHisActivity">
+        >
 
         <View
             android:id="@+id/statusbar"

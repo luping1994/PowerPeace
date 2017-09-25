@@ -14,6 +14,8 @@ import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -30,6 +32,7 @@ import net.suntrans.powerpeace.ui.activity.BasedActivity;
 import net.suntrans.powerpeace.ui.activity.FeedbackActivity;
 import net.suntrans.powerpeace.ui.activity.HelpActivity;
 import net.suntrans.powerpeace.ui.activity.MsgCenterActivity;
+import net.suntrans.powerpeace.ui.activity.PayActivity;
 import net.suntrans.powerpeace.ui.activity.PersonActivity;
 import net.suntrans.powerpeace.ui.activity.SettingActivity;
 import net.suntrans.powerpeace.ui.fragment.BasedFragment;
@@ -131,18 +134,26 @@ public class StudentMainActivity extends BasedActivity implements View.OnClickLi
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 binding.drawer.closeDrawers();
 
+
                 switch (position) {
                     case 0:
-                        handler.sendEmptyMessageDelayed(START_MSG_ACTIVITY, 400);
                         break;
                     case 1:
-                        handler.sendEmptyMessageDelayed(START_HELP_ACTIVITY, 400);
+                        handler.sendEmptyMessageDelayed(START_MSG_ACTIVITY, 400);
+                        break;
+                    case 4:
+                        handler.sendEmptyMessageDelayed(START_SETTING_ACTIVITY, 400);
+
                         break;
                     case 2:
-                        handler.sendEmptyMessageDelayed(START_FEEDBACK_ACTIVITY, 400);
+                        handler.sendEmptyMessageDelayed(START_ABOUT_ACTIVITY, 400);
                         break;
                     case 3:
-                        handler.sendEmptyMessageDelayed(START_ABOUT_ACTIVITY, 400);
+                        handler.sendEmptyMessageDelayed(START_FEEDBACK_ACTIVITY, 400);
+                        break;
+
+                    case 5:
+                        android.os.Process.killProcess(android.os.Process.myPid());
                         break;
                 }
             }
@@ -237,7 +248,7 @@ public class StudentMainActivity extends BasedActivity implements View.OnClickLi
                     intent.setClass(StudentMainActivity.this, AboutActivity.class);
                     break;
                 case START_FEEDBACK_ACTIVITY:
-                    intent.setClass(StudentMainActivity.this, FeedbackActivity.class);
+                    intent.setClass(StudentMainActivity.this, HelpActivity.class);
                     break;
 
             }
@@ -250,4 +261,20 @@ public class StudentMainActivity extends BasedActivity implements View.OnClickLi
         if (ibinder != null)
             ibinder.sendOrder(s);
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.pay) {
+            startActivity(new Intent(this, PayActivity.class));
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_pay, menu);
+        return true;
+    }
+
 }

@@ -66,7 +66,7 @@ public class Login1Activity extends BasedActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        applyTransition();
+//        applyTransition();
         setContentView(R.layout.activity_login1);
 //        toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        toolbar.setTitle("登录");
@@ -154,16 +154,21 @@ public class Login1Activity extends BasedActivity {
     }
 
     private void applyTransition() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            String transition = getIntent().getStringExtra(EXTRA_TRANSITION);
-            switch (transition) {
-                case TRANSITION_SLIDE_BOTTOM:
-                    Transition transitionSlideBottom =
-                            TransitionInflater.from(this).inflateTransition(R.transition.slide_bottom);
-                    getWindow().setEnterTransition(transitionSlideBottom);
-                    break;
+        if (getIntent().getBooleanExtra("notTrans",false)){
+
+        }else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                String transition = getIntent().getStringExtra(EXTRA_TRANSITION);
+                switch (transition) {
+                    case TRANSITION_SLIDE_BOTTOM:
+                        Transition transitionSlideBottom =
+                                TransitionInflater.from(this).inflateTransition(R.transition.slide_bottom);
+                        getWindow().setEnterTransition(transitionSlideBottom);
+                        break;
+                }
             }
         }
+
     }
 
     private boolean mayRequestContacts() {
@@ -306,7 +311,6 @@ public class Login1Activity extends BasedActivity {
                     public void onNext(LoginEntity result) {
 
                         if (result.code == 1) {
-                            UiUtils.showToast("登录成功!");
                             App.getSharedPreferences().edit().putString("token", result.token)
                                     .putInt("role", result.info.role)
                                     .putString("username", result.info.username)
@@ -357,6 +361,7 @@ public class Login1Activity extends BasedActivity {
                         if (dialog != null)
                             dialog.dismiss();
                         if (info.code == 1) {
+                            UiUtils.showToast("登录成功!");
                             App.getSharedPreferences().edit().putString("room_id", info.info.get(0).room_id + "").commit();
                             startActivity(new Intent(Login1Activity.this, StudentMainActivity.class));
                             finish();

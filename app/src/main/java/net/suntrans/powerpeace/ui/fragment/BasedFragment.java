@@ -66,6 +66,5 @@ public class BasedFragment extends LazyLoadFragment {
     public void startActivity(Intent intent) {
         super.startActivity(intent);
         getActivity().overridePendingTransition(R.anim.activity_open_bottom_in,R.anim.activity_open_exit);
-
     }
 }

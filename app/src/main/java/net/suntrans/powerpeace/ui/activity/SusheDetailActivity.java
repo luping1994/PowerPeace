@@ -51,10 +51,10 @@ import rx.Subscriber;
  * Created by Looney on 2017/9/4.
  */
 
-public class SusheDetailActivity extends BasedActivity  implements BasedFragment.OnFragmentInteractionListener{
+public class SusheDetailActivity extends BasedActivity implements BasedFragment.OnFragmentInteractionListener {
 
     private ActivitySusheDetailBinding binding;
-//    private List<RoomInfoSelection> datas = new ArrayList<>();
+    //    private List<RoomInfoSelection> datas = new ArrayList<>();
 //    private MyAdapter adapter;
 //    private Map<String, String> mMeterDictionaries;//电表中英字典
 //    private Map<String, String> mAccountDictionaries;//账户栏目中英字典
@@ -95,10 +95,9 @@ public class SusheDetailActivity extends BasedActivity  implements BasedFragment
         actionBar.setDisplayHomeAsUpEnabled(true);
 
 
-
         room_id = getIntent().getStringExtra("room_id");
-        SusheDetailFragment fragment =SusheDetailFragment.newInstance(room_id, Constants.ADMIN);
-        getSupportFragmentManager().beginTransaction().replace(R.id.content,fragment).commit();
+        SusheDetailFragment fragment = SusheDetailFragment.newInstance(room_id, Constants.ADMIN);
+        getSupportFragmentManager().beginTransaction().replace(R.id.content, fragment).commit();
 
     }
 
@@ -140,24 +139,16 @@ public class SusheDetailActivity extends BasedActivity  implements BasedFragment
     }
 
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.menu_pay, menu);
-//        return true;
-//    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_pay, menu);
+        return true;
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.pay) {
-            new AlertDialog.Builder(this)
-                    .setMessage("是否关闭所有设备?")
-                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                        }
-                    }).setNegativeButton("取消",null)
-                    .create().show();
+            startActivity(new Intent(this, PayActivity.class));
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -171,7 +162,7 @@ public class SusheDetailActivity extends BasedActivity  implements BasedFragment
 
     @Override
     public void sendOrder(String s) {
-        if (ibinder!=null)
+        if (ibinder != null)
             ibinder.sendOrder(s);
     }
 }

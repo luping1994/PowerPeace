@@ -18,10 +18,10 @@ public class UserInfoEntity extends ResultBody<List<UserInfoEntity.UserInfo>>{
 //    public String message;
 //    public List<UserInfo> info;
 
-    @Override
-    public String toString() {
-        return info.get(0).toString();
-    }
+//    @Override
+//    public String toString() {
+//        return info.get(0).toString();
+//    }
 
     public static class UserInfo {
         /**

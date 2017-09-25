@@ -48,7 +48,7 @@
                             android:id="@+id/headerName"
                             android:layout_width="match_parent"
                             android:layout_height="30dp"
-                            android:background="#c6e2ff"
+                            android:background="@color/bgBlue"
                             android:gravity="center_vertical"
                             android:paddingLeft="@dimen/activity_horizontal_margin"
                             android:text="工学部1舍-用电状态参数" />
@@ -92,7 +92,7 @@
                                     android:layout_marginRight="8dp"
                                     android:layout_toLeftOf="@+id/img"
                                     android:gravity="center"
-                                    android:text="220V"
+                                    android:text="--"
                                     android:textColor="@color/textColor" />
 
                                 <ImageView
@@ -147,7 +147,7 @@
                                     android:layout_marginRight="8dp"
                                     android:layout_toLeftOf="@+id/img"
                                     android:gravity="center"
-                                    android:text="220V"
+                                    android:text="--"
                                     android:textColor="@color/textColor" />
 
                                 <ImageView
@@ -202,7 +202,7 @@
                                     android:layout_marginRight="8dp"
                                     android:layout_toLeftOf="@+id/img"
                                     android:gravity="center"
-                                    android:text="220V"
+                                    android:text="--"
                                     android:textColor="@color/textColor" />
 
                                 <ImageView
@@ -257,7 +257,7 @@
                                     android:layout_marginRight="8dp"
                                     android:layout_toLeftOf="@+id/img"
                                     android:gravity="center"
-                                    android:text="1A"
+                                    android:text="--"
                                     android:textColor="@color/textColor" />
 
                                 <ImageView
@@ -312,7 +312,7 @@
                                     android:layout_marginRight="8dp"
                                     android:layout_toLeftOf="@+id/img"
                                     android:gravity="center"
-                                    android:text="1A"
+                                    android:text="--"
                                     android:textColor="@color/textColor" />
 
                                 <ImageView
@@ -367,7 +367,7 @@
                                     android:layout_marginRight="8dp"
                                     android:layout_toLeftOf="@+id/img"
                                     android:gravity="center"
-                                    android:text="1A"
+                                    android:text="--"
                                     android:textColor="@color/textColor" />
 
                                 <ImageView
@@ -422,7 +422,7 @@
                                     android:layout_marginRight="8dp"
                                     android:layout_toLeftOf="@+id/img"
                                     android:gravity="center"
-                                    android:text="1W"
+                                    android:text="--"
                                     android:textColor="@color/textColor" />
 
                                 <ImageView
@@ -477,7 +477,7 @@
                                     android:layout_marginRight="8dp"
                                     android:layout_toLeftOf="@+id/img"
                                     android:gravity="center"
-                                    android:text="1W"
+                                    android:text="--"
                                     android:textColor="@color/textColor" />
 
                                 <ImageView
@@ -494,7 +494,7 @@
                             android:id="@+id/headerNam2"
                             android:layout_width="match_parent"
                             android:layout_height="30dp"
-                            android:background="#c6e2ff"
+                            android:background="@color/bgBlue"
                             android:gravity="center_vertical"
                             android:paddingLeft="@dimen/activity_horizontal_margin"
                             android:text="工学部1舍-用电量情况" />

@@ -9,7 +9,7 @@ import net.suntrans.powerpeace.R;
 import net.suntrans.powerpeace.databinding.ActivityJihuoBinding;
 import net.suntrans.powerpeace.utils.StatusBarCompat;
 
-public class JihuoActivity extends AppCompatActivity {
+public class JihuoActivity extends BasedActivity {
 
     private ActivityJihuoBinding binding;
 
