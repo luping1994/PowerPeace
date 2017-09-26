@@ -7,8 +7,8 @@
         android:id="@+id/headerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:fitsSystemWindows="false"
+        android:orientation="vertical"
         tools:context="net.suntrans.powerpeace.ui.activity.JihuoActivity">
 
         <View
@@ -26,5 +26,11 @@
             app:theme="@style/Toolbar"
             app:titleTextAppearance="@style/Toolbar.TitleText" />
 
+       <FrameLayout
+           android:id="@+id/content"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent">
+
+       </FrameLayout>
     </LinearLayout>
 </layout>
