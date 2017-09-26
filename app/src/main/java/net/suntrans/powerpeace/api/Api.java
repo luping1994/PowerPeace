@@ -7,6 +7,7 @@ import net.suntrans.powerpeace.bean.LoginEntity;
 import net.suntrans.powerpeace.bean.MenuBean;
 import net.suntrans.powerpeace.bean.ResultBody;
 import net.suntrans.powerpeace.bean.RoomInfolEntity;
+import net.suntrans.powerpeace.bean.SearchInfo;
 import net.suntrans.powerpeace.bean.StudentDetailInfo;
 import net.suntrans.powerpeace.bean.StudentInfoEntity;
 import net.suntrans.powerpeace.bean.SusheEntity;
@@ -131,7 +132,7 @@ public interface Api {
      */
     @FormUrlEncoded
     @POST("api/inquiry/Inquiry_StudentInfo_Byusername")
-    Observable<UserInfoEntity> getUserInfo(@Field("username") String username,@Field("role") String role);
+    Observable<UserInfoEntity> getUserInfo(@Field("username") String username, @Field("role") String role);
 
     /**
      * 学生用户通过用户名查询rizhi
@@ -151,11 +152,15 @@ public interface Api {
 
     @FormUrlEncoded
     @POST("api/account/password")
-    Observable<ResultBody> changePassword(@Field("oldPwd") String oldPwd,@Field("newPwd") String newPwd);
+    Observable<ResultBody> changePassword(@Field("oldPwd") String oldPwd, @Field("newPwd") String newPwd);
 
     @FormUrlEncoded
     @POST("api/account/profile")
     Observable<ResultBody> changePhone(@Field("tel") String tel);
+
+    @FormUrlEncoded
+    @POST("api/inquiry/Inquiry_search")
+    Observable<SearchInfo> search(@Field("info") String info);
 
 
 }

@@ -205,6 +205,15 @@ public class LogActivity extends BasedActivity implements View.OnClickListener, 
         System.out.println(infoEntity.info);
         datas.clear();
         datas.addAll(infoEntity.info);
+
+        int caozuoCount = 0;
+        for (LogInfoEntity.LogInfo info:
+                infoEntity.info ) {
+            if (info.type.equals("1")){
+                caozuoCount++;
+            }
+        }
+        binding.caozuoCount.setText(caozuoCount+"");
         refreshLayout();
     }
 
