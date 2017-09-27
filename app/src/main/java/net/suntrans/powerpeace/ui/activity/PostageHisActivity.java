@@ -47,8 +47,10 @@ public class PostageHisActivity extends BasedActivity implements View.OnClickLis
 
         StatusBarCompat.compat(binding.headerView);
 
-
-        binding.toolbar.setTitle(getIntent().getStringExtra("title") + "资费记录");
+        String title = getIntent().getStringExtra("title");
+        if (title == null)
+            title = "我的";
+        binding.toolbar.setTitle(title + "宿舍资费记录");
         setSupportActionBar(binding.toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(true);
@@ -69,11 +71,12 @@ public class PostageHisActivity extends BasedActivity implements View.OnClickLis
             boolean chongzhi = i % 2 == 0;
             PostageEntity.PostageInfo info = new PostageEntity.PostageInfo();
             if (!chongzhi) {
-                info.money = "-" + i + ".00元";
+                info.money = "-0.00元";
                 info.msg = "宿舍用电20.23度";
                 info.type = "1";
                 info.created_at = mYear + "年" + mMonth + "月" + mDay + "日";
                 datas.add(info);
+                mDay = mDay + 1;
             } else {
                 info.money = "+" + i + ".00元";
                 info.msg = "王晓庆充值30元";

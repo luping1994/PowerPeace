@@ -76,7 +76,10 @@ public class AmmeterHisActivity extends BasedActivity {
 
         room_id = getIntent().getStringExtra("room_id");
         paramName = getIntent().getStringExtra("paramName");
-        binding.toolbar.setTitle(getIntent().getStringExtra("title") + paramName);
+        String title = getIntent().getStringExtra("title");
+        if (title == null)
+            title = "我的";
+        binding.toolbar.setTitle(title + "宿舍" + paramName + "历史记录");
         stateView = StateView.inject(binding.content);
         stateView.setOnRetryClickListener(new StateView.OnRetryClickListener() {
             @Override
@@ -261,7 +264,7 @@ public class AmmeterHisActivity extends BasedActivity {
 
 
     private void getData() {
-        LogUtil.i("room id is:"+room_id);
+        LogUtil.i("room id is:" + room_id);
         stateView.showLoading();
         binding.mainContent.setVisibility(View.INVISIBLE);
         addSubscription(api.getMeterHis(room_id, dictionaries.get(paramName)), new BaseSubscriber<HisEntity>(this) {
@@ -289,7 +292,7 @@ public class AmmeterHisActivity extends BasedActivity {
         List<String> ls = new ArrayList<>();
         ls.clear();
         values.clear();
-        if (hisEntity==null){
+        if (hisEntity == null) {
             stateView.showEmpty();
 
             return;
@@ -301,13 +304,13 @@ public class AmmeterHisActivity extends BasedActivity {
             }
             for (int i = 0; i < hisEntity.week_data.size(); i++) {
                 float val = 0f;
-                if (hisEntity.week_data.get(hisEntity.week_data.size()-1-i).data != null)
-                    val = Float.parseFloat(hisEntity.week_data.get(hisEntity.week_data.size()-1-i).data);
+                if (hisEntity.week_data.get(hisEntity.week_data.size() - 1 - i).data != null)
+                    val = Float.parseFloat(hisEntity.week_data.get(hisEntity.week_data.size() - 1 - i).data);
                 values.add(new Entry(i, val));
-                String substring = hisEntity.week_data.get(hisEntity.week_data.size()-1-i).update_time.substring(8, 10);
+                String substring = hisEntity.week_data.get(hisEntity.week_data.size() - 1 - i).update_time.substring(8, 10);
                 if (substring.substring(0, 1).equals("0"))
                     substring = substring.substring(1, 2);
-                ls.add(substring+"日");
+                ls.add(substring + "日");
             }
 
         }
@@ -337,13 +340,13 @@ public class AmmeterHisActivity extends BasedActivity {
             int size = hisEntity.day_data.size();
             for (int i = 0; i < size; i++) {
                 float val = 0f;
-                if (hisEntity.day_data.get(size-1-i).data != null)
-                    val = Float.parseFloat(hisEntity.day_data.get(size-1-i).data);
+                if (hisEntity.day_data.get(size - 1 - i).data != null)
+                    val = Float.parseFloat(hisEntity.day_data.get(size - 1 - i).data);
                 values.add(new Entry(i, val));
-                String substring = hisEntity.day_data.get(size-1-i).update_time.substring(11, 13);
+                String substring = hisEntity.day_data.get(size - 1 - i).update_time.substring(11, 13);
 //                if (substring.substring(0, 1).equals("0"))
 //                    substring = substring.substring(1, 2);
-                ls.add(substring+"时");
+                ls.add(substring + "时");
             }
         }
 
@@ -356,7 +359,7 @@ public class AmmeterHisActivity extends BasedActivity {
                 binding.mChart.getData().getDataSetCount() > 0) {
             set1 = (LineDataSet) binding.mChart.getData().getDataSetByIndex(0);
             set1.setValues(values);
-            set1.setLabel(dictionaries.get(mDisplayType)+paramName + dictionaries.get(paramName + "Unit"));
+            set1.setLabel(dictionaries.get(mDisplayType) + paramName + dictionaries.get(paramName + "Unit"));
             List<Entry> values1 = set1.getValues();
 //            for (Entry s :
 //                    values1) {
@@ -366,7 +369,7 @@ public class AmmeterHisActivity extends BasedActivity {
             binding.mChart.notifyDataSetChanged();
         } else {
             // create a dataset and give it a type
-            set1 = new LineDataSet(values, dictionaries.get(mDisplayType)+paramName + dictionaries.get(paramName + "Unit"));
+            set1 = new LineDataSet(values, dictionaries.get(mDisplayType) + paramName + dictionaries.get(paramName + "Unit"));
 
             set1.setDrawIcons(false);
 

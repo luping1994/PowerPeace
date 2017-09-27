@@ -47,6 +47,7 @@ public class LogActivity extends BasedActivity implements View.OnClickListener, 
     private StateView stateView;
     private int currentCheckedId = R.id.radio0;
     private String time;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,8 +57,13 @@ public class LogActivity extends BasedActivity implements View.OnClickListener, 
 
         stateView = StateView.inject(binding.content);
         stateView.setOnRetryClickListener(this);
-        binding.toolbar.setTitle(getIntent().getStringExtra("title") + "操作记录");
+
+        String title = getIntent().getStringExtra("title");
+        if (title == null)
+            title = "我的";
+        binding.toolbar.setTitle(title + "宿舍状态日志");
         setSupportActionBar(binding.toolbar);
+
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -140,7 +146,19 @@ public class LogActivity extends BasedActivity implements View.OnClickListener, 
     @Override
     protected void onResume() {
         super.onResume();
-        getData(time);
+        for (int i = 10; i < 18; i++) {
+            LogInfoEntity.LogInfo info = new LogInfoEntity.LogInfo();
+            if (i % 2 == 0)
+                info.message = "打开了照明";
+            else
+                info.message = "关闭了照明";
+
+            info.name = "黄小玲";
+            info.created_at = "2017-09-24 18:" + i + ":23";
+            datas.add(info);
+        }
+        adapter.notifyDataSetChanged();
+//        getData(time);
     }
 
     @Override
@@ -166,7 +184,7 @@ public class LogActivity extends BasedActivity implements View.OnClickListener, 
 
     @Override
     public void onRetryClick() {
-            getData(time);
+        getData(time);
     }
 
 
@@ -178,8 +196,8 @@ public class LogActivity extends BasedActivity implements View.OnClickListener, 
 
         @Override
         protected void convert(BaseViewHolder helper, LogInfoEntity.LogInfo item) {
-            String action = item.status?"打开":"关闭";
-            helper.setText(R.id.msg, item.name+ item.message);
+            String action = item.status ? "打开" : "关闭";
+            helper.setText(R.id.msg, item.name + item.message);
             helper.setText(R.id.created_at, item.created_at);
         }
     }
@@ -207,13 +225,13 @@ public class LogActivity extends BasedActivity implements View.OnClickListener, 
         datas.addAll(infoEntity.info);
 
         int caozuoCount = 0;
-        for (LogInfoEntity.LogInfo info:
-                infoEntity.info ) {
-            if (info.type.equals("1")){
+        for (LogInfoEntity.LogInfo info :
+                infoEntity.info) {
+            if (info.type.equals("1")) {
                 caozuoCount++;
             }
         }
-        binding.caozuoCount.setText(caozuoCount+"");
+        binding.caozuoCount.setText(caozuoCount + "");
         refreshLayout();
     }
 

@@ -40,6 +40,7 @@ import net.suntrans.powerpeace.ui.activity.HelpActivity;
 import net.suntrans.powerpeace.ui.activity.Login1Activity;
 import net.suntrans.powerpeace.ui.activity.MsgCenterActivity;
 import net.suntrans.powerpeace.ui.activity.PersonActivity;
+import net.suntrans.powerpeace.ui.activity.SearchActivity;
 import net.suntrans.powerpeace.ui.activity.SettingActivity;
 import net.suntrans.powerpeace.ui.fragment.BasedFragment;
 import net.suntrans.powerpeace.ui.fragment.StudentFragment;
@@ -184,7 +185,7 @@ public class MainActivity extends BasedActivity implements View.OnClickListener
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.setting) {
-
+            startActivity(new Intent(this, SearchActivity.class));
             return true;
         }
         return true;
@@ -280,7 +281,7 @@ public class MainActivity extends BasedActivity implements View.OnClickListener
     @Override
     protected void onResume() {
         super.onResume();
-        getUserInfo(username, role + "");
+//        getUserInfo(username, role + "");
     }
 
     private void getUserInfo(String userName, String role) {

@@ -71,7 +71,7 @@ public class ChangeNameFragment extends DialogFragment {
                 name2.setVisibility(View.VISIBLE);
                 break;
             case TYPE_SINGLE_TEXT:
-                title = "请输入要更改的内容";
+                title = "请输入要更改的手机号码";
                 break;
         }
         builder.setView(view)

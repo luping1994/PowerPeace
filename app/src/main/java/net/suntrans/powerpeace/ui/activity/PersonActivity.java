@@ -200,14 +200,12 @@ public class PersonActivity extends BasedActivity implements View.OnClickListene
     }
 
     private void signOut() {
-        App.getSharedPreferences().edit().putString("token", "-1")
-                .putString("password", "-1")
-                .putString("username", "-1")
+        App.getSharedPreferences().edit()
+                .putString("token", "-1")
                 .commit();
         killAll();
         Intent intent = new Intent(this, Login1Activity.class);
-        intent.putExtra(
-                Login1Activity.EXTRA_TRANSITION, Login1Activity.TRANSITION_SLIDE_BOTTOM);
+        intent.putExtra(Login1Activity.EXTRA_TRANSITION, Login1Activity.TRANSITION_SLIDE_BOTTOM);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             ActivityOptions transitionActivity = ActivityOptions.makeSceneTransitionAnimation(this);
             startActivity(intent, transitionActivity.toBundle());

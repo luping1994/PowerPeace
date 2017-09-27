@@ -124,7 +124,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="0"
+                        android:text="8次"
                         android:textColor="@color/white"
                         android:textSize="20sp" />
                 </LinearLayout>
@@ -189,7 +189,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight=".5"
                         android:checked="true"
-                        android:text="用电记录" />
+                        android:text="操作记录" />
 
                     <RadioButton
                         android:id="@+id/radio1"

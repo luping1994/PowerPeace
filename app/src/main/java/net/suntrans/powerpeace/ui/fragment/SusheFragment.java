@@ -173,11 +173,11 @@ public class SusheFragment extends BasedFragment {
 
                 //更新楼层spinner
                 floorDatas.clear();
-                floorDatas.add("所有");
+                floorDatas.add("全部楼层");
                 for (int i = 0; i < datas.get(xueyuanPosition).sublist.get(buildingPostion).floors.size(); i++) {
                     floorDatas.add(datas.get(xueyuanPosition).sublist.get(buildingPostion).floors.get(i).floor_name);
                 }
-                binding.headerMenu.setTabText(4, "所有");
+                binding.headerMenu.setTabText(4, "全部楼层");
 //                floorAdapter.notifyDataSetChanged();
 
                 xueyuanAdapter.setCheckItem(position);
@@ -200,11 +200,11 @@ public class SusheFragment extends BasedFragment {
                 }
                 binding.headerMenu.setTabText(buildingDatas.get(position));
                 floorDatas.clear();
-                floorDatas.add("所有");
+                floorDatas.add("全部楼层");
                 for (int i = 0; i < datas.get(xueyuanPosition).sublist.get(position).floors.size(); i++) {
                     floorDatas.add(datas.get(xueyuanPosition).sublist.get(position).floors.get(i).floor_name);
                 }
-                binding.headerMenu.setTabText(4, "所有");
+                binding.headerMenu.setTabText(4, "全部楼层");
 //                floorAdapter.notifyDataSetChanged();
                 binding.headerMenu.closeMenu();
 
@@ -339,7 +339,7 @@ public class SusheFragment extends BasedFragment {
 
                         }
                         List<MenuBean.InfoBean.SublistBeanX.SublistBean> fristFloors = datas.get(0).sublist.get(0).floors;
-                        floorDatas.add("所有");
+                        floorDatas.add("全部楼层");
                         for (MenuBean.InfoBean.SublistBeanX.SublistBean floor :
                                 fristFloors) {
                             floorDatas.add(floor.floor_name);
@@ -348,7 +348,7 @@ public class SusheFragment extends BasedFragment {
                         xueyuanAdapter.notifyDataSetChanged();
                         buildingAdapter.notifyDataSetChanged();
                         floorAdapter.notifyDataSetChanged();
-                        headers = new String[]{xueyuanMenuDatas.get(0), buildingDatas.get(0), "所有"};
+                        headers = new String[]{xueyuanMenuDatas.get(0), buildingDatas.get(0), "全部楼层"};
                         binding.headerMenu.setDropDownMenu(Arrays.asList(headers), popupViews, binding.root);
 
                         getSusheDatas(o.info.get(0).departmentID + "", o.info.get(0).sublist.get(0).building + "", "0");
@@ -392,7 +392,7 @@ public class SusheFragment extends BasedFragment {
 //
 //                }
 //                List<MenuBean.InfoBean.SublistBeanX.SublistBean> fristFloors = datas.get(0).sublist.get(0).floors;
-//                floorDatas.add("所有");
+//                floorDatas.add("全部楼层");
 //                for (MenuBean.InfoBean.SublistBeanX.SublistBean floor :
 //                        fristFloors) {
 //                    floorDatas.add(floor.floor_name);
@@ -401,7 +401,7 @@ public class SusheFragment extends BasedFragment {
 //                xueyuanAdapter.notifyDataSetChanged();
 //                buildingAdapter.notifyDataSetChanged();
 //                floorAdapter.notifyDataSetChanged();
-//                headers = new String[]{xueyuanMenuDatas.get(0), buildingDatas.get(0), "所有"};
+//                headers = new String[]{xueyuanMenuDatas.get(0), buildingDatas.get(0), "全部楼层"};
 //                binding.headerMenu.setDropDownMenu(Arrays.asList(headers), popupViews, binding.root);
 //
 //                getSusheDatas(o.info.get(0).departmentID + "", o.info.get(0).sublist.get(0).building + "", "0");

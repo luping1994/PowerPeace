@@ -29,5 +29,11 @@ public class SearchActivity extends BasedActivity {
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
+        init();
+
+    }
+
+    private void init() {
+
     }
 }

@@ -182,7 +182,7 @@ public class ZongHeFragmentCopy extends BasedFragment {
 //                floorDatas.add("所有");
                 for (MenuBean.InfoBean.SublistBeanX.SublistBean floor :
                         fristFloors) {
-                    floorDatas.add(floor.floor_name);
+                    floorDatas.add(floor.floor_name+"北楼");
                 }
 
                 xueyuanAdapter.notifyDataSetChanged();
