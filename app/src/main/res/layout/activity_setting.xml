@@ -109,9 +109,8 @@
                             android:layout_height="match_parent"
                             android:layout_toLeftOf="@+id/arrow"
                             android:gravity="center_vertical"
-                            android:onClick="onClick"
                             android:paddingLeft="@dimen/activity_horizontal_margin"
-                            android:text="已是最新版本"
+                            android:text="--"
                             android:textSize="15sp" />
 
                         <ImageView

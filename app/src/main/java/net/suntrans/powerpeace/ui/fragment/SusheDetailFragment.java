@@ -470,10 +470,10 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
         log.value = "";
         datas.add(log);
 
-        RoomInfoSelection wholename = new RoomInfoSelection(true, "宿舍详情");
-        wholename.name = whole_name;
-        wholename.type = RoomInfoSelection.TYPE_WHOLE_NAME;
-        datas.add(wholename);
+//        RoomInfoSelection wholename = new RoomInfoSelection(true, "宿舍详情");
+//        wholename.name = whole_name;
+//        wholename.type = RoomInfoSelection.TYPE_WHOLE_NAME;
+//        datas.add(wholename);
 
 
         if (meter_info != null) {

@@ -7,8 +7,8 @@ android {
         applicationId "net.suntrans.powerpeace"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 6
-        versionName "0.1.7"
+        versionCode 7
+        versionName "0.1.8"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     dataBinding {
@@ -16,8 +16,10 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            shrinkResources true
+            zipAlignEnabled true
         }
     }
 
@@ -85,4 +87,5 @@ dependencies {
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
     testCompile 'junit:junit:4.12'
+    compile 'com.tencent.bugly:crashreport:latest.release' //其中latest.release指代最新Bugly SDK版本号，也可以指定明确的版本号，例如2.2.0
 }

@@ -90,7 +90,6 @@
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:layout_marginTop="20dp"
             android:background="@drawable/bg_bt_login"
-            android:onClick="next"
             android:text="激活"
             android:textColor="@color/white"
             android:textSize="16sp" />

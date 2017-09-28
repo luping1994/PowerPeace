@@ -18,12 +18,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.alibaba.fastjson.JSON;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.pgyersdk.update.PgyUpdateManager;
+import com.pgyersdk.update.UpdateManagerListener;
 import com.trello.rxlifecycle.android.ActivityEvent;
 
 import net.suntrans.looney.utils.UiUtils;
 import net.suntrans.powerpeace.adapter.NavViewAdapter;
+import net.suntrans.powerpeace.bean.Version;
 import net.suntrans.powerpeace.databinding.ActivityStuMainBinding;
 import net.suntrans.powerpeace.network.WebSocketService;
 import net.suntrans.powerpeace.rx.RxBus;
@@ -36,6 +39,7 @@ import net.suntrans.powerpeace.ui.activity.PayActivity;
 import net.suntrans.powerpeace.ui.activity.PersonActivity;
 import net.suntrans.powerpeace.ui.activity.SettingActivity;
 import net.suntrans.powerpeace.ui.fragment.BasedFragment;
+import net.suntrans.powerpeace.ui.fragment.DownLoadFrgment;
 import net.suntrans.powerpeace.ui.fragment.SusheDetailFragment;
 import net.suntrans.powerpeace.utils.StatusBarCompat;
 
@@ -92,6 +96,31 @@ public class StudentMainActivity extends BasedActivity implements View.OnClickLi
         if (!DEBUG) {
             PgyUpdateManager.register(this, "net.suntrans.powerpeace.fileProvider");
         }
+
+//        , new UpdateManagerListener() {
+//
+//            @Override
+//            public void onNoUpdateAvailable() {
+//
+//            }
+//
+//            @Override
+//            public void onUpdateAvailable(String s) {
+//                try {
+//                    Version version = JSON.parseObject(s, Version.class);
+//                    showUpdateDialog(s, version.data);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+    }
+
+    private void showUpdateDialog(String result, Version.VersionInfo versionInfo) {
+        String apkName = "hp_" + versionInfo.versionName + "_" + versionInfo.versionCode + ".apk";
+
+        DownLoadFrgment frgment = DownLoadFrgment.newInstance(versionInfo, apkName, result);
+        frgment.show(getSupportFragmentManager(), "DownloadFragment");
     }
 
     private void initRecyclerView() {

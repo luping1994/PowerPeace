@@ -21,15 +21,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.RadioGroup;
 
+import com.alibaba.fastjson.JSON;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.pgyersdk.feedback.PgyFeedback;
 import com.pgyersdk.update.PgyUpdateManager;
+import com.pgyersdk.update.UpdateManagerListener;
+import com.tencent.bugly.crashreport.CrashReport;
 
 import net.suntrans.looney.utils.UiUtils;
 import net.suntrans.powerpeace.adapter.FragmentAdapter;
 import net.suntrans.powerpeace.adapter.NavViewAdapter;
 import net.suntrans.powerpeace.api.RetrofitHelper;
 import net.suntrans.powerpeace.bean.UserInfoEntity;
+import net.suntrans.powerpeace.bean.Version;
 import net.suntrans.powerpeace.databinding.ActivityMainBinding;
 import net.suntrans.powerpeace.network.WebSocketService;
 import net.suntrans.powerpeace.rx.BaseSubscriber;
@@ -43,6 +47,7 @@ import net.suntrans.powerpeace.ui.activity.PersonActivity;
 import net.suntrans.powerpeace.ui.activity.SearchActivity;
 import net.suntrans.powerpeace.ui.activity.SettingActivity;
 import net.suntrans.powerpeace.ui.fragment.BasedFragment;
+import net.suntrans.powerpeace.ui.fragment.DownLoadFrgment;
 import net.suntrans.powerpeace.ui.fragment.StudentFragment;
 import net.suntrans.powerpeace.ui.fragment.SusheFragment;
 import net.suntrans.powerpeace.ui.fragment.ZongHeFragmentCopy;
@@ -52,6 +57,7 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static android.R.attr.versionName;
 import static net.suntrans.powerpeace.BuildConfig.DEBUG;
 
 public class MainActivity extends BasedActivity implements View.OnClickListener
@@ -93,9 +99,34 @@ public class MainActivity extends BasedActivity implements View.OnClickListener
 
         toggle.syncState();
         init();
+//        , new UpdateManagerListener() {
+//
+//            @Override
+//            public void onNoUpdateAvailable() {
+//
+//            }
+//
+//            @Override
+//            public void onUpdateAvailable(String s) {
+//                try {
+//                    System.out.println(s);
+//                    Version version = JSON.parseObject(s, Version.class);
+//                    showUpdateDialog(s, version.data);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
         if (!DEBUG) {
             PgyUpdateManager.register(this, "net.suntrans.powerpeace.fileProvider");
         }
+    }
+
+    private void showUpdateDialog(String result, Version.VersionInfo versionInfo) {
+        String apkName = "hp_" + versionInfo.versionName + "_" + versionInfo.versionCode + ".apk";
+
+        DownLoadFrgment frgment = DownLoadFrgment.newInstance(versionInfo, apkName, result);
+        frgment.show(getSupportFragmentManager(), "DownloadFragment");
     }
 
     private void initRecyclerView() {
@@ -147,7 +178,6 @@ public class MainActivity extends BasedActivity implements View.OnClickListener
 
 
     private void init() {
-
         username = App.getSharedPreferences().getString("username", "-1");
         role = App.getSharedPreferences().getInt("role", 1);
 
@@ -306,7 +336,7 @@ public class MainActivity extends BasedActivity implements View.OnClickListener
                     @Override
                     public void onNext(UserInfoEntity info) {
                         if (info.code == 1) {
-                            binding.navView.header.username.setText(info.info.get(0).name==null?"Suntrans":info.info.get(0).name);
+                            binding.navView.header.username.setText(info.info.get(0).name == null ? "Suntrans" : info.info.get(0).name);
                         } else {
 
                         }

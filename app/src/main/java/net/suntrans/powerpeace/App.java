@@ -3,6 +3,7 @@ package net.suntrans.powerpeace;
 import android.content.Intent;
 
 import com.pgyersdk.crash.PgyCrashManager;
+import com.tencent.bugly.crashreport.CrashReport;
 
 import net.suntrans.looney.AppBase;
 
@@ -33,7 +34,8 @@ public class App extends AppBase{
 //        application =this;
         startService(new Intent(this,MyService.class));
         if (!DEBUG){
-            PgyCrashManager.register(this);
+            CrashReport.initCrashReport(getApplicationContext(), "fd77fe012a", false);
         }
+
     }
 }

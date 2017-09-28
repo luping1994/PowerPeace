@@ -44,234 +44,47 @@
                     android:textSize="14sp" />
 
                 <TextView
+                    android:visibility="gone"
+                    android:id="@+id/cancel"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="16dp"
+                    android:background="@color/white"
                     android:gravity="center"
+                    android:paddingRight="16dp"
                     android:text="取消" />
             </LinearLayout>
 
-            <TextView
-                android:padding="8dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="暂无搜索结果" />
 
-            <FrameLayout
+            <RelativeLayout
+                android:id="@+id/content"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="invisible">
+                android:visibility="visible">
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/tips"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:text="暂无搜索结果" />
 
-                    <TextView
-                        android:id="@+id/headerNam2"
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:background="@color/bgBlue"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="@dimen/activity_horizontal_margin"
-                        android:text="学生" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:background="?attr/selectableItemBackground"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:paddingLeft="16dp"
-                        android:paddingRight="16dp">
-
-                        <ImageView
-                            android:id="@id/image"
-                            android:layout_width="36dp"
-                            android:layout_height="36dp"
-                            android:src="@drawable/ic_person" />
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="16dp"
-                            android:orientation="vertical">
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:gravity="bottom">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
-                                    android:gravity="bottom"
-                                    android:text="张学科"
-                                    android:textColor="@color/textColor"
-                                    android:textSize="18sp" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginLeft="8dp"
-                                    android:gravity="bottom"
-                                    android:text="20110210001017" />
-                            </LinearLayout>
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:gravity="top"
-                                android:text="和平校区-一号学生公寓-一层"
-                                android:textSize="14sp" />
-
-                        </LinearLayout>
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="16dp"
-                            android:layout_weight="1">
-
-                            <TextView
-                                android:id="@+id/E_day_value"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_marginRight="8dp"
-                                android:layout_toLeftOf="@+id/img"
-                                android:gravity="center"
-                                android:text=""
-                                android:textColor="@color/textColor" />
-
-                            <ImageView
-                                android:id="@id/img"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentRight="true"
-                                android:layout_centerVertical="true"
-                                android:src="@drawable/ic_arrow_right" />
-                        </RelativeLayout>
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/bgBlue" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:background="?attr/selectableItemBackground"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:paddingLeft="16dp"
-                        android:paddingRight="16dp">
-
-                        <ImageView
-                            android:id="@id/image"
-                            android:layout_width="36dp"
-                            android:layout_height="36dp"
-                            android:src="@drawable/ic_person" />
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="16dp"
-                            android:orientation="vertical">
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:gravity="bottom">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
-                                    android:gravity="bottom"
-                                    android:text="邓学林"
-                                    android:textColor="@color/textColor"
-                                    android:textSize="18sp" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginLeft="8dp"
-                                    android:gravity="bottom"
-                                    android:text="20161011232132" />
-                            </LinearLayout>
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:gravity="top"
-                                android:text="和平校区-一号学生公寓-一层"
-                                android:textSize="14sp" />
-
-                        </LinearLayout>
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="16dp"
-                            android:layout_weight="1">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_marginRight="8dp"
-                                android:layout_toLeftOf="@+id/img"
-                                android:gravity="center"
-                                android:text=""
-                                android:textColor="@color/textColor" />
-
-                            <ImageView
-                                android:id="@id/img"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentRight="true"
-                                android:layout_centerVertical="true"
-                                android:src="@drawable/ic_arrow_right" />
-                        </RelativeLayout>
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/bgBlue" />
-
-
-                    <TextView
-                        android:id="@+id/headerName"
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:background="@color/bgBlue"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="@dimen/activity_horizontal_margin"
-                        android:text="宿舍" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="宿舍无结果" />
-
-                </LinearLayout>
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:visibility="invisible" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:visibility="gone"
                     app:layoutManager="@string/LinearLayoutManager">
 
                 </android.support.v7.widget.RecyclerView>
 
-            </FrameLayout>
+            </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
 </layout>

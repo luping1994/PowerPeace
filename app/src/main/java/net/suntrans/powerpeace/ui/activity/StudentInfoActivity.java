@@ -71,6 +71,6 @@ public class StudentInfoActivity extends BasedActivity {
         binding.yuanxi.setText(info.academy+"");
         binding.zhuanye.setText(info.major+"");
         binding.dianhua.setText(info.telephone+"");
-        binding.sushe.setText(info.academy+"-"+info.building+"舍-"+info.dormitory);
+        binding.sushe.setText(info.academy+"-"+info.building+"号学生公寓-"+info.dormitory);
     }
 }

@@ -32,6 +32,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static net.suntrans.powerpeace.R.id.headerName;
+
 /**
  * 综合Fragment
  */
@@ -228,20 +230,20 @@ public class ZongHeFragmentCopy extends BasedFragment {
                 stateView.showContent();
                 binding.refreshLayout.setRefreshing(false);
                 ZongheEntity.Zonghe zonghe = data.info.get(0);
-                binding.AV.setText(zonghe.aV_value);
-                binding.BV.setText(zonghe.bV_value);
-                binding.CV.setText(zonghe.cV_value);
+                binding.ydState.AV.setText(zonghe.aV_value);
+                binding.ydState.BV.setText(zonghe.bV_value);
+                binding.ydState.CV.setText(zonghe.cV_value);
 
-                binding.aAValue.setText(zonghe.aA_value);
-                binding.bAValue.setText(zonghe.bA_value);
-                binding.cAValue.setText(zonghe.cA_value);
+                binding.ydState.aAValue.setText(zonghe.aA_value);
+                binding.ydState.bAValue.setText(zonghe.bA_value);
+                binding.ydState.cAValue.setText(zonghe.cA_value);
 
-                binding.aPValue.setText(zonghe.aP_value);
-                binding.rPValue.setText(zonghe.rP_value);
+                binding.ydState.aPValue.setText(zonghe.aP_value);
+                binding.ydState.rPValue.setText(zonghe.rP_value);
 
-                binding.EValue.setText(zonghe.E_value);
-                binding.EDayValue.setText(zonghe.E_day_value);
-                binding.EMonthValue.setText(zonghe.E_month_value);
+                binding.yongdian.EValue.setText(zonghe.E_value);
+                binding.yongdian.EDayValue.setText(zonghe.E_day_value);
+                binding.yongdian.EMonthValue.setText(zonghe.E_month_value);
             }
         });
     }
@@ -305,8 +307,8 @@ public class ZongHeFragmentCopy extends BasedFragment {
 
 
                 mRefreshType = STATE_VIEW_REFRESH;
-                binding.headerName.setText(datas.get(xueyuanPosition).departmentName+"--"+datas.get(xueyuanPosition).sublist.get(buildingPostion).building_name+"用电状态");
-                binding.headerNam2.setText(datas.get(xueyuanPosition).departmentName+"--"+datas.get(xueyuanPosition).sublist.get(buildingPostion).building_name+"用电量");
+                binding.ydState.headerName.setText(datas.get(xueyuanPosition).departmentName+"--"+datas.get(xueyuanPosition).sublist.get(buildingPostion).building_name+"用电状态");
+                binding.yongdian.headerNam2.setText(datas.get(xueyuanPosition).departmentName+"--"+datas.get(xueyuanPosition).sublist.get(buildingPostion).building_name+"用电量");
 
                 getZonngheDatas(datas.get(xueyuanPosition).departmentID + "",
                         datas.get(xueyuanPosition).sublist.get(buildingPostion).building + "",
@@ -340,8 +342,8 @@ public class ZongHeFragmentCopy extends BasedFragment {
 
                 mRefreshType = STATE_VIEW_REFRESH;
 
-                binding.headerName.setText(datas.get(xueyuanPosition).departmentName+"--"+datas.get(xueyuanPosition).sublist.get(buildingPostion).building_name+"用电状态");
-                binding.headerNam2.setText(datas.get(xueyuanPosition).departmentName+"--"+datas.get(xueyuanPosition).sublist.get(buildingPostion).building_name+"用电量");
+                binding.ydState.headerName.setText(datas.get(xueyuanPosition).departmentName+"--"+datas.get(xueyuanPosition).sublist.get(buildingPostion).building_name+"用电状态");
+                binding.yongdian.headerNam2.setText(datas.get(xueyuanPosition).departmentName+"--"+datas.get(xueyuanPosition).sublist.get(buildingPostion).building_name+"用电量");
 //                getZonngheDatas(datas.get(xueyuanPosition).departmentID + "",
 //                        datas.get(xueyuanPosition).sublist.get(buildingPostion).building + "",
 //                        "0");
