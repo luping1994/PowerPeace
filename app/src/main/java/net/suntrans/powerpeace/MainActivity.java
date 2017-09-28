@@ -118,6 +118,7 @@ public class MainActivity extends BasedActivity implements View.OnClickListener
 //            }
 //        }
         if (!DEBUG) {
+            PgyUpdateManager.setIsForced(true);
             PgyUpdateManager.register(this, "net.suntrans.powerpeace.fileProvider");
         }
     }

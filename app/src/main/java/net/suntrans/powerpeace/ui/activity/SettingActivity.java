@@ -64,7 +64,12 @@ public class SettingActivity extends BasedActivity {
 
     @Override
     protected void onDestroy() {
-        PgyUpdateManager.unregister();
+
+        try {
+            PgyUpdateManager.unregister();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         handler.removeCallbacksAndMessages(null);
         super.onDestroy();
     }

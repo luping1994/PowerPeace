@@ -106,7 +106,6 @@
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
                     android:layout_marginRight="@dimen/activity_horizontal_margin"
                     android:background="@drawable/bg_bt_login"
-                    android:onClick="getVerify"
                     android:text="获取验证码"
                     android:textColor="@color/white"
                     android:textSize="14sp" />
