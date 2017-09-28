@@ -143,9 +143,12 @@ public class SearchActivity extends BasedActivity {
 
     @Override
     protected void onDestroy() {
-        if (!subscribe.isUnsubscribed()){
-            subscribe.unsubscribe();
+        if(subscribe!=null){
+            if (!subscribe.isUnsubscribed()){
+                subscribe.unsubscribe();
+            }
         }
+
         super.onDestroy();
 
     }
