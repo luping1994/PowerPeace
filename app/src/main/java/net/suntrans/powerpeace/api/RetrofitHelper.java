@@ -23,7 +23,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitHelper {
 
-    public static final String BASE_URL = "http://g.suntrans.net:8088/SuntransTest-Peace/";
+//    public static final String BASE_URL = "http://g.suntrans.net:8088/SuntransTest-Peace/";
+    public static final String BASE_URL = "http://gszy.suntrans-cloud.com:8080/gszyapp/";
 
     private static OkHttpClient mOkHttpClient;
 

@@ -37,6 +37,8 @@ public class AboutActivity extends BasedActivity {
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
+        binding.version.setText(BuildConfig.VERSION_NAME);
+
 
     }
 
@@ -45,25 +47,24 @@ public class AboutActivity extends BasedActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    public  void share(String desc)
-    {
+    public void share(String desc) {
 
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
-        shareIntent.putExtra(Intent.EXTRA_SUBJECT,"");
-        shareIntent.putExtra(Intent.EXTRA_TEXT,  "下载地址:https://www.pgyer.com/4qzv");
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, "");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, "下载地址:https://www.pgyer.com/4qzv");
         shareIntent.setType("text/plain");
-       startActivity(Intent.createChooser(shareIntent, desc));
+        startActivity(Intent.createChooser(shareIntent, desc));
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_about,menu);
+        getMenuInflater().inflate(R.menu.menu_about, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.share){
+        if (item.getItemId() == R.id.share) {
             share("分享应用");
             return true;
         }

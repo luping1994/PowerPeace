@@ -85,7 +85,7 @@
                     android:layout_height="140dp"
                     android:background="@color/white"
                     android:gravity="start"
-                    android:hint="您的意见对我们非常重要，意见一经采纳您将免费获赠增值服务或产品"
+                    android:hint="请输入您的问题或建议"
                     android:maxLength="200"
                     android:padding="8dp"
                     android:paddingLeft="16dp"

@@ -4,8 +4,6 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.squareup.leakcanary.LeakCanary;
-
 import net.suntrans.looney.utils.LogUtil;
 
 import java.io.File;
@@ -36,11 +34,7 @@ public class AppBase extends Application {
 
     @Override
     public void onCreate() {
-        if (LeakCanary.isInAnalyzerProcess(this)) {
-            // This process is dedicated to LeakCanary for heap analysis.
-            // You should not init your app in this process.
-            return;
-        }
+//
         super.onCreate();
         application = this;
 

@@ -15,11 +15,15 @@ public class ControlBody {
      * channel_id : 2
      * command : 1
      */
-    public String device;
-    public String action;
-    public int user_id;
-    public int web_type;
-    public int room_id;
-    public int channel_id;
-    public int command;
+    public String dev;
+    public String ac;
+    public int ud;
+    public int wp;
+//    public int rd;
+    public int chd;
+    public int cmd;
+    public int num;
+    public int rd;
+    public String addr;
+    public String mui;
 }

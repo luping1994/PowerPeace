@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.media.MediaBrowserCompat;
@@ -27,7 +28,19 @@ import java.util.List;
 public class JihuoFragmentStep1 extends RxFragment {
 
     private FragmentJihuo1Binding binding;
+    CountDownTimer timer = new CountDownTimer(60000, 1000) {
 
+        @Override
+        public void onTick(long millisUntilFinished) {
+            binding.getVerify.setText(millisUntilFinished/1000 + "秒");
+        }
+
+        @Override
+        public void onFinish() {
+            binding.getVerify.setEnabled(true);
+            binding.getVerify.setText("获取验证码");
+        }
+    };
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -51,8 +64,23 @@ public class JihuoFragmentStep1 extends RxFragment {
                 listener.onNextClicked();
             }
         });
+
+        binding.getVerify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                binding.getVerify.setEnabled(false);
+                timer.start();
+            }
+        });
+
     }
 
+
+    @Override
+    public void onDestroy() {
+        timer.cancel();
+        super.onDestroy();
+    }
 
     @Override
     public void onAttach(Activity activity) {

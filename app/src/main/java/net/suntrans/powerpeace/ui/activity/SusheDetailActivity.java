@@ -96,7 +96,7 @@ public class SusheDetailActivity extends BasedActivity implements BasedFragment.
 
 
         room_id = getIntent().getStringExtra("room_id");
-        SusheDetailFragment fragment = SusheDetailFragment.newInstance(room_id, Constants.ADMIN);
+        SusheDetailFragment fragment = SusheDetailFragment.newInstance(room_id, String.valueOf(Constants.ADMIN));
         getSupportFragmentManager().beginTransaction().replace(R.id.content, fragment).commit();
 
     }
@@ -122,7 +122,9 @@ public class SusheDetailActivity extends BasedActivity implements BasedFragment.
                         if (s.equals(WebSocketService.CONNECT_SUCCESS)) {
                             JSONObject jsonObject = new JSONObject();
                             try {
-                                jsonObject.put("room_id", Integer.valueOf(room_id));
+                                jsonObject.put("dev", "4100");
+                                jsonObject.put("ac", "gs");
+                                jsonObject.put("rd", Integer.valueOf(room_id));
                                 sendOrder(jsonObject.toString());
                             } catch (Exception e) {
                                 e.printStackTrace();

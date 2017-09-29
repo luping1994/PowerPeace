@@ -29,6 +29,7 @@ import net.suntrans.looney.utils.LogUtil;
 import net.suntrans.looney.utils.UiUtils;
 import net.suntrans.looney.widgets.LoadingDialog;
 import net.suntrans.powerpeace.App;
+import net.suntrans.powerpeace.Constants;
 import net.suntrans.powerpeace.MainActivity;
 import net.suntrans.powerpeace.R;
 import net.suntrans.powerpeace.StudentMainActivity;
@@ -312,19 +313,19 @@ public class Login1Activity extends BasedActivity {
 
                         if (result.code == 1) {
                             App.getSharedPreferences().edit().putString("token", result.token)
-                                    .putInt("role", result.info.role)
+                                    .putInt("role", result.info.role_id)
                                     .putString("username", result.info.username)
                                     .putString("password", password)
-                                    .putString("user_id",result.info.userId)
+                                    .putString("user_id",result.info.id)
                                     .commit();
-                            System.out.println(result.info.role );
-                            if (result.info.role == 0) {
+                            System.out.println(result.info.role_id);
+                            if (result.info.role_id == Constants.ADMIN) {
                                 if (dialog != null)
                                     dialog.dismiss();
                                 startActivity(new Intent(Login1Activity.this, MainActivity.class));
                                 finish();
                             } else {
-                                getUserInfo(result.info.username,result.info.role+"");
+                                getUserInfo(result.info.username,result.info.role_id+"");
                             }
                         } else {
                             UiUtils.showToast("账号或密码错误!");
@@ -362,7 +363,9 @@ public class Login1Activity extends BasedActivity {
                             dialog.dismiss();
                         if (info.code == 1) {
                             UiUtils.showToast("登录成功!");
-                            App.getSharedPreferences().edit().putString("room_id", info.info.get(0).room_id + "").commit();
+                            App.getSharedPreferences().edit().putString("room_id", info.info.get(0).room_id + "")
+                                    .putString("studentID",info.info.get(0).studentID)
+                                    .commit();
                             startActivity(new Intent(Login1Activity.this, StudentMainActivity.class));
                             finish();
                         } else {

@@ -3,6 +3,7 @@ package net.suntrans.powerpeace;
 import android.content.Intent;
 
 import com.pgyersdk.crash.PgyCrashManager;
+import com.squareup.leakcanary.LeakCanary;
 import com.tencent.bugly.crashreport.CrashReport;
 
 import net.suntrans.looney.AppBase;
@@ -32,6 +33,12 @@ public class App extends AppBase{
     public void onCreate() {
         super.onCreate();
 //        application =this;
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return;
+        }
+        LeakCanary.install(this);
         startService(new Intent(this,MyService.class));
         if (!DEBUG){
             CrashReport.initCrashReport(getApplicationContext(), "fd77fe012a", false);

@@ -1,5 +1,7 @@
 package net.suntrans.powerpeace.ui.fragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
@@ -72,7 +74,6 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
     private String role;
     private LoadingDialog dialog;
     private String userid;
-    private String currentAddr;
     //    private String room_id;
 
     public static SusheDetailFragment newInstance(String param, String role) {
@@ -128,7 +129,7 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
                             intent3.putExtra("paramName", "用电量");
                             intent3.putExtra("room_id", param);
                             startActivity(intent3);
-                        }else if (selection.name.equals("账户余额")){
+                        } else if (selection.name.equals("账户余额")) {
                             Intent intent3 = new Intent(getActivity(), PostageHisActivity.class);
                             intent3.putExtra("title", getActivity().getIntent().getStringExtra("title"));
                             intent3.putExtra("paramName", "用电量");
@@ -172,17 +173,22 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
 //                        +",addr="+datas.get(position).addr
 //                        +",dev_id="+datas.get(position).id);
                 boolean togleStatus = !datas.get(position).status;
-                currentAddr = datas.get(position).addr;
+//                currentAddr = datas.get(position).addr;
                 String order = "";
                 try {
                     ControlBody controlBody = new ControlBody();
-                    controlBody.device = "4100";
-                    controlBody.action = "switch";
-                    controlBody.user_id = Integer.parseInt(userid);
-                    controlBody.web_type = 701;
-                    controlBody.room_id = Integer.parseInt(param);
-                    controlBody.channel_id = Integer.parseInt(datas.get(position).id);
-                    controlBody.command = Integer.parseInt(togleStatus ? "1" : "0");
+                    controlBody.dev = "4100";
+                    controlBody.ac = "swh";
+                    controlBody.ud = Integer.parseInt(userid);
+                    controlBody.wp = 701;
+                    controlBody.chd = Integer.parseInt(datas.get(position).id);
+
+                    controlBody.rd = Integer.parseInt(param);
+                    controlBody.num = Integer.parseInt(datas.get(position).number);
+//                    controlBody.r = Integer.parseInt(param);
+                    controlBody.cmd = Integer.parseInt(togleStatus ? "1" : "0");
+                    controlBody.addr = datas.get(position).addr;
+                    controlBody.mui = "0";
 
                     order = JSON.toJSONString(controlBody);
                 } catch (Exception e) {
@@ -276,7 +282,7 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
             if (item.imgResId != -1) {
                 ImageView view = helper.getView(R.id.image);
                 view.setImageResource(item.imgResId);
-                DrawableCompat.setTint(view.getDrawable(), getContext().getResources().getColor(R.color.colorPrimary));
+//                DrawableCompat.setTint(view.getDrawable(), getContext().getResources().getColor(R.color.colorPrimary));
 
             }
             if (item.type.equals(RoomInfoSelection.TYPE_DEV_CHANNEL)) {
@@ -323,7 +329,7 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
             if (item.imgResId != -1) {
                 ImageView view = helper.getView(R.id.image);
                 view.setImageResource(item.imgResId);
-                DrawableCompat.setTint(view.getDrawable(), getContext().getResources().getColor(R.color.colorPrimary));
+//                DrawableCompat.setTint(view.getDrawable(), getContext().getResources().getColor(R.color.colorPrimary));
             }
             if (item.type.equals(RoomInfoSelection.TYPE_DEV_CHANNEL)) {
                 helper.getView(R.id.normal).setVisibility(View.GONE);
@@ -335,7 +341,7 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
 
                 if (item.name.equals("当日用电量")
                         || item.name.equals("当月用电量")
-                        || item.name.equals("总用电量")|| item.name.equals("账户余额")) {
+                        || item.name.equals("总用电量") || item.name.equals("账户余额")) {
                     helper.getView(R.id.image_arrow).setVisibility(View.VISIBLE);
                 } else {
                     helper.getView(R.id.image_arrow).setVisibility(View.GONE);
@@ -394,7 +400,7 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
         List<RoomInfoSelection> meter_info = info.meter_info;
         List<Map<String, String>> room_stu = info.room_stu;
 
-        if (account != null) {
+        if (account != null && account.size() != 0) {
             int i = 0;
             Map<String, String> map = account.get(0);
             for (Map.Entry<String, String> entry : map.entrySet()) {
@@ -416,11 +422,10 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
                             break;
                         case "status":
                             zhanhuxinxi.imgResId = R.drawable.ic_zhuangtai;
-                            zhanhuxinxi.value = value.equals("1") ? "正常" : "欠费";
+                            zhanhuxinxi.value = value.equals("1") ? "正常" : "异常";
                             break;
                         case "dayuse":
                             zhanhuxinxi.imgResId = R.drawable.ic_dl;
-
                             break;
                         case "monthuse":
                             zhanhuxinxi.imgResId = R.drawable.ic_dl;
@@ -437,7 +442,7 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
         }
 
 
-        if (dev_channel != null) {
+        if (dev_channel != null && dev_channel.size() != 0) {
             for (int i = 0; i < dev_channel.size(); i++) {
                 Map<String, String> map = dev_channel.get(i);
 
@@ -452,23 +457,23 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
                 selection.type = RoomInfoSelection.TYPE_DEV_CHANNEL;
                 selection.name = map.get("name");
                 selection.id = map.get("id");
-                selection.num = map.get("num");
+                selection.number = map.get("number");
                 selection.status = map.get("status").equals("true") ? true : false;
                 selection.imgResId = R.drawable.ic_channel;
                 selection.addr = map.get("addr");
-
                 datas.add(selection);
             }
 
+            RoomInfoSelection log = new RoomInfoSelection(false, "状态日志");
+            log.name = "状态日志";
+            log.type = RoomInfoSelection.TYPE_CHANNEL_LOG;
+            log.imgResId = R.drawable.ic_zhuangtai;
+            log.value = "";
+            datas.add(log);
+
+
         }
 
-
-        RoomInfoSelection log = new RoomInfoSelection(false, "状态日志");
-        log.name = "状态日志";
-        log.type = RoomInfoSelection.TYPE_CHANNEL_LOG;
-        log.imgResId = R.drawable.ic_zhuangtai;
-        log.value = "";
-        datas.add(log);
 
 //        RoomInfoSelection wholename = new RoomInfoSelection(true, "宿舍详情");
 //        wholename.name = whole_name;
@@ -476,7 +481,7 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
 //        datas.add(wholename);
 
 
-        if (meter_info != null) {
+        if (meter_info != null && meter_info.size() != 0) {
             for (int i = 0; i < meter_info.size(); i++) {
                 RoomInfoSelection selection = meter_info.get(i);
                 if (i == 0) {
@@ -525,7 +530,7 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
 //            }
         }
 
-        if (room_stu != null) {
+        if (room_stu != null && room_stu.size() != 0) {
             int i = 0;
             for (Map<String, String> stu :
                     room_stu) {
@@ -564,24 +569,29 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
     Handler handler = new Handler();
 
     private void parseCmd(CmdMsg cmdMsg) {
+        try {
 
-        if (cmdMsg.status == 1) {
-            try {
+            if (cmdMsg.status == 1) {
                 JSONObject jsonObject = new JSONObject(cmdMsg.msg);
                 int code = jsonObject.getInt("code");
                 if (code == 200) {
-                    ControlResult result = JSON.parseObject(cmdMsg.msg, ControlResult.class);
-                    if (!result.result.addr.equals(currentAddr)) {
+                    if (!jsonObject.has("addr")){
                         return;
                     }
+                    //{"code":200,"msg":"9401[0000091b](2331)","addr":"0000091b","num":"1","cmd":"1","room_sn":"9401"}
+                    ControlResult result = JSON.parseObject(cmdMsg.msg, ControlResult.class);
+
                     handler.removeCallbacksAndMessages(null);
                     for (int i = 0; i < datas.size(); i++) {
                         if (!datas.get(i).type.equals(RoomInfoSelection.TYPE_DEV_CHANNEL)) {
                             continue;
                         }
+                        if (!result.addr.equals(datas.get(i).addr)) {
+                            continue;
+                        }
 
-                        if (datas.get(i).num.equals(result.result.num)) {
-                            datas.get(i).status = result.result.status.equals("1");
+                        if (datas.get(i).number.equals(result.num)) {
+                            datas.get(i).status = result.cmd.equals("1");
                         }
 
                     }
@@ -589,24 +599,34 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
                         dialog.dismiss();
                     adapter.notifyDataSetChanged();
                 } else if (code == 202) {
-                    if (!jsonObject.get("addr").equals(currentAddr)) {
+                    boolean a = false;
+                    String addr = jsonObject.getString("addr");
+                    for (int i = 0; i < datas.size(); i++) {
+                        if (addr.equals(datas.get(i).addr)){
+                            a = true;
+                        }
+                    }
+                    if (!a){
                         return;
                     }
+
                     handler.removeCallbacksAndMessages(null);
                     UiUtils.showToast("无控制权限");
                     if (dialog != null)
                         dialog.dismiss();
-                }else if (code == 212){
+                } else if (code == 212) {
                     UiUtils.showToast("非法操作");
                     if (dialog != null)
                         dialog.dismiss();
                 }
 
-            } catch (Exception e) {
-                e.printStackTrace();
+
+            } else if (cmdMsg.status == 0) {
+                UiUtils.showToast(cmdMsg.msg);
             }
-        } else if (cmdMsg.status == 0) {
-            UiUtils.showToast(cmdMsg.msg);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
+
 }

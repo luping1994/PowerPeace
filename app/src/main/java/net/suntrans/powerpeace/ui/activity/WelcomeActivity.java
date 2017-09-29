@@ -18,6 +18,7 @@ import net.suntrans.looney.login.LoginActivity;
 import net.suntrans.looney.utils.LogUtil;
 import net.suntrans.looney.utils.UiUtils;
 import net.suntrans.powerpeace.App;
+import net.suntrans.powerpeace.Constants;
 import net.suntrans.powerpeace.MainActivity;
 import net.suntrans.powerpeace.R;
 import net.suntrans.powerpeace.StudentMainActivity;
@@ -106,12 +107,12 @@ public class WelcomeActivity extends BasedActivity {
         String userName = App.getSharedPreferences().getString("username", "-1");
         String password = App.getSharedPreferences().getString("password", "-1");
 
-        if (userName.equals("-1")||token.equals("-1")) {
+        if (userName.equals("-1") || token.equals("-1")) {
             handler.sendEmptyMessageDelayed(START_LOGIN, 1500);
         } else {
             int role = App.getSharedPreferences().getInt("role", -1);
-            System.out.println(userName+","+role);
-            LoginFromServer(userName,password);
+            System.out.println(userName + "," + role);
+            LoginFromServer(userName, password);
 //            if (role == 0) {
 //                handler.sendEmptyMessageDelayed(START_MAIN_ADMIN, 1500);
 //            } else if (role == 1) {
@@ -199,17 +200,17 @@ public class WelcomeActivity extends BasedActivity {
                     public void onNext(LoginEntity result) {
                         if (result.code == 1) {
                             App.getSharedPreferences().edit().putString("token", result.token)
-                                    .putInt("role", result.info.role)
+                                    .putInt("role", result.info.role_id)
                                     .putString("username", result.info.username)
                                     .putString("password", password)
-                                    .putString("user_id",result.info.userId)
+                                    .putString("user_id", result.info.id)
                                     .commit();
-                            if (result.info.role == 0) {
-                                handler.sendEmptyMessageDelayed(START_MAIN_ADMIN,1000);
+                            if (result.info.role_id == Constants.ADMIN) {
+                                handler.sendEmptyMessageDelayed(START_MAIN_ADMIN, 1000);
 //                                startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
 //                                finish();
                             } else {
-                                getUserInfo(result.info.username,result.info.role+"");
+                                getUserInfo(result.info.username, result.info.role_id + "");
                             }
                         } else {
                             handler.sendEmptyMessageDelayed(START_LOGIN, 1500);
@@ -219,10 +220,10 @@ public class WelcomeActivity extends BasedActivity {
     }
 
 
-    private void getUserInfo(String userName,String role) {
-        System.out.println("username="+userName+",role="+role);
+    private void getUserInfo(String userName, String role) {
+        System.out.println("username=" + userName + ",role=" + role);
         RetrofitHelper.getApi()
-                .getUserInfo(userName,role)
+                .getUserInfo(userName, role)
                 .compose(this.<UserInfoEntity>bindToLifecycle())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -243,8 +244,10 @@ public class WelcomeActivity extends BasedActivity {
                     public void onNext(UserInfoEntity info) {
                         System.out.println(info.toString());
                         if (info.code == 1) {
-                            App.getSharedPreferences().edit().putString("room_id", info.info.get(0).room_id + "").commit();
-                            handler.sendEmptyMessageDelayed(START_MAIN_STU,1000);
+                            App.getSharedPreferences().edit().putString("room_id", info.info.get(0).room_id + "")
+                                    .putString("studentID", info.info.get(0).studentID)
+                                    .commit();
+                            handler.sendEmptyMessageDelayed(START_MAIN_STU, 1000);
 
                         } else {
                             handler.sendEmptyMessageDelayed(START_LOGIN, 1500);

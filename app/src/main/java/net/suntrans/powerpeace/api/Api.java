@@ -5,6 +5,7 @@ import net.suntrans.powerpeace.bean.HisEntity;
 import net.suntrans.powerpeace.bean.LogInfoEntity;
 import net.suntrans.powerpeace.bean.LoginEntity;
 import net.suntrans.powerpeace.bean.MenuBean;
+import net.suntrans.powerpeace.bean.MsgEntity;
 import net.suntrans.powerpeace.bean.ResultBody;
 import net.suntrans.powerpeace.bean.RoomInfolEntity;
 import net.suntrans.powerpeace.bean.SearchInfoEntity;
@@ -161,6 +162,10 @@ public interface Api {
     @FormUrlEncoded
     @POST("api/inquiry/Inquiry_search")
     Observable<SearchInfoEntity> search(@Field("info") String info);
+
+    @FormUrlEncoded
+    @POST("api/inquiry/Inquiry_message_bystuid")
+    Observable<MsgEntity> getMsg(@Field("studentID") String studentID);
 
 
 }

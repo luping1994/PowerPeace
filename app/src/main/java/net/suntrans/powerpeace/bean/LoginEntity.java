@@ -28,12 +28,12 @@ public class LoginEntity extends ResultBody<LoginEntity.InfoBean>{
          * status : 1
          */
 
-        public int role;
+        public int role_id;
         public int sex;
         public String tel_num;
         public String avatar;
         public String creationDate;
-        public String userId;
+        public String id;
         public String email;
         public String username;
         public String studentID;

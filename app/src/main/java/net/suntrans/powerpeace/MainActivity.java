@@ -148,14 +148,14 @@ public class MainActivity extends BasedActivity implements View.OnClickListener
                     case 1:
                         handler.sendEmptyMessageDelayed(START_MSG_ACTIVITY, 400);
                         break;
-                    case 4:
+                    case 2:
                         handler.sendEmptyMessageDelayed(START_SETTING_ACTIVITY, 400);
 
                         break;
-                    case 2:
+                    case 3:
                         handler.sendEmptyMessageDelayed(START_ABOUT_ACTIVITY, 400);
                         break;
-                    case 3:
+                    case 4:
                         handler.sendEmptyMessageDelayed(START_FEEDBACK_ACTIVITY, 400);
                         break;
 
@@ -165,6 +165,7 @@ public class MainActivity extends BasedActivity implements View.OnClickListener
                 }
             }
         });
+
         binding.navView.recyclerView.setAdapter(navViewAdapter);
 //        binding.navView.recyclerView.addItemDecoration(new DefaultDecoration(UiUtils.dip2px(0.5f,this), Color.parseColor("#d9d9d9")));
         binding.navView.exit.setOnClickListener(this);
@@ -231,7 +232,6 @@ public class MainActivity extends BasedActivity implements View.OnClickListener
             case R.id.setting:
                 binding.drawer.closeDrawers();
                 break;
-
         }
 
     }

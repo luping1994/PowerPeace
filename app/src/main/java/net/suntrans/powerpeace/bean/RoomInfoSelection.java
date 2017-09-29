@@ -22,7 +22,7 @@ public class RoomInfoSelection extends SectionEntity {
     public boolean status;
     public int imgResId=-1;
     public String  id;
-    public String  num;
+    public String  number;
     public String  studentID;
     public String unit="";
     public String name;

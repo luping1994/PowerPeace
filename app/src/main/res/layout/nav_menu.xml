@@ -23,13 +23,12 @@
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_above="@+id/divider"
                 app:layoutManager="@string/LinearLayoutManager">
 
             </android.support.v7.widget.RecyclerView>
 
             <View
-                android:visibility="invisible"
+                android:visibility="gone"
                 android:id="@+id/divider"
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
@@ -37,7 +36,7 @@
                 android:background="@color/nav_divider" />
 
             <LinearLayout
-                android:visibility="invisible"
+                android:visibility="gone"
                 android:id="@+id/bottomLayout"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"

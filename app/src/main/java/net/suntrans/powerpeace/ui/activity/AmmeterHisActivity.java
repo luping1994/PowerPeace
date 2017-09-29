@@ -78,8 +78,9 @@ public class AmmeterHisActivity extends BasedActivity {
         paramName = getIntent().getStringExtra("paramName");
         String title = getIntent().getStringExtra("title");
         if (title == null)
-            title = "我的";
-        binding.toolbar.setTitle(title + "宿舍" + paramName + "历史记录");
+            binding.toolbar.setTitle(paramName + "历史记录");
+        else
+            binding.toolbar.setTitle(title + "宿舍" + paramName + "历史记录");
         stateView = StateView.inject(binding.content);
         stateView.setOnRetryClickListener(new StateView.OnRetryClickListener() {
             @Override

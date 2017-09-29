@@ -3,6 +3,7 @@ package net.suntrans.powerpeace.ui.fragment;
 import android.app.Activity;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +23,19 @@ import net.suntrans.powerpeace.databinding.FragmentJihuo1Binding;
 public class FindPassFragment1 extends RxFragment {
 
     private FragmentFindps1Binding binding;
+    CountDownTimer timer = new CountDownTimer(60000, 1000) {
 
+        @Override
+        public void onTick(long millisUntilFinished) {
+            binding.getVerify.setText(millisUntilFinished/1000 + "秒");
+        }
+
+        @Override
+        public void onFinish() {
+            binding.getVerify.setEnabled(true);
+            binding.getVerify.setText("获取验证码");
+        }
+    };
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -44,6 +57,13 @@ public class FindPassFragment1 extends RxFragment {
             @Override
             public void onClick(View v) {
                 listener.onNextClicked();
+            }
+        });
+        binding.getVerify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                binding.getVerify.setEnabled(false);
+                timer.start();
             }
         });
     }

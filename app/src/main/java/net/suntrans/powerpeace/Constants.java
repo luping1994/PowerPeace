@@ -4,8 +4,10 @@ public class Constants {
 	// APP_ID 替换为你的应用从官方网站申请到的合法appId
 //    public static final String APP_ID = "wxd41679d9bf36e90d";
     public static final String APP_ID = "wx689c48c5966a9c88";
-    public static final String ADMIN ="ADMIN" ;
-    public static final String STUDENT ="STUDENT" ;
+//    public static final int ADMIN =0 ;
+    public static final int ADMIN =1 ;
+    public static final int STUDENT =4 ;
+//    public static final int STUDENT =1 ;
     public static  String ROOM_ID ="-1" ;
 
     public static class ShowMsgActivity {

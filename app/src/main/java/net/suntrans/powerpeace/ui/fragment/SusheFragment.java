@@ -266,7 +266,7 @@ public class SusheFragment extends BasedFragment {
             helper.setText(R.id.headerName, item.header);
             helper.setText(R.id.name, item.susheName);
             ImageView view = helper.getView(R.id.image);
-            DrawableCompat.setTint(view.getDrawable(), getContext().getResources().getColor(R.color.colorPrimary));
+//            DrawableCompat.setTint(view.getDrawable(), getContext().getResources().getColor(R.color.colorPrimary));
 
             helper.setText(R.id.status, item.status.equals("0") ? "已锁定" : "正常");
             if (item.status.equals("0")) {
@@ -279,7 +279,7 @@ public class SusheFragment extends BasedFragment {
         @Override
         protected void convert(BaseViewHolder helper, SusheSelection item) {
             ImageView view = helper.getView(R.id.image);
-            DrawableCompat.setTint(view.getDrawable(), getContext().getResources().getColor(R.color.colorPrimary));
+//            DrawableCompat.setTint(view.getDrawable(), getContext().getResources().getColor(R.color.colorPrimary));
 
             helper.setText(R.id.name, item.susheName);
             helper.setText(R.id.status, item.status.equals("0") ? "已锁定" : "正常");

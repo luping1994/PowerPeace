@@ -88,7 +88,7 @@ public class StudentMainActivity extends BasedActivity implements View.OnClickLi
         binding.drawer.setDrawerListener(toggle);
         toggle.syncState();
         room_id = App.getSharedPreferences().getString("room_id", "-1");
-        SusheDetailFragment fragment = SusheDetailFragment.newInstance(room_id, Constants.ADMIN);
+        SusheDetailFragment fragment = SusheDetailFragment.newInstance(room_id, String.valueOf(Constants.ADMIN));
         getSupportFragmentManager().beginTransaction().replace(R.id.content, fragment).commit();
 
         initRecyclerView();
@@ -144,7 +144,9 @@ public class StudentMainActivity extends BasedActivity implements View.OnClickLi
                         if (s.equals(WebSocketService.CONNECT_SUCCESS)) {
                             JSONObject jsonObject = new JSONObject();
                             try {
-                                jsonObject.put("room_id", Integer.valueOf(room_id));
+                                jsonObject.put("dev", "4100");
+                                jsonObject.put("ac", "gs");
+                                jsonObject.put("rd", Integer.valueOf(room_id));
                                 sendOrder(jsonObject.toString());
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -170,14 +172,14 @@ public class StudentMainActivity extends BasedActivity implements View.OnClickLi
                     case 1:
                         handler.sendEmptyMessageDelayed(START_MSG_ACTIVITY, 400);
                         break;
-                    case 4:
+                    case 2:
                         handler.sendEmptyMessageDelayed(START_SETTING_ACTIVITY, 400);
 
                         break;
-                    case 2:
+                    case 3:
                         handler.sendEmptyMessageDelayed(START_ABOUT_ACTIVITY, 400);
                         break;
-                    case 3:
+                    case 4:
                         handler.sendEmptyMessageDelayed(START_FEEDBACK_ACTIVITY, 400);
                         break;
 
@@ -299,11 +301,11 @@ public class StudentMainActivity extends BasedActivity implements View.OnClickLi
         }
         return super.onOptionsItemSelected(item);
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_pay, menu);
-        return true;
-    }
+//
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.menu_pay, menu);
+//        return true;
+//    }
 
 }
