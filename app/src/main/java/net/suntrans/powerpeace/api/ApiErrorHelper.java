@@ -32,9 +32,11 @@ public class ApiErrorHelper {
                 UiUtils.showToast("网络连接不可用");
             } else if (code == ApiErrorCode.ERROR) {
                 UiUtils.showToast(((ApiException) e).msg);
+            }else {
+                UiUtils.showToast("服务器错误");
             }
         } else if (e instanceof IOException) {
-            LogUtil.e("IOException");
+            UiUtils.showToast("网络连接不可用");
         } else {
             UiUtils.showToast("服务器错误");
         }
