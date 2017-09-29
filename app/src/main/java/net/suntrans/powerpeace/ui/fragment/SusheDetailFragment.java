@@ -207,7 +207,7 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
                         UiUtils.showToast("设备长时间无应答");
                         dialog.dismiss();
                     }
-                }, 5000);
+                }, 3000);
 //              adapter.notifyDataSetChanged();
             }
         });
@@ -615,6 +615,7 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
                     if (dialog != null)
                         dialog.dismiss();
                 } else if (code == 212) {
+                    handler.removeCallbacksAndMessages(null);
                     UiUtils.showToast("非法操作");
                     if (dialog != null)
                         dialog.dismiss();

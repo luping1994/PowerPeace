@@ -109,7 +109,7 @@ public class LogActivity extends BasedActivity implements View.OnClickListener, 
         adapter = new Myadapter(R.layout.item_log_his, copy);
         binding.recyclerView.addItemDecoration(new DefaultDecoration());
         binding.recyclerView.setAdapter(adapter);
-        binding.radio1.setChecked(true);
+        binding.radio0.setChecked(true);
         binding.segmentedGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {

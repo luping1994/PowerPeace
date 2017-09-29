@@ -1,10 +1,12 @@
 package net.suntrans.powerpeace.ui.activity;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
+import android.view.View;
 
 import net.suntrans.powerpeace.R;
 import net.suntrans.powerpeace.databinding.ActivityMsgCenBinding;
@@ -34,6 +36,12 @@ public class MsgCenterActivity extends BasedActivity implements SwipeRefreshLayo
 
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
+        binding.root.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MsgCenterActivity.this,MsgDetailActivity.class));
+            }
+        });
     }
 
     @Override
@@ -44,6 +52,7 @@ public class MsgCenterActivity extends BasedActivity implements SwipeRefreshLayo
               binding.refreshLayout.setRefreshing(false);
             }
         },1600);
+
     }
 
     private Handler handler = new Handler();
