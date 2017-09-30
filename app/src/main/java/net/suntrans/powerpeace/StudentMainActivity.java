@@ -245,8 +245,12 @@ public class StudentMainActivity extends BasedActivity implements View.OnClickLi
         super.onDestroy();
         unbindService(connection);
         handler.removeCallbacksAndMessages(null);
-        if (!DEBUG)
-            PgyUpdateManager.unregister();
+        try {
+            if (!DEBUG)
+                PgyUpdateManager.unregister();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 

@@ -10,6 +10,7 @@ import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
 
+import net.suntrans.looney.utils.LogUtil;
 import net.suntrans.looney.utils.UiUtils;
 import net.suntrans.powerpeace.App;
 import net.suntrans.powerpeace.R;
@@ -94,7 +95,7 @@ public class PersonActivity extends BasedActivity implements View.OnClickListene
 
     @Override
     public void changeName(String... name) {
-        System.out.println(name[0] + "," + name[1] + "," + name[2]);
+        LogUtil.i(name[0] + "," + name[1] + "," + name[2]);
         switch (currentSelected) {
             case R.id.xueyuanRl:
                 return;
@@ -187,7 +188,7 @@ public class PersonActivity extends BasedActivity implements View.OnClickListene
 
                     @Override
                     public void onNext(UserInfoEntity info) {
-                        System.out.println(info.toString());
+//                        System.out.println(info.toString());
                         if (info.code == 1) {
                             binding.name.setText(info.info.get(0).name);
                             binding.phone.setText(info.info.get(0).telephone);

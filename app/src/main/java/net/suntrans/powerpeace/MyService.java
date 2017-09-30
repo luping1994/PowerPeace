@@ -144,7 +144,7 @@ public class MyService extends Service {
         @Override
         public void onReceive(Context context, Intent intent) {
             long completeDownloadId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
-            System.out.println("onReceive");
+//            System.out.println("onReceive");
             if (completeDownloadId == downloadId) {
                 checkStatus();
             }
@@ -168,7 +168,7 @@ public class MyService extends Service {
                     break;
                 //正在下载
                 case DownloadManager.STATUS_RUNNING:
-                    System.out.println("zhengzaixiazai");
+//                    System.out.println("zhengzaixiazai");
                     break;
                 //下载完成
                 case DownloadManager.STATUS_SUCCESSFUL:
@@ -204,7 +204,7 @@ public class MyService extends Service {
         public void onChange(boolean selfChange) {
             super.onChange(selfChange);
             float[] progress = getProgress(downloadId);
-            System.out.println("onChanged");
+//            System.out.println("onChanged");
 //            handler.sendMessage(Message.obtain(handler, 1, progress));
 //            scheduledExecutorService.scheduleAtFixedRate(progressRunnable,0,2, TimeUnit.SECONDS);
         }

@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.suntrans.powerpeace.R;
@@ -63,6 +64,7 @@ public class SearchAdapter extends RecyclerView.Adapter {
         TextView xuehao;
         TextView location;
         TextView header;
+        ImageView image;
 
         public StuViewHolder(View itemView) {
             super(itemView);
@@ -70,6 +72,8 @@ public class SearchAdapter extends RecyclerView.Adapter {
             xuehao = (TextView) itemView.findViewById(R.id.xuehao);
             location = (TextView) itemView.findViewById(R.id.location);
             header = (TextView) itemView.findViewById(R.id.header);
+            image = (ImageView) itemView.findViewById(R.id.image);
+
             itemView.findViewById(R.id.root).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -83,7 +87,7 @@ public class SearchAdapter extends RecyclerView.Adapter {
                         context.startActivity(intent1);
                     } else {
                         Intent intent = new Intent(context, SusheDetailActivity.class);
-                        intent.putExtra("title", datas.get(getAdapterPosition()).room_id);
+                        intent.putExtra("title", datas.get(getAdapterPosition()).room_sn);
                         intent.putExtra("room_id", datas.get(getAdapterPosition()).room_id);
                         intent.putExtra("whole_name", datas.get(getAdapterPosition()).building_name + "-" + datas.get(getAdapterPosition()).room_id);
                         context.startActivity(intent);
@@ -98,13 +102,15 @@ public class SearchAdapter extends RecyclerView.Adapter {
                 xuehao.setText(datas.get(position).studentID);
                 xuehao.setVisibility(View.VISIBLE);
                 stuName.setText(datas.get(position).name);
-
+                image.setImageResource(R.drawable.ic_person);
             } else {
                 header.setText("宿舍");
                 xuehao.setVisibility(View.INVISIBLE);
-                stuName.setText(datas.get(position).room_id);
+                stuName.setText(datas.get(position).room_sn);
+                image.setImageResource(R.drawable.ic_sushe);
+
             }
-            location.setText(datas.get(position).building_name + "-" + datas.get(position).room_id);
+            location.setText(datas.get(position).building_name + "-" + datas.get(position).room_sn);
             if (position == 0 || position == stuCount ) {
                 header.setVisibility(View.VISIBLE);
             } else {

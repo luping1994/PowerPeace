@@ -56,7 +56,7 @@ public class RetrofitHelper {
 
 
     private static void initOkHttpClient() {
-        System.out.println("wobeizhixingle=======================");
+//        System.out.println("wobeizhixingle=======================");
         Interceptor netInterceptor =
                 new Interceptor() {
                     @Override

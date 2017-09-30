@@ -14,6 +14,7 @@ import android.widget.RadioGroup;
 
 import com.pgyersdk.feedback.PgyFeedbackShakeManager;
 
+import net.suntrans.looney.utils.LogUtil;
 import net.suntrans.looney.utils.UiUtils;
 import net.suntrans.looney.widgets.LoadingDialog;
 import net.suntrans.powerpeace.R;
@@ -127,7 +128,7 @@ public class FeedbackActivity extends BasedActivity implements View.OnClickListe
             UiUtils.showToast("程序开小差了");
             e.printStackTrace();
         }
-        System.out.println(jsonObject.toString());
+        LogUtil.i(jsonObject.toString());
         RetrofitHelper.getApi().postSuggestion(jsonObject.toString())
                 .compose(this.<ResultBody>bindToLifecycle())
                 .observeOn(AndroidSchedulers.mainThread())

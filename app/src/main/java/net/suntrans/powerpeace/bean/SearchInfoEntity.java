@@ -32,6 +32,7 @@ public class SearchInfoEntity extends ResultBody {
         public String name;
         public String floor;
         public String building;
+        public String room_sn;
 
         public int type;
 

@@ -111,7 +111,7 @@ public class WelcomeActivity extends BasedActivity {
             handler.sendEmptyMessageDelayed(START_LOGIN, 1500);
         } else {
             int role = App.getSharedPreferences().getInt("role", -1);
-            System.out.println(userName + "," + role);
+            LogUtil.i(userName + "," + role);
             LoginFromServer(userName, password);
 //            if (role == 0) {
 //                handler.sendEmptyMessageDelayed(START_MAIN_ADMIN, 1500);
@@ -205,12 +205,10 @@ public class WelcomeActivity extends BasedActivity {
                                     .putString("password", password)
                                     .putString("user_id", result.info.id)
                                     .commit();
-                            if (result.info.role_id == Constants.ADMIN) {
-                                handler.sendEmptyMessageDelayed(START_MAIN_ADMIN, 1000);
-//                                startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
-//                                finish();
-                            } else {
+                            if (result.info.role_id == Constants.STUDENT) {
                                 getUserInfo(result.info.username, result.info.role_id + "");
+                            } else {
+                                handler.sendEmptyMessageDelayed(START_MAIN_ADMIN, 1000);
                             }
                         } else {
                             handler.sendEmptyMessageDelayed(START_LOGIN, 1500);
@@ -221,7 +219,7 @@ public class WelcomeActivity extends BasedActivity {
 
 
     private void getUserInfo(String userName, String role) {
-        System.out.println("username=" + userName + ",role=" + role);
+        LogUtil.i("username=" + userName + ",role=" + role);
         RetrofitHelper.getApi()
                 .getUserInfo(userName, role)
                 .compose(this.<UserInfoEntity>bindToLifecycle())
@@ -242,7 +240,7 @@ public class WelcomeActivity extends BasedActivity {
 
                     @Override
                     public void onNext(UserInfoEntity info) {
-                        System.out.println(info.toString());
+                        LogUtil.i(info.toString());
                         if (info.code == 1) {
                             App.getSharedPreferences().edit().putString("room_id", info.info.get(0).room_id + "")
                                     .putString("studentID", info.info.get(0).studentID)

@@ -2,7 +2,6 @@ package net.suntrans.powerpeace;
 
 import android.content.Intent;
 
-import com.pgyersdk.crash.PgyCrashManager;
 import com.squareup.leakcanary.LeakCanary;
 import com.tencent.bugly.crashreport.CrashReport;
 
@@ -43,6 +42,5 @@ public class App extends AppBase{
         if (!DEBUG){
             CrashReport.initCrashReport(getApplicationContext(), "fd77fe012a", false);
         }
-
     }
 }

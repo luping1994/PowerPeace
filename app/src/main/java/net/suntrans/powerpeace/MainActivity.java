@@ -266,8 +266,12 @@ public class MainActivity extends BasedActivity implements View.OnClickListener
         super.onDestroy();
 //        unbindService(connection);
         handler.removeCallbacksAndMessages(null);
-        if (!DEBUG)
-            PgyUpdateManager.unregister();
+        try {
+            if (!DEBUG)
+                PgyUpdateManager.unregister();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

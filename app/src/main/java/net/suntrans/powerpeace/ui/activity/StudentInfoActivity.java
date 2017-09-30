@@ -1,11 +1,9 @@
 package net.suntrans.powerpeace.ui.activity;
 
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 
-import net.suntrans.looney.utils.LogUtil;
 import net.suntrans.looney.utils.UiUtils;
 import net.suntrans.powerpeace.R;
 import net.suntrans.powerpeace.bean.ResultBody;
@@ -71,6 +69,6 @@ public class StudentInfoActivity extends BasedActivity {
         binding.yuanxi.setText(info.academy+"");
         binding.zhuanye.setText(info.major+"");
         binding.dianhua.setText(info.telephone+"");
-        binding.sushe.setText(info.academy+"-"+info.building+"号学生公寓-"+info.dormitory);
+        binding.sushe.setText(info.academy+"-"+info.building+"-"+info.dormitory);
     }
 }

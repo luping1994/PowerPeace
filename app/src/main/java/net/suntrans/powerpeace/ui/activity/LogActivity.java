@@ -109,7 +109,6 @@ public class LogActivity extends BasedActivity implements View.OnClickListener, 
         adapter = new Myadapter(R.layout.item_log_his, copy);
         binding.recyclerView.addItemDecoration(new DefaultDecoration());
         binding.recyclerView.setAdapter(adapter);
-        binding.radio0.setChecked(true);
         binding.segmentedGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
@@ -141,6 +140,8 @@ public class LogActivity extends BasedActivity implements View.OnClickListener, 
                 adapter.notifyDataSetChanged();
             }
         });
+        binding.radio0.setChecked(true);
+
     }
 
     @Override
@@ -152,11 +153,13 @@ public class LogActivity extends BasedActivity implements View.OnClickListener, 
                 info.message = "打开了照明";
             else
                 info.message = "关闭了照明";
-
             info.name = "黄小玲";
+            info.type = "1";
             info.created_at = "2017-09-24 18:" + i + ":23";
             datas.add(info);
         }
+        copy.addAll(datas);
+
         adapter.notifyDataSetChanged();
 //        getData(time);
     }
@@ -196,7 +199,7 @@ public class LogActivity extends BasedActivity implements View.OnClickListener, 
 
         @Override
         protected void convert(BaseViewHolder helper, LogInfoEntity.LogInfo item) {
-            String action = item.status ? "打开" : "关闭";
+            String action  =  item.status ? "打开" : "关闭";
             helper.setText(R.id.msg, item.name + item.message);
             helper.setText(R.id.created_at, item.created_at);
         }
@@ -220,7 +223,6 @@ public class LogActivity extends BasedActivity implements View.OnClickListener, 
     public void onLogInfoReturned(LogInfoEntity infoEntity) {
         stateView.showContent();
         binding.recyclerView.setVisibility(View.VISIBLE);
-        System.out.println(infoEntity.info);
         datas.clear();
         datas.addAll(infoEntity.info);
 

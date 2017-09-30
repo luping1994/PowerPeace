@@ -65,7 +65,7 @@ public class WebSocketService extends Service implements WebSocketWrapper.onRece
 
     @Override
     public void onMessage(String s) {
-        System.out.println("websocket收到:" + s);
+        LogUtil.i("websocket收到:" + s);
         CmdMsg msg = new CmdMsg();
         msg.status = 1;
         msg.msg = s;
@@ -85,7 +85,7 @@ public class WebSocketService extends Service implements WebSocketWrapper.onRece
 public static final String CONNECT_SUCCESS="通讯成功";
     @Override
     public void onOpen() {
-        System.out.println("websocket 连接成功~");
+        LogUtil.i("websocket 连接成功~");
         CmdMsg msg = new CmdMsg();
 //        msg.status = 0;
 //        msg.msg = CONNECT_SUCCESS;

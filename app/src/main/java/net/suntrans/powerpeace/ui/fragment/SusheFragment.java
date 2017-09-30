@@ -295,7 +295,7 @@ public class SusheFragment extends BasedFragment {
     @Override
     protected void onFragmentFirstVisible() {
         super.onFragmentFirstVisible();
-        LogUtil.i("第一次可见");
+//        LogUtil.i("第一次可见");
         getMenuData();
     }
 

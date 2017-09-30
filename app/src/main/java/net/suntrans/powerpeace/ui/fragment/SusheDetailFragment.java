@@ -19,6 +19,7 @@ import com.alibaba.fastjson.JSON;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseSectionQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.trello.rxlifecycle.android.FragmentEvent;
 
 import net.suntrans.looney.utils.LogUtil;
@@ -415,23 +416,29 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
                         zhanhuxinxi = new RoomInfoSelection(false, "");
                     zhanhuxinxi.type = RoomInfoSelection.TYPE_ACCOUNT;
                     zhanhuxinxi.name = mAccountDictionaries.get(key);
-                    zhanhuxinxi.value = value;
                     switch (key) {
                         case "balans":
                             zhanhuxinxi.imgResId = R.drawable.ic_butie;
+                            zhanhuxinxi.value = value+"元";
+
                             break;
                         case "status":
                             zhanhuxinxi.imgResId = R.drawable.ic_zhuangtai;
-                            zhanhuxinxi.value = value.equals("1") ? "正常" : "异常";
+                            zhanhuxinxi.value = value.equals("true") ? "正常" : "异常";
                             break;
                         case "dayuse":
                             zhanhuxinxi.imgResId = R.drawable.ic_dl;
+                            zhanhuxinxi.value = value+"度";
+
                             break;
                         case "monthuse":
                             zhanhuxinxi.imgResId = R.drawable.ic_dl;
+                            zhanhuxinxi.value = value+"度";
+
                             break;
                         case "totaluse":
                             zhanhuxinxi.imgResId = R.drawable.ic_dl;
+                            zhanhuxinxi.value = value+"度";
                             break;
                     }
                     datas.add(zhanhuxinxi);

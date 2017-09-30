@@ -20,6 +20,7 @@ public final class WebSocketWrapper extends WebSocketListener {
     private final String TAG = this.getClass().getSimpleName();
     private final String url = "ws://gshp.suntrans-cloud.com:6300";
 
+                                   //gszy.suntrans-cloud.com
     private okhttp3.WebSocket socket;
     private final OkHttpClient client;
     private final Request request;

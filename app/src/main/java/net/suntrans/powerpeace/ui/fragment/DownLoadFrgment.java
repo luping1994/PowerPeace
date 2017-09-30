@@ -33,6 +33,7 @@ import android.widget.TextView;
 
 import com.pgyersdk.update.UpdateManagerListener;
 
+import net.suntrans.looney.utils.LogUtil;
 import net.suntrans.looney.utils.UiUtils;
 import net.suntrans.looney.widgets.NumberProgressBar;
 import net.suntrans.powerpeace.R;
@@ -263,7 +264,7 @@ public class DownLoadFrgment extends DialogFragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             long completeDownloadId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
-            System.out.println("onReceive");
+            LogUtil.i("onReceive");
             if (completeDownloadId == downloadId) {
                 checkStatus();
             }
@@ -287,7 +288,7 @@ public class DownLoadFrgment extends DialogFragment {
                     break;
                 //正在下载
                 case DownloadManager.STATUS_RUNNING:
-                    System.out.println("zhengzaixiazai");
+//                    System.out.println("zhengzaixiazai");
                     break;
                 //下载完成
                 case DownloadManager.STATUS_SUCCESSFUL:
@@ -319,7 +320,7 @@ public class DownLoadFrgment extends DialogFragment {
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == 1) {
-                System.out.println(msg.arg1);
+//                System.out.println(msg.arg1);
                 float[] obj = (float[]) msg.obj;
                 mNumberProgressBar.setProgress((int) obj[1]);
                 float totalSizef = obj[0]/1024/1024;
@@ -349,7 +350,7 @@ public class DownLoadFrgment extends DialogFragment {
         public void onChange(boolean selfChange) {
             super.onChange(selfChange);
             float[] progress = getProgress(downloadId);
-            System.out.println("onChanged");
+//            System.out.println("onChanged");
             handler.sendMessage(Message.obtain(handler, 1, progress));
 //            scheduledExecutorService.scheduleAtFixedRate(progressRunnable,0,2, TimeUnit.SECONDS);
         }

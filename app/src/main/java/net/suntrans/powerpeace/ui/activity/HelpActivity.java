@@ -46,7 +46,7 @@ public class HelpActivity extends BasedActivity {
         binding.refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
-                System.out.println("我被执行了");
+//                System.out.println("我被执行了");
                 binding.webview.reload();
             }
         });

@@ -318,7 +318,7 @@ public class Login1Activity extends BasedActivity {
                                     .putString("password", password)
                                     .putString("user_id",result.info.id)
                                     .commit();
-                            System.out.println(result.info.role_id);
+//                            System.out.println(result.info.role_id);
                             if (result.info.role_id == Constants.ADMIN) {
                                 if (dialog != null)
                                     dialog.dismiss();
@@ -336,7 +336,7 @@ public class Login1Activity extends BasedActivity {
 
 
     private void getUserInfo(String userName,String role) {
-        System.out.println("username="+userName+",role="+role);
+        LogUtil.i("username="+userName+",role="+role);
         RetrofitHelper.getApi()
                 .getUserInfo(userName,role)
                 .compose(this.<UserInfoEntity>bindToLifecycle())
@@ -358,7 +358,7 @@ public class Login1Activity extends BasedActivity {
 
                     @Override
                     public void onNext(UserInfoEntity info) {
-                        System.out.println(info.toString());
+//                        System.out.println(info.toString());
                         if (dialog != null)
                             dialog.dismiss();
                         if (info.code == 1) {
