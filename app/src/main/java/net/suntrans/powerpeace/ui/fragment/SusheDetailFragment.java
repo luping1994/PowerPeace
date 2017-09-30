@@ -205,10 +205,11 @@ public class SusheDetailFragment extends BasedFragment implements StateView.OnRe
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        UiUtils.showToast("设备长时间无应答");
+//                        UiUtils.showToast("设备长时间无应答");
+                        getData(param);
                         dialog.dismiss();
                     }
-                }, 3000);
+                }, 5000);
 //              adapter.notifyDataSetChanged();
             }
         });

@@ -1,11 +1,9 @@
 package net.suntrans.powerpeace;
 
 import android.content.ComponentName;
-import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.databinding.DataBindingUtil;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -21,12 +19,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.RadioGroup;
 
-import com.alibaba.fastjson.JSON;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.pgyersdk.feedback.PgyFeedback;
 import com.pgyersdk.update.PgyUpdateManager;
-import com.pgyersdk.update.UpdateManagerListener;
-import com.tencent.bugly.crashreport.CrashReport;
 
 import net.suntrans.looney.utils.UiUtils;
 import net.suntrans.powerpeace.adapter.FragmentAdapter;
@@ -39,9 +33,7 @@ import net.suntrans.powerpeace.network.WebSocketService;
 import net.suntrans.powerpeace.rx.BaseSubscriber;
 import net.suntrans.powerpeace.ui.activity.AboutActivity;
 import net.suntrans.powerpeace.ui.activity.BasedActivity;
-import net.suntrans.powerpeace.ui.activity.FeedbackActivity;
 import net.suntrans.powerpeace.ui.activity.HelpActivity;
-import net.suntrans.powerpeace.ui.activity.Login1Activity;
 import net.suntrans.powerpeace.ui.activity.MsgCenterActivity;
 import net.suntrans.powerpeace.ui.activity.PersonActivity;
 import net.suntrans.powerpeace.ui.activity.SearchActivity;
@@ -53,11 +45,9 @@ import net.suntrans.powerpeace.ui.fragment.SusheFragment;
 import net.suntrans.powerpeace.ui.fragment.ZongHeFragmentCopy;
 import net.suntrans.powerpeace.utils.StatusBarCompat;
 
-import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static android.R.attr.versionName;
 import static net.suntrans.powerpeace.BuildConfig.DEBUG;
 
 public class MainActivity extends BasedActivity implements View.OnClickListener
