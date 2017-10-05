@@ -38,9 +38,10 @@ public class NavViewAdapter extends BaseQuickAdapter<NavViewItem,BaseViewHolder>
         NavViewItem item0 = new NavViewItem(R.drawable.ic_home,"主页");
         NavViewItem item1 = new NavViewItem(R.drawable.ic_msg,"消息");
         NavViewItem item2 = new NavViewItem(R.drawable.ic_setting,"设置");
-        NavViewItem item4 = new NavViewItem(R.drawable.ic_jianyi,"帮助与反馈");
         NavViewItem item3 = new NavViewItem(R.drawable.ic_wenti,"关于");
-        NavViewItem item5 = new NavViewItem(R.drawable.ic_exit,"退出");
+        NavViewItem item4 = new NavViewItem(R.drawable.internet,"官网");
+        NavViewItem item5= new NavViewItem(R.drawable.ic_jianyi,"帮助与反馈");
+        NavViewItem item6 = new NavViewItem(R.drawable.ic_exit,"退出");
 
         navViewItems.add(item0);
         navViewItems.add(item1);
@@ -48,6 +49,7 @@ public class NavViewAdapter extends BaseQuickAdapter<NavViewItem,BaseViewHolder>
         navViewItems.add(item3);
         navViewItems.add(item4);
         navViewItems.add(item5);
+        navViewItems.add(item6);
         return navViewItems;
     }
 

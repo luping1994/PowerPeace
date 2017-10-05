@@ -318,14 +318,14 @@ public class Login1Activity extends BasedActivity {
                                     .putString("password", password)
                                     .putString("user_id",result.info.id)
                                     .commit();
-//                            System.out.println(result.info.role_id);
-                            if (result.info.role_id == Constants.ADMIN) {
+                            LogUtil.i(result.info.username+","+result.info.role_id);
+                            if (result.info.role_id == Constants.STUDENT) {
+                                getUserInfo(result.info.username,result.info.role_id+"");
+                            } else {
                                 if (dialog != null)
                                     dialog.dismiss();
                                 startActivity(new Intent(Login1Activity.this, MainActivity.class));
                                 finish();
-                            } else {
-                                getUserInfo(result.info.username,result.info.role_id+"");
                             }
                         } else {
                             UiUtils.showToast("账号或密码错误!");

@@ -65,7 +65,6 @@ public class SettingActivity extends BasedActivity {
     @Override
     protected void onDestroy() {
         handler.removeCallbacksAndMessages(null);
-
         try {
             PgyUpdateManager.unregister();
         } catch (Exception e) {
@@ -103,7 +102,6 @@ public class SettingActivity extends BasedActivity {
                         public void run() {
                             binding.version.setText("发现新版本" + versionName);
                             binding.arrow.setVisibility(View.VISIBLE);
-
                         }
                     });
                 } catch (Exception e) {
@@ -151,8 +149,8 @@ public class SettingActivity extends BasedActivity {
         String apkName = "hp_" + versionInfo.versionName + "_" + versionInfo.versionCode + ".apk";
 
         file = new File(getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), apkName);
-        if (file.exists()){
-            installNormal(this,file.getPath());
+        if (file.exists()) {
+            installNormal(this, file.getPath());
             return;
         }
         if (downloadManager == null)
@@ -181,7 +179,6 @@ public class SettingActivity extends BasedActivity {
     }
 
     private Handler handler = new Handler();
-
 
 
     /**
@@ -234,13 +231,11 @@ public class SettingActivity extends BasedActivity {
     }
 
 
-
-
-    private void showUpdateDialog(String result){
+    private void showUpdateDialog(String result) {
         String apkName = "hp_" + versionInfo.versionName + "_" + versionInfo.versionCode + ".apk";
 
-        DownLoadFrgment frgment = DownLoadFrgment.newInstance(versionInfo,apkName,result);
-        frgment.show(getSupportFragmentManager(),"DownloadFragment");
+        DownLoadFrgment frgment = DownLoadFrgment.newInstance(versionInfo, apkName, result);
+        frgment.show(getSupportFragmentManager(), "DownloadFragment");
     }
 }
 

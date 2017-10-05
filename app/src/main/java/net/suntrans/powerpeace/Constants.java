@@ -7,6 +7,7 @@ public class Constants {
 //    public static final int ADMIN =0 ;
     public static final int ADMIN =1 ;
     public static final int STUDENT =4 ;
+    public static final int ZANSHI =5 ;
 //    public static final int STUDENT =1 ;
     public static  String ROOM_ID ="-1" ;
 

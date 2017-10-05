@@ -5,6 +5,7 @@ import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.databinding.DataBindingUtil;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -180,10 +181,15 @@ public class StudentMainActivity extends BasedActivity implements View.OnClickLi
                         handler.sendEmptyMessageDelayed(START_ABOUT_ACTIVITY, 400);
                         break;
                     case 4:
-                        handler.sendEmptyMessageDelayed(START_FEEDBACK_ACTIVITY, 400);
+                        handler.sendEmptyMessageDelayed(START_INTERNET_ACTIVITY, 400);
+
                         break;
 
                     case 5:
+                        handler.sendEmptyMessageDelayed(START_FEEDBACK_ACTIVITY, 400);
+
+                        break;
+                    case 6:
                         android.os.Process.killProcess(android.os.Process.myPid());
                         break;
                 }
@@ -257,8 +263,9 @@ public class StudentMainActivity extends BasedActivity implements View.OnClickLi
     private static final int START_MSG_ACTIVITY = 0;
     private static final int START_SETTING_ACTIVITY = 1;
     private static final int START_HELP_ACTIVITY = 2;
-    private static final int START_ABOUT_ACTIVITY = 3;
-    private static final int START_FEEDBACK_ACTIVITY = 4;
+    private static final int START_INTERNET_ACTIVITY = 3;
+    private static final int START_ABOUT_ACTIVITY = 4;
+    private static final int START_FEEDBACK_ACTIVITY = 5;
 
     private Handler handler = new Handler() {
         @Override
@@ -284,6 +291,11 @@ public class StudentMainActivity extends BasedActivity implements View.OnClickLi
                     break;
                 case START_FEEDBACK_ACTIVITY:
                     intent.setClass(StudentMainActivity.this, HelpActivity.class);
+                    break;
+                case START_INTERNET_ACTIVITY:
+                    intent.setAction("android.intent.action.VIEW");
+                    Uri content_url = Uri.parse("http://www.suntrans.net");
+                    intent.setData(content_url);
                     break;
 
             }

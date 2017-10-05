@@ -121,22 +121,22 @@ public class AmmeterHisActivity extends BasedActivity {
 
     private void initData() {
         dictionaries = new HashMap<>();
-        dictionaries.put("电压", "1");
+        dictionaries.put("电压", "100001");
         dictionaries.put("电压Unit", "(V)");
 
         dictionaries.put("电流Unit", "(A)");
-        dictionaries.put("电流", "2");
+        dictionaries.put("电流", "100002");
 
-        dictionaries.put("功率", "3");
+        dictionaries.put("功率", "100003");
         dictionaries.put("功率Unit", "(W)");
 
-        dictionaries.put("功率因数", "4");
+        dictionaries.put("功率因数", "100004");
         dictionaries.put("功率因数Unit", "");
 
-        dictionaries.put("电表值", "5");
+        dictionaries.put("电表值", "100005");
         dictionaries.put("电表值Unit", "(度)");
 
-        dictionaries.put("用电量", "6");
+        dictionaries.put("用电量", "100007");
         dictionaries.put("用电量Unit", "(度)");
 
 
@@ -276,13 +276,11 @@ public class AmmeterHisActivity extends BasedActivity {
                 stateView.showRetry();
                 binding.mainContent.setVisibility(View.INVISIBLE);
             }
-
             @Override
             public void onNext(HisEntity hisEntity) {
                 super.onNext(hisEntity);
                 data = hisEntity;
                 setData(data);
-
             }
         });
     }
@@ -295,12 +293,13 @@ public class AmmeterHisActivity extends BasedActivity {
         values.clear();
         if (hisEntity == null) {
             stateView.showEmpty();
-
+            binding.mainContent.setVisibility(View.INVISIBLE);
             return;
         }
         if (mDisplayType == DISPLAY_WEEK) {
             if (hisEntity.week_data == null || hisEntity.week_data.size() == 0) {
                 stateView.showEmpty();
+                binding.mainContent.setVisibility(View.INVISIBLE);
                 return;
             }
             for (int i = 0; i < hisEntity.week_data.size(); i++) {
@@ -318,6 +317,8 @@ public class AmmeterHisActivity extends BasedActivity {
         if (mDisplayType == DISPLAY_MONTH) {
             if (hisEntity.month_data == null || hisEntity.month_data.size() == 0) {
                 stateView.showEmpty();
+                binding.mainContent.setVisibility(View.INVISIBLE);
+
                 return;
             }
             for (int i = 0; i < hisEntity.month_data.size(); i++) {
@@ -336,6 +337,8 @@ public class AmmeterHisActivity extends BasedActivity {
         if (mDisplayType == DISPLAY_DAY) {
             if (hisEntity.day_data == null || hisEntity.day_data.size() == 0) {
                 stateView.showEmpty();
+                binding.mainContent.setVisibility(View.INVISIBLE);
+
                 return;
             }
             int size = hisEntity.day_data.size();

@@ -111,7 +111,7 @@ public interface Api {
     @FormUrlEncoded
     @POST("api/inquiry/Inquiry_Ammeter_History")
     Observable<HisEntity> getMeterHis(@Field("room_id") String room_id,
-                                      @Field("data_type") String data_type);
+                                      @Field("datapoint") String datapoint);
 
     /**
      * 管理员查询综合数据

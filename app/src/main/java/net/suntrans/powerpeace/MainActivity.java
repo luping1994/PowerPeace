@@ -4,6 +4,7 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.databinding.DataBindingUtil;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -44,6 +45,8 @@ import net.suntrans.powerpeace.ui.fragment.StudentFragment;
 import net.suntrans.powerpeace.ui.fragment.SusheFragment;
 import net.suntrans.powerpeace.ui.fragment.ZongHeFragmentCopy;
 import net.suntrans.powerpeace.utils.StatusBarCompat;
+
+import java.util.concurrent.CopyOnWriteArraySet;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -146,10 +149,15 @@ public class MainActivity extends BasedActivity implements View.OnClickListener
                         handler.sendEmptyMessageDelayed(START_ABOUT_ACTIVITY, 400);
                         break;
                     case 4:
-                        handler.sendEmptyMessageDelayed(START_FEEDBACK_ACTIVITY, 400);
+                        handler.sendEmptyMessageDelayed(START_INTERNET_ACTIVITY, 400);
+
                         break;
 
                     case 5:
+                        handler.sendEmptyMessageDelayed(START_FEEDBACK_ACTIVITY, 400);
+
+                        break;
+                    case 6:
                         android.os.Process.killProcess(android.os.Process.myPid());
                         break;
                 }
@@ -273,8 +281,9 @@ public class MainActivity extends BasedActivity implements View.OnClickListener
     private static final int START_MSG_ACTIVITY = 0;
     private static final int START_SETTING_ACTIVITY = 1;
     private static final int START_HELP_ACTIVITY = 2;
-    private static final int START_ABOUT_ACTIVITY = 3;
-    private static final int START_FEEDBACK_ACTIVITY = 4;
+    private static final int START_INTERNET_ACTIVITY = 3;
+    private static final int START_ABOUT_ACTIVITY = 4;
+    private static final int START_FEEDBACK_ACTIVITY = 5;
 
     private Handler handler = new Handler() {
         @Override
@@ -295,6 +304,11 @@ public class MainActivity extends BasedActivity implements View.OnClickListener
                     break;
                 case START_FEEDBACK_ACTIVITY:
                     intent.setClass(MainActivity.this, HelpActivity.class);
+                    break;
+                case START_INTERNET_ACTIVITY:
+                    intent.setAction("android.intent.action.VIEW");
+                    Uri content_url = Uri.parse("http://www.suntrans.net");
+                    intent.setData(content_url);
                     break;
             }
             startActivity(intent);
