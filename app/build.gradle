@@ -7,8 +7,8 @@ android {
         applicationId "net.suntrans.powerpeace"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 14
-        versionName "0.2.4"
+        versionCode 20
+        versionName "0.4.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     dataBinding {
@@ -71,6 +71,8 @@ dependencies {
     compile project(':stateview')
     compile 'com.android.support:support-v4:' + rootProject.supportLibVersion
 
+    //其中latest.release指代最新Bugly SDK版本号，也可以指定明确的版本号，例如2.2.0
+
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
     compile 'io.reactivex:rxandroid:1.2.1'
@@ -86,9 +88,9 @@ dependencies {
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
+    compile 'com.tencent.bugly:crashreport:latest.release'
+    compile 'com.android.support:support-v4:25.3.1'
     testCompile 'junit:junit:4.12'
-    compile 'com.tencent.bugly:crashreport:latest.release' //其中latest.release指代最新Bugly SDK版本号，也可以指定明确的版本号，例如2.2.0
-
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
 }

@@ -2,48 +2,25 @@ package net.suntrans.powerpeace.ui.activity;
 
 import android.content.ComponentName;
 import android.content.ContextWrapper;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.databinding.DataBindingUtil;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseSectionQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
 import com.trello.rxlifecycle.android.ActivityEvent;
 
-import net.suntrans.looney.utils.LogUtil;
-import net.suntrans.looney.utils.UiUtils;
 import net.suntrans.powerpeace.Constants;
 import net.suntrans.powerpeace.R;
-import net.suntrans.powerpeace.bean.RoomInfoSelection;
-import net.suntrans.powerpeace.bean.RoomInfolEntity;
 import net.suntrans.powerpeace.databinding.ActivitySusheDetailBinding;
 import net.suntrans.powerpeace.network.WebSocketService;
-import net.suntrans.powerpeace.rx.BaseSubscriber;
 import net.suntrans.powerpeace.rx.RxBus;
-import net.suntrans.powerpeace.ui.decoration.DefaultDecoration;
 import net.suntrans.powerpeace.ui.fragment.BasedFragment;
 import net.suntrans.powerpeace.ui.fragment.SusheDetailFragment;
 import net.suntrans.powerpeace.utils.StatusBarCompat;
-import net.suntrans.stateview.StateView;
 
 import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.EventListener;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import rx.Subscriber;
 
@@ -96,7 +73,7 @@ public class SusheDetailActivity extends BasedActivity implements BasedFragment.
 
 
         room_id = getIntent().getStringExtra("room_id");
-        SusheDetailFragment fragment = SusheDetailFragment.newInstance(room_id, String.valueOf(Constants.ADMIN));
+        SusheDetailFragment fragment = SusheDetailFragment.newInstance(room_id, String.valueOf(Constants.ROLE_ADMIN));
         getSupportFragmentManager().beginTransaction().replace(R.id.content, fragment).commit();
 
     }
@@ -134,9 +111,9 @@ public class SusheDetailActivity extends BasedActivity implements BasedFragment.
                 });
 
 
-        Intent intent = new Intent();
-        intent.setClass(this, WebSocketService.class);
-        bindService(intent, connection, ContextWrapper.BIND_AUTO_CREATE);
+//        Intent intent = new Intent();
+//        intent.setClass(this, WebSocketService.class);
+//        bindService(intent, connection, ContextWrapper.BIND_AUTO_CREATE);
 
     }
 
@@ -159,7 +136,7 @@ public class SusheDetailActivity extends BasedActivity implements BasedFragment.
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unbindService(connection);
+//        unbindService(connection);
     }
 
     @Override

@@ -32,7 +32,7 @@
             android:textSize="18sp" />
 
 
-        <EditText
+        <net.suntrans.looney.widgets.EditView
             android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="45dp"
@@ -47,7 +47,7 @@
             android:textSize="16sp" />
 
 
-        <EditText
+        <net.suntrans.looney.widgets.EditView
             android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="45dp"
@@ -77,6 +77,7 @@
             android:textStyle="bold" />
 
         <RelativeLayout
+            android:visibility="invisible"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:paddingLeft="16dp"

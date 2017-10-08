@@ -31,6 +31,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+
 import com.pgyersdk.update.UpdateManagerListener;
 
 import net.suntrans.looney.utils.LogUtil;
@@ -208,7 +209,7 @@ public class DownLoadFrgment extends DialogFragment {
     private  void installNormal(Context context, String apkPath) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         //版本在7.0以上是不能直接通过uri访问的
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             File file = (new File(apkPath));
             // 由于没有在Activity环境下启动Activity,设置下面的标签
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

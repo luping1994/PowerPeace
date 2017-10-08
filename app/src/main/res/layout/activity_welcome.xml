@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="学生公寓用电管理信息化系统"
+            android:text="学生公寓智能用电管控系统"
             android:textColor="@color/white"
             android:textSize="18sp" />
 
@@ -61,7 +61,6 @@
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/name1"
                 android:layout_marginBottom="4dp"
-                android:autoLink="all"
                 android:gravity="center"
                 android:text="@string/company_name_CH"
                 android:textColor="@color/white"

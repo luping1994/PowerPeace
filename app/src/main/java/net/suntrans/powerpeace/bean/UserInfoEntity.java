@@ -6,7 +6,7 @@ import java.util.List;
  * Created by Looney on 2017/9/15.
  */
 
-public class UserInfoEntity extends ResultBody<List<UserInfoEntity.UserInfo>>{
+public class UserInfoEntity extends ResultBody<UserInfoEntity.UserInfo>{
 
     /**
      * code : 1
@@ -23,49 +23,26 @@ public class UserInfoEntity extends ResultBody<List<UserInfoEntity.UserInfo>>{
 //        return info.get(0).toString();
 //    }
 
+
     public static class UserInfo {
         /**
-         * studentID : 2013301470027
-         * room_id : 21
-         * IDnumber : 0
-         * major : 66
-         * name : 王晓青
-         * telephone : 0
-         * academy : 动力与机械学院
+         * role_id : 4
+         * role_name : 学生
+         * role_code : ROLE_STUDENT
+         * login_num : 22
+         * id : 1
+         * username : 112501036
+         * room_id : 1052
          */
 
-        public String studentID;
-        public String room_id;
-        public String IDnumber;
-        public String major;
-        public String name;
-        public String telephone;
-        public String academy;
-
-
-
-        public String tel_num;
-        public String sex;
-        public String email;
+        public int role_id;
+        public String role_name;
+        public String role_code;
+        public String login_num;
+        public String id;
         public String username;
-        public String status;
+        public String room_id;
+        public String floor_id;
 
-        @Override
-        public String toString() {
-            return "UserInfo{" +
-                    "studentID=" + studentID +
-                    ", room_id=" + room_id +
-                    ", IDnumber=" + IDnumber +
-                    ", major='" + major + '\'' +
-                    ", name='" + name + '\'' +
-                    ", telephone=" + telephone +
-                    ", academy='" + academy + '\'' +
-                    ", tel_num='" + tel_num + '\'' +
-                    ", sex='" + sex + '\'' +
-                    ", email='" + email + '\'' +
-                    ", username='" + username + '\'' +
-                    ", status='" + status + '\'' +
-                    '}';
-        }
     }
 }

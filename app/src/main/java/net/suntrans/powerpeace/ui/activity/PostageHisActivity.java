@@ -25,8 +25,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import static com.pgyersdk.c.a.f;
-import static com.pgyersdk.c.a.m;
+import static android.R.attr.fragment;
 
 public class PostageHisActivity extends BasedActivity implements View.OnClickListener, DataPickerDialogFragment.OnDateSetChangerListener {
 
@@ -126,11 +125,9 @@ public class PostageHisActivity extends BasedActivity implements View.OnClickLis
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.time) {
-            DataPickerDialogFragment fragment = (DataPickerDialogFragment) getSupportFragmentManager().findFragmentByTag("dateDialogFragment");
-            if (fragment == null) {
-                fragment = new DataPickerDialogFragment();
-                fragment.setListener(this);
-            }
+            DataPickerDialogFragment
+                    fragment = new DataPickerDialogFragment();
+            fragment.setListener(this);
             fragment.show(getSupportFragmentManager(), "dateDialogFragment");
         }
     }

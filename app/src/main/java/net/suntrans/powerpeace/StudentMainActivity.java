@@ -15,14 +15,11 @@ import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.KeyEvent;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.alibaba.fastjson.JSON;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.pgyersdk.update.PgyUpdateManager;
-import com.pgyersdk.update.UpdateManagerListener;
 import com.trello.rxlifecycle.android.ActivityEvent;
 
 import net.suntrans.looney.utils.UiUtils;
@@ -33,12 +30,12 @@ import net.suntrans.powerpeace.network.WebSocketService;
 import net.suntrans.powerpeace.rx.RxBus;
 import net.suntrans.powerpeace.ui.activity.AboutActivity;
 import net.suntrans.powerpeace.ui.activity.BasedActivity;
-import net.suntrans.powerpeace.ui.activity.FeedbackActivity;
 import net.suntrans.powerpeace.ui.activity.HelpActivity;
 import net.suntrans.powerpeace.ui.activity.MsgCenterActivity;
 import net.suntrans.powerpeace.ui.activity.PayActivity;
 import net.suntrans.powerpeace.ui.activity.PersonActivity;
 import net.suntrans.powerpeace.ui.activity.SettingActivity;
+import net.suntrans.powerpeace.ui.decoration.DefaultDecoration;
 import net.suntrans.powerpeace.ui.fragment.BasedFragment;
 import net.suntrans.powerpeace.ui.fragment.DownLoadFrgment;
 import net.suntrans.powerpeace.ui.fragment.SusheDetailFragment;
@@ -47,7 +44,6 @@ import net.suntrans.powerpeace.utils.StatusBarCompat;
 import org.json.JSONObject;
 
 import rx.Subscriber;
-import rx.schedulers.Schedulers;
 
 import static net.suntrans.powerpeace.BuildConfig.DEBUG;
 
@@ -89,7 +85,7 @@ public class StudentMainActivity extends BasedActivity implements View.OnClickLi
         binding.drawer.setDrawerListener(toggle);
         toggle.syncState();
         room_id = App.getSharedPreferences().getString("room_id", "-1");
-        SusheDetailFragment fragment = SusheDetailFragment.newInstance(room_id, String.valueOf(Constants.ADMIN));
+        SusheDetailFragment fragment = SusheDetailFragment.newInstance(room_id, String.valueOf(Constants.ROLE_ADMIN));
         getSupportFragmentManager().beginTransaction().replace(R.id.content, fragment).commit();
 
         initRecyclerView();
@@ -156,9 +152,9 @@ public class StudentMainActivity extends BasedActivity implements View.OnClickLi
                     }
                 });
 
-        Intent intent = new Intent();
-        intent.setClass(this, WebSocketService.class);
-        bindService(intent, connection, ContextWrapper.BIND_AUTO_CREATE);
+//        Intent intent = new Intent();
+//        intent.setClass(this, WebSocketService.class);
+//        bindService(intent, connection, ContextWrapper.BIND_AUTO_CREATE);
 
         NavViewAdapter navViewAdapter = new NavViewAdapter(NavViewAdapter.getLayoutRes(), NavViewAdapter.getItems());
         navViewAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -196,6 +192,8 @@ public class StudentMainActivity extends BasedActivity implements View.OnClickLi
             }
         });
         binding.navView.recyclerView.setAdapter(navViewAdapter);
+        binding.navView.recyclerView.addItemDecoration(new DefaultDecoration(UiUtils.dip2px(0.5f, this), getResources().getColor(R.color.nav_divider)));
+
 //        binding.navView.recyclerView.addItemDecoration(new DefaultDecoration(UiUtils.dip2px(0.5f,this), Color.parseColor("#d9d9d9")));
         binding.navView.exit.setOnClickListener(this);
         binding.navView.setting.setOnClickListener(this);
@@ -213,7 +211,7 @@ public class StudentMainActivity extends BasedActivity implements View.OnClickLi
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.exit:
-                finish();
+                android.os.Process.killProcess(android.os.Process.myPid());
                 break;
             case R.id.setting:
                 binding.drawer.closeDrawers();
@@ -235,8 +233,8 @@ public class StudentMainActivity extends BasedActivity implements View.OnClickLi
             System.arraycopy(mHits, 1, mHits, 0, mHits.length - 1);
             mHits[mHits.length - 1] = SystemClock.uptimeMillis();
             if (mHits[0] >= (SystemClock.uptimeMillis() - 2000)) {
-                finish();
-//                android.os.Process.killProcess(android.os.Process.myPid());
+//                finish();
+                android.os.Process.killProcess(android.os.Process.myPid());
             } else {
                 UiUtils.showToast("再按一次退出");
             }
@@ -249,14 +247,14 @@ public class StudentMainActivity extends BasedActivity implements View.OnClickLi
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unbindService(connection);
+//        unbindService(connection);
         handler.removeCallbacksAndMessages(null);
-        try {
-            if (!DEBUG)
-                PgyUpdateManager.unregister();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            if (!DEBUG)
+//                PgyUpdateManager.unregister();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
 

@@ -26,4 +26,20 @@ public class ControlBody {
     public int rd;
     public String addr;
     public String mui;
+
+    @Override
+    public String toString() {
+        return "ControlBody{" +
+                "dev='" + dev + '\'' +
+                ", ac='" + ac + '\'' +
+                ", ud=" + ud +
+                ", wp=" + wp +
+                ", chd=" + chd +
+                ", cmd=" + cmd +
+                ", num=" + num +
+                ", rd=" + rd +
+                ", addr='" + addr + '\'' +
+                ", mui='" + mui + '\'' +
+                '}';
+    }
 }

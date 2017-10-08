@@ -20,7 +20,6 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
 
-import com.pgyersdk.update.UpdateManagerListener;
 
 import net.suntrans.looney.utils.UiUtils;
 import net.suntrans.powerpeace.bean.Version;
@@ -173,7 +172,7 @@ public class MyService extends Service {
                 //下载完成
                 case DownloadManager.STATUS_SUCCESSFUL:
                     //下载完成安装APK
-                    UpdateManagerListener.updateLocalBuildNumber(result);
+//                    UpdateManagerListener.updateLocalBuildNumber(result);
                     installNormal(getApplicationContext(), file.getPath());
                     break;
                 //下载失败

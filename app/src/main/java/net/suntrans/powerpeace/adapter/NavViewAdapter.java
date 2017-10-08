@@ -2,7 +2,6 @@ package net.suntrans.powerpeace.adapter;
 
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
-import android.view.View;
 import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -12,8 +11,6 @@ import net.suntrans.powerpeace.R;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.pgyersdk.c.a.n;
 
 /**
  * Created by Looney on 2017/9/13.

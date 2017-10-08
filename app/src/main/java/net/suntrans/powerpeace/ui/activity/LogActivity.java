@@ -31,6 +31,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import static android.R.attr.data;
+import static android.R.attr.fragment;
 
 public class LogActivity extends BasedActivity implements View.OnClickListener, DataPickerDialogFragment.OnDateSetChangerListener, ApiHelper.OnDataGetListener, StateView.OnRetryClickListener {
 
@@ -153,7 +154,7 @@ public class LogActivity extends BasedActivity implements View.OnClickListener, 
                 info.message = "打开了照明";
             else
                 info.message = "关闭了照明";
-            info.name = "黄小玲";
+            info.name = "xxx";
             info.type = "1";
             info.created_at = "2017-09-24 18:" + i + ":23";
             datas.add(info);
@@ -167,11 +168,9 @@ public class LogActivity extends BasedActivity implements View.OnClickListener, 
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.time) {
-            DataPickerDialogFragment fragment = (DataPickerDialogFragment) getSupportFragmentManager().findFragmentByTag("dateDialogFragment");
-            if (fragment == null) {
-                fragment = new DataPickerDialogFragment();
-                fragment.setListener(this);
-            }
+            DataPickerDialogFragment
+                    fragment = new DataPickerDialogFragment();
+            fragment.setListener(this);
             fragment.show(getSupportFragmentManager(), "dateDialogFragment");
         }
     }
@@ -199,7 +198,7 @@ public class LogActivity extends BasedActivity implements View.OnClickListener, 
 
         @Override
         protected void convert(BaseViewHolder helper, LogInfoEntity.LogInfo item) {
-            String action  =  item.status ? "打开" : "关闭";
+            String action = item.status ? "打开" : "关闭";
             helper.setText(R.id.msg, item.name + item.message);
             helper.setText(R.id.created_at, item.created_at);
         }

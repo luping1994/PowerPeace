@@ -19,6 +19,7 @@ import net.suntrans.powerpeace.api.RetrofitHelper;
 import net.suntrans.powerpeace.bean.LogInfoEntity;
 import net.suntrans.powerpeace.bean.ResultBody;
 import net.suntrans.powerpeace.bean.UserInfoEntity;
+import net.suntrans.powerpeace.bean.UserInfoEntityOld;
 import net.suntrans.powerpeace.databinding.ActivityPersonalBinding;
 import net.suntrans.powerpeace.rx.BaseSubscriber;
 import net.suntrans.powerpeace.ui.fragment.ChangeNameFragment;
@@ -170,10 +171,10 @@ public class PersonActivity extends BasedActivity implements View.OnClickListene
     private void getUserInfo(String userName, String role) {
         RetrofitHelper.getApi()
                 .getUserInfo(userName, role)
-                .compose(this.<UserInfoEntity>bindToLifecycle())
+                .compose(this.<UserInfoEntityOld>bindToLifecycle())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(new BaseSubscriber<UserInfoEntity>(this) {
+                .subscribe(new BaseSubscriber<UserInfoEntityOld>(this) {
                     @Override
                     public void onCompleted() {
 
@@ -187,7 +188,7 @@ public class PersonActivity extends BasedActivity implements View.OnClickListene
                     }
 
                     @Override
-                    public void onNext(UserInfoEntity info) {
+                    public void onNext(UserInfoEntityOld info) {
 //                        System.out.println(info.toString());
                         if (info.code == 1) {
                             binding.name.setText(info.info.get(0).name);

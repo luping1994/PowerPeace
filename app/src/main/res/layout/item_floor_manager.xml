@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="48dp">
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="16dp"
+        android:src="@drawable/ic_floor" />
+
+    <TextView
+        android:id="@+id/floor"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="16dp"
+        android:layout_toRightOf="@+id/image"
+        android:gravity="center"
+        android:text="一层"
+        android:textColor="@color/textColor"
+        android:textSize="16sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@+id/floor"
+        android:gravity="center|right"
+        android:orientation="horizontal"
+        android:paddingRight="16dp">
+
+
+        <TextView
+            android:id="@+id/open"
+            android:layout_width="50dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="16dp"
+            android:background="@drawable/bg_bt_login"
+            android:gravity="center"
+            android:text="全开"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/close"
+            android:layout_width="50dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="8dp"
+            android:background="@drawable/bg_close"
+            android:gravity="center"
+            android:text="全关"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+</RelativeLayout>

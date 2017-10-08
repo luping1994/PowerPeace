@@ -21,6 +21,7 @@ import com.alibaba.fastjson.JSON;
 import com.pgyersdk.update.PgyUpdateManager;
 import com.pgyersdk.update.UpdateManagerListener;
 
+
 import net.suntrans.looney.utils.UiUtils;
 import net.suntrans.powerpeace.App;
 import net.suntrans.powerpeace.BuildConfig;
@@ -32,7 +33,6 @@ import net.suntrans.powerpeace.utils.StatusBarCompat;
 
 import java.io.File;
 
-import static net.suntrans.powerpeace.R.id.recyclerView;
 import static net.suntrans.powerpeace.R.id.signOut;
 
 public class SettingActivity extends BasedActivity {
@@ -65,11 +65,11 @@ public class SettingActivity extends BasedActivity {
     @Override
     protected void onDestroy() {
         handler.removeCallbacksAndMessages(null);
-        try {
-            PgyUpdateManager.unregister();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            PgyUpdateManager.unregister();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
         super.onDestroy();
     }
 

@@ -3,13 +3,12 @@ package net.suntrans.powerpeace.ui.activity;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.ActionBar;
-
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -20,26 +19,28 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import net.suntrans.looney.utils.LogUtil;
+import com.pgyersdk.update.PgyUpdateManager;
+import com.trello.rxlifecycle.android.ActivityEvent;
+
 import net.suntrans.looney.utils.UiUtils;
 import net.suntrans.looney.widgets.LoadingDialog;
 import net.suntrans.powerpeace.App;
+import net.suntrans.powerpeace.BuildingManagerMainActivity;
 import net.suntrans.powerpeace.Constants;
+import net.suntrans.powerpeace.FloorMainActivity;
+import net.suntrans.powerpeace.LeaderMainActivity;
 import net.suntrans.powerpeace.MainActivity;
 import net.suntrans.powerpeace.R;
 import net.suntrans.powerpeace.StudentMainActivity;
 import net.suntrans.powerpeace.api.RetrofitHelper;
 import net.suntrans.powerpeace.bean.LoginEntity;
 import net.suntrans.powerpeace.bean.UserInfoEntity;
-import net.suntrans.powerpeace.bean.ZongheEntity;
 import net.suntrans.powerpeace.rx.BaseSubscriber;
 
-import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -69,13 +70,8 @@ public class Login1Activity extends BasedActivity {
         super.onCreate(savedInstanceState);
 //        applyTransition();
         setContentView(R.layout.activity_login1);
-//        toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        toolbar.setTitle("登录");
-//        toolbar.setNavigationIcon(R.drawable.ic_clear);
-//
-//        setSupportActionBar(toolbar);
-//        ActionBar actionBar = getSupportActionBar();
 
+        PgyUpdateManager.register(this, "net.suntrans.powerpeace.fileProvider");
 
         String username = App.getSharedPreferences().getString("username", "");
         String password = App.getSharedPreferences().getString("password", "");
@@ -139,7 +135,7 @@ public class Login1Activity extends BasedActivity {
 
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Login1Activity.this,FindPasswordActivity.class));
+                startActivity(new Intent(Login1Activity.this, FindPasswordActivity.class));
 
             }
         });
@@ -147,17 +143,15 @@ public class Login1Activity extends BasedActivity {
         findViewById(R.id.jihuo).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Login1Activity.this,JihuoActivity.class));
+                startActivity(new Intent(Login1Activity.this, JihuoActivity.class));
             }
         });
-
-
     }
 
     private void applyTransition() {
-        if (getIntent().getBooleanExtra("notTrans",false)){
+        if (getIntent().getBooleanExtra("notTrans", false)) {
 
-        }else {
+        } else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 String transition = getIntent().getStringExtra(EXTRA_TRANSITION);
                 switch (transition) {
@@ -270,7 +264,6 @@ public class Login1Activity extends BasedActivity {
     }
 
 
-
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
         return email.length() >= 4;
@@ -281,16 +274,20 @@ public class Login1Activity extends BasedActivity {
         return password.length() > 4;
     }
 
-    Handler handler = new Handler();
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         handler.removeCallbacksAndMessages(null);
+//        try {
+//            PgyUpdateManager.unregister();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
-    private void LoginFromServer(String username, final String password) {
-        RetrofitHelper.getApi().login(username, password)
+    private void LoginFromServer(final String username, final String password) {
+        RetrofitHelper.getLoginApi().login(username, password, "password", "100001", "peS4zinqLC2x5pSc2Li98whTbSaC0d1OwrYsqQpL")
                 .compose(this.<LoginEntity>bindToLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -310,36 +307,24 @@ public class Login1Activity extends BasedActivity {
 
                     @Override
                     public void onNext(LoginEntity result) {
-
-                        if (result.code == 1) {
-                            App.getSharedPreferences().edit().putString("token", result.token)
-                                    .putInt("role", result.info.role_id)
-                                    .putString("username", result.info.username)
-                                    .putString("password", password)
-                                    .putString("user_id",result.info.id)
+                        if (result.getAccess_token() != null) {
+                            App.getSharedPreferences().edit().putString("token", result.getAccess_token())
+                                    .putString("username",username)
+                                    .putString("password",password)
                                     .commit();
-                            LogUtil.i(result.info.username+","+result.info.role_id);
-                            if (result.info.role_id == Constants.STUDENT) {
-                                getUserInfo(result.info.username,result.info.role_id+"");
-                            } else {
-                                if (dialog != null)
-                                    dialog.dismiss();
-                                startActivity(new Intent(Login1Activity.this, MainActivity.class));
-                                finish();
-                            }
+                            getUserInfo();
                         } else {
-                            UiUtils.showToast("账号或密码错误!");
+                            UiUtils.showToast("用户名或密码错误");
                         }
                     }
                 });
     }
 
 
-    private void getUserInfo(String userName,String role) {
-        LogUtil.i("username="+userName+",role="+role);
+    private void getUserInfo() {
         RetrofitHelper.getApi()
-                .getUserInfo(userName,role)
-                .compose(this.<UserInfoEntity>bindToLifecycle())
+                .getUserInfo()
+                .compose(this.<UserInfoEntity>bindUntilEvent(ActivityEvent.DESTROY))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new BaseSubscriber<UserInfoEntity>(this) {
@@ -354,6 +339,7 @@ public class Login1Activity extends BasedActivity {
                         e.printStackTrace();
                         if (dialog != null)
                             dialog.dismiss();
+                        UiUtils.showToast("账号或密码错误");
                     }
 
                     @Override
@@ -362,18 +348,87 @@ public class Login1Activity extends BasedActivity {
                         if (dialog != null)
                             dialog.dismiss();
                         if (info.code == 1) {
-                            UiUtils.showToast("登录成功!");
-                            App.getSharedPreferences().edit().putString("room_id", info.info.get(0).room_id + "")
-                                    .putString("studentID",info.info.get(0).studentID)
+
+                            App.getSharedPreferences().edit().putString("room_id", info.info.room_id + "")
+                                    .putString("studentID", info.info.id)
+                                    .putString("username",info.info.username)
+                                    .putString("floor_id",info.info.floor_id)
+                                    .putInt("role", info.info.role_id)
                                     .commit();
-                            startActivity(new Intent(Login1Activity.this, StudentMainActivity.class));
-                            finish();
+                            switch (info.info.role_id) {
+
+                                case Constants.ROLE_APARTMENT://公寓管理人员
+                                    handler.sendEmptyMessage(START_BUILDING_MANAGER_MAIN);
+                                    break;
+                                case Constants.ROLE_MANAGER://运维人员
+//                                    UiUtils.showToast("暂不支持" + info.info.role_name + "登录本系统");
+//                                    break;
+                                case Constants.ROLE_ADMIN://管理员
+                                    handler.sendEmptyMessage(START_MAIN_ADMIN);
+                                    break;
+                                case Constants.ROLE_OFFICER://办公人员
+                                case Constants.ROLE_SCHOOL_LEADER://校领导
+                                    handler.sendEmptyMessage(START_MAIN_LEADER);
+                                    break;
+                                case Constants.ROLE_FLOOR://楼栋管理员
+                                    handler.sendEmptyMessage(START_MAIN_FLOOR_MANAGER);
+                                    break;
+                                case Constants.ROLE_STUDENT://学生
+                                    handler.sendEmptyMessage(START_MAIN_STU);
+
+                                    break;
+                            }
+
                         } else {
-                            UiUtils.showToast("登录失败,请检查您的用户名");
+                            UiUtils.showToast("账号或密码错误");
                         }
                     }
                 });
     }
 
+
+    private static final int START_MAIN_ADMIN = 1;
+    private static final int START_MAIN_STU = 2;
+    private static final int START_MAIN_LEADER = 3;
+    private static final int START_MAIN_FLOOR_MANAGER = 4;
+    private static final int START_BUILDING_MANAGER_MAIN = 5;
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+
+                case START_MAIN_ADMIN:
+                    startActivity(new Intent(Login1Activity.this, MainActivity.class));
+                    overridePendingTransition(R.anim.main_open_enter, R.anim.main_open_exit);
+
+                    finish();
+                    break;
+                case START_MAIN_STU:
+                    startActivity(new Intent(Login1Activity.this, StudentMainActivity.class));
+                    overridePendingTransition(R.anim.main_open_enter, R.anim.main_open_exit);
+
+                    finish();
+                    break;
+                case START_MAIN_LEADER:
+                    startActivity(new Intent(Login1Activity.this, LeaderMainActivity.class));
+                    overridePendingTransition(R.anim.main_open_enter, R.anim.main_open_exit);
+
+                    finish();
+                    break;
+                case START_MAIN_FLOOR_MANAGER:
+                    startActivity(new Intent(Login1Activity.this, FloorMainActivity.class));
+                    overridePendingTransition(R.anim.main_open_enter, R.anim.main_open_exit);
+
+                    finish();
+                    break;
+                case START_BUILDING_MANAGER_MAIN:
+                    startActivity(new Intent(Login1Activity.this, BuildingManagerMainActivity.class));
+                    overridePendingTransition(R.anim.main_open_enter, R.anim.main_open_exit);
+
+                    finish();
+                    break;
+            }
+        }
+    };
 }
 

@@ -268,7 +268,7 @@ public class SusheFragment extends BasedFragment {
             ImageView view = helper.getView(R.id.image);
 //            DrawableCompat.setTint(view.getDrawable(), getContext().getResources().getColor(R.color.colorPrimary));
 
-            helper.setText(R.id.status, item.status.equals("0") ? "已锁定" : "正常");
+            helper.setText(R.id.status, item.status.equals("0") ? getString(R.string.suoding) : getString(R.string.norml));
             if (item.status.equals("0")) {
                 helper.setTextColor(R.id.status, Color.RED);
             } else {

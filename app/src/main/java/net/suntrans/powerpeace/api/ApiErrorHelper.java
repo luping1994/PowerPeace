@@ -21,7 +21,17 @@ import retrofit2.adapter.rxjava.HttpException;
 public class ApiErrorHelper {
     public static void handleCommonError(final Context context, Throwable e) {
         if (e instanceof HttpException) {
-            UiUtils.showToast("服务暂不可用");
+            if (e != null) {
+                if (e.getMessage() != null){
+                    if (e.getMessage().equals("HTTP 401 Unauthorized")) {
+                        UiUtils.showToast("账号或密码错误");
+                    }
+                }
+
+            } else {
+
+                UiUtils.showToast("服务暂不可用");
+            }
         } else if (e instanceof ApiException) {
             int code = ((ApiException) e).code;
             if (code == ApiErrorCode.UNAUTHORIZED) {
@@ -32,7 +42,7 @@ public class ApiErrorHelper {
                 UiUtils.showToast("网络连接不可用");
             } else if (code == ApiErrorCode.ERROR) {
                 UiUtils.showToast(((ApiException) e).msg);
-            }else {
+            } else {
                 UiUtils.showToast(((ApiException) e).msg);
             }
         } else if (e instanceof IOException) {

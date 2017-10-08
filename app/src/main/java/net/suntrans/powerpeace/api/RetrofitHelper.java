@@ -24,7 +24,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitHelper {
 
 //    public static final String BASE_URL = "http://g.suntrans.net:8088/SuntransTest-Peace/";
-    public static final String BASE_URL = "http://gszy.suntrans-cloud.com:8080/gszyapp/";
+//    public static final String BASE_URL = "http://gszy.suntrans-cloud.com:8080/gszyapp/";
+    public static final String BASE_URL = "http://gszy.suntrans-cloud.com/";
 
     private static OkHttpClient mOkHttpClient;
 
@@ -47,8 +48,7 @@ public class RetrofitHelper {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .client(mOkHttpClient)
-//                .addConverterFactory(GsonConverterFactory.create())
-                .addConverterFactory(MyGsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
         return retrofit.create(Api.class);
@@ -68,14 +68,13 @@ public class RetrofitHelper {
 
                         RequestBody newBody = original.body();
 
-
-                        if (original.body() instanceof FormBody) {
-                            newBody = addParamsToFormBody((FormBody) original.body());
-                        } else {
-                            newBody =    addParamsToFormBody();
-                        }
+//                        if (original.body() instanceof FormBody) {
+//                            newBody = addParamsToFormBody((FormBody) original.body());
+//                        } else {
+//                            newBody =    addParamsToFormBody();
+//                        }
                         Request newRequest = original.newBuilder()
-//                                .header("Authorization", header)
+                                .header("Authorization","Bearer "+ header)
                                 .method(original.method(), newBody)
                                 .build();
 

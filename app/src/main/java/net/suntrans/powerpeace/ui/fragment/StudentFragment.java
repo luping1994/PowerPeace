@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -18,7 +17,6 @@ import com.chad.library.adapter.base.BaseSectionQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
 import net.suntrans.looney.utils.LogUtil;
-import net.suntrans.looney.utils.UiUtils;
 import net.suntrans.powerpeace.R;
 import net.suntrans.powerpeace.adapter.ListDropDownAdapter;
 import net.suntrans.powerpeace.bean.MenuBean;
@@ -27,17 +25,12 @@ import net.suntrans.powerpeace.bean.StudentSelection;
 import net.suntrans.powerpeace.databinding.FragmentStudentBinding;
 import net.suntrans.powerpeace.rx.BaseSubscriber;
 import net.suntrans.powerpeace.ui.activity.StudentInfoActivity;
-import net.suntrans.powerpeace.ui.activity.SusheDetailActivity;
 import net.suntrans.powerpeace.ui.decoration.DefaultDecoration;
 import net.suntrans.stateview.StateView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import rx.Subscriber;
-
-import static com.pgyersdk.c.a.f;
 
 /**
  * 学生Fragment

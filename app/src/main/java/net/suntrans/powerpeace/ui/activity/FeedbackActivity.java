@@ -12,23 +12,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.RadioGroup;
 
-import com.pgyersdk.feedback.PgyFeedbackShakeManager;
-
 import net.suntrans.looney.utils.LogUtil;
 import net.suntrans.looney.utils.UiUtils;
 import net.suntrans.looney.widgets.LoadingDialog;
 import net.suntrans.powerpeace.R;
 import net.suntrans.powerpeace.api.RetrofitHelper;
 import net.suntrans.powerpeace.bean.ResultBody;
-import net.suntrans.powerpeace.bean.UserInfoEntity;
 import net.suntrans.powerpeace.databinding.ActivityFeedbackBinding;
 import net.suntrans.powerpeace.rx.BaseSubscriber;
 import net.suntrans.powerpeace.utils.StatusBarCompat;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
