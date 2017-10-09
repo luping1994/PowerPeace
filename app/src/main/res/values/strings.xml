@@ -19,9 +19,13 @@
     <string name="company_name_EN">Copyright © 2017 Suntrans. All rights reserved.</string>
 
     <string name="LinearLayoutManager">LinearLayoutManager</string>
+
+    <!-- MainActivity -->
     <string name="navigation_drawer_open">打开</string>
     <string name="navigation_drawer_close">关闭</string>
     <string name="github_qqbrowser_kernel">网页由 www.suntrans.net 提供</string>
+
+    <!--管理员界面的 公寓界面BuildingManagerFragment -->
     <string name="switch_code">4100</string>
     <string name="suoding">已锁定</string>
     <string name="norml">正常</string>
@@ -30,12 +34,19 @@
     <string name="qvxiao">取消</string>
     <string name="is_close_all">是否关闭整栋楼的开关?</string>
 
-    <string-array name="test">
-        <item>信息学部</item>
-        <item>医学部</item>
-        <item>樱园</item>
-    </string-array>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- 用电量历史数据描述 -->
+    <string name="ele_his_day_des">%1$s年%2$s月%3$s日各小时用电量柱形图(单位:度)</string>
+    <string name="ele_his_month_des">%1$s年%2$s月每日用电量柱形图(单位:度)</string>
+    <string name="ele_his_year_des">%1$s年各月份用电量柱形图(单位:度)</string>
+    <string name="title_ele_his" >%1$s用电量历史记录</string>
+    <string name="choose_date">选择日期</string>
+    <string name="picker_dialog_titlt_choose_month">选择月份</string>
+    <string name="picker_dialog_title_choose_year">选择年份</string>
+
+    <!-- 异常提示 -->
+    <string name="tips_net_work_is_unused">网络连接不可用</string>
+
+
 </resources>

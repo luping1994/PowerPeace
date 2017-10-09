@@ -215,6 +215,7 @@ public class FloorManagerFragment extends BasedFragment {
         });
     }
 
+
     private void switchFloor(String cmd, String id, String alpha) {
         Map<String, String> map = new HashMap<>();
         map.put("id", id);

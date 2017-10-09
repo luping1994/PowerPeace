@@ -65,6 +65,7 @@ public class AmmeterHisActivity extends BasedActivity {
     private HisEntity data;
     private MyAdapter adapter;
     private StateView stateView;
+    private String code;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +77,7 @@ public class AmmeterHisActivity extends BasedActivity {
 
         room_id = getIntent().getStringExtra("room_id");
         paramName = getIntent().getStringExtra("paramName");
+        code = getIntent().getStringExtra("code");
         String title = getIntent().getStringExtra("title");
         if (title == null)
             binding.toolbar.setTitle(paramName + "历史记录");
@@ -191,6 +193,7 @@ public class AmmeterHisActivity extends BasedActivity {
 //        xAxis.setAxisMaximum(30);
 //        xAxis.setAxisMinimum(0);
         xAxis.setDrawGridLines(true);
+        xAxis.setDrawLabels(false);
         xAxis.setGridLineWidth(1f);
         xAxis.setGranularity(1f);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -268,7 +271,10 @@ public class AmmeterHisActivity extends BasedActivity {
         LogUtil.i("room id is:" + room_id);
         stateView.showLoading();
         binding.mainContent.setVisibility(View.INVISIBLE);
-        addSubscription(api.getMeterHis(room_id, dictionaries.get(paramName)), new BaseSubscriber<HisEntity>(this) {
+        Map<String,String> map = new HashMap<>();
+        map.put("room_id",room_id);
+        map.put("datapoint",code);
+        addSubscription(api.getMeterHis(map), new BaseSubscriber<HisEntity>(this) {
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
@@ -276,6 +282,7 @@ public class AmmeterHisActivity extends BasedActivity {
                 stateView.showRetry();
                 binding.mainContent.setVisibility(View.INVISIBLE);
             }
+
             @Override
             public void onNext(HisEntity hisEntity) {
                 super.onNext(hisEntity);
@@ -287,75 +294,35 @@ public class AmmeterHisActivity extends BasedActivity {
 
 
     private void setData(HisEntity hisEntity) {
-        ArrayList<Entry> values = new ArrayList<Entry>();
-        List<String> ls = new ArrayList<>();
-        ls.clear();
-        values.clear();
+
+
+
         if (hisEntity == null) {
             stateView.showEmpty();
             binding.mainContent.setVisibility(View.INVISIBLE);
             return;
         }
-        if (mDisplayType == DISPLAY_WEEK) {
-            if (hisEntity.week_data == null || hisEntity.week_data.size() == 0) {
-                stateView.showEmpty();
-                binding.mainContent.setVisibility(View.INVISIBLE);
-                return;
-            }
-            for (int i = 0; i < hisEntity.week_data.size(); i++) {
-                float val = 0f;
-                if (hisEntity.week_data.get(hisEntity.week_data.size() - 1 - i).data != null)
-                    val = Float.parseFloat(hisEntity.week_data.get(hisEntity.week_data.size() - 1 - i).data);
-                values.add(new Entry(i, val));
-                String substring = hisEntity.week_data.get(hisEntity.week_data.size() - 1 - i).update_time.substring(8, 10);
-                if (substring.substring(0, 1).equals("0"))
-                    substring = substring.substring(1, 2);
-                ls.add(substring + "日");
-            }
-
+        if (hisEntity.info == null) {
+            stateView.showEmpty();
+            binding.mainContent.setVisibility(View.INVISIBLE);
+            return;
         }
-        if (mDisplayType == DISPLAY_MONTH) {
-            if (hisEntity.month_data == null || hisEntity.month_data.size() == 0) {
-                stateView.showEmpty();
-                binding.mainContent.setVisibility(View.INVISIBLE);
-
-                return;
-            }
-            for (int i = 0; i < hisEntity.month_data.size(); i++) {
-                float val = 0f;
-                if (hisEntity.month_data.get(hisEntity.month_data.size() - 1 - i).data != null)
-                    val = Float.parseFloat(hisEntity.month_data.get(hisEntity.month_data.size() - 1 - i).data);
-                values.add(new Entry(i, val));
-                String substring = hisEntity.month_data.get(hisEntity.month_data.size() - 1 - i).update_time.substring(8, 10);
-                if (substring.substring(0, 1).equals("0"))
-                    substring = substring.substring(1, 2);
-                ls.add(substring + "日");
-            }
-
+        if (hisEntity.info .size()==0) {
+            stateView.showEmpty();
+            binding.mainContent.setVisibility(View.INVISIBLE);
+            return;
         }
-
-        if (mDisplayType == DISPLAY_DAY) {
-            if (hisEntity.day_data == null || hisEntity.day_data.size() == 0) {
-                stateView.showEmpty();
-                binding.mainContent.setVisibility(View.INVISIBLE);
-
-                return;
-            }
-            int size = hisEntity.day_data.size();
-            for (int i = 0; i < size; i++) {
-                float val = 0f;
-                if (hisEntity.day_data.get(size - 1 - i).data != null)
-                    val = Float.parseFloat(hisEntity.day_data.get(size - 1 - i).data);
-                values.add(new Entry(i, val));
-                String substring = hisEntity.day_data.get(size - 1 - i).update_time.substring(11, 13);
-//                if (substring.substring(0, 1).equals("0"))
-//                    substring = substring.substring(1, 2);
-                ls.add(substring + "时");
-            }
+        ArrayList<Entry> values = new ArrayList<Entry>();
+        List<String> ls = new ArrayList<>();
+        ls.clear();
+        values.clear();
+        for (int i = 0; i < hisEntity.info.size(); i++) {
+            float val = 0f;
+                val = Float.parseFloat(hisEntity.info.get( i).data);
+            values.add(new Entry(i, val));
         }
-
-        MyAxisValueFormatter formatter = new MyAxisValueFormatter(ls);
-        binding.mChart.getXAxis().setValueFormatter(formatter);
+//        MyAxisValueFormatter formatter = new MyAxisValueFormatter(ls);
+//        binding.mChart.getXAxis().setValueFormatter(formatter);
 
         LineDataSet set1;
 
@@ -364,11 +331,7 @@ public class AmmeterHisActivity extends BasedActivity {
             set1 = (LineDataSet) binding.mChart.getData().getDataSetByIndex(0);
             set1.setValues(values);
             set1.setLabel(dictionaries.get(mDisplayType) + paramName + dictionaries.get(paramName + "Unit"));
-            List<Entry> values1 = set1.getValues();
-//            for (Entry s :
-//                    values1) {
-//                System.out.println(s.toString());
-//            }
+
             binding.mChart.getData().notifyDataChanged();
             binding.mChart.notifyDataSetChanged();
         } else {
@@ -383,10 +346,11 @@ public class AmmeterHisActivity extends BasedActivity {
             set1.setColor(Color.BLACK);
             set1.setCircleColor(Color.BLACK);
             set1.setLineWidth(1f);
+            set1.setDrawCircles(false);
             set1.setCircleRadius(3f);
-            set1.setDrawCircleHole(false);
             set1.setDrawValues(false);
-            set1.setValueTextSize(9f);
+//            set1.setDrawCircleHole(false);
+//            set1.setValueTextSize(9f);
             set1.setDrawFilled(true);
             set1.setFormLineWidth(1f);
             set1.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
@@ -416,18 +380,18 @@ public class AmmeterHisActivity extends BasedActivity {
         binding.mainContent.setVisibility(View.VISIBLE);
     }
 
-    private List<HisEntity.HisItem> datas = new ArrayList<>();
+    private List<HisEntity.EleParmHisItem> datas = new ArrayList<>();
 
-    class MyAdapter extends BaseQuickAdapter<HisEntity.HisItem, BaseViewHolder> {
+    class MyAdapter extends BaseQuickAdapter<HisEntity.EleParmHisItem, BaseViewHolder> {
 
-        public MyAdapter(@LayoutRes int layoutResId, @Nullable List<HisEntity.HisItem> data) {
+        public MyAdapter(@LayoutRes int layoutResId, @Nullable List<HisEntity.EleParmHisItem> data) {
             super(layoutResId, data);
         }
 
         @Override
-        protected void convert(BaseViewHolder helper, HisEntity.HisItem item) {
+        protected void convert(BaseViewHolder helper, HisEntity.EleParmHisItem item) {
             helper.setText(R.id.value, item.data == null ? "0.00" : item.data);
-            helper.setText(R.id.time, item.update_time == null ? "0.00" : item.update_time);
+            helper.setText(R.id.time, item.created_at == null ? "0.00" : item.created_at);
         }
     }
 
@@ -436,13 +400,14 @@ public class AmmeterHisActivity extends BasedActivity {
             return;
         }
         datas.clear();
-        if (mDisplayType == DISPLAY_WEEK) {
-            datas.addAll(hisEntity.week_data);
-        } else if (mDisplayType == DISPLAY_MONTH) {
-            datas.addAll(hisEntity.month_data);
-        } else if (mDisplayType == DISPLAY_DAY) {
-            datas.addAll(hisEntity.day_data);
-        }
+//        if (mDisplayType == DISPLAY_WEEK) {
+//            datas.addAll(hisEntity.week_data);
+//        } else if (mDisplayType == DISPLAY_MONTH) {
+//            datas.addAll(hisEntity.month_data);
+//        } else if (mDisplayType == DISPLAY_DAY) {
+//            datas.addAll(hisEntity.day_data);
+//        }
+        datas.addAll(hisEntity.info);
         adapter.notifyDataSetChanged();
     }
 

@@ -63,7 +63,7 @@ public class RetrofitHelper {
                     public Response intercept(Chain chain) throws IOException {
 
                         String header = App.getSharedPreferences().getString("token", "-1");
-                        LogUtil.i(header);
+                        System.out.println(header);
                         Request original = chain.request();
 
                         RequestBody newBody = original.body();

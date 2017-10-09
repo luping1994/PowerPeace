@@ -148,20 +148,20 @@ public class LogActivity extends BasedActivity implements View.OnClickListener, 
     @Override
     protected void onResume() {
         super.onResume();
-        for (int i = 10; i < 18; i++) {
-            LogInfoEntity.LogInfo info = new LogInfoEntity.LogInfo();
-            if (i % 2 == 0)
-                info.message = "打开了照明";
-            else
-                info.message = "关闭了照明";
-            info.name = "xxx";
-            info.type = "1";
-            info.created_at = "2017-09-24 18:" + i + ":23";
-            datas.add(info);
-        }
-        copy.addAll(datas);
-
-        adapter.notifyDataSetChanged();
+//        for (int i = 10; i < 18; i++) {
+//            LogInfoEntity.LogInfo info = new LogInfoEntity.LogInfo();
+//            if (i % 2 == 0)
+//                info.message = "打开了照明";
+//            else
+//                info.message = "关闭了照明";
+//            info.name = "xxx";
+//            info.type = "1";
+//            info.created_at = "2017-09-24 18:" + i + ":23";
+//            datas.add(info);
+//        }
+//        copy.addAll(datas);
+//
+//        adapter.notifyDataSetChanged();
 //        getData(time);
     }
 
@@ -180,6 +180,7 @@ public class LogActivity extends BasedActivity implements View.OnClickListener, 
         date = format;
         binding.year.setText(year + "年");
         binding.month.setText(month + "");
+        System.out.println(month);
         time = format;
         getData(time);
     }

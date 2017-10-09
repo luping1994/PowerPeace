@@ -5,6 +5,7 @@ import android.content.Intent;
 
 import net.suntrans.looney.utils.LogUtil;
 import net.suntrans.looney.utils.UiUtils;
+import net.suntrans.powerpeace.R;
 import net.suntrans.powerpeace.rx.RxBus;
 import net.suntrans.powerpeace.ui.activity.AlertActivity;
 import net.suntrans.powerpeace.ui.activity.BasedActivity;
@@ -46,9 +47,9 @@ public class ApiErrorHelper {
                 UiUtils.showToast(((ApiException) e).msg);
             }
         } else if (e instanceof IOException) {
-            UiUtils.showToast("网络连接不可用");
+            UiUtils.showToast(context.getString(R.string.tips_net_work_is_unused));
         } else {
-            UiUtils.showToast("服务器错误");
+            UiUtils.showToast("出错了!!!");
         }
     }
 }

@@ -2,6 +2,7 @@ package net.suntrans.powerpeace.api;
 
 
 import net.suntrans.powerpeace.bean.AccountInfo;
+import net.suntrans.powerpeace.bean.Ameter3Entity;
 import net.suntrans.powerpeace.bean.BuildingResult;
 import net.suntrans.powerpeace.bean.ChannelInfo;
 import net.suntrans.powerpeace.bean.ChannelStatus;
@@ -124,8 +125,7 @@ public interface Api {
      */
     @FormUrlEncoded
     @POST("api/inquiry/Inquiry_Ammeter_History")
-    Observable<HisEntity> getMeterHis(@Field("room_id") String room_id,
-                                      @Field("datapoint") String datapoint);
+    Observable<HisEntity> getMeterHis(@FieldMap Map<String,String> map);
 
     /**
      * 管理员查询综合数据
@@ -239,4 +239,8 @@ public interface Api {
     @FormUrlEncoded
     @POST("api/status/slc/byRoomID")
     Observable<ResultBody<List<ChannelStatus>>> getChannelStatusOnly(@Field("room_id") String room_id);
+
+    @FormUrlEncoded
+    @POST("api/inquiry/Inquiry_Ammeter_UseValue")
+    Observable<Ameter3Entity> getAmmeter3Data(@Field("room_id") String room_id, @Field("date") String date);
 }

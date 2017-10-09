@@ -18,6 +18,7 @@ import net.suntrans.powerpeace.bean.ResultBody;
 import net.suntrans.powerpeace.databinding.FragmentZhanghuBinding;
 import net.suntrans.powerpeace.rx.BaseSubscriber;
 import net.suntrans.powerpeace.ui.activity.AmmeterHisActivity;
+import net.suntrans.powerpeace.ui.activity.ElecHisActivity;
 import net.suntrans.powerpeace.ui.activity.PostageHisActivity;
 
 import java.util.List;
@@ -122,7 +123,7 @@ public class ZhanghuFragment extends BasedFragment implements View.OnClickListen
         if (v.getId()==R.id.monthuseLL
                 || v.getId()==R.id.dayuseLL
                 || v.getId() == R.id.totaluseLL) {
-            Intent intent3 = new Intent(getActivity(), AmmeterHisActivity.class);
+            Intent intent3 = new Intent(getActivity(), ElecHisActivity.class);
             intent3.putExtra("title", getActivity().getIntent().getStringExtra("title"));
             intent3.putExtra("paramName", "用电量");
             intent3.putExtra("room_id", room_id);

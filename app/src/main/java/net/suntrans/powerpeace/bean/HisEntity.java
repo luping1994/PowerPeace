@@ -59,43 +59,14 @@ import java.util.List;
  * （7）理智的判断，学会控制情绪。
  */
 
-public class HisEntity extends ResultBody {
+public class HisEntity extends ResultBody<List<HisEntity.EleParmHisItem>> {
 
-    public List<HisItem> day_data;
-    public List<HisItem> week_data;
-    public List<HisItem> month_data;
 
-    public static class HisItem {
-        public String update_time;
+    public static class EleParmHisItem {
+        public String created_at;
         public String data;
-        public String x;
 
-        @Override
-        public String toString() {
-            return "HisItem{" +
-                    "update_time='" + update_time + '\'' +
-                    ", data='" + data + '\'' +
-                    ", x='" + x + '\'' +
-                    '}';
-        }
+
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        if (day_data != null) {
-            sb.append("day_data{");
-            for (HisItem i :
-                    day_data) {
-                sb.append("\n")
-                        .append(i.update_time)
-                        .append(":")
-                        .append(i.data)
-                        .append("\n");
-
-            }
-            sb.append("}");
-        }
-        return sb.toString();
-    }
 }

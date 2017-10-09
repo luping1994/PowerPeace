@@ -74,7 +74,6 @@
                             android:textSize="32sp" />
 
                         <TextView
-
                             android:id="@+id/unit"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
@@ -92,6 +91,7 @@
                             android:layout_centerVertical="true"
                             android:layout_toRightOf="@id/unit"
                             android:src="@drawable/ic_arrowdown" />
+
                     </RelativeLayout>
                 </LinearLayout>
 

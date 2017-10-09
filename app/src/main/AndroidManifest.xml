@@ -129,6 +129,9 @@
         <activity
             android:name=".ui.activity.BuildingDetailActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.ElecHisActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
