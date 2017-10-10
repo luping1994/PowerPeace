@@ -79,10 +79,10 @@ public class SusheDetailFragment extends BasedFragment {
         ZhanghuFragment zhanghuFragment = ZhanghuFragment.newInstace(room_id);
         EleInfoFragment eleInfoFragment = EleInfoFragment.newInstance(room_id);
         StudentInfoFragment studentInfoFragment = StudentInfoFragment.newInstance(room_id);
-        adapter.addFragment(controlFragment,"用电状态");
-        adapter.addFragment(zhanghuFragment,"账户信息");
-        adapter.addFragment(eleInfoFragment,"用电信息");
-        adapter.addFragment(studentInfoFragment,"学生信息");
+        adapter.addFragment(controlFragment,getString(R.string.ele_state));
+        adapter.addFragment(zhanghuFragment,getString(R.string.account_info));
+        adapter.addFragment(eleInfoFragment,getString(R.string.ele_info));
+        adapter.addFragment(studentInfoFragment,getString(R.string.str_info));
 
         binding.viewPager.setAdapter(adapter);
         binding.viewPager.setOffscreenPageLimit(4);
@@ -90,43 +90,6 @@ public class SusheDetailFragment extends BasedFragment {
         binding.tabs.setupWithViewPager(binding.viewPager);
     }
 
-    private void sendOrderToSwitch(ControlBody order) {
-
-        RetrofitHelper.getLoginApi().control(getString(R.string.switch_code), order.addr + "",
-                order.num + "", order.cmd + "")
-                .compose(this.<ResultBody>bindUntilEvent(FragmentEvent.DESTROY_VIEW))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<ResultBody>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        e.printStackTrace();
-                        UiUtils.showToast("控制失败");
-
-                    }
-
-                    @Override
-                    public void onNext(ResultBody resultBody) {
-
-                        if (resultBody.code == ApiErrorCode.OK) {
-//                            handler.postDelayed(new Runnable() {
-//                                @Override
-//                                public void run() {
-//                                    refreshData(param);
-//                                }
-//                            }, 1500);
-                        } else {
-                            UiUtils.showToast(resultBody.message);
-
-                        }
-                    }
-                });
-    }
 
 
 }

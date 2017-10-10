@@ -77,6 +77,7 @@ public class ZongHeFragmentCopy extends BasedFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_zonghe_copy, container, false);
+        stateView = StateView.inject(binding.root);
         return binding.getRoot();
     }
 
@@ -89,7 +90,6 @@ public class ZongHeFragmentCopy extends BasedFragment {
         super.onViewCreated(view, savedInstanceState);
 
         initZidian();
-        stateView = StateView.inject(binding.root);
 
         xueyuanMenuDatas = new ArrayList<>();
         buildingDatas = new ArrayList<>();
@@ -126,13 +126,15 @@ public class ZongHeFragmentCopy extends BasedFragment {
     @Override
     protected void onFragmentFirstVisible() {
         super.onFragmentFirstVisible();
+        System.out.println("zonghe is frist visible!");
         getMenuData();
     }
 
 
     private void getMenuData() {
         if (mRefreshType == STATE_VIEW_REFRESH) {
-            stateView.showLoading();
+            if (stateView != null)
+                stateView.showLoading();
         } else if (mRefreshType == SWIP_REFRESH_LAYOUT) {
 
         }

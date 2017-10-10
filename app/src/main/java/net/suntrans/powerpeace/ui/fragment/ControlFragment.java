@@ -31,6 +31,7 @@ import net.suntrans.stateview.StateView;
 import java.util.ArrayList;
 import java.util.List;
 
+import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -45,6 +46,8 @@ public class ControlFragment extends BasedFragment {
     private String room_id;
     private ChannelAdapter adapter;
     private StateView stateView;
+    private Observable<ResultBody<List<ChannelInfo>>> getDataBody;
+    private Observable<ResultBody<List<ChannelStatus>>> getStatusBody;
 
     public static ControlFragment newInstace(String room_id) {
         ControlFragment fragment = new ControlFragment();
@@ -135,10 +138,10 @@ public class ControlFragment extends BasedFragment {
         if (dialog == null) {
             dialog = new LoadingDialog(getContext());
             dialog.setCancelable(false);
-            dialog.setWaitText("请稍后");
+            dialog.setWaitText(getString(R.string.please_wait));
         }
         dialog.show();
-        RetrofitHelper.getLoginApi().control(getString(R.string.switch_code), order.addr + "",
+        api.control(getString(R.string.switch_code), order.addr + "",
                 order.num + "", order.cmd + "")
                 .compose(this.<ResultBody>bindUntilEvent(FragmentEvent.DESTROY_VIEW))
                 .subscribeOn(Schedulers.io())
@@ -152,7 +155,7 @@ public class ControlFragment extends BasedFragment {
                     @Override
                     public void onError(Throwable e) {
                         e.printStackTrace();
-                        UiUtils.showToast("控制失败");
+                        UiUtils.showToast(getString(R.string.control_failed));
                         if (dialog != null)
                             dialog.dismiss();
                     }
@@ -166,7 +169,7 @@ public class ControlFragment extends BasedFragment {
                                 public void run() {
                                     getStatus(room_id);
                                 }
-                            }, 1000);
+                            }, 500);
                         } else {
                             UiUtils.showToast(resultBody.message);
                             if (dialog != null)
@@ -179,7 +182,14 @@ public class ControlFragment extends BasedFragment {
     private void getData(String room_id) {
         stateView.showLoading();
         binding.recyclerView.setVisibility(View.INVISIBLE);
-        addSubscription(api.getRoomChannel(room_id), new BaseSubscriber<ResultBody<List<ChannelInfo>>>(getContext()) {
+        if (getDataBody == null) {
+            getDataBody = api.getRoomChannel(room_id)
+                    .compose(this.<ResultBody<List<ChannelInfo>>>bindUntilEvent(FragmentEvent.DESTROY_VIEW))
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io());
+        }
+
+        getDataBody.subscribe(new BaseSubscriber<ResultBody<List<ChannelInfo>>>(getContext()) {
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
@@ -200,10 +210,10 @@ public class ControlFragment extends BasedFragment {
                     dialog.dismiss();
                 datas.clear();
                 datas.addAll(listResultBody.info);
-                if (datas.size()==0){
+                if (datas.size() == 0) {
                     stateView.showEmpty();
                     binding.recyclerView.setVisibility(View.INVISIBLE);
-                }else {
+                } else {
                     stateView.showContent();
                     binding.recyclerView.setVisibility(View.VISIBLE);
                 }
@@ -213,8 +223,13 @@ public class ControlFragment extends BasedFragment {
     }
 
     private void refreshData(String room_id) {
-
-        addSubscription(api.getRoomChannel(room_id), new BaseSubscriber<ResultBody<List<ChannelInfo>>>(getContext()) {
+        if (getDataBody == null) {
+            getDataBody = api.getRoomChannel(room_id)
+                    .compose(this.<ResultBody<List<ChannelInfo>>>bindUntilEvent(FragmentEvent.DESTROY_VIEW))
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io());
+        }
+        getDataBody.subscribe(new BaseSubscriber<ResultBody<List<ChannelInfo>>>(getContext()) {
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
@@ -234,14 +249,19 @@ public class ControlFragment extends BasedFragment {
                     dialog.dismiss();
                 datas.clear();
                 datas.addAll(listResultBody.info);
-
                 adapter.notifyDataSetChanged();
             }
         });
     }
 
     private void getStatus(String room_id) {
-        addSubscription(api.getChannelStatusOnly(room_id), new BaseSubscriber<ResultBody<List<ChannelStatus>>>(getContext()) {
+        if (getStatusBody == null) {
+            getStatusBody = api.getChannelStatusOnly(room_id)
+                    .compose(this.<ResultBody<List<ChannelStatus>>>bindUntilEvent(FragmentEvent.DESTROY_VIEW))
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io());
+        }
+        getStatusBody.subscribe(new BaseSubscriber<ResultBody<List<ChannelStatus>>>(getContext()) {
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
@@ -260,25 +280,24 @@ public class ControlFragment extends BasedFragment {
                 if (dialog != null)
                     dialog.dismiss();
                 if (info.info == null) {
-                    UiUtils.showToast("数据为空");
+                    UiUtils.showToast(getString(R.string.data_empty));
                     return;
                 }
-               for (int i =0;i<datas.size();i++){
-                   for (int j=0;j<info.info.size();j++){
-                       if (datas.get(i).num.equals(info.info.get(j).num)){
-                           datas.get(i).status  = info.info.get(j).status;
-                       }
-                   }
-               }
+                for (int i = 0; i < datas.size(); i++) {
+                    for (int j = 0; j < info.info.size(); j++) {
+                        if (datas.get(i).num.equals(info.info.get(j).num)) {
+                            datas.get(i).status = info.info.get(j).status;
+                        }
+                    }
+                }
 
-               adapter.notifyDataSetChanged();
+                adapter.notifyDataSetChanged();
 
             }
         });
     }
 
     private Handler handler = new Handler();
-
     @Override
     public void onDestroy() {
         handler.removeCallbacksAndMessages(null);

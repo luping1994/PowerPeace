@@ -132,7 +132,7 @@ public class ElecHisActivity extends BasedActivity implements OnChartValueSelect
 
     private void initToolBar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(String.format(getString(R.string.title_ele_his),getIntent().getStringExtra("title")));
+        toolbar.setTitle(String.format(getString(R.string.title_ele_his),getIntent().getStringExtra("title")==null?"":getIntent().getStringExtra("title")));
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
 
