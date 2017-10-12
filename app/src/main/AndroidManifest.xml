@@ -132,6 +132,7 @@
         <activity
             android:name=".ui.activity.ElecHisActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".ui.activity.ZHFloorActivity" />
     </application>
 
 </manifest>

@@ -2,4 +2,5 @@
 <resources>
     <item name="image" type="id"/>
     <item name="xuehao" type="id" />
+    <item name="refreshLayout" type="id" />
 </resources>

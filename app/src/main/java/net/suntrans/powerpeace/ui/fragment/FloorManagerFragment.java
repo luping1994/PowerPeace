@@ -125,6 +125,14 @@ public class FloorManagerFragment extends BasedFragment {
         });
     }
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getFloor();
+    }
+
+
     private class MyAdapter extends BaseQuickAdapter<FloorManagerInfo, BaseViewHolder> {
 
         public MyAdapter(@LayoutRes int layoutResId, @Nullable List<FloorManagerInfo> data) {
@@ -139,11 +147,7 @@ public class FloorManagerFragment extends BasedFragment {
         }
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        getFloor();
-    }
+
 
     private void getFloor() {
         stateView.showLoading();

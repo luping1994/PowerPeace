@@ -45,6 +45,7 @@ import net.suntrans.powerpeace.ui.fragment.StudentFragment;
 import net.suntrans.powerpeace.ui.fragment.SusheDetailFragment;
 import net.suntrans.powerpeace.ui.fragment.SusheFragment;
 import net.suntrans.powerpeace.ui.fragment.ZongHeFragmentCopy;
+import net.suntrans.powerpeace.ui.fragment.ZongheFragmentNew;
 import net.suntrans.powerpeace.utils.StatusBarCompat;
 
 import static net.suntrans.powerpeace.BuildConfig.DEBUG;
@@ -181,9 +182,13 @@ public class LeaderMainActivity extends BasedActivity implements View.OnClickLis
 
         binding.viewpager.setOffscreenPageLimit(2);
         FragmentAdapter adapter = new FragmentAdapter(getSupportFragmentManager());
+
+
         SusheDetailFragment susheDetailFragment = SusheDetailFragment.newInstance(room_id, String.valueOf(Constants.ROLE_ADMIN));
         SusheFragment susheFragment = new SusheFragment();
-        ZongHeFragmentCopy zongHeFragmentCopy = new ZongHeFragmentCopy();
+        ZongheFragmentNew zongHeFragmentCopy = new ZongheFragmentNew();
+
+
         adapter.addFragment(susheDetailFragment, "Office");
         adapter.addFragment(susheFragment, "sushe");
         adapter.addFragment(zongHeFragmentCopy, "Zonghe");

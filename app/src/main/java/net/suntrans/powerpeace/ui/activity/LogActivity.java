@@ -148,6 +148,7 @@ public class LogActivity extends BasedActivity implements View.OnClickListener, 
     @Override
     protected void onResume() {
         super.onResume();
+
 //        for (int i = 10; i < 18; i++) {
 //            LogInfoEntity.LogInfo info = new LogInfoEntity.LogInfo();
 //            if (i % 2 == 0)
@@ -162,7 +163,7 @@ public class LogActivity extends BasedActivity implements View.OnClickListener, 
 //        copy.addAll(datas);
 //
 //        adapter.notifyDataSetChanged();
-//        getData(time);
+        getData(time);
     }
 
     @Override
@@ -189,6 +190,8 @@ public class LogActivity extends BasedActivity implements View.OnClickListener, 
     public void onRetryClick() {
         getData(time);
     }
+
+
 
 
     class Myadapter extends BaseQuickAdapter<LogInfoEntity.LogInfo, BaseViewHolder> {

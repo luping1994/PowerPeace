@@ -39,6 +39,7 @@ import net.suntrans.powerpeace.ui.fragment.DownLoadFrgment;
 import net.suntrans.powerpeace.ui.fragment.StudentFragment;
 import net.suntrans.powerpeace.ui.fragment.SusheFragment;
 import net.suntrans.powerpeace.ui.fragment.ZongHeFragmentCopy;
+import net.suntrans.powerpeace.ui.fragment.ZongheFragmentNew;
 import net.suntrans.powerpeace.utils.StatusBarCompat;
 
 import static net.suntrans.powerpeace.BuildConfig.DEBUG;
@@ -167,9 +168,13 @@ public class MainActivity extends BasedActivity implements View.OnClickListener
 
         binding.viewpager.setOffscreenPageLimit(2);
         FragmentAdapter adapter = new FragmentAdapter(getSupportFragmentManager());
+
+
         SusheFragment fragment = new SusheFragment();
         StudentFragment fragment2 = new StudentFragment();
-        ZongHeFragmentCopy fragment3 = new ZongHeFragmentCopy();
+        ZongheFragmentNew fragment3 = new ZongheFragmentNew();
+
+
         adapter.addFragment(fragment, "SuShe");
         adapter.addFragment(fragment2, "Student");
         adapter.addFragment(fragment3, "Zonghe");

@@ -39,6 +39,7 @@ import net.suntrans.powerpeace.ui.fragment.BuildingManagerFragment;
 import net.suntrans.powerpeace.ui.fragment.DownLoadFrgment;
 import net.suntrans.powerpeace.ui.fragment.SusheFragment;
 import net.suntrans.powerpeace.ui.fragment.ZongHeFragmentCopy;
+import net.suntrans.powerpeace.ui.fragment.ZongheFragmentNew;
 import net.suntrans.powerpeace.utils.StatusBarCompat;
 
 import static net.suntrans.powerpeace.BuildConfig.DEBUG;
@@ -170,9 +171,11 @@ public class BuildingManagerMainActivity extends BasedActivity implements View.O
 
         binding.viewpager.setOffscreenPageLimit(2);
         FragmentAdapter adapter = new FragmentAdapter(getSupportFragmentManager());
+
         BuildingManagerFragment floorManagerFragment = new BuildingManagerFragment();
         SusheFragment susheFragment = new SusheFragment();
-        ZongHeFragmentCopy zongHeFragmentCopy = new ZongHeFragmentCopy();
+        ZongheFragmentNew zongHeFragmentCopy = new ZongheFragmentNew();
+
         adapter.addFragment(floorManagerFragment, "floorManager");
         adapter.addFragment(susheFragment, "sushe");
         adapter.addFragment(zongHeFragmentCopy, "Zonghe");

@@ -30,7 +30,7 @@ public class AboutActivity extends BasedActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_about);
 
         StatusBarCompat.compat(binding.headerView);
-        binding.toolbar.setTitle("关于我们");
+        binding.toolbar.setTitle("关于");
 
         setSupportActionBar(binding.toolbar);
         ActionBar actionBar = getSupportActionBar();

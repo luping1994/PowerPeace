@@ -22,6 +22,9 @@ import net.suntrans.powerpeace.bean.StudentInfoEntity;
 import net.suntrans.powerpeace.bean.SusheEntity;
 import net.suntrans.powerpeace.bean.UserInfoEntity;
 import net.suntrans.powerpeace.bean.UserInfoEntityOld;
+import net.suntrans.powerpeace.bean.ZHBFloorEntity;
+import net.suntrans.powerpeace.bean.ZHBuildingEntity;
+import net.suntrans.powerpeace.bean.ZHEnergyEntity;
 import net.suntrans.powerpeace.bean.ZongheEntity;
 
 import java.util.List;
@@ -125,7 +128,7 @@ public interface Api {
      */
     @FormUrlEncoded
     @POST("api/inquiry/Inquiry_Ammeter_History")
-    Observable<HisEntity> getMeterHis(@FieldMap Map<String,String> map);
+    Observable<HisEntity> getMeterHis(@FieldMap Map<String, String> map);
 
     /**
      * 管理员查询综合数据
@@ -243,4 +246,29 @@ public interface Api {
     @FormUrlEncoded
     @POST("api/inquiry/Inquiry_Ammeter_UseValue")
     Observable<Ameter3Entity> getAmmeter3Data(@Field("room_id") String room_id, @Field("date") String date);
+
+    /**
+     * 综合获取楼栋信息
+     *
+     * @return
+     */
+    @POST("api/inquiry/Inquiry_3Ammeter_List")
+    Observable<ZHBuildingEntity> getZongheBuilding();
+
+    /**
+     * 综合获取楼栋-楼层信息
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api/inquiry/Inquiry_3Ammeter_Floor")
+    Observable<ZHBFloorEntity> getZongheBuildingFloor(@Field("ammeter3_id") String ammeter3_id);
+
+    /**
+     * 综合获取详细信息
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api/inquiry/Inquiry_3Ammeter_Energy")
+    Observable<ZHEnergyEntity> getZongheBuildingEnergy(@Field("type") String type, @Field("id") String id);
 }

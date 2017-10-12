@@ -40,6 +40,7 @@ import net.suntrans.powerpeace.ui.fragment.DownLoadFrgment;
 import net.suntrans.powerpeace.ui.fragment.FloorManagerFragment;
 import net.suntrans.powerpeace.ui.fragment.SusheFragment;
 import net.suntrans.powerpeace.ui.fragment.ZongHeFragmentCopy;
+import net.suntrans.powerpeace.ui.fragment.ZongheFragmentNew;
 import net.suntrans.powerpeace.utils.StatusBarCompat;
 
 import static net.suntrans.powerpeace.BuildConfig.DEBUG;
@@ -169,9 +170,11 @@ public class FloorMainActivity extends BasedActivity implements View.OnClickList
 
         binding.viewpager.setOffscreenPageLimit(2);
         FragmentAdapter adapter = new FragmentAdapter(getSupportFragmentManager());
+
         FloorManagerFragment floorManagerFragment = FloorManagerFragment.newInstance(floor_id);
         SusheFragment susheFragment = new SusheFragment();
-        ZongHeFragmentCopy zongHeFragmentCopy = new ZongHeFragmentCopy();
+        ZongheFragmentNew zongHeFragmentCopy = new ZongheFragmentNew();
+
         adapter.addFragment(floorManagerFragment, "floorManager");
         adapter.addFragment(susheFragment, "sushe");
         adapter.addFragment(zongHeFragmentCopy, "Zonghe");
