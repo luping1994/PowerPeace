@@ -128,19 +128,20 @@ public class BuildingManagerMainActivity extends BasedActivity implements View.O
                         handler.sendEmptyMessageDelayed(START_MSG_ACTIVITY, 400);
                         break;
                     case 2:
-                        handler.sendEmptyMessageDelayed(START_SETTING_ACTIVITY, 400);
+                        handler.sendEmptyMessageDelayed(START_INTERNET_ACTIVITY, 400);
 
                         break;
                     case 3:
-                        handler.sendEmptyMessageDelayed(START_ABOUT_ACTIVITY, 400);
+                        handler.sendEmptyMessageDelayed(START_SETTING_ACTIVITY, 400);
+
                         break;
                     case 4:
-                        handler.sendEmptyMessageDelayed(START_INTERNET_ACTIVITY, 400);
+                        handler.sendEmptyMessageDelayed(START_FEEDBACK_ACTIVITY, 400);
 
                         break;
 
                     case 5:
-                        handler.sendEmptyMessageDelayed(START_FEEDBACK_ACTIVITY, 400);
+                        handler.sendEmptyMessageDelayed(START_ABOUT_ACTIVITY, 400);
 
                         break;
                     case 6:
@@ -151,7 +152,7 @@ public class BuildingManagerMainActivity extends BasedActivity implements View.O
         });
 
         binding.navView.recyclerView.setAdapter(navViewAdapter);
-        binding.navView.recyclerView.addItemDecoration(new DefaultDecoration(UiUtils.dip2px(0.5f,this), getResources().getColor(R.color.nav_divider)));
+        binding.navView.recyclerView.addItemDecoration(new DefaultDecoration(UiUtils.dip2px(0.5f, this), getResources().getColor(R.color.nav_divider)));
 
         binding.navView.exit.setOnClickListener(this);
         binding.navView.setting.setOnClickListener(this);

@@ -30,7 +30,7 @@ public class ZHBFloorEntity {
          */
 
         public String floor;
-        public int floor_ammeter3_id;
+        public String floor_ammeter3_id;
         public String sno;
         public String ammeter3_place;
     }

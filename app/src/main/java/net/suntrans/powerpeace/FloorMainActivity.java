@@ -121,7 +121,6 @@ public class FloorMainActivity extends BasedActivity implements View.OnClickList
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 binding.drawer.closeDrawers();
-
                 switch (position) {
                     case 0:
                         break;
@@ -129,17 +128,21 @@ public class FloorMainActivity extends BasedActivity implements View.OnClickList
                         handler.sendEmptyMessageDelayed(START_MSG_ACTIVITY, 400);
                         break;
                     case 2:
-                        handler.sendEmptyMessageDelayed(START_SETTING_ACTIVITY, 400);
+                        handler.sendEmptyMessageDelayed(START_INTERNET_ACTIVITY, 400);
+
                         break;
                     case 3:
-                        handler.sendEmptyMessageDelayed(START_ABOUT_ACTIVITY, 400);
+                        handler.sendEmptyMessageDelayed(START_SETTING_ACTIVITY, 400);
+
                         break;
                     case 4:
-                        handler.sendEmptyMessageDelayed(START_INTERNET_ACTIVITY, 400);
+                        handler.sendEmptyMessageDelayed(START_FEEDBACK_ACTIVITY, 400);
+
                         break;
 
                     case 5:
-                        handler.sendEmptyMessageDelayed(START_FEEDBACK_ACTIVITY, 400);
+                        handler.sendEmptyMessageDelayed(START_ABOUT_ACTIVITY, 400);
+
                         break;
                     case 6:
                         android.os.Process.killProcess(android.os.Process.myPid());

@@ -132,7 +132,12 @@
         <activity
             android:name=".ui.activity.ElecHisActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.activity.ZHFloorActivity" />
+        <activity
+            android:name=".ui.activity.ZHFloorActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.ZHFloorEnergyActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

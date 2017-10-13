@@ -1,28 +1,21 @@
 package net.suntrans.powerpeace.ui.activity;
 
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.trello.rxlifecycle.android.ActivityEvent;
 
-import net.suntrans.powerpeace.BuildConfig;
 import net.suntrans.powerpeace.R;
-import net.suntrans.powerpeace.bean.FloorManagerInfo;
-import net.suntrans.powerpeace.bean.ResultBody;
 import net.suntrans.powerpeace.bean.ZHBFloorEntity;
-import net.suntrans.powerpeace.databinding.ActivityAboutBinding;
+import net.suntrans.powerpeace.bean.ZHEnergyEntity;
+import net.suntrans.powerpeace.databinding.ActivityZongheEnergyBinding;
 import net.suntrans.powerpeace.databinding.ActivityZongheFloorBinding;
-import net.suntrans.powerpeace.rx.BaseSubscriber;
 import net.suntrans.powerpeace.ui.decoration.DefaultDecoration;
 import net.suntrans.powerpeace.utils.StatusBarCompat;
 
@@ -38,16 +31,14 @@ import rx.schedulers.Schedulers;
  * Created by Looney on 2017/7/24.
  */
 
-public class ZHFloorActivity extends BasedActivity {
-    private ActivityZongheFloorBinding binding;
-    private List<ZHBFloorEntity.DataBean> datas;
-    private MyAdapter adapter;
+public class ZHFloorEnergyActivity extends BasedActivity {
+    private ActivityZongheEnergyBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_zonghe_floor);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_zonghe_energy);
 
         StatusBarCompat.compat(binding.headerView);
         binding.toolbar.setTitle(getIntent().getStringExtra("title"));
@@ -61,53 +52,27 @@ public class ZHFloorActivity extends BasedActivity {
 
 
         getFloor();
-
-
     }
 
     private void init() {
-        datas = new ArrayList<>();
-        adapter = new MyAdapter(R.layout.item_zh_building, datas);
-        binding.recyclerView.setAdapter(adapter);
-        binding.recyclerView.addItemDecoration(new DefaultDecoration());
+//        datas = new ArrayList<>();
+
         binding.refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 getFloor();
             }
         });
-
-        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                Intent intent = new Intent(ZHFloorActivity.this,ZHFloorEnergyActivity.class);
-                intent.putExtra("floor_ammeter3_id",datas.get(position).floor_ammeter3_id);
-                intent.putExtra("title",datas.get(position).ammeter3_place+"综合数据");
-                startActivity(intent);
-            }
-        });
     }
 
-    private class MyAdapter extends BaseQuickAdapter<ZHBFloorEntity.DataBean, BaseViewHolder> {
-
-        public MyAdapter(@LayoutRes int layoutResId, @Nullable List<ZHBFloorEntity.DataBean> data) {
-            super(layoutResId, data);
-        }
-
-        @Override
-        protected void convert(BaseViewHolder helper, ZHBFloorEntity.DataBean item) {
-            helper.setText(R.id.name, item.floor);
-
-        }
-    }
 
 
     private void getFloor() {
-        api.getZongheBuildingFloor(getIntent().getStringExtra("ammeter3_id"))
-                .compose(this.<ZHBFloorEntity>bindUntilEvent(ActivityEvent.DESTROY))
+        api.getZongheBuildingEnergy("ammeter3",getIntent().getStringExtra("floor_ammeter3_id"))
+                .compose(this.<ZHEnergyEntity>bindUntilEvent(ActivityEvent.DESTROY))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(new Subscriber<ZHBFloorEntity>() {
+                .subscribe(new Subscriber<ZHEnergyEntity>() {
                     @Override
                     public void onCompleted() {
 
@@ -121,12 +86,31 @@ public class ZHFloorActivity extends BasedActivity {
                     }
 
                     @Override
-                    public void onNext(ZHBFloorEntity zhbFloorEntity) {
+                    public void onNext(ZHEnergyEntity zhbFloorEntity) {
                         if (binding.refreshLayout != null)
                             binding.refreshLayout.setRefreshing(false);
-                        datas.clear();
-                        datas.addAll(zhbFloorEntity.data);
-                        adapter.notifyDataSetChanged();
+                        ZHEnergyEntity.DataBean info = zhbFloorEntity.data.get(0);
+                        binding.yongdian.EDayValue.setText(info.ElectricityDAY+"度");
+                        binding.yongdian.EMonthValue.setText(info.ElectricityMonth+"度");
+                        binding.yongdian.EValue.setText(info.ElectricityTotal+"度");
+
+                        binding.dianfei.benrixiaofei.setText(info.DayCost+"元");
+                        binding.dianfei.benyuexiaofei.setText(info.MonthCost+"元");
+                        binding.dianfei.benniandianfei.setText(info.YearCost+"元");
+                        binding.dianfei.zongdianfei.setText(info.TotalCost+"元");
+                        binding.dianfei.benriyucun.setText(info.DayStore+"元");
+                        binding.dianfei.benyueyucun.setText(info.MonthStore+"元");
+                        binding.dianfei.bennianyucun.setText(info.YearStore+"元");
+
+                        binding.sunhao.daySuohao.setText(info.DayLoss+"度");
+                        binding.sunhao.daySunhaoPer.setText(info.DayLossPercent+"%");
+
+                        binding.sunhao.monthSuohao.setText(info.MonthLoss+"度");
+                        binding.sunhao.monthSunhaoPer.setText(info.MonthLossPercent+"%");
+
+                        binding.sunhao.allSuohao.setText(info.TotalLoss+"度");
+                        binding.sunhao.zongSunhaoPer.setText(info.TotalLossPercent+"%");
+
                     }
                 });
     }

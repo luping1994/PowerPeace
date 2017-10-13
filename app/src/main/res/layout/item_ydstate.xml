@@ -5,6 +5,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <TextView
             android:id="@+id/headerName"
             android:layout_width="match_parent"
@@ -26,8 +27,8 @@
             <ImageView
 
                 android:id="@+id/image"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
+                android:layout_width="@dimen/item_image_size"
+                android:layout_height="@dimen/item_image_size"
                 android:src="@drawable/ic_dianya" />
 
             <TextView
@@ -82,8 +83,8 @@
 
             <ImageView
                 android:id="@id/image"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
+                android:layout_width="@dimen/item_image_size"
+                android:layout_height="@dimen/item_image_size"
                 android:src="@drawable/ic_dianya" />
 
             <TextView
@@ -137,8 +138,8 @@
 
             <ImageView
                 android:id="@id/image"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
+                android:layout_width="@dimen/item_image_size"
+                android:layout_height="@dimen/item_image_size"
                 android:src="@drawable/ic_dianya" />
 
             <TextView
@@ -192,8 +193,8 @@
 
             <ImageView
                 android:id="@id/image"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
+                android:layout_width="@dimen/item_image_size"
+                android:layout_height="@dimen/item_image_size"
                 android:src="@drawable/ic_dianliu" />
 
             <TextView
@@ -247,8 +248,8 @@
 
             <ImageView
                 android:id="@id/image"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
+                android:layout_width="@dimen/item_image_size"
+                android:layout_height="@dimen/item_image_size"
                 android:src="@drawable/ic_dianliu" />
 
             <TextView
@@ -302,8 +303,8 @@
 
             <ImageView
                 android:id="@id/image"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
+                android:layout_width="@dimen/item_image_size"
+                android:layout_height="@dimen/item_image_size"
                 android:src="@drawable/ic_dianliu" />
 
             <TextView
@@ -357,8 +358,8 @@
 
             <ImageView
                 android:id="@id/image"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
+                android:layout_width="@dimen/item_image_size"
+                android:layout_height="@dimen/item_image_size"
                 android:src="@drawable/ic_gonglv" />
 
             <TextView
@@ -412,8 +413,8 @@
 
             <ImageView
                 android:id="@id/image"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
+                android:layout_width="@dimen/item_image_size"
+                android:layout_height="@dimen/item_image_size"
                 android:src="@drawable/ic_gonglv" />
 
             <TextView

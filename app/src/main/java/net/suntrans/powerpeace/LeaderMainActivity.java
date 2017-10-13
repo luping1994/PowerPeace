@@ -140,19 +140,20 @@ public class LeaderMainActivity extends BasedActivity implements View.OnClickLis
                         handler.sendEmptyMessageDelayed(START_MSG_ACTIVITY, 400);
                         break;
                     case 2:
-                        handler.sendEmptyMessageDelayed(START_SETTING_ACTIVITY, 400);
+                        handler.sendEmptyMessageDelayed(START_INTERNET_ACTIVITY, 400);
 
                         break;
                     case 3:
-                        handler.sendEmptyMessageDelayed(START_ABOUT_ACTIVITY, 400);
+                        handler.sendEmptyMessageDelayed(START_SETTING_ACTIVITY, 400);
+
                         break;
                     case 4:
-                        handler.sendEmptyMessageDelayed(START_INTERNET_ACTIVITY, 400);
+                        handler.sendEmptyMessageDelayed(START_FEEDBACK_ACTIVITY, 400);
 
                         break;
 
                     case 5:
-                        handler.sendEmptyMessageDelayed(START_FEEDBACK_ACTIVITY, 400);
+                        handler.sendEmptyMessageDelayed(START_ABOUT_ACTIVITY, 400);
 
                         break;
                     case 6:

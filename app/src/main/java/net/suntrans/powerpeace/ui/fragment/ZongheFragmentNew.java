@@ -65,7 +65,7 @@ public class ZongheFragmentNew extends BasedFragment {
         adapter.setOnChildClickListener(new ZHBuildingAdapter.OnChild$ParentClickListener() {
             @Override
             public void onChildClick(int grouPposition, int childPosition) {
-                System.out.println(datas.get(grouPposition).ammeter3.get(childPosition).name);
+//                System.out.println(datas.get(grouPposition).ammeter3.get(childPosition).name);
                 Intent intent = new Intent(getActivity(), ZHFloorActivity.class);
                 intent.putExtra("title",datas.get(grouPposition).title+datas.get(grouPposition).ammeter3.get(childPosition).name);
                 intent.putExtra("ammeter3_id",datas.get(grouPposition).ammeter3.get(childPosition).building_ammeter3_id);

@@ -108,6 +108,12 @@ public class LogActivity extends BasedActivity implements View.OnClickListener, 
 //        }
         copy.addAll(datas);
         adapter = new Myadapter(R.layout.item_log_his, copy);
+        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+
+            }
+        });
         binding.recyclerView.addItemDecoration(new DefaultDecoration());
         binding.recyclerView.setAdapter(adapter);
         binding.segmentedGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {

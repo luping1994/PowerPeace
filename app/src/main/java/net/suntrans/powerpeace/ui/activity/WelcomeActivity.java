@@ -250,7 +250,7 @@ public class WelcomeActivity extends BasedActivity implements WelcomeDownLoadFrg
                 .compose(this.<UserInfoEntity>bindToLifecycle())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(new BaseSubscriber<UserInfoEntity>(this) {
+                .subscribe(new Subscriber<UserInfoEntity>() {
                     @Override
                     public void onCompleted() {
 
@@ -258,7 +258,6 @@ public class WelcomeActivity extends BasedActivity implements WelcomeDownLoadFrg
 
                     @Override
                     public void onError(Throwable e) {
-                        super.onError(e);
                         e.printStackTrace();
                         handler.sendEmptyMessageDelayed(START_LOGIN, 1500);
                     }
