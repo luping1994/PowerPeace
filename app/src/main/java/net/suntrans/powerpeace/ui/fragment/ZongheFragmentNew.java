@@ -60,6 +60,7 @@ public class ZongheFragmentNew extends BasedFragment {
         });
         adapter = new ZHBuildingAdapter(datas, getContext());
         binding.recyclerView.setAdapter(adapter);
+        binding.recyclerView.setGroupIndicator(null);
         binding.refreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
         binding.recyclerView.setDivider(new ColorDrawable(getResources().getColor(R.color.colorPrimary)));
         adapter.setOnChildClickListener(new ZHBuildingAdapter.OnChild$ParentClickListener() {

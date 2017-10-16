@@ -82,6 +82,7 @@ public class ZHFloorActivity extends BasedActivity {
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 Intent intent = new Intent(ZHFloorActivity.this,ZHFloorEnergyActivity.class);
                 intent.putExtra("floor_ammeter3_id",datas.get(position).floor_ammeter3_id);
+                intent.putExtra("sno",datas.get(position).sno);
                 intent.putExtra("title",datas.get(position).ammeter3_place+"综合数据");
                 startActivity(intent);
             }

@@ -25,6 +25,7 @@ import net.suntrans.powerpeace.bean.UserInfoEntityOld;
 import net.suntrans.powerpeace.bean.ZHBFloorEntity;
 import net.suntrans.powerpeace.bean.ZHBuildingEntity;
 import net.suntrans.powerpeace.bean.ZHEnergyEntity;
+import net.suntrans.powerpeace.bean.ZHEnergyShishiEntity;
 import net.suntrans.powerpeace.bean.ZongheEntity;
 
 import java.util.List;
@@ -266,9 +267,19 @@ public interface Api {
 
     /**
      * 综合获取详细信息
+     *
      * @return
      */
     @FormUrlEncoded
     @POST("api/inquiry/Inquiry_3Ammeter_Energy")
     Observable<ZHEnergyEntity> getZongheBuildingEnergy(@Field("type") String type, @Field("id") String id);
+
+    /**
+     * 综合获取实时数据
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api/inquiry/Inquiry_3Ammeter_Current")
+    Observable<ZHEnergyShishiEntity> getZHEnergyShishi(@Field("sno") String sno);
 }

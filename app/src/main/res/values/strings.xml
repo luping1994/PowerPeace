@@ -57,6 +57,8 @@
     <string name="data_empty">数据为空</string>
     <string name="please_wait">请稍后</string>
     <string name="control_failed">控制失败</string>
+    <string name="zhpart1_fragment_title">综合数据</string>
+    <string name="zhpart2_fragment_title">实时数据</string>
 
 
 </resources>
