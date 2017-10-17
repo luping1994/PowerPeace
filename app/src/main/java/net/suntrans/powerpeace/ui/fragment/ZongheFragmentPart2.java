@@ -96,14 +96,14 @@ public class ZongheFragmentPart2 extends BasedFragment {
                         if (binding.refreshLayout != null)
                             binding.refreshLayout.setRefreshing(false);
                         ZHEnergyShishiEntity.InfoBean infoBean = zhbFloorEntity.info.get(0);
-                        binding.sanxiang.AV.setText(infoBean.VolA+"V");
-                        binding.sanxiang.BV.setText(infoBean.VolB+"V");
-                        binding.sanxiang.CV.setText(infoBean.VolC+"V");
-                        binding.sanxiang.aAValue.setText(infoBean.IA+"A");
-                        binding.sanxiang.bAValue.setText(infoBean.IB+"A");
-                        binding.sanxiang.cAValue.setText(infoBean.IC+"A");
-                        binding.sanxiang.aPValue.setText(infoBean.ActivePower+"W");
-                        binding.sanxiang.rPValue.setText(infoBean.ReactivePower+"kvar");
+                        binding.sanxiang.AV.setText(infoBean.VolA + "V");
+                        binding.sanxiang.BV.setText(infoBean.VolB + "V");
+                        binding.sanxiang.CV.setText(infoBean.VolC + "V");
+                        binding.sanxiang.aAValue.setText(infoBean.IA + "A");
+                        binding.sanxiang.bAValue.setText(infoBean.IB + "A");
+                        binding.sanxiang.cAValue.setText(infoBean.IC + "A");
+                        binding.sanxiang.aPValue.setText(infoBean.ActivePower + "W");
+                        binding.sanxiang.rPValue.setText(infoBean.ReactivePower + "kvar");
 
 
                     }

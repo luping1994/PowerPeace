@@ -1,511 +1,1231 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <LinearLayout
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/headerName"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:background="@color/bgBlue"
-            android:gravity="center_vertical"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:text="工学部1舍-用电状态参数" />
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:background="?attr/selectableItemBackground"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp">
-
-            <ImageView
-
-                android:id="@+id/image"
-                android:layout_width="@dimen/item_image_size"
-                android:layout_height="@dimen/item_image_size"
-                android:src="@drawable/ic_dianya" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/name"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="16dp"
-                android:gravity="center"
-                android:text="A相电压"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
-
-            <RelativeLayout
+                android:id="@+id/headerName"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="16dp"
-                android:layout_weight="1">
+                android:layout_height="30dp"
+                android:background="@color/bgBlue"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/activity_horizontal_margin" />
 
-                <TextView
-                    android:id="@+id/AV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="8dp"
-                    android:layout_toLeftOf="@+id/img"
-                    android:gravity="center"
-                    android:text="--"
-                    android:textColor="@color/textColor" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
 
                 <ImageView
-                    android:id="@id/img"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/ic_arrow_right" />
-            </RelativeLayout>
-        </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/bgBlue" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:background="?attr/selectableItemBackground"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp">
-
-            <ImageView
-                android:id="@id/image"
-                android:layout_width="@dimen/item_image_size"
-                android:layout_height="@dimen/item_image_size"
-                android:src="@drawable/ic_dianya" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="16dp"
-                android:gravity="center"
-                android:text="B相电压"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="16dp"
-                android:layout_weight="1">
+                    android:id="@+id/image"
+                    android:layout_width="@dimen/item_image_size"
+                    android:layout_height="@dimen/item_image_size"
+                    android:src="@drawable/ic_dianya" />
 
                 <TextView
-                    android:id="@+id/BV"
+                    android:id="@+id/name"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="8dp"
-                    android:layout_toLeftOf="@+id/img"
+                    android:layout_marginLeft="16dp"
                     android:gravity="center"
-                    android:text="--"
-                    android:textColor="@color/textColor" />
+                    android:text="A相电压"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/AV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="8dp"
+                        android:layout_toLeftOf="@+id/img"
+                        android:gravity="center"
+                        android:text="--"
+                        android:textColor="@color/textColor" />
+
+                    <ImageView
+                        android:id="@id/img"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_arrow_right" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/bgBlue" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
 
                 <ImageView
-                    android:id="@id/img"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/ic_arrow_right" />
-            </RelativeLayout>
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/bgBlue" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:background="?attr/selectableItemBackground"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp">
-
-            <ImageView
-                android:id="@id/image"
-                android:layout_width="@dimen/item_image_size"
-                android:layout_height="@dimen/item_image_size"
-                android:src="@drawable/ic_dianya" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="16dp"
-                android:gravity="center"
-                android:text="C相电压"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="16dp"
-                android:layout_weight="1">
+                    android:id="@id/image"
+                    android:layout_width="@dimen/item_image_size"
+                    android:layout_height="@dimen/item_image_size"
+                    android:src="@drawable/ic_dianya" />
 
                 <TextView
-                    android:id="@+id/CV"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="8dp"
-                    android:layout_toLeftOf="@+id/img"
+                    android:layout_marginLeft="16dp"
                     android:gravity="center"
-                    android:text="--"
-                    android:textColor="@color/textColor" />
+                    android:text="B相电压"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/BV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="8dp"
+                        android:layout_toLeftOf="@+id/img"
+                        android:gravity="center"
+                        android:text="--"
+                        android:textColor="@color/textColor" />
+
+                    <ImageView
+                        android:id="@id/img"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_arrow_right" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/bgBlue" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
 
                 <ImageView
-                    android:id="@id/img"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/ic_arrow_right" />
-            </RelativeLayout>
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/bgBlue" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:background="?attr/selectableItemBackground"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp">
-
-            <ImageView
-                android:id="@id/image"
-                android:layout_width="@dimen/item_image_size"
-                android:layout_height="@dimen/item_image_size"
-                android:src="@drawable/ic_dianliu" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="16dp"
-                android:gravity="center"
-                android:text="A相电流"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="16dp"
-                android:layout_weight="1">
+                    android:id="@id/image"
+                    android:layout_width="@dimen/item_image_size"
+                    android:layout_height="@dimen/item_image_size"
+                    android:src="@drawable/ic_dianya" />
 
                 <TextView
-                    android:id="@+id/aA_value"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="8dp"
-                    android:layout_toLeftOf="@+id/img"
+                    android:layout_marginLeft="16dp"
                     android:gravity="center"
-                    android:text="--"
-                    android:textColor="@color/textColor" />
+                    android:text="C相电压"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/CV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="8dp"
+                        android:layout_toLeftOf="@+id/img"
+                        android:gravity="center"
+                        android:text="--"
+                        android:textColor="@color/textColor" />
+
+                    <ImageView
+                        android:id="@id/img"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_arrow_right" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:background="@color/bgBlue" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
 
                 <ImageView
-                    android:id="@id/img"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/ic_arrow_right" />
-            </RelativeLayout>
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/bgBlue" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:background="?attr/selectableItemBackground"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp">
-
-            <ImageView
-                android:id="@id/image"
-                android:layout_width="@dimen/item_image_size"
-                android:layout_height="@dimen/item_image_size"
-                android:src="@drawable/ic_dianliu" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="16dp"
-                android:gravity="center"
-                android:text="B相电流"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="16dp"
-                android:layout_weight="1">
+                    android:id="@id/image"
+                    android:layout_width="@dimen/item_image_size"
+                    android:layout_height="@dimen/item_image_size"
+                    android:src="@drawable/ic_dianliu" />
 
                 <TextView
-                    android:id="@+id/bA_value"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="8dp"
-                    android:layout_toLeftOf="@+id/img"
+                    android:layout_marginLeft="16dp"
                     android:gravity="center"
-                    android:text="--"
-                    android:textColor="@color/textColor" />
+                    android:text="A相电流"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/aA_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="8dp"
+                        android:layout_toLeftOf="@+id/img"
+                        android:gravity="center"
+                        android:text="--"
+                        android:textColor="@color/textColor" />
+
+                    <ImageView
+                        android:id="@id/img"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_arrow_right" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/bgBlue" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
 
                 <ImageView
-                    android:id="@id/img"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/ic_arrow_right" />
-            </RelativeLayout>
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/bgBlue" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:background="?attr/selectableItemBackground"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp">
-
-            <ImageView
-                android:id="@id/image"
-                android:layout_width="@dimen/item_image_size"
-                android:layout_height="@dimen/item_image_size"
-                android:src="@drawable/ic_dianliu" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="16dp"
-                android:gravity="center"
-                android:text="C相电流"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="16dp"
-                android:layout_weight="1">
+                    android:id="@id/image"
+                    android:layout_width="@dimen/item_image_size"
+                    android:layout_height="@dimen/item_image_size"
+                    android:src="@drawable/ic_dianliu" />
 
                 <TextView
-                    android:id="@+id/cA_value"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="8dp"
-                    android:layout_toLeftOf="@+id/img"
+                    android:layout_marginLeft="16dp"
                     android:gravity="center"
-                    android:text="--"
-                    android:textColor="@color/textColor" />
+                    android:text="B相电流"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/bA_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="8dp"
+                        android:layout_toLeftOf="@+id/img"
+                        android:gravity="center"
+                        android:text="--"
+                        android:textColor="@color/textColor" />
+
+                    <ImageView
+                        android:id="@id/img"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_arrow_right" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/bgBlue" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
 
                 <ImageView
-                    android:id="@id/img"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/ic_arrow_right" />
-            </RelativeLayout>
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/bgBlue" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:background="?attr/selectableItemBackground"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp">
-
-            <ImageView
-                android:id="@id/image"
-                android:layout_width="@dimen/item_image_size"
-                android:layout_height="@dimen/item_image_size"
-                android:src="@drawable/ic_gonglv" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="16dp"
-                android:gravity="center"
-                android:text="有功功率"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="16dp"
-                android:layout_weight="1">
+                    android:id="@id/image"
+                    android:layout_width="@dimen/item_image_size"
+                    android:layout_height="@dimen/item_image_size"
+                    android:src="@drawable/ic_dianliu" />
 
                 <TextView
-                    android:id="@+id/aP_value"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="8dp"
-                    android:layout_toLeftOf="@+id/img"
+                    android:layout_marginLeft="16dp"
                     android:gravity="center"
-                    android:text="--"
-                    android:textColor="@color/textColor" />
+                    android:text="C相电流"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/cA_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="8dp"
+                        android:layout_toLeftOf="@+id/img"
+                        android:gravity="center"
+                        android:text="--"
+                        android:textColor="@color/textColor" />
+
+                    <ImageView
+                        android:id="@id/img"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_arrow_right" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:background="@color/bgBlue" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
 
                 <ImageView
-                    android:id="@id/img"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/ic_arrow_right" />
-            </RelativeLayout>
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/bgBlue" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:background="?attr/selectableItemBackground"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp">
-
-            <ImageView
-                android:id="@id/image"
-                android:layout_width="@dimen/item_image_size"
-                android:layout_height="@dimen/item_image_size"
-                android:src="@drawable/ic_gonglv" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="16dp"
-                android:gravity="center"
-                android:text="A相有功功率"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="16dp"
-                android:layout_weight="1">
+                    android:id="@id/image"
+                    android:layout_width="@dimen/item_image_size"
+                    android:layout_height="@dimen/item_image_size"
+                    android:src="@drawable/ic_gonglv" />
 
                 <TextView
-                    android:id="@+id/ActivePowerA"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="8dp"
-                    android:layout_toLeftOf="@+id/img"
+                    android:layout_marginLeft="16dp"
                     android:gravity="center"
-                    android:text="--"
-                    android:textColor="@color/textColor" />
+                    android:text="有功功率"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/aP_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="8dp"
+                        android:layout_toLeftOf="@+id/img"
+                        android:gravity="center"
+                        android:text="--"
+                        android:textColor="@color/textColor" />
+
+                    <ImageView
+                        android:id="@id/img"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_arrow_right" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/bgBlue" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
 
                 <ImageView
-                    android:id="@id/img"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/ic_arrow_right" />
-            </RelativeLayout>
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/bgBlue" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:background="?attr/selectableItemBackground"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp">
-
-            <ImageView
-                android:id="@id/image"
-                android:layout_width="@dimen/item_image_size"
-                android:layout_height="@dimen/item_image_size"
-                android:src="@drawable/ic_gonglv" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="16dp"
-                android:gravity="center"
-                android:text="无功功率"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="16dp"
-                android:layout_weight="1">
+                    android:id="@id/image"
+                    android:layout_width="@dimen/item_image_size"
+                    android:layout_height="@dimen/item_image_size"
+                    android:src="@drawable/ic_gonglv" />
 
                 <TextView
-                    android:id="@+id/rP_value"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="8dp"
-                    android:layout_toLeftOf="@+id/img"
+                    android:layout_marginLeft="16dp"
                     android:gravity="center"
-                    android:text="--"
-                    android:textColor="@color/textColor" />
+                    android:text="A相有功功率"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/ActivePowerA"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="8dp"
+                        android:layout_toLeftOf="@+id/img"
+                        android:gravity="center"
+                        android:text="--"
+                        android:textColor="@color/textColor" />
+
+                    <ImageView
+                        android:id="@id/img"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_arrow_right" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/bgBlue" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
 
                 <ImageView
-                    android:id="@id/img"
+                    android:id="@id/image"
+                    android:layout_width="@dimen/item_image_size"
+                    android:layout_height="@dimen/item_image_size"
+                    android:src="@drawable/ic_gonglv" />
+
+                <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/ic_arrow_right" />
-            </RelativeLayout>
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:gravity="center"
+                    android:text="B相有功功率"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/ActivePowerB"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="8dp"
+                        android:layout_toLeftOf="@+id/img"
+                        android:gravity="center"
+                        android:text="--"
+                        android:textColor="@color/textColor" />
+
+                    <ImageView
+                        android:id="@id/img"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_arrow_right" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/bgBlue" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
+
+                <ImageView
+                    android:id="@id/image"
+                    android:layout_width="@dimen/item_image_size"
+                    android:layout_height="@dimen/item_image_size"
+                    android:src="@drawable/ic_gonglv" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:gravity="center"
+                    android:text="C相有功功率"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/ActivePowerC"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="8dp"
+                        android:layout_toLeftOf="@+id/img"
+                        android:gravity="center"
+                        android:text="--"
+                        android:textColor="@color/textColor" />
+
+                    <ImageView
+                        android:id="@id/img"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_arrow_right" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:background="@color/bgBlue" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
+
+                <ImageView
+                    android:id="@id/image"
+                    android:layout_width="@dimen/item_image_size"
+                    android:layout_height="@dimen/item_image_size"
+                    android:src="@drawable/ic_gonglv" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:gravity="center"
+                    android:text="无功功率"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/rP_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="8dp"
+                        android:layout_toLeftOf="@+id/img"
+                        android:gravity="center"
+                        android:text="--"
+                        android:textColor="@color/textColor" />
+
+                    <ImageView
+                        android:id="@id/img"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_arrow_right" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/bgBlue" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
+
+                <ImageView
+                    android:id="@id/image"
+                    android:layout_width="@dimen/item_image_size"
+                    android:layout_height="@dimen/item_image_size"
+                    android:src="@drawable/ic_gonglv" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:gravity="center"
+                    android:text="A相无功功率"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/ReactivePowerA"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="8dp"
+                        android:layout_toLeftOf="@+id/img"
+                        android:gravity="center"
+                        android:text="--"
+                        android:textColor="@color/textColor" />
+
+                    <ImageView
+                        android:id="@id/img"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_arrow_right" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/bgBlue" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
+
+                <ImageView
+                    android:id="@id/image"
+                    android:layout_width="@dimen/item_image_size"
+                    android:layout_height="@dimen/item_image_size"
+                    android:src="@drawable/ic_gonglv" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:gravity="center"
+                    android:text="B相无功功率"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/ReactivePowerB"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="8dp"
+                        android:layout_toLeftOf="@+id/img"
+                        android:gravity="center"
+                        android:text="--"
+                        android:textColor="@color/textColor" />
+
+                    <ImageView
+                        android:id="@id/img"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_arrow_right" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/bgBlue" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
+
+                <ImageView
+                    android:id="@id/image"
+                    android:layout_width="@dimen/item_image_size"
+                    android:layout_height="@dimen/item_image_size"
+                    android:src="@drawable/ic_gonglv" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:gravity="center"
+                    android:text="C相无功功率"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/ReactivePowerC"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="8dp"
+                        android:layout_toLeftOf="@+id/img"
+                        android:gravity="center"
+                        android:text="--"
+                        android:textColor="@color/textColor" />
+
+                    <ImageView
+                        android:id="@id/img"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_arrow_right" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:background="@color/bgBlue" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
+
+                <ImageView
+                    android:id="@id/image"
+                    android:layout_width="@dimen/item_image_size"
+                    android:layout_height="@dimen/item_image_size"
+                    android:src="@drawable/ic_gonglvyinsu" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:gravity="center"
+                    android:text="功率因素"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/PowerFactor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="8dp"
+                        android:layout_toLeftOf="@+id/img"
+                        android:gravity="center"
+                        android:text="--"
+                        android:textColor="@color/textColor" />
+
+                    <ImageView
+                        android:id="@id/img"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_arrow_right" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/bgBlue" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
+
+                <ImageView
+                    android:id="@id/image"
+                    android:layout_width="@dimen/item_image_size"
+                    android:layout_height="@dimen/item_image_size"
+                    android:src="@drawable/ic_gonglvyinsu" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:gravity="center"
+                    android:text="A相功率因素"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/PowerFactorA"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="8dp"
+                        android:layout_toLeftOf="@+id/img"
+                        android:gravity="center"
+                        android:text="--"
+                        android:textColor="@color/textColor" />
+
+                    <ImageView
+                        android:id="@id/img"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_arrow_right" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/bgBlue" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
+
+                <ImageView
+                    android:id="@id/image"
+                    android:layout_width="@dimen/item_image_size"
+                    android:layout_height="@dimen/item_image_size"
+                    android:src="@drawable/ic_gonglvyinsu" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:gravity="center"
+                    android:text="B相功率因素"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/PowerFactorB"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="8dp"
+                        android:layout_toLeftOf="@+id/img"
+                        android:gravity="center"
+                        android:text="--"
+                        android:textColor="@color/textColor" />
+
+                    <ImageView
+                        android:id="@id/img"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_arrow_right" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/bgBlue" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
+
+                <ImageView
+                    android:id="@id/image"
+                    android:layout_width="@dimen/item_image_size"
+                    android:layout_height="@dimen/item_image_size"
+                    android:src="@drawable/ic_gonglvyinsu" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:gravity="center"
+                    android:text="C相功率因素"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/PowerFactorC"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="8dp"
+                        android:layout_toLeftOf="@+id/img"
+                        android:gravity="center"
+                        android:text="--"
+                        android:textColor="@color/textColor" />
+
+                    <ImageView
+                        android:id="@id/img"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_arrow_right" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:background="@color/bgBlue" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
+
+                <ImageView
+                    android:id="@id/image"
+                    android:layout_width="@dimen/item_image_size"
+                    android:layout_height="@dimen/item_image_size"
+                    android:src="@drawable/ic_dl" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:gravity="center"
+                    android:text="尖"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/ElectricitySharp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="8dp"
+                        android:layout_toLeftOf="@+id/img"
+                        android:gravity="center"
+                        android:text="--"
+                        android:textColor="@color/textColor" />
+
+                    <ImageView
+                        android:id="@id/img"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_arrow_right" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/bgBlue" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
+
+                <ImageView
+                    android:id="@id/image"
+                    android:layout_width="@dimen/item_image_size"
+                    android:layout_height="@dimen/item_image_size"
+                    android:src="@drawable/ic_dl" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:gravity="center"
+                    android:text="峰"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/ElectricityPeak"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="8dp"
+                        android:layout_toLeftOf="@+id/img"
+                        android:gravity="center"
+                        android:text="--"
+                        android:textColor="@color/textColor" />
+
+                    <ImageView
+                        android:id="@id/img"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_arrow_right" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/bgBlue" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
+
+                <ImageView
+                    android:id="@id/image"
+                    android:layout_width="@dimen/item_image_size"
+                    android:layout_height="@dimen/item_image_size"
+                    android:src="@drawable/ic_dl" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:gravity="center"
+                    android:text="平"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/ElectricityFlat"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="8dp"
+                        android:layout_toLeftOf="@+id/img"
+                        android:gravity="center"
+                        android:text="--"
+                        android:textColor="@color/textColor" />
+
+                    <ImageView
+                        android:id="@id/img"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_arrow_right" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/bgBlue" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
+
+                <ImageView
+                    android:id="@id/image"
+                    android:layout_width="@dimen/item_image_size"
+                    android:layout_height="@dimen/item_image_size"
+                    android:src="@drawable/ic_dl" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:gravity="center"
+                    android:text="谷"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/ElectricityValley"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="8dp"
+                        android:layout_toLeftOf="@+id/img"
+                        android:gravity="center"
+                        android:text="--"
+                        android:textColor="@color/textColor" />
+
+                    <ImageView
+                        android:id="@id/img"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_arrow_right" />
+                </RelativeLayout>
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
 
 </layout>
