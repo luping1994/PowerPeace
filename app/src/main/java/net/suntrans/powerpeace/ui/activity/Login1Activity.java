@@ -314,6 +314,8 @@ public class Login1Activity extends BasedActivity {
                                     .commit();
                             getUserInfo();
                         } else {
+                            if (dialog != null)
+                                dialog.dismiss();
                             UiUtils.showToast("用户名或密码错误");
                         }
                     }

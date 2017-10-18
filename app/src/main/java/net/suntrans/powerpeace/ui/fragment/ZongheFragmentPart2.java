@@ -2,12 +2,16 @@ package net.suntrans.powerpeace.ui.fragment;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
 import com.trello.rxlifecycle.android.FragmentEvent;
 
 import net.suntrans.powerpeace.R;
@@ -15,6 +19,10 @@ import net.suntrans.powerpeace.bean.ZHEnergyEntity;
 import net.suntrans.powerpeace.bean.ZHEnergyShishiEntity;
 import net.suntrans.powerpeace.databinding.FragmentZhPart1Binding;
 import net.suntrans.powerpeace.databinding.FragmentZhPart2Binding;
+import net.suntrans.powerpeace.ui.decoration.DefaultDecoration;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -29,6 +37,8 @@ public class ZongheFragmentPart2 extends BasedFragment {
 
 
     private String sno;
+    private List<ZHEnergyShishiEntity.InfoBean> datas;
+    private Myadapter adapter;
 
     public static ZongheFragmentPart2 newInstace(String floor_ammeter3_id) {
         ZongheFragmentPart2 fragmentPart1 = new ZongheFragmentPart2();
@@ -51,19 +61,45 @@ public class ZongheFragmentPart2 extends BasedFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sno = getArguments().getString("sno");
-        System.out.println(sno);
 
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        datas = new ArrayList<>();
         binding.refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 getFloor();
             }
         });
+        binding.recyclerView.addItemDecoration(new DefaultDecoration());
+        adapter = new Myadapter(R.layout.item_current_data, datas);
+        binding.recyclerView.setAdapter(adapter);
+    }
+
+    private class Myadapter extends BaseQuickAdapter<ZHEnergyShishiEntity.InfoBean, BaseViewHolder> {
+
+        public Myadapter(@LayoutRes int layoutResId, @Nullable List<ZHEnergyShishiEntity.InfoBean> data) {
+            super(layoutResId, data);
+        }
+
+        @Override
+        protected void convert(BaseViewHolder helper, ZHEnergyShishiEntity.InfoBean item) {
+            helper.setText(R.id.name, item.name)
+                    .setText(R.id.value, item.value + item.unit);
+            ImageView imageView = helper.getView(R.id.image);
+            String name = item.name;
+
+            if (name.contains(""))
+            imageView.setImageResource(R.drawable.ic_dianya);
+            imageView.setImageResource(R.drawable.ic_gonglv);
+            imageView.setImageResource(R.drawable.ic_dl);
+            imageView.setImageResource(R.drawable.ic_dianliu);
+
+
+        }
     }
 
     @Override
@@ -92,19 +128,13 @@ public class ZongheFragmentPart2 extends BasedFragment {
                     }
 
                     @Override
-                    public void onNext(ZHEnergyShishiEntity zhbFloorEntity) {
+                    public void onNext(ZHEnergyShishiEntity info) {
                         if (binding.refreshLayout != null)
                             binding.refreshLayout.setRefreshing(false);
-                        ZHEnergyShishiEntity.InfoBean infoBean = zhbFloorEntity.info.get(0);
-                        binding.sanxiang.AV.setText(infoBean.VolA + "V");
-                        binding.sanxiang.BV.setText(infoBean.VolB + "V");
-                        binding.sanxiang.CV.setText(infoBean.VolC + "V");
-                        binding.sanxiang.aAValue.setText(infoBean.IA + "A");
-                        binding.sanxiang.bAValue.setText(infoBean.IB + "A");
-                        binding.sanxiang.cAValue.setText(infoBean.IC + "A");
-                        binding.sanxiang.aPValue.setText(infoBean.ActivePower + "W");
-                        binding.sanxiang.rPValue.setText(infoBean.ReactivePower + "kvar");
 
+                        datas.clear();
+                        datas.addAll(info.info);
+                        adapter.notifyDataSetChanged();
 
                     }
                 });

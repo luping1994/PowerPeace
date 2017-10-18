@@ -12,7 +12,9 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.WakefulBroadcastReceiver;
 import android.support.v7.app.ActionBar;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -27,6 +29,8 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.Utils;
 
 import net.suntrans.looney.utils.LogUtil;
+import net.suntrans.looney.utils.UiUtils;
+import net.suntrans.looney.widgets.CompatDatePickerDialog;
 import net.suntrans.powerpeace.R;
 import net.suntrans.powerpeace.bean.HisEntity;
 import net.suntrans.powerpeace.chart.MyAxisValueFormatter;
@@ -37,20 +41,27 @@ import net.suntrans.powerpeace.utils.DateUtils;
 import net.suntrans.powerpeace.utils.StatusBarCompat;
 import net.suntrans.stateview.StateView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
+import static net.suntrans.powerpeace.R.id.endTime;
+import static net.suntrans.powerpeace.R.id.pin;
 import static net.suntrans.powerpeace.R.id.segmented_group;
+import static net.suntrans.powerpeace.R.id.startTime;
 
 /**
  * Created by Looney on 2017/9/7.
  */
 
-public class AmmeterHisActivity extends BasedActivity {
+public class AmmeterHisActivity extends BasedActivity implements View.OnClickListener {
 
     private static final java.lang.String TAG = "AmmeterHisActivity";
     private static final String DISPLAY_WEEK = "WEEK";
@@ -66,6 +77,12 @@ public class AmmeterHisActivity extends BasedActivity {
     private MyAdapter adapter;
     private StateView stateView;
     private String code;
+
+    private int mYear;
+    private int mMonth;
+    private int mDay;
+    private int checkedId;
+    private CompatDatePickerDialog pickerDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +104,7 @@ public class AmmeterHisActivity extends BasedActivity {
         stateView.setOnRetryClickListener(new StateView.OnRetryClickListener() {
             @Override
             public void onRetryClick() {
-                getData();
+                getData(binding.startTime.getText().toString(),binding.endTime.getText().toString());
             }
         });
         setSupportActionBar(binding.toolbar);
@@ -119,6 +136,39 @@ public class AmmeterHisActivity extends BasedActivity {
                 setData(data);
             }
         });
+
+        binding.startTime.setOnClickListener(this);
+        binding.endTime.setOnClickListener(this);
+
+
+        final Calendar c = Calendar.getInstance();
+        mYear = c.get(Calendar.YEAR);
+        mMonth = c.get(Calendar.MONTH) + 1;
+        mDay = c.get(Calendar.DAY_OF_MONTH);
+
+        binding.startTime.setText(mYear + "-" + pad(mMonth) + "-" + pad(mDay));
+        binding.endTime.setText(mYear + "-" + pad(mMonth) + "-" + pad(mDay));
+        binding.query.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String startTime = binding.startTime.getText().toString();
+                String endTime = binding.endTime.getText().toString();
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                long startTimeLong=0;
+                long endTimeLong=0;
+                try {
+                    startTimeLong  = sdf.parse(startTime).getTime();
+                    endTimeLong  = sdf.parse(endTime).getTime();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                if (startTimeLong>endTimeLong){
+                    UiUtils.showToast("起始时间必须小于结束时间");
+                    return;
+                }
+                getData(startTime,endTime);
+            }
+        });
     }
 
     private void initData() {
@@ -142,9 +192,9 @@ public class AmmeterHisActivity extends BasedActivity {
         dictionaries.put("用电量Unit", "(度)");
 
 
-        dictionaries.put(DISPLAY_DAY, "最近24小时");
-        dictionaries.put(DISPLAY_MONTH, "最近一月");
-        dictionaries.put(DISPLAY_WEEK, "最近一周");
+        dictionaries.put(DISPLAY_DAY, "");
+        dictionaries.put(DISPLAY_MONTH, "");
+        dictionaries.put(DISPLAY_WEEK, "");
     }
 
     private void initChart() {
@@ -260,20 +310,22 @@ public class AmmeterHisActivity extends BasedActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        getData();
+        getData(binding.startTime.getText().toString(),binding.endTime.getText().toString());
 //        ArrayList<String> pastDays = DateUtils.getPastDays(10);
 
 //        System.out.println(pastDays);
     }
 
 
-    private void getData() {
+    private void getData(String startTime,String endTime) {
         LogUtil.i("room id is:" + room_id);
         stateView.showLoading();
         binding.mainContent.setVisibility(View.INVISIBLE);
-        Map<String,String> map = new HashMap<>();
-        map.put("room_id",room_id);
-        map.put("datapoint",code);
+        Map<String, String> map = new HashMap<>();
+        map.put("room_id", room_id);
+        map.put("datapoint", code);
+        map.put("beginDate", startTime);
+        map.put("endDate", endTime);
         addSubscription(api.getMeterHis(map), new BaseSubscriber<HisEntity>(this) {
             @Override
             public void onError(Throwable e) {
@@ -296,7 +348,6 @@ public class AmmeterHisActivity extends BasedActivity {
     private void setData(HisEntity hisEntity) {
 
 
-
         if (hisEntity == null) {
             stateView.showEmpty();
             binding.mainContent.setVisibility(View.INVISIBLE);
@@ -307,7 +358,7 @@ public class AmmeterHisActivity extends BasedActivity {
             binding.mainContent.setVisibility(View.INVISIBLE);
             return;
         }
-        if (hisEntity.info .size()==0) {
+        if (hisEntity.info.size() == 0) {
             stateView.showEmpty();
             binding.mainContent.setVisibility(View.INVISIBLE);
             return;
@@ -318,7 +369,7 @@ public class AmmeterHisActivity extends BasedActivity {
         values.clear();
         for (int i = 0; i < hisEntity.info.size(); i++) {
             float val = 0f;
-                val = Float.parseFloat(hisEntity.info.get( i).data);
+            val = Float.parseFloat(hisEntity.info.get(i).data);
             values.add(new Entry(i, val));
         }
 //        MyAxisValueFormatter formatter = new MyAxisValueFormatter(ls);
@@ -382,6 +433,7 @@ public class AmmeterHisActivity extends BasedActivity {
 
     private List<HisEntity.EleParmHisItem> datas = new ArrayList<>();
 
+
     class MyAdapter extends BaseQuickAdapter<HisEntity.EleParmHisItem, BaseViewHolder> {
 
         public MyAdapter(@LayoutRes int layoutResId, @Nullable List<HisEntity.EleParmHisItem> data) {
@@ -409,6 +461,51 @@ public class AmmeterHisActivity extends BasedActivity {
 //        }
         datas.addAll(hisEntity.info);
         adapter.notifyDataSetChanged();
+    }
+
+    private CompatDatePickerDialog.OnDateSetListener mDateSetListener =
+            new CompatDatePickerDialog.OnDateSetListener() {
+                public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                      int dayOfMonth) {
+                    mYear = year;
+                    mMonth = monthOfYear + 1;
+                    mDay = dayOfMonth;
+                    if (checkedId == startTime) {
+                        binding.startTime.setText(
+                                new StringBuilder()
+                                        .append(mYear).append("-")
+                                        .append(pad(mMonth)).append("-")
+                                        .append(pad(mDay))
+                        );
+                    } else {
+                        binding.endTime.setText(
+                                new StringBuilder()
+                                        .append(mYear).append("-")
+                                        .append(pad(mMonth)).append("-")
+                                        .append(pad(mDay))
+                        );
+                    }
+
+
+                }
+            };
+
+    private static String pad(int c) {
+        if (c >= 10)
+            return String.valueOf(c);
+        else
+            return "0" + String.valueOf(c);
+    }
+
+    @Override
+    public void onClick(View v) {
+        checkedId = v.getId();
+        pickerDialog = new CompatDatePickerDialog(this, mDateSetListener, mYear, mMonth - 1, mDay);
+        DatePicker datePicker = pickerDialog.getDatePicker();
+        datePicker.setMaxDate(System.currentTimeMillis());
+
+        pickerDialog.show();
+
     }
 
 }
