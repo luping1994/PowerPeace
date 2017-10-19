@@ -282,4 +282,25 @@ public interface Api {
     @FormUrlEncoded
     @POST("api/inquiry/Inquiry_3Ammeter_Current")
     Observable<ZHEnergyShishiEntity> getZHEnergyShishi(@Field("sno") String sno);
+
+    //api/inquiry/Inquiry_3Ammeter_UseValue
+
+    @FormUrlEncoded
+    @POST("api/inquiry/Inquiry_3Ammeter_UseValue")
+    Observable<Ameter3Entity> getZHDLHisData(@Field("sno") String sno, @Field("date") String date);
+
+    @FormUrlEncoded
+    @POST("api/inquiry/Inquiry_3Ammeter_Wastage")
+    Observable<Ameter3Entity> getZHSHHisData(@Field("sno") String sno, @Field("date") String date);
+
+
+    /**
+     * 管查询三相电表实时历史数据
+     *
+     * @param
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api/inquiry/Inquiry_3Ammeter_History")
+    Observable<HisEntity> getZHCurHis(@FieldMap Map<String, String> map);
 }

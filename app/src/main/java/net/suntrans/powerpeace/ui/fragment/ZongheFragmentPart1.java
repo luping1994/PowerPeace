@@ -1,5 +1,6 @@
 package net.suntrans.powerpeace.ui.fragment;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,7 +15,9 @@ import com.trello.rxlifecycle.android.FragmentEvent;
 import net.suntrans.powerpeace.R;
 import net.suntrans.powerpeace.bean.ZHEnergyEntity;
 import net.suntrans.powerpeace.databinding.FragmentZhPart1Binding;
+import net.suntrans.powerpeace.ui.activity.ZHDLHisActivity;
 
+import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -24,14 +27,17 @@ import rx.schedulers.Schedulers;
  * Des:
  */
 
-public class ZongheFragmentPart1 extends BasedFragment {
+public class ZongheFragmentPart1 extends BasedFragment implements View.OnClickListener {
 
 
     private String floor_ammeter3_id;
-    public static ZongheFragmentPart1 newInstace(String floor_ammeter3_id) {
+    private String sno;
+
+    public static ZongheFragmentPart1 newInstace(String floor_ammeter3_id, String sno) {
         ZongheFragmentPart1 fragmentPart1 = new ZongheFragmentPart1();
         Bundle bundle = new Bundle();
-        bundle.putString("floor_ammeter3_id",floor_ammeter3_id);
+        bundle.putString("floor_ammeter3_id", floor_ammeter3_id);
+        bundle.putString("sno", sno);
         fragmentPart1.setArguments(bundle);
         return fragmentPart1;
     }
@@ -41,7 +47,7 @@ public class ZongheFragmentPart1 extends BasedFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_zh_part1,container,false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_zh_part1, container, false);
         return binding.getRoot();
     }
 
@@ -49,6 +55,7 @@ public class ZongheFragmentPart1 extends BasedFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         floor_ammeter3_id = getArguments().getString("floor_ammeter3_id");
+        sno = getArguments().getString("sno");
 
     }
 
@@ -61,6 +68,16 @@ public class ZongheFragmentPart1 extends BasedFragment {
                 getFloor();
             }
         });
+        setListener();
+    }
+
+    private void setListener() {
+        binding.yongdian.dayLL.setOnClickListener(this);
+        binding.yongdian.monthLL.setOnClickListener(this);
+        binding.yongdian.totalLL.setOnClickListener(this);
+        binding.sunhao.daySuohaoLL.setOnClickListener(this);
+        binding.sunhao.monthSuohaoLL.setOnClickListener(this);
+        binding.sunhao.totalSuohaoLL.setOnClickListener(this);
     }
 
     @Override
@@ -71,8 +88,13 @@ public class ZongheFragmentPart1 extends BasedFragment {
 
     private void getFloor() {
         binding.refreshLayout.setRefreshing(true);
-        api.getZongheBuildingEnergy("ammeter3", floor_ammeter3_id)
-                .compose(this.<ZHEnergyEntity>bindUntilEvent(FragmentEvent.DESTROY_VIEW))
+        Observable<ZHEnergyEntity> total;
+        if (null==sno){
+            total= api.getZongheBuildingEnergy("total", floor_ammeter3_id);
+        }else {
+            total = api.getZongheBuildingEnergy("ammeter3", floor_ammeter3_id);
+        }
+        total .compose(this.<ZHEnergyEntity>bindUntilEvent(FragmentEvent.DESTROY_VIEW))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Subscriber<ZHEnergyEntity>() {
@@ -118,4 +140,30 @@ public class ZongheFragmentPart1 extends BasedFragment {
                 });
     }
 
+
+    public static final String HIS_REQUEST_TYPE_DL ="dl";
+    public static final String HIS_REQUEST_TYPE_SH ="sunhao";
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.dayLL:
+            case R.id.monthLL:
+            case R.id.totalLL:
+                Intent intent = new Intent(getActivity(), ZHDLHisActivity.class);
+                intent.putExtra("sno", sno);
+                intent.putExtra("requestType", HIS_REQUEST_TYPE_DL);
+                intent.putExtra("title", "用电量统计");
+                startActivity(intent);
+                break;
+            case R.id.daySuohaoLL:
+            case R.id.monthSuohaoLL:
+            case R.id.totalSuohaoLL:
+                Intent intent2 = new Intent(getActivity(), ZHDLHisActivity.class);
+                intent2.putExtra("sno", sno);
+                intent2.putExtra("requestType", HIS_REQUEST_TYPE_SH);
+                intent2.putExtra("title", "损耗电量统计");
+                startActivity(intent2);
+                break;
+        }
+    }
 }

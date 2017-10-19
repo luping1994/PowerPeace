@@ -67,7 +67,7 @@ public class ZHFloorActivity extends BasedActivity {
 
     private void init() {
         datas = new ArrayList<>();
-        adapter = new MyAdapter(R.layout.item_zh_building, datas);
+        adapter = new MyAdapter(R.layout.item_zh_building_floor, datas);
         binding.recyclerView.setAdapter(adapter);
         binding.recyclerView.addItemDecoration(new DefaultDecoration());
         binding.refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -76,7 +76,7 @@ public class ZHFloorActivity extends BasedActivity {
                 getFloor();
             }
         });
-
+        binding.refreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {

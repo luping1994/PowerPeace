@@ -1,30 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
     android:layout_width="match_parent"
-    android:layout_height="48dp"
-    android:background="#f2f3f5"
-    android:orientation="vertical"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp">
+    android:layout_height="69dp"
+    android:background="?attr/selectableItemBackground"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="@color/bgBlue" />
 
     <TextView
         android:id="@+id/headerName"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:gravity="center_vertical"
         android:text="一号学生公寓"
-        android:textColor="@color/textColor" />
+        android:textColor="@color/textColor"
+        android:textSize="16sp" />
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="50dp"
-        android:layout_height="24dp"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:background="@null"
-        android:gravity="center"
-        android:text="能耗"
-        android:textColor="@color/colorPrimary"
-        android:textSize="14sp" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="16dp"
+        android:background="@color/bgBlue" />
 
-</RelativeLayout>
+</LinearLayout>

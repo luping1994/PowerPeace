@@ -87,40 +87,40 @@ public class FeedbackActivity extends BasedActivity implements View.OnClickListe
     private void commitSuggestion() {
         String type = "";
         if (mCheckedTypeId == R.id.chanpinjianyi) {
-            type = "产品建议";
+            type = getString(R.string.product_suggest);
         } else if (mCheckedTypeId == R.id.chengxucuowu) {
-            type = "程序错误";
+            type = getString(R.string.progress_error);
         } else {
-            UiUtils.showToast("请选择反馈类型");
+            UiUtils.showToast(getString(R.string.title_feedback_type));
             return;
         }
         String qus = binding.jianyi.getText().toString();
         String email = binding.email.getText().toString();
         if (TextUtils.isEmpty(qus)) {
-            UiUtils.showToast("请输入内容");
+            UiUtils.showToast(getString(R.string.tips_content_is_empty));
             return;
         }
         if (TextUtils.isEmpty(email)) {
-            UiUtils.showToast("请输入您的联系方式");
+            UiUtils.showToast(getString(R.string.tips_contacts_is_empty));
             return;
         }
         if (!email.matches("^[_a-zA-Z0-9\\-\\.]+@([\\-_a-zA-Z0-9]+\\.)+[a-zA-Z0-9]{2,3}$") && !email.matches("^[1-9]\\d{4,12}$")) {
-            UiUtils.showToast("您的联系方式格式有误");
+            UiUtils.showToast(getString(R.string.tips_contacts_is_error));
             return;
         }
         if (dialog == null) {
             dialog = new LoadingDialog(this);
-            dialog.setWaitText("请稍后...");
+            dialog.setWaitText(getString(R.string.tips_please_wait));
         }
         dialog.show();
 
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("反馈类型", type);
-            jsonObject.put("反馈内容", qus);
-            jsonObject.put("联系方式", email);
+            jsonObject.put(getString(R.string.json_feedback_type), type);
+            jsonObject.put(getString(R.string.json_feedback_content), qus);
+            jsonObject.put(getString(R.string.json_feedback_contacts), email);
         } catch (Exception e) {
-            UiUtils.showToast("程序开小差了");
+            UiUtils.showToast(getString(R.string.tips_progress_is_crash));
             e.printStackTrace();
         }
         LogUtil.i(jsonObject.toString());
@@ -148,8 +148,8 @@ public class FeedbackActivity extends BasedActivity implements View.OnClickListe
                         dialog.dismiss();
                         new AlertDialog.Builder(FeedbackActivity.this)
                                 .setCancelable(false)
-                                .setMessage("已收到您的反馈,我们会认真查看,并尽快修复及完善,感谢您的支持!")
-                                .setPositiveButton("关闭", new DialogInterface.OnClickListener() {
+                                .setMessage(R.string.tips_feedbak_success)
+                                .setPositiveButton(R.string.close, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         finish();

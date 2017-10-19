@@ -90,7 +90,7 @@ public class RetrofitHelper {
                 if (mOkHttpClient == null) {
                     mOkHttpClient = new OkHttpClient.Builder()
                             .addInterceptor(netInterceptor)
-                            .connectTimeout(10, TimeUnit.SECONDS)
+                            .connectTimeout(8, TimeUnit.SECONDS)
                             .build();
                 }
             }
@@ -108,7 +108,7 @@ public class RetrofitHelper {
         String header = App.getSharedPreferences().getString("token", "raVnKIh8Rv");
 //        String group = App.getSharedPreferences().getString("group", "raVnKIh8Rv");
 //        String id = App.getSharedPreferences().getString("id", "-1");
-        LogUtil.i("token", header);
+//        LogUtil.i("token", header);
         builder.add("token", header);
 //        builder.add("group", group);
 //        builder.add("id", id);

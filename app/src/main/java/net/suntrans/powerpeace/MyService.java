@@ -131,7 +131,7 @@ public class MyService extends Service {
 
                     @Override
                     public void onNext(String s) {
-                        if (s.equals("允许弹框")) {
+                        if (getString(R.string.arrow_tanchuang).equals(s)) {
                             isShowAlert = true;
                         }
                     }

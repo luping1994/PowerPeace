@@ -1,5 +1,6 @@
 package net.suntrans.powerpeace.ui.fragment;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
@@ -19,6 +20,7 @@ import net.suntrans.powerpeace.bean.ZHEnergyEntity;
 import net.suntrans.powerpeace.bean.ZHEnergyShishiEntity;
 import net.suntrans.powerpeace.databinding.FragmentZhPart1Binding;
 import net.suntrans.powerpeace.databinding.FragmentZhPart2Binding;
+import net.suntrans.powerpeace.ui.activity.ZHCurHisActivity;
 import net.suntrans.powerpeace.ui.decoration.DefaultDecoration;
 
 import java.util.ArrayList;
@@ -77,6 +79,19 @@ public class ZongheFragmentPart2 extends BasedFragment {
         binding.recyclerView.addItemDecoration(new DefaultDecoration());
         adapter = new Myadapter(R.layout.item_current_data, datas);
         binding.recyclerView.setAdapter(adapter);
+        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                System.out.println(datas.get(position).datapoint);
+                Intent intent = new Intent(getActivity(), ZHCurHisActivity.class);
+                intent.putExtra("paramName",datas.get(position).name);
+                intent.putExtra("datapoint",datas.get(position).datapoint);
+                intent.putExtra("unit",datas.get(position).unit);
+                intent.putExtra("sno",sno);
+                intent.putExtra("title",datas.get(position).name+"历史记录");
+                startActivity(intent);
+            }
+        });
     }
 
     private class Myadapter extends BaseQuickAdapter<ZHEnergyShishiEntity.InfoBean, BaseViewHolder> {

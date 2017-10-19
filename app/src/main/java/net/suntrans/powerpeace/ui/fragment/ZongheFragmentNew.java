@@ -21,7 +21,9 @@ import net.suntrans.powerpeace.R;
 import net.suntrans.powerpeace.adapter.ZHBuildingAdapter;
 import net.suntrans.powerpeace.bean.ZHBuildingEntity;
 import net.suntrans.powerpeace.databinding.FragmentZongheNewBinding;
+import net.suntrans.powerpeace.ui.activity.ZHBuildingEnergyActivity;
 import net.suntrans.powerpeace.ui.activity.ZHFloorActivity;
+import net.suntrans.powerpeace.ui.activity.ZHFloorEnergyActivity;
 import net.suntrans.powerpeace.ui.decoration.DefaultDecoration;
 
 import java.util.ArrayList;
@@ -75,7 +77,10 @@ public class ZongheFragmentNew extends BasedFragment {
 
             @Override
             public void onGroupButtonClick(int grouPposition) {
-                System.out.println(datas.get(grouPposition).title);
+                Intent intent = new Intent(getActivity(),ZHBuildingEnergyActivity.class);
+                intent.putExtra("id",datas.get(grouPposition).id);
+                intent.putExtra("title",datas.get(grouPposition).title+"综合数据");
+                startActivity(intent);
             }
         });
     }

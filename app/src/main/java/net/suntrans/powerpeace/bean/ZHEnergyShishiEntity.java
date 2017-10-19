@@ -30,7 +30,7 @@ public class ZHEnergyShishiEntity {
 
         public String unit;
         public String name;
-        public int datapoint;
+        public String datapoint;
         public String value;
     }
 }

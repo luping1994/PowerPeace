@@ -16,6 +16,7 @@
             android:text="用电量情况" />
 
         <LinearLayout
+            android:id="@+id/dayLL"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:background="?attr/selectableItemBackground"
@@ -71,6 +72,7 @@
             android:background="@color/bgBlue" />
 
         <LinearLayout
+            android:id="@+id/monthLL"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:background="?attr/selectableItemBackground"
@@ -126,6 +128,7 @@
             android:background="@color/bgBlue" />
 
         <LinearLayout
+            android:id="@+id/totalLL"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:background="?attr/selectableItemBackground"

@@ -16,6 +16,7 @@
             android:text="线损" />
 
         <LinearLayout
+            android:id="@+id/daySuohaoLL"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:background="?attr/selectableItemBackground"
@@ -71,6 +72,7 @@
             android:background="@color/bgBlue" />
 
         <LinearLayout
+            android:id="@+id/monthSuohaoLL"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:background="?attr/selectableItemBackground"
@@ -126,6 +128,7 @@
             android:background="@color/bgBlue" />
 
         <LinearLayout
+            android:id="@+id/totalSuohaoLL"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:background="?attr/selectableItemBackground"

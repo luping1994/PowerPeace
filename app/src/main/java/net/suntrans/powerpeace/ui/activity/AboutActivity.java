@@ -30,7 +30,7 @@ public class AboutActivity extends BasedActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_about);
 
         StatusBarCompat.compat(binding.headerView);
-        binding.toolbar.setTitle("关于");
+        binding.toolbar.setTitle(R.string.activity_title_about);
 
         setSupportActionBar(binding.toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -51,7 +51,7 @@ public class AboutActivity extends BasedActivity {
 
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.putExtra(Intent.EXTRA_SUBJECT, "");
-        shareIntent.putExtra(Intent.EXTRA_TEXT, "下载地址:https://www.pgyer.com/4qzv");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.app_download_url));
         shareIntent.setType("text/plain");
         startActivity(Intent.createChooser(shareIntent, desc));
     }
@@ -65,7 +65,7 @@ public class AboutActivity extends BasedActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.share) {
-            share("分享应用");
+            share(getString(R.string.title_share_app));
             return true;
         }
         return super.onOptionsItemSelected(item);

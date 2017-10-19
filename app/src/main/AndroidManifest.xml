@@ -138,6 +138,13 @@
         <activity
             android:name=".ui.activity.ZHFloorEnergyActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.ZHDLHisActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.ZHCurHisActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.activity.ZHBuildingEnergyActivity" />
     </application>
 
 </manifest>

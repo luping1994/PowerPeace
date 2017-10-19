@@ -31,7 +31,7 @@ public class FindPasswordActivity extends BasedActivity implements FindPassFragm
         binding = DataBindingUtil.setContentView(this, R.layout.activity_find_password);
         StatusBarCompat.compat(binding.headerView);
 
-        binding.toolbar.setTitle("验证身份");
+        binding.toolbar.setTitle(R.string.verfied_shengfen);
         setSupportActionBar(binding.toolbar);
         ActionBar actionBar = getSupportActionBar();
 

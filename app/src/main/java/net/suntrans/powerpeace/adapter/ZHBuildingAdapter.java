@@ -106,11 +106,11 @@ public class ZHBuildingAdapter extends BaseExpandableListAdapter {
 
     public class GroupHolder {
         TextView mName;
-        Button button;
+        View button;
 
         public GroupHolder(View view) {
             mName = (TextView) view.findViewById(R.id.headerName);
-            button = (Button) view.findViewById(R.id.button);
+            button =  view.findViewById(R.id.root);
         }
 
         public void setData(final int groupPosition) {

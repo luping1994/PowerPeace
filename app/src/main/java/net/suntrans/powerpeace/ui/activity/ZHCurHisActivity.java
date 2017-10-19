@@ -9,12 +9,10 @@ import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.WakefulBroadcastReceiver;
 import android.support.v7.app.ActionBar;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -24,7 +22,6 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.IFillFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.Utils;
 
@@ -33,58 +30,49 @@ import net.suntrans.looney.utils.UiUtils;
 import net.suntrans.looney.widgets.CompatDatePickerDialog;
 import net.suntrans.powerpeace.R;
 import net.suntrans.powerpeace.bean.HisEntity;
-import net.suntrans.powerpeace.chart.MyAxisValueFormatter;
 import net.suntrans.powerpeace.databinding.ActivityAmmeterHisBinding;
 import net.suntrans.powerpeace.rx.BaseSubscriber;
 import net.suntrans.powerpeace.ui.decoration.DefaultDecoration;
 import net.suntrans.powerpeace.ui.decoration.MyMarkerView;
-import net.suntrans.powerpeace.utils.DateUtils;
 import net.suntrans.powerpeace.utils.StatusBarCompat;
 import net.suntrans.stateview.StateView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
-import static net.suntrans.powerpeace.R.id.endTime;
-import static net.suntrans.powerpeace.R.id.mChart;
-import static net.suntrans.powerpeace.R.id.pin;
-import static net.suntrans.powerpeace.R.id.segmented_group;
 import static net.suntrans.powerpeace.R.id.startTime;
 
 /**
  * Created by Looney on 2017/9/7.
  */
 
-public class AmmeterHisActivity extends BasedActivity implements View.OnClickListener {
+public class ZHCurHisActivity extends BasedActivity implements View.OnClickListener {
 
-    private static final java.lang.String TAG = "AmmeterHisActivity";
+    private static final String TAG = "AmmeterHisActivity";
     private static final String DISPLAY_WEEK = "WEEK";
     private static final String DISPLAY_DAY = "DAY";
     private static final String DISPLAY_MONTH = "MONTH";
 
     private ActivityAmmeterHisBinding binding;
-    private String room_id;
-    private String paramName;
-    private Map<String, String> dictionaries;
+    private String sno;
     private String mDisplayType = DISPLAY_DAY;
     private HisEntity data;
     private MyAdapter adapter;
     private StateView stateView;
-    private String code;
+    private String datapoint;
 
     private int mYear;
     private int mMonth;
     private int mDay;
     private int checkedId;
     private CompatDatePickerDialog pickerDialog;
+    private String unit;
+    private String paramName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,20 +81,17 @@ public class AmmeterHisActivity extends BasedActivity implements View.OnClickLis
 
         StatusBarCompat.compat(binding.headerView);
 
+        initData();
 
-        room_id = getIntent().getStringExtra("room_id");
-        paramName = getIntent().getStringExtra("paramName");
-        code = getIntent().getStringExtra("code");
-        String title = getIntent().getStringExtra("title");
-        if (title == null)
-            binding.toolbar.setTitle(paramName + "历史记录");
-        else
-            binding.toolbar.setTitle(title + "宿舍" + paramName + "历史记录");
+
+        sno = getIntent().getStringExtra("sno");
+        datapoint = getIntent().getStringExtra("datapoint");
+        binding.toolbar.setTitle(paramName + "历史记录");
         stateView = StateView.inject(binding.content);
         stateView.setOnRetryClickListener(new StateView.OnRetryClickListener() {
             @Override
             public void onRetryClick() {
-                getData(binding.startTime.getText().toString(),binding.endTime.getText().toString());
+                getData(binding.startTime.getText().toString(), binding.endTime.getText().toString());
             }
         });
         setSupportActionBar(binding.toolbar);
@@ -114,12 +99,11 @@ public class AmmeterHisActivity extends BasedActivity implements View.OnClickLis
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        initData();
         initChart();
         adapter = new MyAdapter(R.layout.item_his, datas);
         binding.recyclerView.setAdapter(adapter);
         binding.recyclerView.addItemDecoration(new DefaultDecoration());
-        binding.headerTitle.setText(paramName + dictionaries.get(paramName + "Unit"));
+        binding.headerTitle.setText(paramName + "(" + unit + ")");
         binding.radio0.setChecked(true);
         binding.segmentedGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -156,47 +140,30 @@ public class AmmeterHisActivity extends BasedActivity implements View.OnClickLis
                 String startTime = binding.startTime.getText().toString();
                 String endTime = binding.endTime.getText().toString();
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                long startTimeLong=0;
-                long endTimeLong=0;
+                long startTimeLong = 0;
+                long endTimeLong = 0;
                 try {
-                    startTimeLong  = sdf.parse(startTime).getTime();
-                    endTimeLong  = sdf.parse(endTime).getTime();
+                    startTimeLong = sdf.parse(startTime).getTime();
+                    endTimeLong = sdf.parse(endTime).getTime();
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                if (startTimeLong>endTimeLong){
-                    UiUtils.showToast(getString(R.string.tips_time_is_error));
+                if (startTimeLong > endTimeLong) {
+                    UiUtils.showToast("起始时间必须小于结束时间");
                     return;
                 }
-                getData(startTime,endTime);
+                getData(startTime, endTime);
             }
         });
     }
 
     private void initData() {
-        dictionaries = new HashMap<>();
-        dictionaries.put("电压", "100001");
-        dictionaries.put("电压Unit", "(V)");
-
-        dictionaries.put("电流Unit", "(A)");
-        dictionaries.put("电流", "100002");
-
-        dictionaries.put("功率", "100003");
-        dictionaries.put("功率Unit", "(W)");
-
-        dictionaries.put("功率因数", "100004");
-        dictionaries.put("功率因数Unit", "");
-
-        dictionaries.put("电表值", "100005");
-        dictionaries.put("电表值Unit", "(度)");
-
-        dictionaries.put("用电量", "100007");
-        dictionaries.put("用电量Unit", "(度)");
 
 
-        dictionaries.put(DISPLAY_DAY, "");
-        dictionaries.put(DISPLAY_MONTH, "");
-        dictionaries.put(DISPLAY_WEEK, "");
+        paramName = getIntent().getStringExtra("paramName");
+        unit = getIntent().getStringExtra("unit");
+
+
     }
 
     private void initChart() {
@@ -204,7 +171,7 @@ public class AmmeterHisActivity extends BasedActivity implements View.OnClickLis
 //        mChart.setOnChartGestureListener(this);
 //        binding.mChart.setOnChartValueSelectedListener(this);
         binding.mChart.setDrawGridBackground(false);
-        binding.mChart.setNoDataText(getString(R.string.no_data));
+        binding.mChart.setNoDataText("暂无数据...");
 
         // no description text
         binding.mChart.getDescription().setEnabled(false);
@@ -312,23 +279,23 @@ public class AmmeterHisActivity extends BasedActivity implements View.OnClickLis
     @Override
     protected void onResume() {
         super.onResume();
-        getData(binding.startTime.getText().toString(),binding.endTime.getText().toString());
+        getData(binding.startTime.getText().toString(), binding.endTime.getText().toString());
 //        ArrayList<String> pastDays = DateUtils.getPastDays(10);
 
 //        System.out.println(pastDays);
     }
 
 
-    private void getData(String startTime,String endTime) {
-        LogUtil.i("room id is:" + room_id);
+    private void getData(String startTime, String endTime) {
+        LogUtil.i("room id is:" + sno);
         stateView.showLoading();
         binding.mainContent.setVisibility(View.INVISIBLE);
         Map<String, String> map = new HashMap<>();
-        map.put("room_id", room_id);
-        map.put("datapoint", code);
+        map.put("sno", sno);
+        map.put("datapoint", datapoint);
         map.put("beginDate", startTime);
         map.put("endDate", endTime);
-        addSubscription(api.getMeterHis(map), new BaseSubscriber<HisEntity>(this) {
+        addSubscription(api.getZHCurHis(map), new BaseSubscriber<HisEntity>(this) {
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
@@ -369,10 +336,10 @@ public class AmmeterHisActivity extends BasedActivity implements View.OnClickLis
         List<String> ls = new ArrayList<>();
         ls.clear();
         values.clear();
-        for (int i = hisEntity.info.size()-1; i >=0 ; i--) {
+        for (int i = hisEntity.info.size() - 1; i >= 0; i--) {
             float val = 0f;
             val = Float.parseFloat(hisEntity.info.get(i).data);
-            values.add(new Entry(hisEntity.info.size()-i-1, val));
+            values.add(new Entry(hisEntity.info.size() - i - 1, val));
         }
 //        MyAxisValueFormatter formatter = new MyAxisValueFormatter(ls);
 //        binding.mChart.getXAxis().setValueFormatter(formatter);
@@ -383,13 +350,13 @@ public class AmmeterHisActivity extends BasedActivity implements View.OnClickLis
                 binding.mChart.getData().getDataSetCount() > 0) {
             set1 = (LineDataSet) binding.mChart.getData().getDataSetByIndex(0);
             set1.setValues(values);
-            set1.setLabel(dictionaries.get(mDisplayType) + paramName + dictionaries.get(paramName + "Unit"));
+            set1.setLabel(paramName + "(" + unit + ")");
 
             binding.mChart.getData().notifyDataChanged();
             binding.mChart.notifyDataSetChanged();
         } else {
             // create a dataset and give it a type
-            set1 = new LineDataSet(values, dictionaries.get(mDisplayType) + paramName + dictionaries.get(paramName + "Unit"));
+            set1 = new LineDataSet(values, paramName + "(" + unit + ")");
 
             set1.setDrawIcons(false);
 
