@@ -178,7 +178,7 @@ public class StudentFragment extends BasedFragment {
                 LogUtil.i(o.message);
 
                 if (o.info == null || o.info.size() == 0) {
-                    throw new RuntimeException("菜单为空");
+                    throw new RuntimeException("menu is empty");
                 }
                 if (xueyuanMenuDatas != null)
                     xueyuanMenuDatas.clear();

@@ -6,7 +6,16 @@
     <string name="tips_please_wait">请稍后...</string>
     <string name="tips_progress_is_crash">程序开小差了</string>
     <string name="title_exit">退出</string>
+    <string name="abcd123">abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789</string>
+    <string name="school_name">甘肃中医药大学</string>
 
+
+    <!--welcomeactivity相关-->
+    <string name="tips_perssion">未获得某些必要的运行权限,部分功能将不可用,是否继续?</string>
+    <string name="enter_app">进入应用</string>
+    <string name="perssopn_cunchu">存储权限</string>
+    <string name="permission_phone">获取您的手机型号</string>
+    <string name="tips_check_info_error">从服务器检索信息时出错!</string>
     <!-- 登录相关 -->
     <string name="prompt_email">请输入帐号或学号</string>
     <string name="prompt_password">密码</string>
@@ -19,6 +28,10 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="validating_password">正在验证您的账号和密码...</string>
+    <string name="username_password_is_error">用户名或密码错误</string>
+    <string name="getuserinfo_occor_error">获取用户信息失败</string>
+    <string name="validate_userinfo">正在获取您的身份信息...</string>
 
     <!-- 关于、公司、版权 -->
     <string name="company_reserved">Copyright © 2017 广州三川控制系统工程设备有限公司版权所有</string>
@@ -34,14 +47,7 @@
     <string name="navigation_drawer_close">关闭</string>
     <string name="github_qqbrowser_kernel">网页由 www.suntrans.net 提供</string>
 
-    <!--管理员界面的 公寓界面BuildingManagerFragment -->
-    <string name="switch_code">4100</string>
-    <string name="suoding">已锁定</string>
-    <string name="norml">正常</string>
-    <string name="is_open_all">是否打开整栋楼的开关?</string>
-    <string name="queding">确定</string>
-    <string name="qvxiao">取消</string>
-    <string name="is_close_all">是否关闭整栋楼的开关?</string>
+
 
 
     <!-- 用电量历史数据描述 -->
@@ -76,7 +82,12 @@
     <string name="zhpart1_fragment_title">综合数据</string>
     <string name="zhpart2_fragment_title">实时数据</string>
 
+    <!--帮助页面相关-->
+    <string name="title_help_feedback">帮助与反馈</string>
+    <string name="activity_help_url">http://g.suntrans.net:8088/SuntransTest-Peace/help/</string>
+
     <!--反馈页面相关字符串-->
+    <string name="title_feedback">意见反馈</string>
     <string name="tips_feedbak_success">已收到您的反馈,我们会认真查看,并尽快修复及完善,感谢您的支持!</string>
     <string name="close">关闭</string>
     <string name="product_suggest">产品建议</string>
@@ -104,5 +115,206 @@
     <string name="no_data">暂无数据...</string>
     <string name="verfied_shengfen">验证身份</string>
 
+    <!--个人资料页面相关-->
+    <string name="tel_is_empty">手机号不能为空</string>
+    <string name="pass_is_empty">新密码不能为空</string>
+    <string name="password_is_diff">两次输入的密码不一致</string>
+    <string name="alert_dialog_button_login">登录</string>
+    <string name="alert_dialog_msg_mdp">你已修改密码,需要重新登录</string>
+    <string name="tips_teltype_error">手机号码格式不正确!</string>
+    <string name="tips_modify_success">修改成功</string>
+
+    <string name="please_enter_tel">请输入新的手机号码</string>
+    <string name="please_enter_new_password">请输入新密码</string>
+
+    <!--房间详情-用电参数-历史页面相关-->
+    <string name="title_room_detail_his_1">%1$s历史记录</string>
+    <string name="title_room_detail_his_2">%1$s宿舍%2$s历史记录</string>
+
+    <!--激活页面相关-->
+    <string name="title_jihuo">激活账号</string>
+
+    <!--宿舍操作日志相关-->
+    <string name="mime">我的</string>
+    <string name="title_log">%1$s宿舍状态日志</string>
+    <string name="year">年</string>
+
+    <!--消息中心页面相关-->
+    <string name="title_msg_center">消息中心</string>
+    <string name="title_msg_detail">消息详情</string>
+
+    <!--充值中心页面-->
+    <string name="title_pay_center">充值中心</string>
+    <string name="wx_not_available">您未安装微信客户端</string>
+    <string name="starting_wx_pay">正在发起微信支付</string>
+    <string name="pay_success">支付成功!</string>
+    <string name="activity_pay_tips_close">关闭</string>
+    <string name="pay_failed">支付失败,服务器错误</string>
+    <string name="pay_cacle">你已取消支付</string>
+
+
+    <!--资费记录相关-->
+    <string name="activity_postage_mime">我的</string>
+    <string name="title_postage">%1$s宿舍资费记录</string>
+
+    <!--搜索相关-->
+    <string name="title_search">搜索</string>
+
+
+    <!--设置相关-->
+    <string name="title_setting">设置</string>
+    <string name="is_the_lasted_version">已经是最新版本</string>
+    <string name="find_new_version">发现新版本</string>
+    <string name="login_out">注销登录?</string>
+    <string name="current_is_new">当前应用已经是最新版本</string>
+    <string name="app_des">学生公寓智能用电管控系统</string>
+
+
+    <!--修改信息fragment相关-->
+    <string name="title_person">个人资料</string>
+    <string name="please_enter_new_pass">请输入新密码</string>
+    <string name="please_enter_pass_re">请重新输入新密码</string>
+    <string name="not_empty">不能为空!</string>
+    <string name="title_modify_phone">修改手机号码</string>
+    <string name="title_modify_password">修改密码</string>
+    <string name="tips_password_lenth_error">密码长度不能小于6位</string>
+
+    <string name="detail_info">宿舍详细信息</string>
+
+    <!--zongheFlooractivity相关-->
+    <string name="title_zonghe">综合数据</string>
+
+    <!--ControlFragment相关-->
+    <string name="tips_please_not_contrl_quickly">请不要频繁操作</string>
+
+    <!--DownLoadFrgment-->
+    <string name="tx_find_new_version">发现新版本</string>
+    <string name="tips_down_failed">下载失败</string>
+
+    <!--EleInfoFragment-->
+    <string name="data_is_empty">数据为空</string>
+
+    <!--FindPassFragment1-->
+    <string name="tx_get_verfiy">获取验证码</string>
+    <string name="tx_yanzhen">验证身份</string>
+
+    <!--FindPassFragmentStep2 JihuoFragmentStep1 JihuoFragmentStep2-->
+    <string name="tx_reset_password">重置密码</string>
+    <string name="verfidy_phone">验证学号、手机</string>
+
+
+    <!--FloorManagerFragment-->
+    <string name="message_open_whole_floor">是否打开该层开关?</string>
+    <string name="message_close_whole_floor">是否关闭该层开关?</string>
+    <string name="tx_setting_password">设置密码</string>
+
+    <!--管理员界面的 公寓界面BuildingManagerFragment -->
+    <string name="switch_code">4100</string>
+    <string name="suoding">已锁定</string>
+    <string name="norml">正常</string>
+    <string name="is_open_all">是否打开整栋楼的开关?</string>
+    <string name="queding">确定</string>
+    <string name="qvxiao">取消</string>
+    <string name="is_close_all">是否关闭整栋楼的开关?</string>
+
+    <!--SusheFragment-->
+    <string name="is_locked">已锁定</string>
+    <string name="is_normal">正常</string>
+    <string name="zonghe_data">综合数据</string>
+    <string name="tips_press_twice_exit">再按一次退出</string>
+
+    <!--MainActivity-->
+    <string name="title_stu_sushe">我的宿舍</string>
+
+
+    <string name="contacts_way">服务热线:020-8636-1851</string>
+
+    <!--activity_ammeter3_2.xml-->
+    <string name="unit_month">月</string>
+    <string name="unit_day">日</string>
+    <string name="unit_year">年</string>
+    <string name="tx_time">时间</string>
+    <string name="load_failed">加载失败,轻触重新加载</string>
+
+    <!--activity_ammeter_his.xml-->
+    <string name="query">查询</string>
+
+    <!--activity_building_main.xml activity_leader_main.xml activity_floor_main.xml activity_main.xml-->
+    <string name="sushe">宿舍</string>
+    <string name="zonghe">综合</string>
+    <string name="gongyu">公寓</string>
+    <string name="tadio_tx_office">办公室</string>
+    <string name="radio_student">学生</string>
+
+
+    <!--activity_feedback.xml-->
+    <string name="tx_feedback_type">选择反馈类型</string>
+    <string name="product_suggestion">产品建议</string>
+    <string name="tx_progerss_error">程序错误</string>
+    <string name="please_enter_question">请输入您的问题或建议</string>
+    <string name="tx_contacts_type">联系方式(邮箱/QQ)</string>
+    <string name="commit">提 交</string>
+
+    <!--activity_log.xml-->
+    <string name="control_count">操作次数</string>
+    <string name="duandian_count">断电次数</string>
+    <string name="radio_control_jilu">操作记录</string>
+    <string name="radio_all">全部</string>
+    <string name="radio_duandian">断电记录</string>
+
+    <!--activity_pay.xml-->
+    <string name="money">金额</string>
+    <string name="suggest_money">建议充值100元以上</string>
+    <string name="pay_way">选择支付方式</string>
+    <string name="pay">支付</string>
+
+    <!--activity_personal.xml-->
+    <string name="account">账号</string>
+    <string name="telephone_number">手机号</string>
+    <string name="zhuanye">所属学院/专业</string>
+    <string name="modify_password">修改登录密码</string>
+
+    <!--activity_postage_his.xml-->
+    <string name="benyue_money">本月入账</string>
+    <string name="benyue_pay_money">本月出账</string>
+    <!--activity_search.xml-->
+    <string name="tx_please_enter_key">请输入要搜索的房间号或者学生</string>
+    <string name="tips_no_result">暂无搜索结果</string>
+
+    <!--activity_setting.xml-->
+    <string name="profile">个人资料</string>
+    <string name="nav_tx_version_update">版本更新</string>
+    <string name="nav_tx_login_out">注销登录</string>
+
+    <!--activity_student_info.xml-->
+    <string name="nav_tx_student_info">学生信息</string>
+    <string name="title_xuehao">学号</string>
+    <string name="title_xueyuan">院系</string>
+    <string name="title_zhuanye">专业</string>
+    <string name="title_phone">电话</string>
+    <string name="nav_tx_sushe_info">宿舍信息</string>
+
+    <!--dialog_change_name.xml dialog_change_password.xml-->
+    <string name="please_enter_phone_number">请输入手机号码</string>
+    <string name="please_enter_old_pass">请输入旧密码</string>
+
+    <!--fragment_control.xml-->
+    <string name="tx_log">状态日志</string>
+
+    <!--fragment_findps1.xml fragment_findps2.xml fragment_jihuo1.xmlfragment_jihuo2.xml-->
+    <string name="phone_number">手机号码</string>
+    <string name="tx_yanzhengma">验证码</string>
+    <string name="tx_next">下一步</string>
+    <string name="setting_password">请设置密码</string>
+    <string name="enter_password_again">再次输入密码</string>
+    <string name="jihuo_xuehao">学号</string>
+    <string name="jihuo_phone_number">手机号码</string>
+    <string name="get_yanzhengma">获取验证码</string>
+    <string name="jihuo">激活</string>
+
+    <!--fragment_floor_manager.xml-->
+    <string name="open_all">全部打开</string>
+    <string name="cloose_all">全部关闭</string>
+    <string name="update_time">更新时间</string>
 
 </resources>

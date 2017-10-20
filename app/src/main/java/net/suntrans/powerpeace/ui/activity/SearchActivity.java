@@ -43,7 +43,7 @@ public class SearchActivity extends BasedActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_search);
         StatusBarCompat.compat(binding.headerView);
 
-        binding.toolbar.setTitle("搜索");
+        binding.toolbar.setTitle(R.string.title_search);
         setSupportActionBar(binding.toolbar);
         ActionBar actionBar = getSupportActionBar();
 

@@ -33,7 +33,7 @@ public class FindPassFragment1 extends RxFragment {
         @Override
         public void onFinish() {
             binding.getVerify.setEnabled(true);
-            binding.getVerify.setText("获取验证码");
+            binding.getVerify.setText(R.string.tx_get_verfiy);
         }
     };
     @Nullable
@@ -88,6 +88,6 @@ public class FindPassFragment1 extends RxFragment {
     @Override
     public void onStart() {
         super.onStart();
-        listener.updateTitle("验证身份");
+        listener.updateTitle(getString(R.string.tx_yanzhen));
     }
 }

@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="72dp"
             android:gravity="center"
-            android:text="甘肃中医药大学"
+            android:text="@string/school_name"
             android:textColor="@color/white"
             android:textSize="28sp" />
 
@@ -27,12 +27,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="学生公寓用电管理信息化系统"
+            android:text="@string/app_des"
             android:textColor="@color/white"
             android:textSize="18sp" />
 
 
         <net.suntrans.looney.widgets.EditView
+            android:digits="@string/abcd123"
             android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="45dp"
@@ -48,6 +49,7 @@
 
 
         <net.suntrans.looney.widgets.EditView
+            android:digits="@string/abcd123"
             android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="45dp"

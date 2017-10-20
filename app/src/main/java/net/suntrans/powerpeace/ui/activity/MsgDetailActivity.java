@@ -33,7 +33,7 @@ public class MsgDetailActivity extends BasedActivity implements SwipeRefreshLayo
         binding = DataBindingUtil.setContentView(this, R.layout.activity_msg_detail);
         StatusBarCompat.compat(binding.headerView);
 
-        binding.toolbar.setTitle("消息详情");
+        binding.toolbar.setTitle(R.string.title_msg_detail);
         setSupportActionBar(binding.toolbar);
 
         ActionBar actionBar = getSupportActionBar();

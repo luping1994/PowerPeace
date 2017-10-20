@@ -3,7 +3,7 @@
     <color name="colorPrimary">#21afc3</color>
     <!--<color name="colorPrimary">#5bd4df</color>-->
     <color name="colorPrimaryDark">#21afc3</color>
-    <color name="colorAccent">#21afc3</color>
+    <color name="colorAccent">#157efb</color>
     <color name="mainTextColor">#444444</color>
     <color name="bgcolor">#f6f6f6</color>
     <color name="black">#000000</color>
@@ -17,5 +17,5 @@
     <color name="nav_divider">#d9d9d9</color>
     <color name="textColor">#333333</color>
     <color name="bg_color">#f5f5f9</color>
-    <color name="color_account">#FF4081</color>
+    <color name="color_account">#157efb</color>
 </resources>

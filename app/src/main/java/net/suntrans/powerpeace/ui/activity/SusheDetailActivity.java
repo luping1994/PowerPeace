@@ -27,7 +27,7 @@ public class SusheDetailActivity extends BasedActivity implements BasedFragment.
 
         init();
 
-        binding.toolbar.setTitle(getIntent().getStringExtra("title") + "详细信息");
+        binding.toolbar.setTitle(getIntent().getStringExtra("title") + getString(R.string.detail_info));
         setSupportActionBar(binding.toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(true);

@@ -39,7 +39,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:text="姓名"
+                android:text="@string/account"
                 android:textColor="@color/textColor" />
 
             <TextView
@@ -70,7 +70,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:text="手机号"
+                android:text="@string/telephone_number"
                 android:textColor="@color/textColor" />
 
             <TextView
@@ -101,7 +101,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:text="所属学院/专业"
+                android:text="@string/zhuanye"
                 android:textColor="@color/textColor" />
 
             <TextView
@@ -130,7 +130,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:text="修改登录密码"
+                android:text="@string/modify_password"
                 android:textColor="@color/textColor" />
 
             <ImageView
@@ -140,7 +140,7 @@
                 android:layout_alignParentRight="true"
                 android:gravity="center_vertical"
                 android:paddingRight="@dimen/activity_horizontal_margin"
-                android:text="信息学院" />
+                android:text="--" />
         </RelativeLayout>
 
         <View

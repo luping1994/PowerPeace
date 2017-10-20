@@ -79,7 +79,7 @@ public class ZongheFragmentNew extends BasedFragment {
             public void onGroupButtonClick(int grouPposition) {
                 Intent intent = new Intent(getActivity(),ZHBuildingEnergyActivity.class);
                 intent.putExtra("id",datas.get(grouPposition).id);
-                intent.putExtra("title",datas.get(grouPposition).title+"综合数据");
+                intent.putExtra("title",datas.get(grouPposition).title+getString(R.string.zonghe_data));
                 startActivity(intent);
             }
         });

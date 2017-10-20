@@ -53,7 +53,7 @@ public class StudentInfoActivity extends BasedActivity {
             public void onError(Throwable e) {
                 super.onError(e);
                 e.printStackTrace();
-                UiUtils.showToast("从服务器检索信息时出错!");
+                UiUtils.showToast(getString(R.string.tips_check_info_error));
             }
 
             @Override

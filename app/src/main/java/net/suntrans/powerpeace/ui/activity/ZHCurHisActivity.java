@@ -33,7 +33,7 @@ import net.suntrans.powerpeace.bean.HisEntity;
 import net.suntrans.powerpeace.databinding.ActivityAmmeterHisBinding;
 import net.suntrans.powerpeace.rx.BaseSubscriber;
 import net.suntrans.powerpeace.ui.decoration.DefaultDecoration;
-import net.suntrans.powerpeace.ui.decoration.MyMarkerView;
+import net.suntrans.powerpeace.chart.MyMarkerView;
 import net.suntrans.powerpeace.utils.StatusBarCompat;
 import net.suntrans.stateview.StateView;
 

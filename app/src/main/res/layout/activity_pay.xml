@@ -63,7 +63,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:gravity="center"
-            android:text="金额"
+            android:text="@string/money"
             android:textColor="@color/black"
             android:textSize="16sp" />
 
@@ -74,7 +74,7 @@
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:background="@null"
-            android:hint="建议充值100元以上"
+            android:hint="@string/suggest_money"
             android:inputType="numberDecimal"
             android:maxLines="1"
             android:textSize="16sp" />
@@ -85,7 +85,7 @@
         android:layout_height="40dp"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:gravity="center_vertical"
-        android:text="选择支付方式" />
+        android:text="@string/pay_way" />
 
     <include layout="@layout/item_pay_wx" />
 
@@ -99,7 +99,7 @@
         android:layout_marginTop="20dp"
         android:background="@drawable/bg_bt_login"
         android:onClick="pay"
-        android:text="支付"
+        android:text="@string/pay"
         android:textColor="@color/white"
         android:textSize="16sp" />
 

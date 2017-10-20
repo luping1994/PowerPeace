@@ -1,45 +1,15 @@
 package net.suntrans.powerpeace.ui.fragment;
 
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.alibaba.fastjson.JSON;
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.trello.rxlifecycle.android.FragmentEvent;
-
-import net.suntrans.looney.utils.UiUtils;
-import net.suntrans.looney.widgets.LoadingDialog;
-import net.suntrans.powerpeace.App;
 import net.suntrans.powerpeace.R;
 import net.suntrans.powerpeace.adapter.FragmentAdapter;
-import net.suntrans.powerpeace.api.ApiErrorCode;
-import net.suntrans.powerpeace.api.RetrofitHelper;
-import net.suntrans.powerpeace.bean.ControlBody;
-import net.suntrans.powerpeace.bean.ResultBody;
-import net.suntrans.powerpeace.bean.RoomInfoSelection;
 import net.suntrans.powerpeace.databinding.FragmentSusheDetailBinding;
-import net.suntrans.powerpeace.ui.activity.AmmeterHisActivity;
-import net.suntrans.powerpeace.ui.activity.LogActivity;
-import net.suntrans.powerpeace.ui.activity.PostageHisActivity;
-import net.suntrans.powerpeace.ui.activity.StudentInfoActivity;
-import net.suntrans.powerpeace.ui.decoration.DefaultDecoration;
-import net.suntrans.stateview.StateView;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by Looney on 2017/9/13.

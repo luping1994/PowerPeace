@@ -13,6 +13,7 @@ import android.view.View;
 import net.suntrans.looney.utils.LogUtil;
 import net.suntrans.looney.utils.UiUtils;
 import net.suntrans.powerpeace.App;
+import net.suntrans.powerpeace.Constants;
 import net.suntrans.powerpeace.R;
 import net.suntrans.powerpeace.api.ApiHelper;
 import net.suntrans.powerpeace.api.RetrofitHelper;
@@ -21,20 +22,23 @@ import net.suntrans.powerpeace.bean.ResultBody;
 import net.suntrans.powerpeace.bean.UserInfoEntity;
 import net.suntrans.powerpeace.bean.UserInfoEntityOld;
 import net.suntrans.powerpeace.databinding.ActivityPersonalBinding;
+import net.suntrans.powerpeace.interf.TextChangeListener;
 import net.suntrans.powerpeace.rx.BaseSubscriber;
 import net.suntrans.powerpeace.ui.fragment.ChangeNameFragment;
+import net.suntrans.powerpeace.ui.fragment.ChangePasswordFragment;
 import net.suntrans.powerpeace.utils.StatusBarCompat;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static android.R.attr.fragment;
 import static net.suntrans.powerpeace.R.id.signOut;
 
 /**
  * Created by Looney on 2017/9/14.
  */
 
-public class PersonActivity extends BasedActivity implements View.OnClickListener, ChangeNameFragment.ChangeNameListener {
+public class PersonActivity extends BasedActivity implements View.OnClickListener, TextChangeListener {
     private static final String TAG = "PersonActivity";
     private static final String FRG_TAG = "CHANGE_NAME";
     private int currentSelected;
@@ -50,7 +54,7 @@ public class PersonActivity extends BasedActivity implements View.OnClickListene
         binding = DataBindingUtil.setContentView(this, R.layout.activity_personal);
         StatusBarCompat.compat(binding.headerView);
 
-        binding.toolbar.setTitle("个人资料");
+        binding.toolbar.setTitle(R.string.title_person);
         setSupportActionBar(binding.toolbar);
         ActionBar actionBar = getSupportActionBar();
 
@@ -65,6 +69,12 @@ public class PersonActivity extends BasedActivity implements View.OnClickListene
         binding.nameRl.setOnClickListener(this);
         binding.phoneRl.setOnClickListener(this);
         binding.mima.setOnClickListener(this);
+
+        if (role != Constants.ROLE_STUDENT) {
+            binding.xueyuanRl.setVisibility(View.GONE);
+        } else {
+            binding.xueyuanRl.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -76,21 +86,24 @@ public class PersonActivity extends BasedActivity implements View.OnClickListene
     @Override
     public void onClick(View v) {
         currentSelected = v.getId();
-        ChangeNameFragment fragment = null;
+
         switch (v.getId()) {
             case R.id.xueyuanRl:
                 return;
             case R.id.nameRl:
                 return;
             case R.id.phoneRl:
-                fragment = ChangeNameFragment.newInstance(ChangeNameFragment.TYPE_SINGLE_TEXT, "请输入新的手机号码");
+                ChangeNameFragment fragment = ChangeNameFragment.newInstance(ChangeNameFragment.TYPE_SINGLE_TEXT, getString(R.string.please_enter_tel));
+                fragment.setListener(this);
+                fragment.show(getSupportFragmentManager(), FRG_TAG);
                 break;
             case R.id.mima:
-                fragment = ChangeNameFragment.newInstance(ChangeNameFragment.TYPE_PASSWORD_TEXT, "请输入新密码");
+                ChangePasswordFragment fragment2 = ChangePasswordFragment.newInstance(ChangeNameFragment.TYPE_PASSWORD_TEXT, getString(R.string.please_enter_new_password));
+                fragment2.setListener(this);
+                fragment2.show(getSupportFragmentManager(), FRG_TAG);
                 break;
         }
-        fragment.setListener(this);
-        fragment.show(getSupportFragmentManager(), FRG_TAG);
+
     }
 
 
@@ -106,18 +119,27 @@ public class PersonActivity extends BasedActivity implements View.OnClickListene
                 if (!TextUtils.isEmpty(name[0]))
                     modifyPhone(name[0]);
                 else
-                    UiUtils.showToast("手机号不能为空");
+                    UiUtils.showToast(getString(R.string.tel_is_empty));
                 break;
             case R.id.mima:
-                if (name[1].equals(name[2]))
+                if (TextUtils.isEmpty(name[1]) || TextUtils.isEmpty(name[2])) {
+                    UiUtils.showToast(getString(R.string.pass_is_empty));
+                    return;
+                }
+                if (name[1].equals(name[2])) {
                     modifyPassword(name[0], name[1]);
-                else
-                    UiUtils.showToast("两次输入的密码不一致");
+                } else {
+                    UiUtils.showToast(getString(R.string.password_is_diff));
+                }
                 break;
         }
     }
 
     private void modifyPassword(String oldpass, String newPass) {
+        if (newPass.length()<6){
+            UiUtils.showToast(getString(R.string.tips_password_lenth_error));
+            return;
+        }
         addSubscription(api.changePassword(oldpass, newPass), new BaseSubscriber<ResultBody>(this) {
             @Override
             public void onNext(ResultBody resultBody) {
@@ -125,8 +147,8 @@ public class PersonActivity extends BasedActivity implements View.OnClickListene
                 if (resultBody.code == 1) {
                     new AlertDialog.Builder(PersonActivity.this)
                             .setCancelable(false)
-                            .setMessage("你已修改密码,需要重新登录")
-                            .setPositiveButton("登录", new DialogInterface.OnClickListener() {
+                            .setMessage(R.string.alert_dialog_msg_mdp)
+                            .setPositiveButton(R.string.alert_dialog_button_login, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     signOut();
@@ -143,15 +165,15 @@ public class PersonActivity extends BasedActivity implements View.OnClickListene
     }
 
     private void modifyPhone(String phone) {
-        if (!phone.matches("^(((13[0-9]{1})|(15[0-35-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\\d{8})$")){
-            UiUtils.showToast("手机号码格式不正确!");
+        if (!phone.matches("^(((13[0-9]{1})|(15[0-35-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\\d{8})$")) {
+            UiUtils.showToast(getString(R.string.tips_teltype_error));
             return;
         }
         addSubscription(api.changePhone(phone), new BaseSubscriber<ResultBody>(this) {
             @Override
             public void onNext(ResultBody resultBody) {
                 super.onNext(resultBody);
-                UiUtils.showToast("修改成功");
+                UiUtils.showToast(getString(R.string.tips_modify_success));
                 getUserInfo(username, role + "");
             }
 
@@ -204,6 +226,7 @@ public class PersonActivity extends BasedActivity implements View.OnClickListene
     private void signOut() {
         App.getSharedPreferences().edit()
                 .putString("token", "-1")
+                .putString("password", "")
                 .commit();
         killAll();
         Intent intent = new Intent(this, Login1Activity.class);

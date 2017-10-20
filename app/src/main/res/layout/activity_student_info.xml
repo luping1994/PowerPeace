@@ -40,7 +40,7 @@
                     android:background="@color/bgBlue"
                     android:gravity="center_vertical"
                     android:paddingLeft="@dimen/activity_horizontal_margin"
-                    android:text="学生信息" />
+                    android:text="@string/nav_tx_student_info" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -62,7 +62,7 @@
                         android:layout_marginLeft="@dimen/activity_horizontal_margin"
                         android:layout_weight="1"
                         android:gravity="center_vertical|left"
-                        android:text="学号" />
+                        android:text="@string/title_xuehao" />
 
                     <TextView
                         android:id="@+id/xuehao"
@@ -98,7 +98,7 @@
                         android:layout_marginLeft="@dimen/activity_horizontal_margin"
                         android:layout_weight="1"
                         android:gravity="center_vertical|left"
-                        android:text="院系" />
+                        android:text="@string/title_xueyuan" />
 
                     <TextView
                         android:id="@+id/yuanxi"
@@ -134,7 +134,7 @@
                         android:layout_marginLeft="@dimen/activity_horizontal_margin"
                         android:layout_weight="1"
                         android:gravity="center_vertical|left"
-                        android:text="专业" />
+                        android:text="@string/title_zhuanye" />
 
                     <TextView
                         android:id="@+id/zhuanye"
@@ -171,7 +171,7 @@
                         android:layout_marginLeft="@dimen/activity_horizontal_margin"
                         android:layout_weight="1"
                         android:gravity="center_vertical|left"
-                        android:text="电话" />
+                        android:text="@string/title_phone" />
 
                     <TextView
                         android:autoLink="phone"
@@ -189,7 +189,7 @@
                     android:background="@color/bgBlue"
                     android:gravity="center_vertical"
                     android:paddingLeft="@dimen/activity_horizontal_margin"
-                    android:text="宿舍信息" />
+                    android:text="@string/nav_tx_sushe_info" />
 
                 <TextView
                     android:id="@+id/sushe"

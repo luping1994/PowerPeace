@@ -52,6 +52,6 @@ public class JihuoFragmentStep2 extends RxFragment {
     @Override
     public void onStart() {
         super.onStart();
-        listener.updateTitle("设置密码");
+        listener.updateTitle(getString(R.string.tx_setting_password));
     }
 }

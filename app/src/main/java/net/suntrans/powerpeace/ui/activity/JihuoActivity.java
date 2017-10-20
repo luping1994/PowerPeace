@@ -27,7 +27,7 @@ public class JihuoActivity extends BasedActivity implements JihuoFragmentStep1.J
         binding = DataBindingUtil.setContentView(this, R.layout.activity_jihuo);
         StatusBarCompat.compat(binding.headerView);
 
-        binding.toolbar.setTitle("激活账号");
+        binding.toolbar.setTitle(R.string.title_jihuo);
         setSupportActionBar(binding.toolbar);
         ActionBar actionBar = getSupportActionBar();
 

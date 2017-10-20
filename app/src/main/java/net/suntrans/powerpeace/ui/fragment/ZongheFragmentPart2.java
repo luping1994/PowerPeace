@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -92,6 +93,8 @@ public class ZongheFragmentPart2 extends BasedFragment {
                 startActivity(intent);
             }
         });
+        binding.refreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
+        adapter.setHeaderView(LayoutInflater.from(getContext()).inflate(R.layout.update_time,null));
     }
 
     private class Myadapter extends BaseQuickAdapter<ZHEnergyShishiEntity.InfoBean, BaseViewHolder> {
@@ -147,9 +150,12 @@ public class ZongheFragmentPart2 extends BasedFragment {
                         if (binding.refreshLayout != null)
                             binding.refreshLayout.setRefreshing(false);
 
+                        TextView updataName = (TextView) adapter.getHeaderLayout().findViewById(R.id.updateTime);
+                        updataName.setText(info.updated_time);
                         datas.clear();
                         datas.addAll(info.info);
                         adapter.notifyDataSetChanged();
+
 
                     }
                 });

@@ -18,6 +18,7 @@ public class ZHEnergyShishiEntity {
 
     public int code;
     public String message;
+    public String updated_time;
     public List<InfoBean> info;
 
     public static class InfoBean {

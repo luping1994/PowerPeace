@@ -89,7 +89,7 @@ public class ControlFragment extends BasedFragment {
             @Override
             public void onSwitchClick(int position) {
                 if (position == -1) {
-                    UiUtils.showToast("请不要频繁操作");
+                    UiUtils.showToast(getString(R.string.tips_please_not_contrl_quickly));
                     return;
                 }
                 ControlBody controlBody = new ControlBody();

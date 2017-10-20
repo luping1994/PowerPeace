@@ -25,8 +25,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import static android.R.attr.fragment;
-
 public class PostageHisActivity extends BasedActivity implements View.OnClickListener, DataPickerDialogFragment.OnDateSetChangerListener {
 
     private ActivityPostageHisBinding binding;
@@ -48,8 +46,10 @@ public class PostageHisActivity extends BasedActivity implements View.OnClickLis
 
         String title = getIntent().getStringExtra("title");
         if (title == null)
-            title = "我的";
-        binding.toolbar.setTitle(title + "宿舍资费记录");
+            title = getString(R.string.activity_postage_mime);
+
+        binding.toolbar.setTitle(String.format(getString(R.string.title_postage),title));
+
         setSupportActionBar(binding.toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(true);
@@ -61,7 +61,7 @@ public class PostageHisActivity extends BasedActivity implements View.OnClickLis
         mMonth = c.get(Calendar.MONTH) + 1;
         mDay = c.get(Calendar.DAY_OF_MONTH);
 
-        binding.year.setText(mYear + "年");
+        binding.year.setText(mYear + getResources().getString(R.string.year));
         binding.month.setText(mMonth + "");
 
         datas = new ArrayList<>();

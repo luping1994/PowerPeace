@@ -30,12 +30,12 @@
             android:orientation="vertical">
 
             <TextView
-                android:paddingBottom="4dp"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:gravity="bottom"
+                android:paddingBottom="4dp"
                 android:paddingLeft="16dp"
-                android:text="选择反馈类型" />
+                android:text="@string/tx_feedback_type" />
 
             <View
                 android:layout_width="match_parent"
@@ -59,14 +59,14 @@
                         android:id="@+id/chanpinjianyi"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="产品建议"
+                        android:text="@string/product_suggestion"
                         android:textColor="@color/textColor" />
 
                     <android.support.v7.widget.AppCompatRadioButton
                         android:id="@+id/chengxucuowu"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="程序错误"
+                        android:text="@string/tx_progerss_error"
                         android:textColor="@color/textColor" />
                 </RadioGroup>
             </LinearLayout>
@@ -85,8 +85,8 @@
                     android:layout_height="140dp"
                     android:background="@color/white"
                     android:gravity="start"
-                    android:hint="请输入您的问题或建议"
-                    android:maxLength="200"
+                    android:hint="@string/please_enter_question"
+                    android:maxLength="70"
                     android:padding="8dp"
                     android:paddingLeft="16dp"
                     android:textSize="15sp" />
@@ -98,7 +98,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginBottom="16dp"
                     android:layout_marginRight="16dp"
-                    android:text="200" />
+                    android:text="70" />
 
             </RelativeLayout>
 
@@ -108,7 +108,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:background="@color/white"
-                android:hint="联系方式(邮箱/QQ)"
+                android:hint="@string/tx_contacts_type"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -120,26 +120,6 @@
                 android:layout_height="20dp"
                 android:background="#f2f4f5" />
 
-            <Button
-                android:visibility="gone"
-                android:id="@+id/commit"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:background="@drawable/bt_feedback"
-                android:text="提    交"
-                android:textColor="@color/white" />
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#f2f4f5"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:text="Tips:您可以手机任何页面摇动手机截取当前屏幕来反馈您的问题"
-                android:visibility="gone" />
 
         </LinearLayout>
     </LinearLayout>

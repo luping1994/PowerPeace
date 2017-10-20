@@ -50,7 +50,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="全部打开"
+                            android:text="@string/open_all"
                             android:textColor="@color/colorPrimary" />
                     </LinearLayout>
 
@@ -74,7 +74,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="全部关闭"
+                            android:text="@string/cloose_all"
                             android:textColor="@color/colorPrimary" />
                     </LinearLayout>
 

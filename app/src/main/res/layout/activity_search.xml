@@ -39,7 +39,7 @@
                     android:layout_height="40dp"
                     android:layout_weight="1"
                     android:background="@color/white"
-                    android:hint="请输入要搜索的房间号或者学生"
+                    android:hint="@string/tx_please_enter_key"
                     android:paddingLeft="16dp"
                     android:textSize="14sp" />
 
@@ -67,7 +67,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:padding="8dp"
-                    android:text="暂无搜索结果" />
+                    android:text="@string/tips_no_result" />
 
                 <ProgressBar
                     android:id="@+id/progressBar"

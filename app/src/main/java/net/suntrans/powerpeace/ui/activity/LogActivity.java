@@ -61,8 +61,8 @@ public class LogActivity extends BasedActivity implements View.OnClickListener, 
 
         String title = getIntent().getStringExtra("title");
         if (title == null)
-            title = "我的";
-        binding.toolbar.setTitle(title + "宿舍状态日志");
+            title = getString(R.string.mime);
+        binding.toolbar.setTitle(String.format(getString(R.string.title_log),title));
         setSupportActionBar(binding.toolbar);
 
         ActionBar actionBar = getSupportActionBar();
@@ -75,7 +75,7 @@ public class LogActivity extends BasedActivity implements View.OnClickListener, 
         mMonth = c.get(Calendar.MONTH) + 1;
         mDay = c.get(Calendar.DAY_OF_MONTH);
 
-        binding.year.setText(mYear + "年");
+        binding.year.setText(mYear + getString(R.string.year));
         binding.month.setText(mMonth + "");
 
         time = new StringBuilder()
@@ -185,7 +185,7 @@ public class LogActivity extends BasedActivity implements View.OnClickListener, 
     @Override
     public void onDateSet(int year, int month, int day, String format) {
         date = format;
-        binding.year.setText(year + "年");
+        binding.year.setText(year + getResources().getString(R.string.year));
         binding.month.setText(month + "");
         System.out.println(month);
         time = format;
@@ -208,7 +208,6 @@ public class LogActivity extends BasedActivity implements View.OnClickListener, 
 
         @Override
         protected void convert(BaseViewHolder helper, LogInfoEntity.LogInfo item) {
-            String action = item.status ? "打开" : "关闭";
             helper.setText(R.id.msg, item.name + item.message);
             helper.setText(R.id.created_at, item.created_at);
         }

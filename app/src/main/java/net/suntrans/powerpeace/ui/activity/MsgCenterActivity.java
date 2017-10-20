@@ -30,7 +30,7 @@ public class MsgCenterActivity extends BasedActivity implements SwipeRefreshLayo
         binding.refreshLayout.setOnRefreshListener(this);
         binding.refreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
 
-        binding.toolbar.setTitle("消息中心");
+        binding.toolbar.setTitle(R.string.title_msg_center);
         setSupportActionBar(binding.toolbar);
         ActionBar actionBar = getSupportActionBar();
 

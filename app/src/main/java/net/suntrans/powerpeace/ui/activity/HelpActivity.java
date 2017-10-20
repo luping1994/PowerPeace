@@ -35,13 +35,14 @@ public class HelpActivity extends BasedActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_help);
         StatusBarCompat.compat(binding.headerView);
 
-        binding.toolbar.setTitle("帮助与反馈");
+        binding.toolbar.setTitle(R.string.title_help_feedback);
         setSupportActionBar(binding.toolbar);
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
+        binding.progressbar.setProgress(0);
         WebSettings settings = binding.webview.getSettings();
         binding.refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
@@ -69,7 +70,7 @@ public class HelpActivity extends BasedActivity {
             }
         });
 
-        binding.webview.loadUrl("http://g.suntrans.net:8088/SuntransTest-Peace/help/");
+        binding.webview.loadUrl(getString(R.string.activity_help_url));
 
 
     }

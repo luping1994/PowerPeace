@@ -82,6 +82,11 @@ public class ZHDLHisActivity extends BasedActivity implements OnChartValueSelect
         setContentView(R.layout.activity_ammeter3_2);
         initToolBar();
 
+
+        sno = getIntent().getStringExtra("sno");
+        requestType = getIntent().getStringExtra("requestType");
+
+
         mChartDes = (TextView) findViewById(R.id.chartDes);
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
         errorTx = (TextView) findViewById(R.id.error);
@@ -116,6 +121,8 @@ public class ZHDLHisActivity extends BasedActivity implements OnChartValueSelect
                 upDateDes();
             }
         });
+
+
         mTfRegular = Typeface.createFromAsset(getAssets(), "OpenSans-Regular.ttf");
         mTfLight = Typeface.createFromAsset(getAssets(), "OpenSans-Light.ttf");
 
@@ -125,8 +132,6 @@ public class ZHDLHisActivity extends BasedActivity implements OnChartValueSelect
 
         initChart();
 
-        sno = getIntent().getStringExtra("sno");
-        requestType = getIntent().getStringExtra("requestType");
     }
 
     private void initToolBar() {

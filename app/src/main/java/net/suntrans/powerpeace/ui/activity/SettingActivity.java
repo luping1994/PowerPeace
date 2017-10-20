@@ -53,7 +53,7 @@ public class SettingActivity extends BasedActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_setting);
         StatusBarCompat.compat(binding.headerView);
 
-        binding.toolbar.setTitle("设置");
+        binding.toolbar.setTitle(R.string.title_setting);
         setSupportActionBar(binding.toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(true);
@@ -84,7 +84,7 @@ public class SettingActivity extends BasedActivity {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        binding.version.setText("已经是最新版本");
+                        binding.version.setText(R.string.is_the_lasted_version);
                     }
                 });
             }
@@ -100,7 +100,7 @@ public class SettingActivity extends BasedActivity {
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
-                            binding.version.setText("发现新版本" + versionName);
+                            binding.version.setText(getString(R.string.find_new_version) + versionName);
                             binding.arrow.setVisibility(View.VISIBLE);
                         }
                     });
@@ -115,14 +115,14 @@ public class SettingActivity extends BasedActivity {
         switch (view.getId()) {
             case signOut:
                 new AlertDialog.Builder(this)
-                        .setMessage("注销登录?")
-                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        .setMessage(R.string.login_out)
+                        .setPositiveButton(R.string.queding, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 signOut();
                             }
                         })
-                        .setNegativeButton("取消", null)
+                        .setNegativeButton(R.string.qvxiao, null)
                         .create().show();
                 break;
             case R.id.checkVersion:
@@ -133,7 +133,7 @@ public class SettingActivity extends BasedActivity {
                     showUpdateDialog(result);
 //                    startDownLoad();
                 } else {
-                    UiUtils.showToast("当前应用已经是最新版本");
+                    UiUtils.showToast(getString(R.string.current_is_new));
                 }
                 break;
             case R.id.exit:

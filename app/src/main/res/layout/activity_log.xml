@@ -114,7 +114,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:text="操作次数"
+                        android:text="@string/control_count"
                         android:textColor="@color/white"
                         android:textSize="14sp" />
 
@@ -148,7 +148,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:text="断电次数"
+                        android:text="@string/duandian_count"
                         android:textColor="@color/white"
                         android:textSize="14sp" />
 
@@ -190,7 +190,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight=".5"
                         android:checked="true"
-                        android:text="操作记录" />
+                        android:text="@string/radio_control_jilu" />
 
                     <RadioButton
                         android:id="@+id/radio1"
@@ -198,7 +198,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight=".5"
-                        android:text="全部" />
+                        android:text="@string/radio_all" />
 
                     <RadioButton
                         android:id="@+id/radio2"
@@ -206,7 +206,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight=".5"
-                        android:text="断电记录" />
+                        android:text="@string/radio_duandian" />
                 </net.suntrans.looney.widgets.SegmentedGroup>
             </RelativeLayout>
 

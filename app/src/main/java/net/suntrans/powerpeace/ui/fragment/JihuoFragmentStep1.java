@@ -38,7 +38,7 @@ public class JihuoFragmentStep1 extends RxFragment {
         @Override
         public void onFinish() {
             binding.getVerify.setEnabled(true);
-            binding.getVerify.setText("获取验证码");
+            binding.getVerify.setText(getString(R.string.tx_get_verfiy));
         }
     };
     @Nullable
@@ -101,6 +101,6 @@ public class JihuoFragmentStep1 extends RxFragment {
     @Override
     public void onStart() {
         super.onStart();
-        listener.updateTitle("验证学号、手机");
+        listener.updateTitle(getString(R.string.verfidy_phone));
     }
 }

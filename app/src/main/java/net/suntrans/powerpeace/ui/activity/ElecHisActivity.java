@@ -90,7 +90,8 @@ public class ElecHisActivity extends BasedActivity implements OnChartValueSelect
 
         time = (TextView) findViewById(R.id.time);
         time.setText(mYear + "-" + pad(mMonth) + "-" + pad(mDay));
-        mChartDes.setText(mYear + "年" + mMonth + "月" + mDay + "日各小时用电量柱形图(单位:度)");
+        mChartDes.setText(String.format(getString(R.string.ele_his_day_des),mYear+"",mMonth+"",mDay+""));
+
 
         group = (SegmentedGroup) findViewById(R.id.segmented_group);
         group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -114,7 +115,6 @@ public class ElecHisActivity extends BasedActivity implements OnChartValueSelect
                     initChartBype(DayAxisValueFormatter.YEARS);
 //                    mChartDes.setText(mYear + "年各月份用电量柱形图");
                     mChartDes.setText(String.format(getString(R.string.ele_his_year_des),mYear+""));
-
                 }
             }
         });

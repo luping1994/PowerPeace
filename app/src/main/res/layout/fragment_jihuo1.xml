@@ -49,7 +49,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:background="@null"
-                android:hint="学号"
+                android:hint="@string/jihuo_xuehao"
                 android:inputType="phone"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
@@ -66,7 +66,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:background="@null"
-                android:hint="手机号码"
+                android:hint="@string/jihuo_phone_number"
                 android:inputType="phone"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
@@ -92,7 +92,7 @@
                     android:layout_height="45dp"
                     android:layout_weight="1"
                     android:background="@null"
-                    android:hint="验证码"
+                    android:hint="@string/tx_yanzhengma"
                     android:inputType="number"
                     android:paddingLeft="@dimen/activity_horizontal_margin"
                     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -106,7 +106,7 @@
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
                     android:layout_marginRight="@dimen/activity_horizontal_margin"
                     android:background="@drawable/bg_bt_login"
-                    android:text="获取验证码"
+                    android:text="@string/get_yanzhengma"
                     android:textColor="@color/white"
                     android:textSize="14sp" />
             </LinearLayout>
@@ -121,7 +121,7 @@
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:layout_marginTop="20dp"
             android:background="@drawable/bg_bt_login"
-            android:text="下一步"
+            android:text="@string/tx_next"
             android:textColor="@color/white"
             android:textSize="16sp" />
 

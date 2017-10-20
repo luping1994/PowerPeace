@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
                 android:checked="true"
-                android:text="日" />
+                android:text="@string/unit_day" />
 
             <RadioButton
                 android:id="@+id/radio1"
@@ -47,7 +47,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
-                android:text="月" />
+                android:text="@string/unit_month" />
 
             <RadioButton
                 android:id="@+id/radio2"
@@ -55,7 +55,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
-                android:text="年" />
+                android:text="@string/unit_year" />
         </net.suntrans.looney.widgets.SegmentedGroup>
 
         <RelativeLayout
@@ -69,7 +69,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:text="时间"
+                android:text="@string/tx_time"
                 android:textColor="@color/textColor" />
 
             <RelativeLayout
@@ -111,7 +111,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:onClick="reload"
-                android:text="加载失败,轻触重新加载"
+                android:text="@string/load_failed"
                 android:visibility="gone" />
         </RelativeLayout>
 

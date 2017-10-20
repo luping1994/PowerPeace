@@ -52,7 +52,7 @@ public class PayActivity extends BasedActivity {
         StatusBarCompat.compat(findViewById(R.id.headerView));
 
 
-        toolbar.setTitle("充值中心");
+        toolbar.setTitle(R.string.title_pay_center);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
 
@@ -135,17 +135,17 @@ public class PayActivity extends BasedActivity {
                         dialog.dismiss();
                         if (s.errorCode == 0) {
                             new IosAlertDialog(PayActivity.this)
-                                    .setMsg("支付成功!")
-                                    .setNegativeButton("关闭", new View.OnClickListener() {
+                                    .setMsg(getString(R.string.pay_success))
+                                    .setNegativeButton(getString(R.string.activity_pay_tips_close), new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
                                             finish();
                                         }
                                     }).show();
                         } else if (s.errorCode == -1) {
-                            UiUtils.showToast("支付失败,服务器错误");
+                            UiUtils.showToast(getString(R.string.pay_failed));
                         } else if (s.errorCode == -2) {
-                            UiUtils.showToast("你已取消支付");
+                            UiUtils.showToast(getString(R.string.pay_cacle));
                         }
                     }
                 });
@@ -161,10 +161,10 @@ public class PayActivity extends BasedActivity {
 
     private void payUseWX() throws JSONException {
         if (!wxapi.isWXAppInstalled()) {
-            UiUtils.showToast("您未安装微信客户端");
+            UiUtils.showToast(getString(R.string.wx_not_available));
             return;
         }
-        dialog.setWaitText("正在发起微信支付");
+        dialog.setWaitText(getString(R.string.starting_wx_pay));
         dialog.show();
         String moneys = money.getText().toString();
 //        RetrofitHelper.getCookieApi().getPayObj(moneys, "充电储值", "1")

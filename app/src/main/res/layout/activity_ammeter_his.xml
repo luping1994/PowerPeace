@@ -88,7 +88,7 @@
                 android:id="@+id/query"
                 android:layout_marginRight="8dp"
                 android:textColor="@color/white"
-                android:text="查询"
+                android:text="@string/query"
                 android:background="@drawable/bg_bt_login"
                 android:layout_width="45dp"
                 android:layout_height="24dp" />

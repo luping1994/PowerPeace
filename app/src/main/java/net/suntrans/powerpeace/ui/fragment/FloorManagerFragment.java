@@ -76,7 +76,7 @@ public class FloorManagerFragment extends BasedFragment {
             public void onItemChildClick(BaseQuickAdapter adapter, View view, final int position) {
                 if (view.getId() == R.id.open) {
                     new AlertDialog.Builder(getContext())
-                            .setMessage("是否打开该层开关?")
+                            .setMessage(R.string.message_open_whole_floor)
                             .setPositiveButton(R.string.queding, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
@@ -86,7 +86,7 @@ public class FloorManagerFragment extends BasedFragment {
 
                 } else if (view.getId() == R.id.close) {
                     new AlertDialog.Builder(getContext())
-                            .setMessage("是否关闭该层开关?")
+                            .setMessage(R.string.message_close_whole_floor)
                             .setPositiveButton(R.string.queding, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {

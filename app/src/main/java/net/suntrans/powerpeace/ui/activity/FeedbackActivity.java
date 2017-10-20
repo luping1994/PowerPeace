@@ -44,14 +44,14 @@ public class FeedbackActivity extends BasedActivity implements View.OnClickListe
         binding = DataBindingUtil.setContentView(this, R.layout.activity_feedback);
         StatusBarCompat.compat(binding.headerView);
 
-        binding.toolbar.setTitle("意见反馈");
+        binding.toolbar.setTitle(R.string.title_feedback);
         setSupportActionBar(binding.toolbar);
         ActionBar actionBar = getSupportActionBar();
 
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        binding.commit.setOnClickListener(this);
+//        binding.commit.setOnClickListener(this);
 
         binding.radiogroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override

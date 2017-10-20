@@ -1,15 +1,10 @@
 package net.suntrans.powerpeace.ui.activity;
 
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.view.Menu;
-import android.view.MenuItem;
 
-import net.suntrans.powerpeace.BuildConfig;
 import net.suntrans.powerpeace.R;
-import net.suntrans.powerpeace.databinding.ActivityAboutBinding;
 import net.suntrans.powerpeace.databinding.ActivityBuildDetailBinding;
 import net.suntrans.powerpeace.ui.fragment.BasedFragment;
 import net.suntrans.powerpeace.ui.fragment.FloorManagerFragment;

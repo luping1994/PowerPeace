@@ -40,7 +40,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginLeft="16dp"
                         android:gravity="center"
-                        android:text="状态日志"
+                        android:text="@string/tx_log"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
 

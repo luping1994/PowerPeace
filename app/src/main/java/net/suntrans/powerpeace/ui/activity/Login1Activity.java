@@ -166,27 +166,27 @@ public class Login1Activity extends BasedActivity {
 
     }
 
-    private boolean mayRequestContacts() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            return true;
-        }
-        if (checkSelfPermission(READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
-            return true;
-        }
-        if (shouldShowRequestPermissionRationale(READ_CONTACTS)) {
-            Snackbar.make(mEmailView, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
-                    .setAction(android.R.string.ok, new View.OnClickListener() {
-                        @Override
-                        @TargetApi(Build.VERSION_CODES.M)
-                        public void onClick(View v) {
-                            requestPermissions(new String[]{READ_CONTACTS}, REQUEST_READ_CONTACTS);
-                        }
-                    });
-        } else {
-            requestPermissions(new String[]{READ_CONTACTS}, REQUEST_READ_CONTACTS);
-        }
-        return false;
-    }
+//    private boolean mayRequestContacts() {
+//        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+//            return true;
+//        }
+//        if (checkSelfPermission(READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
+//            return true;
+//        }
+//        if (shouldShowRequestPermissionRationale(READ_CONTACTS)) {
+//            Snackbar.make(mEmailView, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
+//                    .setAction(android.R.string.ok, new View.OnClickListener() {
+//                        @Override
+//                        @TargetApi(Build.VERSION_CODES.M)
+//                        public void onClick(View v) {
+//                            requestPermissions(new String[]{READ_CONTACTS}, REQUEST_READ_CONTACTS);
+//                        }
+//                    });
+//        } else {
+//            requestPermissions(new String[]{READ_CONTACTS}, REQUEST_READ_CONTACTS);
+//        }
+//        return false;
+//    }
 
     /**
      * Callback received when a permissions request has been completed.
@@ -246,7 +246,7 @@ public class Login1Activity extends BasedActivity {
             if (dialog == null) {
 
                 dialog = new LoadingDialog(this);
-                dialog.setWaitText("正在验证您的账号和密码...");
+                dialog.setWaitText(getString(R.string.validating_password));
                 dialog.setCancelable(false);
             }
             dialog.show();
@@ -316,7 +316,7 @@ public class Login1Activity extends BasedActivity {
                         } else {
                             if (dialog != null)
                                 dialog.dismiss();
-                            UiUtils.showToast("用户名或密码错误");
+                            UiUtils.showToast(getString(R.string.username_password_is_error));
                         }
                     }
                 });
@@ -324,6 +324,8 @@ public class Login1Activity extends BasedActivity {
 
 
     private void getUserInfo() {
+        if (dialog!=null)
+        dialog.setWaitText(getString(R.string.validate_userinfo));
         RetrofitHelper.getApi()
                 .getUserInfo()
                 .compose(this.<UserInfoEntity>bindUntilEvent(ActivityEvent.DESTROY))
@@ -341,7 +343,8 @@ public class Login1Activity extends BasedActivity {
                         e.printStackTrace();
                         if (dialog != null)
                             dialog.dismiss();
-                        UiUtils.showToast("账号或密码错误");
+                        UiUtils.showToast(getString(R.string.getuserinfo_occor_error));
+
                     }
 
                     @Override
@@ -382,7 +385,8 @@ public class Login1Activity extends BasedActivity {
                             }
 
                         } else {
-                            UiUtils.showToast("账号或密码错误");
+                            UiUtils.showToast(getString(R.string.getuserinfo_occor_error));
+
                         }
                     }
                 });

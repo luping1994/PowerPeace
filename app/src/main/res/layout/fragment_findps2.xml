@@ -49,7 +49,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:background="@null"
-                android:hint="请设置密码"
+                android:hint="@string/setting_password"
                 android:inputType="phone"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
@@ -66,7 +66,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:background="@null"
-                android:hint="再次输入密码"
+                android:hint="@string/enter_password_again"
                 android:inputType="phone"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
@@ -90,7 +90,7 @@
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:layout_marginTop="20dp"
             android:background="@drawable/bg_bt_login"
-            android:text="确定"
+            android:text="@string/queding"
             android:textColor="@color/white"
             android:textSize="16sp" />
 

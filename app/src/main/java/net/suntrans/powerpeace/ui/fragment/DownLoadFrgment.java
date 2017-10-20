@@ -179,7 +179,7 @@ public class DownLoadFrgment extends DialogFragment {
     }
 
     private void initData() {
-        mTitleTextView.setText("发现新版本" + info.versionName + "");
+        mTitleTextView.setText(getString(R.string.tx_find_new_version) + info.versionName + "");
         mContentTextView.setText(info.releaseNote);
         getActivity().registerReceiver(receiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
     }
@@ -299,7 +299,7 @@ public class DownLoadFrgment extends DialogFragment {
                     break;
                 //下载失败
                 case DownloadManager.STATUS_FAILED:
-                    UiUtils.showToast("下载失败");
+                    UiUtils.showToast(getString(R.string.tips_down_failed));
                     break;
             }
         }

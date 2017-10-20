@@ -73,7 +73,7 @@ public class StudentMainActivity extends BasedActivity implements View.OnClickLi
         binding = DataBindingUtil.setContentView(this, R.layout.activity_stu_main);
         StatusBarCompat.compat(binding.headerView);
 
-        binding.toolbar.setTitle("我的宿舍");
+        binding.toolbar.setTitle(R.string.title_stu_sushe);
 
         setSupportActionBar(binding.toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -236,7 +236,7 @@ public class StudentMainActivity extends BasedActivity implements View.OnClickLi
 //                finish();
                 android.os.Process.killProcess(android.os.Process.myPid());
             } else {
-                UiUtils.showToast("再按一次退出");
+                UiUtils.showToast(getString(R.string.tips_press_twice_exit));
             }
             return true;
         }

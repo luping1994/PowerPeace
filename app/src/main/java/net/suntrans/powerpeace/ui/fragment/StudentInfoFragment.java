@@ -153,11 +153,11 @@ public class StudentInfoFragment extends BasedFragment {
                         datas.clear();
                         datas.addAll(info.info);
                     } else {
-                        UiUtils.showToast("数据为空");
+                        UiUtils.showToast(getString(R.string.data_empty));
 
                     }
                 } else {
-                    UiUtils.showToast("数据为空");
+                    UiUtils.showToast(getString(R.string.data_empty));
                 }
                 if (datas.size()==0){
                     stateView.showEmpty();
@@ -193,11 +193,11 @@ public class StudentInfoFragment extends BasedFragment {
                         datas.addAll(info.info);
                         adapter.notifyDataSetChanged();
                     } else {
-                        UiUtils.showToast("数据为空");
+                        UiUtils.showToast(getString(R.string.data_empty));
 
                     }
                 } else {
-                    UiUtils.showToast("数据为空");
+                    UiUtils.showToast(getString(R.string.data_empty));
                 }
             }
         });

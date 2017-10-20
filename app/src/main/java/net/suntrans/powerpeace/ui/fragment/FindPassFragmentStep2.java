@@ -52,6 +52,6 @@ public class FindPassFragmentStep2 extends RxFragment {
     @Override
     public void onStart() {
         super.onStart();
-        listener.updateTitle("重置密码");
+        listener.updateTitle(getString(R.string.tx_reset_password));
     }
 }

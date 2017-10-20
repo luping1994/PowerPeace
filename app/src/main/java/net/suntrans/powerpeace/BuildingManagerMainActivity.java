@@ -243,7 +243,7 @@ public class BuildingManagerMainActivity extends BasedActivity implements View.O
 //                finish();
                 android.os.Process.killProcess(android.os.Process.myPid());
             } else {
-                UiUtils.showToast("再按一次退出");
+                UiUtils.showToast(getString(R.string.tips_press_twice_exit));
             }
             return true;
         }

@@ -9,12 +9,10 @@ import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.WakefulBroadcastReceiver;
 import android.support.v7.app.ActionBar;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -24,7 +22,6 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.IFillFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.Utils;
 
@@ -33,30 +30,22 @@ import net.suntrans.looney.utils.UiUtils;
 import net.suntrans.looney.widgets.CompatDatePickerDialog;
 import net.suntrans.powerpeace.R;
 import net.suntrans.powerpeace.bean.HisEntity;
-import net.suntrans.powerpeace.chart.MyAxisValueFormatter;
 import net.suntrans.powerpeace.databinding.ActivityAmmeterHisBinding;
 import net.suntrans.powerpeace.rx.BaseSubscriber;
 import net.suntrans.powerpeace.ui.decoration.DefaultDecoration;
-import net.suntrans.powerpeace.ui.decoration.MyMarkerView;
-import net.suntrans.powerpeace.utils.DateUtils;
+import net.suntrans.powerpeace.chart.MyMarkerView;
 import net.suntrans.powerpeace.utils.StatusBarCompat;
 import net.suntrans.stateview.StateView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
-import static net.suntrans.powerpeace.R.id.endTime;
-import static net.suntrans.powerpeace.R.id.mChart;
-import static net.suntrans.powerpeace.R.id.pin;
-import static net.suntrans.powerpeace.R.id.segmented_group;
+import static com.pgyersdk.views.b.p;
 import static net.suntrans.powerpeace.R.id.startTime;
 
 /**
@@ -99,9 +88,9 @@ public class AmmeterHisActivity extends BasedActivity implements View.OnClickLis
         code = getIntent().getStringExtra("code");
         String title = getIntent().getStringExtra("title");
         if (title == null)
-            binding.toolbar.setTitle(paramName + "历史记录");
+            binding.toolbar.setTitle(String.format(getString(R.string.title_room_detail_his_1),paramName));
         else
-            binding.toolbar.setTitle(title + "宿舍" + paramName + "历史记录");
+            binding.toolbar.setTitle(String.format(getString(R.string.title_room_detail_his_2),title,paramName));
         stateView = StateView.inject(binding.content);
         stateView.setOnRetryClickListener(new StateView.OnRetryClickListener() {
             @Override

@@ -52,7 +52,7 @@
                         android:id="@+id/year"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="2017年"
+                        android:text="--"
                         android:textColor="@color/white"
                         android:textSize="14sp" />
 
@@ -82,7 +82,7 @@
                             android:layout_toRightOf="@+id/month"
                             android:gravity="bottom"
                             android:paddingBottom="10dp"
-                            android:text="月"
+                            android:text="@string/unit_month"
                             android:textColor="@color/white"
                             android:textSize="14sp" />
 
@@ -114,7 +114,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:text="本月入账"
+                        android:text="@string/benyue_money"
                         android:textColor="@color/white"
                         android:textSize="14sp" />
 
@@ -148,7 +148,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:text="本月出账"
+                        android:text="@string/benyue_pay_money"
                         android:textColor="@color/white"
                         android:textSize="14sp" />
 

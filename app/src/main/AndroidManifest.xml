@@ -144,7 +144,9 @@
         <activity
             android:name=".ui.activity.ZHCurHisActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.activity.ZHBuildingEnergyActivity" />
+        <activity
+            android:name=".ui.activity.ZHBuildingEnergyActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

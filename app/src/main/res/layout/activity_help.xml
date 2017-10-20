@@ -52,11 +52,10 @@
                 android:orientation="vertical">
 
                 <ProgressBar
-                    android:progressDrawable="@color/color_account"
                     android:id="@+id/progressbar"
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="1dp" />
+                    android:layout_height="4dp" />
 
                 <WebView
                     android:id="@+id/webview"

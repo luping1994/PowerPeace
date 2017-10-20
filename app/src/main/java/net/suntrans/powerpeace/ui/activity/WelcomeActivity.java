@@ -65,21 +65,21 @@ public class WelcomeActivity extends BasedActivity implements WelcomeDownLoadFrg
 
     public void checkPermission() {
         final List<PermissonItem> permissionItems = new ArrayList<PermissonItem>();
-        permissionItems.add(new PermissonItem(Manifest.permission.WRITE_EXTERNAL_STORAGE, "存储权限", R.drawable.permission_ic_memory));
-        permissionItems.add(new PermissonItem(Manifest.permission.READ_PHONE_STATE, "获取您的手机型号", R.drawable.ic_phone_per));
+        permissionItems.add(new PermissonItem(Manifest.permission.WRITE_EXTERNAL_STORAGE, getString(R.string.perssopn_cunchu), R.drawable.permission_ic_memory));
+        permissionItems.add(new PermissonItem(Manifest.permission.READ_PHONE_STATE, getString(R.string.permission_phone), R.drawable.ic_phone_per));
         HiPermission.create(this)
                 .permissions(permissionItems)
                 .checkMutiPermission(new PermissionCallback() {
                     @Override
                     public void onClose() {
                         new AlertDialog.Builder(WelcomeActivity.this)
-                                .setMessage("未获得某些必要的运行权限,部分功能将不可用,是否继续?")
-                                .setPositiveButton("进入应用", new DialogInterface.OnClickListener() {
+                                .setMessage(R.string.tips_perssion)
+                                .setPositiveButton(R.string.enter_app, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         check();
                                     }
-                                }).setNegativeButton("退出", new DialogInterface.OnClickListener() {
+                                }).setNegativeButton(R.string.title_exit, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 finish();
@@ -236,7 +236,7 @@ public class WelcomeActivity extends BasedActivity implements WelcomeDownLoadFrg
                         } else {
                             handler.sendEmptyMessageDelayed(START_LOGIN, 1500);
 
-                            UiUtils.showToast("用户名或密码错误");
+                            UiUtils.showToast(getResources().getString(R.string.username_password_is_error));
                         }
 
                     }
