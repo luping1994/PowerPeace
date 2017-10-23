@@ -13,7 +13,7 @@ public class IViewPager extends ViewPager {
 
     public IViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.enabled=attrs.getAttributeBooleanValue(namespace, "enabled", false);   //设置开关初始状态   从布局文件获取是否允许滑动
+        this.enabled=attrs.getAttributeBooleanValue(namespace, "enabled", true);   //设置开关初始状态   从布局文件获取是否允许滑动
     }
 
 //触摸没有反应就可以了
@@ -22,7 +22,7 @@ public class IViewPager extends ViewPager {
         if (this.enabled) {
             return super.onTouchEvent(event);
         }
-  
+
         return false;
     }
 

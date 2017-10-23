@@ -16,7 +16,7 @@
                 android:id="@+id/totaluseLL"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:background="?attr/selectableItemBackground"
+                android:background="@drawable/item_selector"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingLeft="16dp"
@@ -75,13 +75,13 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/bgBlue" />
+                android:background="@color/item_press_true" />
 
             <LinearLayout
                 android:id="@+id/monthuseLL"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:background="?attr/selectableItemBackground"
+                android:background="@drawable/item_selector"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingLeft="16dp"
@@ -136,13 +136,13 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/bgBlue" />
+                android:background="@color/item_press_true" />
 
             <LinearLayout
                 android:id="@+id/dayuseLL"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:background="?attr/selectableItemBackground"
+                android:background="@drawable/item_selector"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingLeft="16dp"
@@ -197,13 +197,13 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/bgBlue" />
+                android:background="@color/item_press_true" />
 
             <LinearLayout
                 android:id="@+id/balansLL"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:background="?attr/selectableItemBackground"
+                android:background="@drawable/item_selector"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingLeft="16dp"
@@ -259,13 +259,13 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/bgBlue" />
+                android:background="@color/item_press_true" />
 
             <LinearLayout
                 android:id="@+id/statusLL"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:background="?attr/selectableItemBackground"
+                android:background="@drawable/item_selector"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingLeft="16dp"
@@ -322,7 +322,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/bgBlue" />
+                android:background="@color/item_press_true" />
 
         </LinearLayout>
     </android.support.v4.widget.SwipeRefreshLayout>

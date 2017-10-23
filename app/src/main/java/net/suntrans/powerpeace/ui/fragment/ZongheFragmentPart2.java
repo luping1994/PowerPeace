@@ -25,7 +25,9 @@ import net.suntrans.powerpeace.ui.activity.ZHCurHisActivity;
 import net.suntrans.powerpeace.ui.decoration.DefaultDecoration;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -42,6 +44,7 @@ public class ZongheFragmentPart2 extends BasedFragment {
     private String sno;
     private List<ZHEnergyShishiEntity.InfoBean> datas;
     private Myadapter adapter;
+    private  Map<String, Integer> map;
 
     public static ZongheFragmentPart2 newInstace(String floor_ammeter3_id) {
         ZongheFragmentPart2 fragmentPart1 = new ZongheFragmentPart2();
@@ -64,7 +67,18 @@ public class ZongheFragmentPart2 extends BasedFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sno = getArguments().getString("sno");
+        initData();
+    }
 
+    private void initData() {
+        map = new HashMap<>();
+        map.put("V",R.drawable.ic_dianya);
+        map.put("A",R.drawable.ic_dianliu);
+        map.put("KW",R.drawable.ic_gonglv);
+        map.put("KVAR",R.drawable.ic_gonglv);
+        map.put("",R.drawable.ic_gonglvyinsu);
+        map.put("℃",R.drawable.ic_wendu);
+        map.put("度",R.drawable.ic_dl);
     }
 
     @Override
@@ -77,6 +91,7 @@ public class ZongheFragmentPart2 extends BasedFragment {
                 getFloor();
             }
         });
+        binding.refreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
         binding.recyclerView.addItemDecoration(new DefaultDecoration());
         adapter = new Myadapter(R.layout.item_current_data, datas);
         binding.recyclerView.setAdapter(adapter);
@@ -108,13 +123,14 @@ public class ZongheFragmentPart2 extends BasedFragment {
             helper.setText(R.id.name, item.name)
                     .setText(R.id.value, item.value + item.unit);
             ImageView imageView = helper.getView(R.id.image);
-            String name = item.name;
+            String unit = item.unit.toUpperCase();
 
-            if (name.contains(""))
-            imageView.setImageResource(R.drawable.ic_dianya);
-            imageView.setImageResource(R.drawable.ic_gonglv);
-            imageView.setImageResource(R.drawable.ic_dl);
-            imageView.setImageResource(R.drawable.ic_dianliu);
+            if (unit!=null){
+                if (map.get(unit)!=null)
+                    imageView.setImageResource(map.get(unit));
+
+            }
+
 
 
         }

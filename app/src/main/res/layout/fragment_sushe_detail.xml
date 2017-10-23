@@ -12,7 +12,7 @@
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#e5e5e5"
+            android:background="@color/item_press_true"
             app:tabGravity="fill"
             app:tabMaxWidth="0dp"
             app:tabMode="fixed"

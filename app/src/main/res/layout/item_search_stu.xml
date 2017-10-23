@@ -8,7 +8,7 @@
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:background="@color/bgBlue"
+        android:background="@color/item_press_true"
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:text="学生" />
@@ -20,11 +20,11 @@
         android:orientation="horizontal">
 
         <LinearLayout
+            android:background="@drawable/item_selector"
             android:id="@+id/root"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_weight="1"
-            android:background="?attr/selectableItemBackground"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingLeft="16dp"

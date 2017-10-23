@@ -3,7 +3,7 @@
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="69dp"
-    android:background="?attr/selectableItemBackground"
+    android:background="@drawable/item_selector"
     android:orientation="vertical">
 
     <View
@@ -26,6 +26,6 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginLeft="16dp"
-        android:background="@color/bgBlue" />
+        android:background="@color/item_press_true" />
 
 </LinearLayout>

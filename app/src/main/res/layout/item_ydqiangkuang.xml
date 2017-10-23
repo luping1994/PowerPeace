@@ -10,7 +10,7 @@
             android:id="@+id/headerNam2"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:background="@color/bgBlue"
+            android:background="@color/item_press_true"
             android:gravity="center_vertical"
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:text="用电量情况" />
@@ -19,7 +19,7 @@
             android:id="@+id/dayLL"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:background="?attr/selectableItemBackground"
+            android:background="@drawable/item_selector"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingLeft="16dp"
@@ -69,13 +69,13 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/bgBlue" />
+            android:background="@color/item_press_true" />
 
         <LinearLayout
             android:id="@+id/monthLL"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:background="?attr/selectableItemBackground"
+            android:background="@drawable/item_selector"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingLeft="16dp"
@@ -125,13 +125,13 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/bgBlue" />
+            android:background="@color/item_press_true" />
 
         <LinearLayout
             android:id="@+id/totalLL"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:background="?attr/selectableItemBackground"
+            android:background="@drawable/item_selector"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingLeft="16dp"

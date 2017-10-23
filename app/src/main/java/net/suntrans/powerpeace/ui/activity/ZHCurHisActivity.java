@@ -16,24 +16,31 @@ import android.widget.RadioGroup;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.Utils;
 
 import net.suntrans.looney.utils.LogUtil;
 import net.suntrans.looney.utils.UiUtils;
 import net.suntrans.looney.widgets.CompatDatePickerDialog;
 import net.suntrans.powerpeace.R;
+import net.suntrans.powerpeace.adapter.FragmentAdapter;
 import net.suntrans.powerpeace.bean.HisEntity;
+import net.suntrans.powerpeace.chart.MyAxisValueFormatter;
 import net.suntrans.powerpeace.databinding.ActivityAmmeterHisBinding;
+import net.suntrans.powerpeace.databinding.ActivityZhCurHisBinding;
 import net.suntrans.powerpeace.rx.BaseSubscriber;
 import net.suntrans.powerpeace.ui.decoration.DefaultDecoration;
 import net.suntrans.powerpeace.chart.MyMarkerView;
+import net.suntrans.powerpeace.ui.fragment.ZhCurHisItemFragment;
 import net.suntrans.powerpeace.utils.StatusBarCompat;
 import net.suntrans.stateview.StateView;
 
@@ -41,10 +48,14 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
+import static com.pgyersdk.views.b.p;
+import static net.suntrans.powerpeace.R.id.mChart;
 import static net.suntrans.powerpeace.R.id.startTime;
 
 /**
@@ -58,11 +69,11 @@ public class ZHCurHisActivity extends BasedActivity implements View.OnClickListe
     private static final String DISPLAY_DAY = "DAY";
     private static final String DISPLAY_MONTH = "MONTH";
 
-    private ActivityAmmeterHisBinding binding;
+    private ActivityZhCurHisBinding binding;
     private String sno;
     private String mDisplayType = DISPLAY_DAY;
     private HisEntity data;
-    private MyAdapter adapter;
+    //    private MyAdapter adapter;
     private StateView stateView;
     private String datapoint;
 
@@ -77,16 +88,13 @@ public class ZHCurHisActivity extends BasedActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_ammeter_his);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_zh_cur_his);
 
         StatusBarCompat.compat(binding.headerView);
 
         initData();
 
 
-        sno = getIntent().getStringExtra("sno");
-        datapoint = getIntent().getStringExtra("datapoint");
-        binding.toolbar.setTitle(paramName + "历史记录");
         stateView = StateView.inject(binding.content);
         stateView.setOnRetryClickListener(new StateView.OnRetryClickListener() {
             @Override
@@ -100,10 +108,10 @@ public class ZHCurHisActivity extends BasedActivity implements View.OnClickListe
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         initChart();
-        adapter = new MyAdapter(R.layout.item_his, datas);
-        binding.recyclerView.setAdapter(adapter);
-        binding.recyclerView.addItemDecoration(new DefaultDecoration());
-        binding.headerTitle.setText(paramName + "(" + unit + ")");
+
+
+//        adapter = new MyAdapter(R.layout.item_his, datas);
+        binding.tabLayout.setupWithViewPager(binding.viewpager);
         binding.radio0.setChecked(true);
         binding.segmentedGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -119,7 +127,7 @@ public class ZHCurHisActivity extends BasedActivity implements View.OnClickListe
                         mDisplayType = DISPLAY_MONTH;
                         break;
                 }
-                setData(data);
+//                setData(data);
             }
         });
 
@@ -157,12 +165,22 @@ public class ZHCurHisActivity extends BasedActivity implements View.OnClickListe
         });
     }
 
-    private void initData() {
+    private boolean threeLine = false;
 
+    private void initData() {
 
         paramName = getIntent().getStringExtra("paramName");
         unit = getIntent().getStringExtra("unit");
-
+        sno = getIntent().getStringExtra("sno");
+        datapoint = getIntent().getStringExtra("datapoint");
+        if (paramName.contains("A") || paramName.contains("B") || paramName.contains("C")) {
+            threeLine = true;
+        }
+        if (threeLine) {
+            binding.toolbar.setTitle("");
+        } else {
+            binding.toolbar.setTitle(paramName);
+        }
 
     }
 
@@ -181,7 +199,7 @@ public class ZHCurHisActivity extends BasedActivity implements View.OnClickListe
 
         // enable scaling and dragging
         binding.mChart.setDragEnabled(true);
-        binding.mChart.setScaleEnabled(true);
+        binding.mChart.setScaleEnabled(false);
 
         // mChart.setScaleXEnabled(true);
         // mChart.setScaleYEnabled(true);
@@ -212,10 +230,23 @@ public class ZHCurHisActivity extends BasedActivity implements View.OnClickListe
 //        xAxis.setAxisMaximum(30);
 //        xAxis.setAxisMinimum(0);
         xAxis.setDrawGridLines(true);
-        xAxis.setDrawLabels(false);
+        xAxis.setDrawLabels(true);
         xAxis.setGridLineWidth(1f);
         xAxis.setGranularity(1f);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setLabelCount(3);
+        if (!threeLine){
+            xAxis.setValueFormatter(new IAxisValueFormatter() {
+
+                SimpleDateFormat mFormat = new SimpleDateFormat("dd日HH:mm");//created_at=2017-10-23 15:30:29
+
+                @Override
+                public String getFormattedValue(float value, AxisBase axis) {
+
+                    return mFormat.format(new Date((long) value));
+                }
+            });
+        }
 
         //xAxis.setValueFormatter(new MyCustomXAxisValueFormatter());
         //xAxis.addLimitLine(llXAxis); // add x-axis limit line
@@ -242,11 +273,10 @@ public class ZHCurHisActivity extends BasedActivity implements View.OnClickListe
 //        leftAxis.addLimitLine(ll1);
 //        leftAxis.addLimitLine(ll2);
 //        leftAxis.setAxisMaximum(200f);
-        leftAxis.setAxisMinimum(0f);
+//        leftAxis.setAxisMinimum(0f);
         //leftAxis.setYOffset(20f);
         leftAxis.enableGridDashedLine(10f, 10f, 0f);
         leftAxis.setDrawZeroLine(true);
-
         // limit lines are drawn behind data (and not on top)
         leftAxis.setDrawLimitLinesBehindData(true);
 
@@ -288,6 +318,7 @@ public class ZHCurHisActivity extends BasedActivity implements View.OnClickListe
 
     private void getData(String startTime, String endTime) {
         LogUtil.i("room id is:" + sno);
+        binding.query.setEnabled(false);
         stateView.showLoading();
         binding.mainContent.setVisibility(View.INVISIBLE);
         Map<String, String> map = new HashMap<>();
@@ -300,6 +331,7 @@ public class ZHCurHisActivity extends BasedActivity implements View.OnClickListe
             public void onError(Throwable e) {
                 super.onError(e);
                 e.printStackTrace();
+                binding.query.setEnabled(true);
                 stateView.showRetry();
                 binding.mainContent.setVisibility(View.INVISIBLE);
             }
@@ -307,14 +339,21 @@ public class ZHCurHisActivity extends BasedActivity implements View.OnClickListe
             @Override
             public void onNext(HisEntity hisEntity) {
                 super.onNext(hisEntity);
+                binding.query.setEnabled(true);
                 data = hisEntity;
-                setData(data);
+                try {
+                    setData(data);
+                } catch (ParseException e) {
+                    binding.query.setEnabled(true);
+                    stateView.showRetry();
+                    binding.mainContent.setVisibility(View.INVISIBLE);
+                }
             }
         });
     }
 
 
-    private void setData(HisEntity hisEntity) {
+    private void setData(HisEntity hisEntity) throws ParseException {
 
 
         if (hisEntity == null) {
@@ -322,80 +361,207 @@ public class ZHCurHisActivity extends BasedActivity implements View.OnClickListe
             binding.mainContent.setVisibility(View.INVISIBLE);
             return;
         }
-        if (hisEntity.info == null) {
-            stateView.showEmpty();
-            binding.mainContent.setVisibility(View.INVISIBLE);
-            return;
-        }
-        if (hisEntity.info.size() == 0) {
-            stateView.showEmpty();
-            binding.mainContent.setVisibility(View.INVISIBLE);
-            return;
-        }
-        ArrayList<Entry> values = new ArrayList<Entry>();
-        List<String> ls = new ArrayList<>();
-        ls.clear();
-        values.clear();
-        for (int i = hisEntity.info.size() - 1; i >= 0; i--) {
-            float val = 0f;
-            val = Float.parseFloat(hisEntity.info.get(i).data);
-            values.add(new Entry(hisEntity.info.size() - i - 1, val));
-        }
-//        MyAxisValueFormatter formatter = new MyAxisValueFormatter(ls);
-//        binding.mChart.getXAxis().setValueFormatter(formatter);
-
-        LineDataSet set1;
-
-        if (binding.mChart.getData() != null &&
-                binding.mChart.getData().getDataSetCount() > 0) {
-            set1 = (LineDataSet) binding.mChart.getData().getDataSetByIndex(0);
-            set1.setValues(values);
-            set1.setLabel(paramName + "(" + unit + ")");
-
-            binding.mChart.getData().notifyDataChanged();
-            binding.mChart.notifyDataSetChanged();
+        if (!threeLine) {
+            if (hisEntity.info == null) {
+                stateView.showEmpty();
+                binding.mainContent.setVisibility(View.INVISIBLE);
+                return;
+            }
+            if (hisEntity.info.size() == 0) {
+                stateView.showEmpty();
+                binding.mainContent.setVisibility(View.INVISIBLE);
+                return;
+            }
         } else {
-            // create a dataset and give it a type
-            set1 = new LineDataSet(values, paramName + "(" + unit + ")");
+            if (hisEntity.AInfo == null) {
+                stateView.showEmpty();
+                binding.mainContent.setVisibility(View.INVISIBLE);
+                return;
+            }
+            if (hisEntity.AInfo.data.size() == 0) {
+                stateView.showEmpty();
+                binding.mainContent.setVisibility(View.INVISIBLE);
+                return;
+            }
+        }
+        if (hisEntity.title != null)
+            binding.toolbar.setTitle(hisEntity.title + "");
 
-            set1.setDrawIcons(false);
+        SimpleDateFormat mFormat = new SimpleDateFormat("yy-MM-dd HH:mm:ss");//created_at=2017-10-23 15:30:29
 
-            // set the line to be drawn like this "- - - - - -"
-            set1.enableDashedLine(10f, 5f, 0f);
-            set1.enableDashedHighlightLine(10f, 5f, 0f);
-            set1.setColor(Color.BLACK);
-            set1.setCircleColor(Color.BLACK);
-            set1.setLineWidth(1f);
-            set1.setDrawCircles(false);
-            set1.setCircleRadius(3f);
-            set1.setDrawValues(false);
-//            set1.setDrawCircleHole(false);
-//            set1.setValueTextSize(9f);
-            set1.setDrawFilled(true);
-            set1.setFormLineWidth(1f);
-            set1.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
-            set1.setFormSize(15.f);
+        if (!threeLine) {
+            ArrayList<Entry> values = new ArrayList<Entry>();
+            List<String> ls = new ArrayList<>();
+            ls.clear();
+            values.clear();
+            for (int i = hisEntity.info.size() - 1; i >= 0; i--) {
+                Date parse = mFormat.parse(hisEntity.info.get(i).created_at);
 
-            if (Utils.getSDKInt() >= 18) {
-                // fill drawable only supported on api level 18 and above
-                Drawable drawable = ContextCompat.getDrawable(this, R.drawable.fade_chart);
-                set1.setFillDrawable(drawable);
-            } else {
-                set1.setFillColor(getResources().getColor(R.color.colorPrimary));
+                float val = 0f;
+
+                val = Float.parseFloat(hisEntity.info.get(i).data);
+                values.add(new Entry(parse.getTime(), val));
             }
 
-            ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
-            dataSets.add(set1); // add the datasets
+            LineDataSet set1;
 
-            // create a data object with the datasets
-            LineData data = new LineData(dataSets);
+            if (binding.mChart.getData() != null &&
+                    binding.mChart.getData().getDataSetCount() > 0) {
+                set1 = (LineDataSet) binding.mChart.getData().getDataSetByIndex(0);
+                set1.setValues(values);
+                set1.setLabel(paramName + "(" + unit + ")");
 
-            // set data
-            binding.mChart.setData(data);
+                binding.mChart.getData().notifyDataChanged();
+                binding.mChart.notifyDataSetChanged();
+            } else {
+                // create a dataset and give it a type
+                set1 = new LineDataSet(values, paramName + "(" + unit + ")");
+
+                set1.setDrawIcons(false);
+
+                // set the line to be drawn like this "- - - - - -"
+//                set1.enableDashedLine(10f, 5f, 0f);
+//                set1.enableDashedHighlightLine(10f, 5f, 0f);
+                set1.setColor(getResources().getColor(R.color.colorPrimary));
+                set1.setCircleColor(Color.BLACK);
+                set1.setLineWidth(1f);
+                set1.setDrawCircles(false);
+                set1.setCircleRadius(3f);
+                set1.setDrawValues(false);
+//            set1.setDrawCircleHole(false);
+//            set1.setValueTextSize(9f);
+                set1.setDrawFilled(false);
+                set1.setFormLineWidth(1f);
+                set1.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
+                set1.setFormSize(15.f);
+
+//                if (Utils.getSDKInt() >= 18) {
+//                    // fill drawable only supported on api level 18 and above
+//                    Drawable drawable = ContextCompat.getDrawable(this, R.drawable.fade_chart);
+//                    set1.setFillDrawable(drawable);
+//                } else {
+//                    set1.setFillColor(getResources().getColor(R.color.colorPrimary));
+//                }
+
+                ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
+                dataSets.add(set1); // add the datasets
+
+                // create a data object with the datasets
+                LineData data = new LineData(dataSets);
+
+                // set data
+                binding.mChart.setData(data);
+            }
+            binding.mChart.invalidate();
+
+        } else {
+            ArrayList<Entry> yVals1 = new ArrayList<Entry>();
+
+
+            String aTitle = hisEntity.AInfo.name;
+            String bTitle = hisEntity.BInfo.name;
+            String cTitle = hisEntity.CInfo.name;
+            for (int i = 0; i < hisEntity.AInfo.data.size(); i++) {
+                float val = Float.parseFloat(hisEntity.AInfo.data.get(i).data);
+                Date parse = mFormat.parse(hisEntity.AInfo.data.get(i).created_at);
+
+                yVals1.add(new Entry(i, val));
+            }
+
+            ArrayList<Entry> yVals2 = new ArrayList<Entry>();
+
+            for (int i = 0; i < hisEntity.BInfo.data.size(); i++) {
+                float val = Float.parseFloat(hisEntity.BInfo.data.get(i).data);
+                Date parse = mFormat.parse(hisEntity.BInfo.data.get(i).created_at);
+
+                yVals2.add(new Entry(i, val));
+//            if(i == 10) {
+//                yVals2.add(new Entry(i, val + 50));
+//            }
+            }
+
+            ArrayList<Entry> yVals3 = new ArrayList<Entry>();
+
+            for (int i = 0; i < hisEntity.CInfo.data.size(); i++) {
+                float val = Float.parseFloat(hisEntity.CInfo.data.get(i).data);
+                Date parse = mFormat.parse(hisEntity.CInfo.data.get(i).created_at);
+
+                yVals3.add(new Entry(i, val));
+            }
+
+            LineDataSet set1, set2, set3;
+
+            if (binding.mChart.getData() != null &&
+                    binding.mChart.getData().getDataSetCount() > 0) {
+                set1 = (LineDataSet) binding.mChart.getData().getDataSetByIndex(0);
+                set2 = (LineDataSet) binding.mChart.getData().getDataSetByIndex(1);
+                set3 = (LineDataSet) binding.mChart.getData().getDataSetByIndex(2);
+                set1.setValues(yVals1);
+                set2.setValues(yVals2);
+                set3.setValues(yVals3);
+                binding.mChart.getData().notifyDataChanged();
+                binding.mChart.notifyDataSetChanged();
+            } else {
+                // create a dataset and give it a type
+                set1 = new LineDataSet(yVals1, aTitle);
+
+                set1.setAxisDependency(YAxis.AxisDependency.LEFT);
+                set1.setColor(Color.YELLOW);
+                set1.setCircleColor(Color.YELLOW);
+                set1.setLineWidth(2f);
+                set1.setDrawCircles(false);
+//                set1.setCircleRadius(3f);
+//                set1.setFillAlpha(65);
+                set1.setFillColor(Color.YELLOW);
+//                set1.setHighLightColor(Color.YELLOW);
+                set1.setDrawCircleHole(false);
+                //set1.setFillFormatter(new MyFillFormatter(0f));
+                //set1.setDrawHorizontalHighlightIndicator(false);
+                //set1.setVisible(false);
+                //set1.setCircleHoleColor(Color.WHITE);
+
+                // create a dataset and give it a type
+                set2 = new LineDataSet(yVals2, bTitle);
+                set2.setAxisDependency(YAxis.AxisDependency.LEFT);
+                set2.setColor(Color.GREEN);
+                set2.setCircleColor(Color.GREEN);
+                set2.setLineWidth(1f);
+//                set2.setCircleRadius(3f);
+                set2.setDrawCircles(false);
+//                set2.setFillAlpha(65);
+//                set2.setFillColor(Color.GREEN);
+                set2.setDrawCircleHole(false);
+                set2.setHighLightColor(Color.rgb(244, 117, 117));
+                //set2.setFillFormatter(new MyFillFormatter(900f));
+
+                set3 = new LineDataSet(yVals3, cTitle);
+                set3.setAxisDependency(YAxis.AxisDependency.LEFT);
+                set3.setColor(Color.RED);
+                set3.setCircleColor(Color.RED);
+                set3.setDrawCircles(false);
+
+                set3.setLineWidth(1f);
+//                set3.setCircleRadius(3f);
+//                set3.setFillAlpha(65);
+//                set3.setFillColor(ColorTemplate.colorWithAlpha(Color.RED, 200));
+                set3.setDrawCircleHole(false);
+                set3.setHighLightColor(Color.rgb(244, 117, 117));
+
+                // create a data object with the datasets
+                LineData data = new LineData(set1, set2, set3);
+                data.setValueTextColor(Color.WHITE);
+                data.setValueTextSize(9f);
+
+                // set data
+                binding.mChart.setData(data);
+            }
+
+//            MyAxisValueFormatter formatter = new MyAxisValueFormatter(ls);
+//            binding.mChart.getXAxis().setValueFormatter(formatter);
         }
+        setRecyclerViewDatas(data);
         binding.mChart.invalidate();
 
-        setRecyclerViewDatas(data);
         stateView.showContent();
         binding.mainContent.setVisibility(View.VISIBLE);
     }
@@ -420,16 +586,21 @@ public class ZHCurHisActivity extends BasedActivity implements View.OnClickListe
         if (hisEntity == null) {
             return;
         }
-        datas.clear();
-//        if (mDisplayType == DISPLAY_WEEK) {
-//            datas.addAll(hisEntity.week_data);
-//        } else if (mDisplayType == DISPLAY_MONTH) {
-//            datas.addAll(hisEntity.month_data);
-//        } else if (mDisplayType == DISPLAY_DAY) {
-//            datas.addAll(hisEntity.day_data);
-//        }
-        datas.addAll(hisEntity.info);
-        adapter.notifyDataSetChanged();
+
+        FragmentAdapter adapter = new FragmentAdapter(getSupportFragmentManager());
+        if (!threeLine) {
+            ZhCurHisItemFragment fragment = ZhCurHisItemFragment.newInstance((ArrayList<HisEntity.EleParmHisItem>) hisEntity.info);
+            adapter.addFragment(fragment, paramName);
+        } else {
+            ZhCurHisItemFragment fragment1 = ZhCurHisItemFragment.newInstance((ArrayList<HisEntity.EleParmHisItem>) hisEntity.AInfo.data);
+            ZhCurHisItemFragment fragment2 = ZhCurHisItemFragment.newInstance((ArrayList<HisEntity.EleParmHisItem>) hisEntity.BInfo.data);
+            ZhCurHisItemFragment fragment3 = ZhCurHisItemFragment.newInstance((ArrayList<HisEntity.EleParmHisItem>) hisEntity.CInfo.data);
+            adapter.addFragment(fragment1, hisEntity.AInfo.name + hisEntity.unit);
+            adapter.addFragment(fragment2, hisEntity.BInfo.name + hisEntity.unit);
+            adapter.addFragment(fragment3, hisEntity.CInfo.name + hisEntity.unit);
+        }
+        binding.viewpager.setAdapter(adapter);
+        binding.tabLayout.setupWithViewPager(binding.viewpager);
     }
 
     private CompatDatePickerDialog.OnDateSetListener mDateSetListener =

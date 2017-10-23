@@ -6,7 +6,7 @@
     <string name="tips_please_wait">请稍后...</string>
     <string name="tips_progress_is_crash">程序开小差了</string>
     <string name="title_exit">退出</string>
-    <string name="abcd123">abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789</string>
+    <string name="abcd123">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789</string>
     <string name="school_name">甘肃中医药大学</string>
 
 
@@ -84,7 +84,7 @@
 
     <!--帮助页面相关-->
     <string name="title_help_feedback">帮助与反馈</string>
-    <string name="activity_help_url">http://g.suntrans.net:8088/SuntransTest-Peace/help/</string>
+    <string name="activity_help_url">http://gszy.suntrans-cloud.com/help</string>
 
     <!--反馈页面相关字符串-->
     <string name="title_feedback">意见反馈</string>

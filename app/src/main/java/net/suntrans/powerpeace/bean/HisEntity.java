@@ -1,5 +1,8 @@
 package net.suntrans.powerpeace.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 
 /**
@@ -61,11 +64,52 @@ import java.util.List;
 
 public class HisEntity extends ResultBody<List<HisEntity.EleParmHisItem>> {
 
+    public static class EleParmHisItem implements Parcelable {
 
-    public static class EleParmHisItem {
         public String created_at;
         public String data;
 
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(this.created_at);
+            dest.writeString(this.data);
+        }
+
+        public EleParmHisItem() {
+        }
+
+        protected EleParmHisItem(Parcel in) {
+            this.created_at = in.readString();
+            this.data = in.readString();
+        }
+
+        public static final Parcelable.Creator<EleParmHisItem> CREATOR = new Parcelable.Creator<EleParmHisItem>() {
+            @Override
+            public EleParmHisItem createFromParcel(Parcel source) {
+                return new EleParmHisItem(source);
+            }
+
+            @Override
+            public EleParmHisItem[] newArray(int size) {
+                return new EleParmHisItem[size];
+            }
+        };
+    }
+
+    public String title;
+    public String unit;
+    public ABCInfo AInfo;
+    public ABCInfo BInfo;
+    public ABCInfo CInfo;
+
+    public static class ABCInfo{
+        public String name;
+        public List<EleParmHisItem> data;
 
     }
 

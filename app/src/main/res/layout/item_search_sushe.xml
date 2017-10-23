@@ -8,15 +8,15 @@
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:background="@color/bgBlue"
+        android:background="@color/item_press_true"
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:text="宿舍" />
 
     <LinearLayout
+        android:background="@drawable/item_selector"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="?attr/selectableItemBackground"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingLeft="16dp"

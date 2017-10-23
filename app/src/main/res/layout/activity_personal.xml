@@ -26,13 +26,13 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="16dp"
-            android:background="#f2f4f5" />
+            android:background="@color/item_press_true" />
 
         <RelativeLayout
             android:id="@+id/nameRl"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="?attr/selectableItemBackground">
+            android:background="@drawable/item_selector">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -63,7 +63,7 @@
             android:id="@+id/phoneRl"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="?attr/selectableItemBackground">
+            android:background="@drawable/item_selector">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -94,7 +94,7 @@
             android:id="@+id/xueyuanRl"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="?attr/selectableItemBackground">
+            android:background="@drawable/item_selector">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -117,13 +117,13 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="20dp"
-            android:background="#f2f4f5" />
+            android:background="@color/item_press_true" />
 
         <RelativeLayout
             android:id="@+id/mima"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="?attr/selectableItemBackground">
+            android:background="@drawable/item_selector">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -146,6 +146,6 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#f2f4f5" />
+            android:background="@color/bgBlue" />
     </LinearLayout>
 </layout>

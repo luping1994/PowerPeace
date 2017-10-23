@@ -280,7 +280,7 @@ public class Login1Activity extends BasedActivity {
         super.onDestroy();
         handler.removeCallbacksAndMessages(null);
 //        try {
-//            PgyUpdateManager.unregister();
+            PgyUpdateManager.unregister();
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }

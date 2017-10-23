@@ -9,6 +9,7 @@ import android.os.Message;
 import android.os.SystemClock;
 import android.support.annotation.IdRes;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.KeyEvent;
@@ -160,6 +161,30 @@ public class BuildingManagerMainActivity extends BasedActivity implements View.O
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(BuildingManagerMainActivity.this, PersonActivity.class));
+            }
+        });
+        binding.viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position == 0) {
+                    binding.radio0.setChecked(true);
+                }
+                if (position == 1) {
+                    binding.radio1.setChecked(true);
+                }
+                if (position == 2) {
+                    binding.radio2.setChecked(true);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
             }
         });
     }

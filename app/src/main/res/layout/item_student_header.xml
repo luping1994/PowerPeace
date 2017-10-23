@@ -8,13 +8,13 @@
         android:id="@+id/headerName"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:background="@color/bgBlue"
+        android:background="@color/item_press_true"
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:text="dasdasdas" />
 
     <LinearLayout
-        android:background="?attr/selectableItemBackground"
+        android:background="@drawable/item_selector"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:gravity="center_vertical"

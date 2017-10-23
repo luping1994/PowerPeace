@@ -13,6 +13,7 @@ import android.os.Message;
 import android.os.SystemClock;
 import android.support.annotation.IdRes;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.KeyEvent;
@@ -206,6 +207,30 @@ public class LeaderMainActivity extends BasedActivity implements View.OnClickLis
                 if (checkedId == R.id.radio2) {
                     binding.viewpager.setCurrentItem(2, false);
                 }
+            }
+        });
+        binding.viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position == 0) {
+                    binding.radio0.setChecked(true);
+                }
+                if (position == 1) {
+                    binding.radio1.setChecked(true);
+                }
+                if (position == 2) {
+                    binding.radio2.setChecked(true);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
             }
         });
     }
