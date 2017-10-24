@@ -62,6 +62,7 @@ public class ElecHisActivity extends BasedActivity implements OnChartValueSelect
     private int mMonth;
     private int mDay;
     private TextView time;
+    private TextView timeSb;
     private SegmentedGroup group;
     private int currentRaidoId = R.id.radio0;
     private String room_id;
@@ -89,7 +90,9 @@ public class ElecHisActivity extends BasedActivity implements OnChartValueSelect
         mDay = c.get(Calendar.DAY_OF_MONTH);
 
         time = (TextView) findViewById(R.id.time);
+        timeSb = (TextView) findViewById(R.id.timeSb);
         time.setText(mYear + "-" + pad(mMonth) + "-" + pad(mDay));
+        timeSb.setText(mYear + "-" + pad(mMonth) + "-" + pad(mDay));
         mChartDes.setText(String.format(getString(R.string.ele_his_day_des),mYear+"",mMonth+"",mDay+""));
 
 
@@ -259,7 +262,10 @@ public class ElecHisActivity extends BasedActivity implements OnChartValueSelect
                     }
                     yVals1.add(new BarEntry(i, val));
                 }
+                timeSb.setText(mYear + "年" + pad(mMonth) + "月" + pad(mDay)+"日");
+
                 break;
+
             case 2:
                 if (monthDatas == null)
                     break;
@@ -272,6 +278,9 @@ public class ElecHisActivity extends BasedActivity implements OnChartValueSelect
                     }
                     yVals1.add(new BarEntry(i, val));
                 }
+                timeSb.setText(mYear + "年" + pad(mMonth) + "月");
+
+
                 break;
             case 3:
                 if (yearDatas == null)
@@ -285,6 +294,7 @@ public class ElecHisActivity extends BasedActivity implements OnChartValueSelect
                     }
                     yVals1.add(new BarEntry(i, val));
                 }
+                timeSb.setText(mYear+"年");
                 break;
         }
 

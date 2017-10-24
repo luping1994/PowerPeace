@@ -13,6 +13,8 @@ import com.github.mikephil.charting.utils.Utils;
 
 import net.suntrans.powerpeace.R;
 
+import java.text.SimpleDateFormat;
+
 /**
  * Custom implementation of the MarkerView.
  * 
@@ -32,15 +34,20 @@ public class MyMarkerView extends MarkerView {
     // content (user-interface)
     @Override
     public void refreshContent(Entry e, Highlight highlight) {
-
+        SimpleDateFormat mFormat = new SimpleDateFormat("MM月dd日HH:mm");//created_at=2017-10-23 15:30:29
+        String format = "";
+        try {
+            format =  mFormat.format(e.getX());
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
         if (e instanceof CandleEntry) {
-
             CandleEntry ce = (CandleEntry) e;
 
-            tvContent.setText("" + ChartUtils.formatNumber(ce.getHigh(), 2, true));
+            tvContent.setText(format+"  " + ChartUtils.formatNumber(ce.getHigh(), 2, true));
         } else {
 
-            tvContent.setText("" + ChartUtils.formatNumber(e.getY(), 2, true));
+            tvContent.setText(format+"  "+ ChartUtils.formatNumber(e.getY(), 2, true));
         }
 
         super.refreshContent(e, highlight);

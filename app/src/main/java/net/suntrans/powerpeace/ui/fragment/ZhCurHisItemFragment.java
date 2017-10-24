@@ -35,7 +35,7 @@ public class ZhCurHisItemFragment extends Fragment {
     public static ZhCurHisItemFragment newInstance(ArrayList<HisEntity.EleParmHisItem> datas) {
         ZhCurHisItemFragment fragment = new ZhCurHisItemFragment();
         Bundle bundle = new Bundle();
-        bundle.putParcelableArrayList("datas",datas);
+        bundle.putParcelableArrayList("datas", datas);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -43,7 +43,7 @@ public class ZhCurHisItemFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_item_zh_cur_his,container,false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_item_zh_cur_his, container, false);
         return binding.getRoot();
     }
 
@@ -69,10 +69,8 @@ public class ZhCurHisItemFragment extends Fragment {
         }
     }
 
-    private void setRecyclerViewDatas(HisEntity hisEntity) {
-        if (hisEntity == null) {
-            return;
-        }
+    public void setData(List<HisEntity.EleParmHisItem> data) {
+
         datas.clear();
 //        if (mDisplayType == DISPLAY_WEEK) {
 //            datas.addAll(hisEntity.week_data);
@@ -81,7 +79,8 @@ public class ZhCurHisItemFragment extends Fragment {
 //        } else if (mDisplayType == DISPLAY_DAY) {
 //            datas.addAll(hisEntity.day_data);
 //        }
-        datas.addAll(hisEntity.info);
-        adapter.notifyDataSetChanged();
+        datas.addAll(data);
+        if (adapter != null)
+            adapter.notifyDataSetChanged();
     }
 }

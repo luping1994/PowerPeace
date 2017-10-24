@@ -56,8 +56,9 @@
                     android:textColor="@color/textColor" />
 
                 <ImageView
+                    android:visibility="invisible"
                     android:id="@id/img"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
@@ -111,8 +112,10 @@
                     android:textColor="@color/textColor" />
 
                 <ImageView
+                    android:visibility="invisible"
+
                     android:id="@id/img"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
@@ -166,8 +169,10 @@
                     android:textColor="@color/textColor" />
 
                 <ImageView
+                    android:visibility="invisible"
+
                     android:id="@id/img"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
@@ -221,8 +226,10 @@
                     android:textColor="@color/textColor" />
 
                 <ImageView
+                    android:visibility="invisible"
+
                     android:id="@id/img"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
@@ -276,8 +283,10 @@
                     android:textColor="@color/textColor" />
 
                 <ImageView
+                    android:visibility="invisible"
+
                     android:id="@id/img"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
@@ -331,8 +340,10 @@
                     android:textColor="@color/textColor" />
 
                 <ImageView
+                    android:visibility="invisible"
+
                     android:id="@id/img"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
@@ -386,8 +397,10 @@
                     android:textColor="@color/textColor" />
 
                 <ImageView
+                    android:visibility="invisible"
+
                     android:id="@id/img"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
@@ -441,12 +454,14 @@
                     android:textColor="@color/textColor" />
 
                 <ImageView
+                    android:visibility="invisible"
                     android:id="@id/img"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
+                    android:src="@drawable/ic_arrow_right"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/ic_arrow_right" />
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true" />
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>

@@ -51,7 +51,7 @@ public class ZHBuildingEnergyActivity extends BasedActivity implements BasedFrag
 //        adapter.addFragment(controlFragment2, getString(R.string.zhpart2_fragment_title));
 
         binding.viewPager.setAdapter(adapter);
-        binding.viewPager.setOffscreenPageLimit(2);
+//        binding.viewPager.setOffscreenPageLimit(2);
 
         binding.tabs.setupWithViewPager(binding.viewPager);
     }

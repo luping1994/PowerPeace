@@ -3,13 +3,12 @@ package net.suntrans.powerpeace.ui.activity;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
+import android.view.Menu;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.RadioGroup;
@@ -24,9 +23,8 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.IFillFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
-import com.github.mikephil.charting.utils.ColorTemplate;
-import com.github.mikephil.charting.utils.Utils;
 
 import net.suntrans.looney.utils.LogUtil;
 import net.suntrans.looney.utils.UiUtils;
@@ -34,12 +32,9 @@ import net.suntrans.looney.widgets.CompatDatePickerDialog;
 import net.suntrans.powerpeace.R;
 import net.suntrans.powerpeace.adapter.FragmentAdapter;
 import net.suntrans.powerpeace.bean.HisEntity;
-import net.suntrans.powerpeace.chart.MyAxisValueFormatter;
-import net.suntrans.powerpeace.databinding.ActivityAmmeterHisBinding;
+import net.suntrans.powerpeace.chart.MyMarkerView;
 import net.suntrans.powerpeace.databinding.ActivityZhCurHisBinding;
 import net.suntrans.powerpeace.rx.BaseSubscriber;
-import net.suntrans.powerpeace.ui.decoration.DefaultDecoration;
-import net.suntrans.powerpeace.chart.MyMarkerView;
 import net.suntrans.powerpeace.ui.fragment.ZhCurHisItemFragment;
 import net.suntrans.powerpeace.utils.StatusBarCompat;
 import net.suntrans.stateview.StateView;
@@ -52,10 +47,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
-import static com.pgyersdk.views.b.p;
-import static net.suntrans.powerpeace.R.id.mChart;
 import static net.suntrans.powerpeace.R.id.startTime;
 
 /**
@@ -84,6 +76,7 @@ public class ZHCurHisActivity extends BasedActivity implements View.OnClickListe
     private CompatDatePickerDialog pickerDialog;
     private String unit;
     private String paramName;
+    private FragmentAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -199,7 +192,7 @@ public class ZHCurHisActivity extends BasedActivity implements View.OnClickListe
 
         // enable scaling and dragging
         binding.mChart.setDragEnabled(true);
-        binding.mChart.setScaleEnabled(false);
+        binding.mChart.setScaleEnabled(true);
 
         // mChart.setScaleXEnabled(true);
         // mChart.setScaleYEnabled(true);
@@ -230,23 +223,22 @@ public class ZHCurHisActivity extends BasedActivity implements View.OnClickListe
 //        xAxis.setAxisMaximum(30);
 //        xAxis.setAxisMinimum(0);
         xAxis.setDrawGridLines(true);
-        xAxis.setDrawLabels(true);
         xAxis.setGridLineWidth(1f);
         xAxis.setGranularity(1f);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setLabelCount(3);
-        if (!threeLine){
-            xAxis.setValueFormatter(new IAxisValueFormatter() {
+        xAxis.setDrawLabels(true);
+        xAxis.setValueFormatter(new IAxisValueFormatter() {
 
-                SimpleDateFormat mFormat = new SimpleDateFormat("dd日HH:mm");//created_at=2017-10-23 15:30:29
+            SimpleDateFormat mFormat = new SimpleDateFormat("dd日HH:mm");//created_at=2017-10-23 15:30:29
 
-                @Override
-                public String getFormattedValue(float value, AxisBase axis) {
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
 
-                    return mFormat.format(new Date((long) value));
-                }
-            });
-        }
+                return mFormat.format(new Date((long) value));
+            }
+        });
+//
 
         //xAxis.setValueFormatter(new MyCustomXAxisValueFormatter());
         //xAxis.addLimitLine(llXAxis); // add x-axis limit line
@@ -276,7 +268,7 @@ public class ZHCurHisActivity extends BasedActivity implements View.OnClickListe
 //        leftAxis.setAxisMinimum(0f);
         //leftAxis.setYOffset(20f);
         leftAxis.enableGridDashedLine(10f, 10f, 0f);
-        leftAxis.setDrawZeroLine(true);
+        leftAxis.setDrawZeroLine(false);
         // limit lines are drawn behind data (and not on top)
         leftAxis.setDrawLimitLinesBehindData(true);
 
@@ -461,20 +453,19 @@ public class ZHCurHisActivity extends BasedActivity implements View.OnClickListe
             String aTitle = hisEntity.AInfo.name;
             String bTitle = hisEntity.BInfo.name;
             String cTitle = hisEntity.CInfo.name;
-            for (int i = 0; i < hisEntity.AInfo.data.size(); i++) {
+            for (int i = hisEntity.AInfo.data.size() - 1; i >= 0; i--) {
                 float val = Float.parseFloat(hisEntity.AInfo.data.get(i).data);
                 Date parse = mFormat.parse(hisEntity.AInfo.data.get(i).created_at);
-
-                yVals1.add(new Entry(i, val));
+                yVals1.add(new Entry(parse.getTime(), val));
             }
 
             ArrayList<Entry> yVals2 = new ArrayList<Entry>();
 
-            for (int i = 0; i < hisEntity.BInfo.data.size(); i++) {
+            for (int i = hisEntity.BInfo.data.size() - 1; i >= 0; i--) {
                 float val = Float.parseFloat(hisEntity.BInfo.data.get(i).data);
                 Date parse = mFormat.parse(hisEntity.BInfo.data.get(i).created_at);
 
-                yVals2.add(new Entry(i, val));
+                yVals2.add(new Entry(parse.getTime(), val));
 //            if(i == 10) {
 //                yVals2.add(new Entry(i, val + 50));
 //            }
@@ -482,11 +473,11 @@ public class ZHCurHisActivity extends BasedActivity implements View.OnClickListe
 
             ArrayList<Entry> yVals3 = new ArrayList<Entry>();
 
-            for (int i = 0; i < hisEntity.CInfo.data.size(); i++) {
+            for (int i = hisEntity.CInfo.data.size() - 1; i >= 0; i--) {
                 float val = Float.parseFloat(hisEntity.CInfo.data.get(i).data);
                 Date parse = mFormat.parse(hisEntity.CInfo.data.get(i).created_at);
 
-                yVals3.add(new Entry(i, val));
+                yVals3.add(new Entry(parse.getTime(), val));
             }
 
             LineDataSet set1, set2, set3;
@@ -501,19 +492,19 @@ public class ZHCurHisActivity extends BasedActivity implements View.OnClickListe
                 set3.setValues(yVals3);
                 binding.mChart.getData().notifyDataChanged();
                 binding.mChart.notifyDataSetChanged();
+                binding.mChart.invalidate();
             } else {
                 // create a dataset and give it a type
                 set1 = new LineDataSet(yVals1, aTitle);
 
-                set1.setAxisDependency(YAxis.AxisDependency.LEFT);
+//                set1.setAxisDependency(YAxis.AxisDependency.LEFT);
                 set1.setColor(Color.YELLOW);
                 set1.setCircleColor(Color.YELLOW);
+                set1.setHighLightColor(Color.YELLOW);
                 set1.setLineWidth(2f);
                 set1.setDrawCircles(false);
 //                set1.setCircleRadius(3f);
 //                set1.setFillAlpha(65);
-                set1.setFillColor(Color.YELLOW);
-//                set1.setHighLightColor(Color.YELLOW);
                 set1.setDrawCircleHole(false);
                 //set1.setFillFormatter(new MyFillFormatter(0f));
                 //set1.setDrawHorizontalHighlightIndicator(false);
@@ -522,30 +513,28 @@ public class ZHCurHisActivity extends BasedActivity implements View.OnClickListe
 
                 // create a dataset and give it a type
                 set2 = new LineDataSet(yVals2, bTitle);
-                set2.setAxisDependency(YAxis.AxisDependency.LEFT);
+//                set2.setAxisDependency(YAxis.AxisDependency.LEFT);
                 set2.setColor(Color.GREEN);
                 set2.setCircleColor(Color.GREEN);
+                set2.setHighLightColor(Color.GREEN);
                 set2.setLineWidth(1f);
 //                set2.setCircleRadius(3f);
                 set2.setDrawCircles(false);
 //                set2.setFillAlpha(65);
-//                set2.setFillColor(Color.GREEN);
                 set2.setDrawCircleHole(false);
-                set2.setHighLightColor(Color.rgb(244, 117, 117));
                 //set2.setFillFormatter(new MyFillFormatter(900f));
 
                 set3 = new LineDataSet(yVals3, cTitle);
-                set3.setAxisDependency(YAxis.AxisDependency.LEFT);
+//                set3.setAxisDependency(YAxis.AxisDependency.LEFT);
                 set3.setColor(Color.RED);
                 set3.setCircleColor(Color.RED);
+                set3.setHighLightColor(Color.RED);
                 set3.setDrawCircles(false);
-
                 set3.setLineWidth(1f);
 //                set3.setCircleRadius(3f);
 //                set3.setFillAlpha(65);
 //                set3.setFillColor(ColorTemplate.colorWithAlpha(Color.RED, 200));
                 set3.setDrawCircleHole(false);
-                set3.setHighLightColor(Color.rgb(244, 117, 117));
 
                 // create a data object with the datasets
                 LineData data = new LineData(set1, set2, set3);
@@ -554,13 +543,14 @@ public class ZHCurHisActivity extends BasedActivity implements View.OnClickListe
 
                 // set data
                 binding.mChart.setData(data);
+
             }
 
 //            MyAxisValueFormatter formatter = new MyAxisValueFormatter(ls);
 //            binding.mChart.getXAxis().setValueFormatter(formatter);
         }
         setRecyclerViewDatas(data);
-        binding.mChart.invalidate();
+//        binding.mChart.invalidate();
 
         stateView.showContent();
         binding.mainContent.setVisibility(View.VISIBLE);
@@ -587,20 +577,32 @@ public class ZHCurHisActivity extends BasedActivity implements View.OnClickListe
             return;
         }
 
-        FragmentAdapter adapter = new FragmentAdapter(getSupportFragmentManager());
-        if (!threeLine) {
-            ZhCurHisItemFragment fragment = ZhCurHisItemFragment.newInstance((ArrayList<HisEntity.EleParmHisItem>) hisEntity.info);
-            adapter.addFragment(fragment, paramName);
+        if (adapter == null && binding.viewpager.getAdapter() == null) {
+            adapter = new FragmentAdapter(getSupportFragmentManager());
+            if (!threeLine) {
+                ZhCurHisItemFragment fragment = ZhCurHisItemFragment.newInstance((ArrayList<HisEntity.EleParmHisItem>) hisEntity.info);
+                adapter.addFragment(fragment, paramName);
+            } else {
+                ZhCurHisItemFragment fragment1 = ZhCurHisItemFragment.newInstance((ArrayList<HisEntity.EleParmHisItem>) hisEntity.AInfo.data);
+                ZhCurHisItemFragment fragment2 = ZhCurHisItemFragment.newInstance((ArrayList<HisEntity.EleParmHisItem>) hisEntity.BInfo.data);
+                ZhCurHisItemFragment fragment3 = ZhCurHisItemFragment.newInstance((ArrayList<HisEntity.EleParmHisItem>) hisEntity.CInfo.data);
+                adapter.addFragment(fragment1, hisEntity.AInfo.name);
+                adapter.addFragment(fragment2, hisEntity.BInfo.name);
+                adapter.addFragment(fragment3, hisEntity.CInfo.name);
+            }
+            binding.viewpager.setOffscreenPageLimit(3);
+            binding.viewpager.setAdapter(adapter);
+            binding.tabLayout.setupWithViewPager(binding.viewpager);
         } else {
-            ZhCurHisItemFragment fragment1 = ZhCurHisItemFragment.newInstance((ArrayList<HisEntity.EleParmHisItem>) hisEntity.AInfo.data);
-            ZhCurHisItemFragment fragment2 = ZhCurHisItemFragment.newInstance((ArrayList<HisEntity.EleParmHisItem>) hisEntity.BInfo.data);
-            ZhCurHisItemFragment fragment3 = ZhCurHisItemFragment.newInstance((ArrayList<HisEntity.EleParmHisItem>) hisEntity.CInfo.data);
-            adapter.addFragment(fragment1, hisEntity.AInfo.name + hisEntity.unit);
-            adapter.addFragment(fragment2, hisEntity.BInfo.name + hisEntity.unit);
-            adapter.addFragment(fragment3, hisEntity.CInfo.name + hisEntity.unit);
+            ZhCurHisItemFragment fragment1 = (ZhCurHisItemFragment) adapter.getItem(0);
+            ZhCurHisItemFragment fragment2 = (ZhCurHisItemFragment) adapter.getItem(1);
+            ZhCurHisItemFragment fragment3 = (ZhCurHisItemFragment) adapter.getItem(2);
+            fragment1.setData(hisEntity.AInfo.data);
+            fragment2.setData(hisEntity.BInfo.data);
+            fragment3.setData(hisEntity.CInfo.data);
+
         }
-        binding.viewpager.setAdapter(adapter);
-        binding.tabLayout.setupWithViewPager(binding.viewpager);
+
     }
 
     private CompatDatePickerDialog.OnDateSetListener mDateSetListener =
@@ -647,5 +649,12 @@ public class ZHCurHisActivity extends BasedActivity implements View.OnClickListe
         pickerDialog.show();
 
     }
+
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//
+//        getMenuInflater().inflate(R.menu.menu_query,menu);
+//        return true;
+//    }
 
 }
