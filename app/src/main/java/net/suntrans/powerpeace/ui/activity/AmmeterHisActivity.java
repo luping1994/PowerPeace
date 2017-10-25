@@ -16,12 +16,14 @@ import android.widget.RadioGroup;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.Utils;
 
@@ -41,6 +43,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -124,7 +127,11 @@ public class AmmeterHisActivity extends BasedActivity implements View.OnClickLis
                         mDisplayType = DISPLAY_MONTH;
                         break;
                 }
-                setData(data);
+                try {
+                    setData(data);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -160,6 +167,8 @@ public class AmmeterHisActivity extends BasedActivity implements View.OnClickLis
                 getData(startTime,endTime);
             }
         });
+
+        binding.unit.setText(paramName+"("+getIntent().getStringExtra("unit")+")");
     }
 
     private void initData() {
@@ -210,6 +219,7 @@ public class AmmeterHisActivity extends BasedActivity implements View.OnClickLis
 
         // if disabled, scaling can be done on x- and y-axis separately
         binding.mChart.setPinchZoom(true);
+        binding.mChart.getAxisLeft().setDrawTopYLabelEntry(true);
         // set an alternative background color
         // mChart.setBackgroundColor(Color.GRAY);
 
@@ -238,7 +248,18 @@ public class AmmeterHisActivity extends BasedActivity implements View.OnClickLis
         xAxis.setGridLineWidth(1f);
         xAxis.setGranularity(1f);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setLabelCount(4);
+        xAxis.setDrawLabels(true);
+        xAxis.setValueFormatter(new IAxisValueFormatter() {
 
+            SimpleDateFormat mFormat = new SimpleDateFormat("dd日HH:mm");//created_at=2017-10-23 15:30:29
+
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+
+                return mFormat.format(new Date((long) value));
+            }
+        });
         //xAxis.setValueFormatter(new MyCustomXAxisValueFormatter());
         //xAxis.addLimitLine(llXAxis); // add x-axis limit line
 
@@ -330,13 +351,19 @@ public class AmmeterHisActivity extends BasedActivity implements View.OnClickLis
             public void onNext(HisEntity hisEntity) {
                 super.onNext(hisEntity);
                 data = hisEntity;
-                setData(data);
+                try {
+                    setData(data);
+                } catch (ParseException e) {
+                    stateView.showRetry();
+                    binding.mainContent.setVisibility(View.INVISIBLE);
+                    e.printStackTrace();
+                }
             }
         });
     }
 
 
-    private void setData(HisEntity hisEntity) {
+    private void setData(HisEntity hisEntity) throws ParseException {
 
 
         if (hisEntity == null) {
@@ -358,10 +385,14 @@ public class AmmeterHisActivity extends BasedActivity implements View.OnClickLis
         List<String> ls = new ArrayList<>();
         ls.clear();
         values.clear();
+        SimpleDateFormat mFormat = new SimpleDateFormat("yy-MM-dd HH:mm:ss");//created_at=2017-10-23 15:30:29
+
         for (int i = hisEntity.info.size()-1; i >=0 ; i--) {
+            Date parse = mFormat.parse(hisEntity.info.get(i).created_at);
+
             float val = 0f;
             val = Float.parseFloat(hisEntity.info.get(i).data);
-            values.add(new Entry(hisEntity.info.size()-i-1, val));
+            values.add(new Entry(parse.getTime(), val));
         }
 //        MyAxisValueFormatter formatter = new MyAxisValueFormatter(ls);
 //        binding.mChart.getXAxis().setValueFormatter(formatter);

@@ -101,6 +101,7 @@ public class EleInfoFragment extends BasedFragment {
                 intent2.putExtra("title", getActivity().getIntent().getStringExtra("title"));
                 intent2.putExtra("paramName", datas.get(position).name);
                 intent2.putExtra("code", datas.get(position).code);
+                intent2.putExtra("unit", datas.get(position).unit);
                 intent2.putExtra("room_id", room_id);
                 startActivity(intent2);
             }

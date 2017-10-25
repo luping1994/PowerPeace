@@ -78,8 +78,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:textColor="@color/textColor"
-                />
+                android:textColor="@color/textColor" />
 
             <RelativeLayout
                 android:id="@+id/rili"
@@ -97,6 +96,18 @@
                     android:src="@drawable/ic_rili" />
             </RelativeLayout>
         </RelativeLayout>
+
+        <TextView
+            android:layout_marginTop="4dp"
+            android:textSize="10sp"
+            android:textColor="@color/black"
+            android:gravity="center_vertical"
+            android:text="电量(kW·h)"
+            android:paddingLeft="16dp"
+            android:id="@+id/unit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white" />
 
         <RelativeLayout
             android:layout_width="match_parent"

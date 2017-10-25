@@ -27,10 +27,10 @@
             app:titleTextAppearance="@style/Toolbar.TitleText" />
 
         <LinearLayout
-            android:gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:background="@color/bgcolor"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -86,12 +86,12 @@
 
             <Button
                 android:id="@+id/query"
-                android:layout_marginRight="8dp"
-                android:textColor="@color/white"
-                android:text="@string/query"
-                android:background="@drawable/bg_bt_login"
                 android:layout_width="45dp"
-                android:layout_height="24dp" />
+                android:layout_height="24dp"
+                android:layout_marginRight="8dp"
+                android:background="@drawable/bg_bt_login"
+                android:text="@string/query"
+                android:textColor="@color/white" />
 
         </LinearLayout>
 
@@ -149,12 +149,26 @@
                 android:layout_height="match_parent">
 
                 <LinearLayout
+                    android:layout_marginTop="4dp"
+                    android:background="@color/white"
                     android:id="@+id/mainContent"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
 
+                    <TextView
+                        android:layout_marginTop="4dp"
+                        android:id="@+id/unit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="16dp"
+                        android:text=""
+                        android:textColor="@color/black"
+                        android:textSize="12sp" />
+
                     <com.github.mikephil.charting.charts.LineChart
+
                         android:id="@+id/mChart"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"

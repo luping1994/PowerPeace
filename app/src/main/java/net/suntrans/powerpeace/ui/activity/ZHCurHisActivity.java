@@ -156,6 +156,7 @@ public class ZHCurHisActivity extends BasedActivity implements View.OnClickListe
                 getData(startTime, endTime);
             }
         });
+
     }
 
     private boolean threeLine = false;
@@ -174,6 +175,7 @@ public class ZHCurHisActivity extends BasedActivity implements View.OnClickListe
         } else {
             binding.toolbar.setTitle(paramName);
         }
+        binding.unit.setText(paramName+"("+unit+")");
 
     }
 
@@ -271,6 +273,7 @@ public class ZHCurHisActivity extends BasedActivity implements View.OnClickListe
         leftAxis.setDrawZeroLine(false);
         // limit lines are drawn behind data (and not on top)
         leftAxis.setDrawLimitLinesBehindData(true);
+
 
         binding.mChart.getAxisRight().setEnabled(false);
 

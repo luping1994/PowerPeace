@@ -1,5 +1,6 @@
 package net.suntrans.powerpeace.ui.activity;
 
+import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
@@ -7,6 +8,7 @@ import android.os.Message;
 import android.support.annotation.IdRes;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
@@ -15,6 +17,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -26,6 +29,7 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
+import com.github.mikephil.charting.utils.MPPointF;
 
 import net.suntrans.looney.utils.LogUtil;
 import net.suntrans.looney.widgets.CompatDatePickerDialog;
@@ -35,6 +39,7 @@ import net.suntrans.powerpeace.api.RetrofitHelper;
 import net.suntrans.powerpeace.bean.Ameter3Entity;
 import net.suntrans.powerpeace.chart.DayAxisValueFormatter;
 import net.suntrans.powerpeace.chart.MyAxisValueFormatter2;
+import net.suntrans.powerpeace.chart.XYMarkerView;
 import net.suntrans.powerpeace.rx.BaseSubscriber;
 
 import java.util.ArrayList;
@@ -127,7 +132,8 @@ public class ElecHisActivity extends BasedActivity implements OnChartValueSelect
         mChart = (BarChart) findViewById(R.id.chart1);
         findViewById(R.id.rili).setOnClickListener(this);
 
-
+        TextView unit = (TextView) findViewById(R.id.unit);
+        unit.setTypeface(mTfLight);
         initChart();
 
         room_id = getIntent().getStringExtra("room_id");
@@ -160,11 +166,12 @@ public class ElecHisActivity extends BasedActivity implements OnChartValueSelect
         mChart.setDrawBarShadow(false);
         mChart.setDrawValueAboveBar(true);
         mChart.getAxisRight().setEnabled(false);
-        mChart.setTouchEnabled(false);
+        mChart.setTouchEnabled(true);
         mChart.getDescription().setEnabled(false);
         // if more than 60 entries are displayed in the chart, no values will be
         // drawn
         mChart.setMaxVisibleValueCount(60);
+        mChart.setOnChartValueSelectedListener(this);
 
         // scaling can now only be done on x- and y-axis separately
         mChart.setPinchZoom(false);
@@ -178,14 +185,31 @@ public class ElecHisActivity extends BasedActivity implements OnChartValueSelect
         xAxis.setTypeface(mTfLight);
         xAxis.setDrawGridLines(false);
         xAxis.setGranularity(1f); // only intervals of 1 day
-        xAxis.setLabelCount(12);
-//        xAxis.setValueFormatter(xAxisFormatter);
+
+        xAxis.setValueFormatter(new IAxisValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                int values = (int) value;
+                if (currentType ==  DayAxisValueFormatter.YEARS){
+                    if (values%2==0){
+                        return values+"";
+                    }
+                    return "";
+                }else {
+                    if (values%2==0){
+                        return "";
+                    }
+                    return values+"";
+                }
+
+            }
+        });
 
         IAxisValueFormatter custom = new MyAxisValueFormatter2();
 
         YAxis leftAxis = mChart.getAxisLeft();
         leftAxis.setTypeface(mTfLight);
-        leftAxis.setLabelCount(8, false);
+        leftAxis.setLabelCount(4, false);
         leftAxis.setValueFormatter(custom);
         leftAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART);
         leftAxis.setSpaceTop(15f);
@@ -213,9 +237,9 @@ public class ElecHisActivity extends BasedActivity implements OnChartValueSelect
         // "def", "ghj", "ikl", "mno" });
         // l.setCustom(ColorTemplate.VORDIPLOM_COLORS, new String[] { "abc",
         // "def", "ghj", "ikl", "mno" });
-//        XYMarkerView mv = new XYMarkerView(this, xAxisFormatter);
-//        mv.setChartView(mChart); // For bounds control
-//        mChart.setMarker(mv); // Set the marker to the chart
+        XYMarkerView mv = new XYMarkerView(this, xAxisFormatter);
+        mv.setChartView(mChart); // For bounds control
+        mChart.setMarker(mv); // Set the marker to the chart
 
     }
 
@@ -229,10 +253,25 @@ public class ElecHisActivity extends BasedActivity implements OnChartValueSelect
     }
 
 
+    protected RectF mOnValueSelectedRectF = new RectF();
 
     @Override
     public void onValueSelected(Entry e, Highlight h) {
+        if (e == null)
+            return;
 
+        RectF bounds = mOnValueSelectedRectF;
+        mChart.getBarBounds((BarEntry) e, bounds);
+        MPPointF position = mChart.getPosition(e, YAxis.AxisDependency.LEFT);
+
+        Log.i("bounds", bounds.toString());
+        Log.i("position", position.toString());
+
+        Log.i("x-index",
+                "low: " + mChart.getLowestVisibleX() + ", high: "
+                        + mChart.getHighestVisibleX());
+
+        MPPointF.recycleInstance(position);
     }
 
     @Override
@@ -263,7 +302,7 @@ public class ElecHisActivity extends BasedActivity implements OnChartValueSelect
                     yVals1.add(new BarEntry(i, val));
                 }
                 timeSb.setText(mYear + "年" + pad(mMonth) + "月" + pad(mDay)+"日");
-
+                mChart.getXAxis().setLabelCount(24);
                 break;
 
             case 2:
@@ -279,8 +318,7 @@ public class ElecHisActivity extends BasedActivity implements OnChartValueSelect
                     yVals1.add(new BarEntry(i, val));
                 }
                 timeSb.setText(mYear + "年" + pad(mMonth) + "月");
-
-
+                mChart.getXAxis().setLabelCount(31);
                 break;
             case 3:
                 if (yearDatas == null)
@@ -295,6 +333,8 @@ public class ElecHisActivity extends BasedActivity implements OnChartValueSelect
                     yVals1.add(new BarEntry(i, val));
                 }
                 timeSb.setText(mYear+"年");
+                mChart.getXAxis().setLabelCount(12);
+
                 break;
         }
 

@@ -42,7 +42,7 @@ public class DayAxisValueFormatter implements IAxisValueFormatter {
     @Override
     public String getFormattedValue(float value, AxisBase axis) {
 
-        return value+"度";
+        return value+"";
 
     }
 
