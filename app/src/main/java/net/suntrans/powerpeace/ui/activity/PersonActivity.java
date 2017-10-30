@@ -213,7 +213,7 @@ public class PersonActivity extends BasedActivity implements View.OnClickListene
                     public void onNext(UserInfoEntityOld info) {
 //                        System.out.println(info.toString());
                         if (info.code == 1) {
-                            binding.name.setText(info.info.get(0).name);
+                            binding.name.setText(info.info.get(0).username);
                             binding.phone.setText(info.info.get(0).telephone);
                             binding.xueyuan.setText(info.info.get(0).academy + "-" + info.info.get(0).major);
                         } else {

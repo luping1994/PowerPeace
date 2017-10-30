@@ -173,11 +173,11 @@ public class SusheFragment extends BasedFragment {
 
                 //更新楼层spinner
                 floorDatas.clear();
-                floorDatas.add("全部楼层");
+//                floorDatas.add("全部楼层");
                 for (int i = 0; i < datas.get(xueyuanPosition).sublist.get(buildingPostion).floors.size(); i++) {
                     floorDatas.add(datas.get(xueyuanPosition).sublist.get(buildingPostion).floors.get(i).floor_name);
                 }
-                binding.headerMenu.setTabText(4, "全部楼层");
+                binding.headerMenu.setTabText(4, floorDatas.get(0));
 //                floorAdapter.notifyDataSetChanged();
 
                 xueyuanAdapter.setCheckItem(position);
@@ -187,7 +187,8 @@ public class SusheFragment extends BasedFragment {
 
                 mRefreshType = STATE_VIEW_REFRESH;
                 getSusheDatas(datas.get(xueyuanPosition).departmentID + "",
-                        datas.get(xueyuanPosition).sublist.get(buildingPostion).building + "", "0");
+                        datas.get(xueyuanPosition).sublist.get(buildingPostion).building + "",
+                        datas.get(xueyuanPosition).sublist.get(buildingPostion).floors.get(0).floor + "");
             }
         });
 
@@ -200,11 +201,12 @@ public class SusheFragment extends BasedFragment {
                 }
                 binding.headerMenu.setTabText(buildingDatas.get(position));
                 floorDatas.clear();
-                floorDatas.add("全部楼层");
+//                floorDatas.add("全部楼层");
                 for (int i = 0; i < datas.get(xueyuanPosition).sublist.get(position).floors.size(); i++) {
                     floorDatas.add(datas.get(xueyuanPosition).sublist.get(position).floors.get(i).floor_name);
                 }
-                binding.headerMenu.setTabText(4, "全部楼层");
+                binding.headerMenu.setTabText(4, floorDatas.get(0));
+//                binding.headerMenu.setTabText(4, "全部楼层");
 //                floorAdapter.notifyDataSetChanged();
                 binding.headerMenu.closeMenu();
 
@@ -212,14 +214,14 @@ public class SusheFragment extends BasedFragment {
                 floorPostion = 0;
 
 
-                xueyuanAdapter.setCheckItem(position);
+                xueyuanAdapter.setCheckItem(xueyuanPosition);
                 buildingAdapter.setCheckItem(position);
                 floorAdapter.setCheckItem(0);
 
                 mRefreshType = STATE_VIEW_REFRESH;
                 getSusheDatas(datas.get(xueyuanPosition).departmentID + "",
                         datas.get(xueyuanPosition).sublist.get(buildingPostion).building + "",
-                        "0");
+                        datas.get(xueyuanPosition).sublist.get(buildingPostion).floors.get(0).floor + "");
             }
         });
 
@@ -231,24 +233,21 @@ public class SusheFragment extends BasedFragment {
                     return;
                 }
 
-                floorAdapter.setCheckItem(position);
                 binding.headerMenu.setTabText(floorDatas.get(position));
 
                 floorPostion = position;
 
                 binding.headerMenu.closeMenu();
 
+                xueyuanAdapter.setCheckItem(xueyuanPosition);
+                buildingAdapter.setCheckItem(buildingPostion);
+                floorAdapter.setCheckItem(position);
 
                 mRefreshType = STATE_VIEW_REFRESH;
-                if (position == 0) {
+
                     getSusheDatas(datas.get(xueyuanPosition).departmentID + "",
                             datas.get(xueyuanPosition).sublist.get(buildingPostion).building + "",
-                            "0");
-                } else {
-                    getSusheDatas(datas.get(xueyuanPosition).departmentID + "",
-                            datas.get(xueyuanPosition).sublist.get(buildingPostion).building + "",
-                            datas.get(xueyuanPosition).sublist.get(buildingPostion).floors.get(floorPostion - 1).floor + "");
-                }
+                            datas.get(xueyuanPosition).sublist.get(buildingPostion).floors.get(floorPostion).floor + "");
 
             }
         });
@@ -339,7 +338,7 @@ public class SusheFragment extends BasedFragment {
 
                         }
                         List<MenuBean.InfoBean.SublistBeanX.SublistBean> fristFloors = datas.get(0).sublist.get(0).floors;
-                        floorDatas.add("全部楼层");
+//                        floorDatas.add("全部楼层");
                         for (MenuBean.InfoBean.SublistBeanX.SublistBean floor :
                                 fristFloors) {
                             floorDatas.add(floor.floor_name);
@@ -348,10 +347,10 @@ public class SusheFragment extends BasedFragment {
                         xueyuanAdapter.notifyDataSetChanged();
                         buildingAdapter.notifyDataSetChanged();
                         floorAdapter.notifyDataSetChanged();
-                        headers = new String[]{xueyuanMenuDatas.get(0), buildingDatas.get(0), "全部楼层"};
+                        headers = new String[]{xueyuanMenuDatas.get(0), buildingDatas.get(0), floorDatas.get(0)};
                         binding.headerMenu.setDropDownMenu(Arrays.asList(headers), popupViews, binding.root);
 
-                        getSusheDatas(o.info.get(0).departmentID + "", o.info.get(0).sublist.get(0).building + "", "0");
+                        getSusheDatas(o.info.get(0).departmentID + "", o.info.get(0).sublist.get(0).building + "", o.info.get(0).sublist.get(0).floors.get(0).floor+"");
                     }
                 });
 //        addSubscription(RetrofitHelper.getApi().getThreeMenu(), new BaseSubscriber<MenuBean>(getActivity()) {
@@ -528,11 +527,11 @@ public class SusheFragment extends BasedFragment {
             return;
         }
         String floorParm = "0";
-        if (floorPostion == 0) {
-            floorParm = "0";
-        } else {
-            floorParm = datas.get(xueyuanPosition).sublist.get(buildingPostion).floors.get(floorPostion - 1).floor + "";
-        }
+//        if (floorPostion == 0) {
+//            floorParm = "0";
+//        } else {
+            floorParm = datas.get(xueyuanPosition).sublist.get(buildingPostion).floors.get(floorPostion).floor + "";
+//        }
         getSusheDatas(datas.get(xueyuanPosition).departmentID + "",
                 datas.get(xueyuanPosition).sublist.get(buildingPostion).building + "", floorParm);
     }

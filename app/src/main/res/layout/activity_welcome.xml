@@ -48,12 +48,12 @@
             android:layout_height="120dp">
 
             <ImageView
-                android:layout_width="72dp"
-                android:layout_height="50dp"
+                android:layout_width="150dp"
+                android:layout_height="29.5dp"
                 android:layout_above="@+id/guangwang"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="8dp"
-                android:src="@drawable/st_logo" />
+                android:src="@drawable/suntrans_logo_white_h" />
 
             <TextView
                 android:id="@+id/guangwang"

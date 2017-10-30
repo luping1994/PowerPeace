@@ -2,11 +2,13 @@ package net.suntrans.powerpeace.ui.fragment;
 
 import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
@@ -14,6 +16,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -37,8 +40,10 @@ import com.pgyersdk.update.UpdateManagerListener;
 import net.suntrans.looney.utils.LogUtil;
 import net.suntrans.looney.utils.UiUtils;
 import net.suntrans.looney.widgets.NumberProgressBar;
+import net.suntrans.powerpeace.MyService;
 import net.suntrans.powerpeace.R;
 import net.suntrans.powerpeace.bean.Version;
+import net.suntrans.powerpeace.ui.activity.SettingActivity;
 
 import java.io.File;
 import java.text.DecimalFormat;
@@ -56,7 +61,7 @@ public class DownLoadFrgment extends DialogFragment {
 
 
     private DownloadManager downloadManager;
-    private long downloadId=-1l;
+    private long downloadId = -1l;
     private File file;
 
     private TextView mContentTextView;
@@ -67,9 +72,20 @@ public class DownLoadFrgment extends DialogFragment {
     private DownLoadChangedObserver downloadObserver;
     private String result;
     private TextView totalSize;
+    private MyService.MyBinder binder;
+    private ServiceConnection connection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            binder = (MyService.MyBinder) service;
+        }
 
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
 
-    public static DownLoadFrgment newInstance(Version.VersionInfo info, String apkName,String result) {
+        }
+    };
+
+    public static DownLoadFrgment newInstance(Version.VersionInfo info, String apkName, String result) {
         DownLoadFrgment frgment = new DownLoadFrgment();
         Bundle bundle = new Bundle();
         bundle.putParcelable("info", info);
@@ -88,6 +104,7 @@ public class DownLoadFrgment extends DialogFragment {
         setStyle(DialogFragment.STYLE_NO_TITLE, R.style.UpdateAppDialog);
 
     }
+
 
     @Override
     public void onStart() {
@@ -126,8 +143,13 @@ public class DownLoadFrgment extends DialogFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        Intent intent = new Intent(getActivity(), MyService.class);
+        intent.putExtra("info", info);
+        getActivity().bindService(intent, connection, Context.BIND_AUTO_CREATE);
         initView(view);
         initData();
+
 
     }
 
@@ -160,9 +182,8 @@ public class DownLoadFrgment extends DialogFragment {
         mUpdateOkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                binder.startDownload();
                 startDownLoad();
-                mUpdateOkButton.setVisibility(View.GONE);
-                mNumberProgressBar.setVisibility(View.VISIBLE);
             }
         });
         mIvClose.setOnClickListener(new View.OnClickListener() {
@@ -185,28 +206,37 @@ public class DownLoadFrgment extends DialogFragment {
     }
 
     private void startDownLoad() {
-        String apkName = "hp_" + info.versionName + "_" + info.versionCode + ".apk";
+        Intent intent = new Intent();
+        intent.setAction("android.intent.action.VIEW");
+        Uri content_url = Uri.parse(info.downloadURL);
+        System.out.println(info.downloadURL);
+        intent.setData(content_url);
+        startActivity(intent);
+        dismiss();
 
-        file = new File(getContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), apkName);
-        if (file.exists()) {
-            installNormal(getContext(), file.getPath());
-            return;
-        }
-        if (downloadManager == null)
-            downloadManager = (DownloadManager) getContext().getSystemService(ContextWrapper.DOWNLOAD_SERVICE);
-        //使用DownLoadManager来下载
-        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(info.downloadURL));
-        //将文件下载到自己的Download文件夹下,必须是External的
-
-        request.setDestinationUri(Uri.fromFile(file));
-        //添加请求 开始下载
-        downloadId = downloadManager.enqueue(request);
-        registerContentObserver();
+//        String apkName = "hp_" + info.versionName + "_" + info.versionCode + ".apk";
+//
+//        file = new File(getContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), apkName);
+//        if (file.exists()) {
+//            installNormal(getContext(), file.getPath());
+//            return;
+//        }
+//        if (downloadManager == null)
+//            downloadManager = (DownloadManager) getContext().getSystemService(ContextWrapper.DOWNLOAD_SERVICE);
+//        //使用DownLoadManager来下载
+//        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(info.downloadURL));
+//        //将文件下载到自己的Download文件夹下,必须是External的
+//
+//        request.setDestinationUri(Uri.fromFile(file));
+//        //添加请求 开始下载
+//        downloadId = downloadManager.enqueue(request);
+//        registerContentObserver();
+//        dismiss();
     }
 
 
     //普通安装
-    private  void installNormal(Context context, String apkPath) {
+    private void installNormal(Context context, String apkPath) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         //版本在7.0以上是不能直接通过uri访问的
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -248,8 +278,8 @@ public class DownLoadFrgment extends DialogFragment {
                 //文件总大小
                 int totalBytes = cursor.getInt(cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
                 progress = (int) (downloadSoFar * 1.0f / totalBytes * 100);
-                result[0]=totalBytes;
-                result[1]=progress;
+                result[0] = totalBytes;
+                result[1] = progress;
             }
         } finally {
             if (cursor != null) {
@@ -258,7 +288,6 @@ public class DownLoadFrgment extends DialogFragment {
         }
         return result;
     }
-
 
 
     private BroadcastReceiver receiver = new BroadcastReceiver() {
@@ -315,6 +344,8 @@ public class DownLoadFrgment extends DialogFragment {
             getContext().getContentResolver().unregisterContentObserver(downloadObserver);
 //        if (downloadId!=-1)
 //        downloadManager.remove(downloadId);
+        getActivity().unbindService(connection);
+
     }
 
     Handler handler = new Handler() {
@@ -324,10 +355,10 @@ public class DownLoadFrgment extends DialogFragment {
 //                System.out.println(msg.arg1);
                 float[] obj = (float[]) msg.obj;
                 mNumberProgressBar.setProgress((int) obj[1]);
-                float totalSizef = obj[0]/1024/1024;
-                DecimalFormat decimalFormat=new DecimalFormat(".00");
+                float totalSizef = obj[0] / 1024 / 1024;
+                DecimalFormat decimalFormat = new DecimalFormat(".00");
                 String format = decimalFormat.format(totalSizef);
-                String total = format+"MB";
+                String total = format + "MB";
                 totalSize.setText(total);
             }
         }

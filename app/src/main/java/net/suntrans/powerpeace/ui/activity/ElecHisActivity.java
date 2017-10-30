@@ -174,7 +174,7 @@ public class ElecHisActivity extends BasedActivity implements OnChartValueSelect
         mChart.setOnChartValueSelectedListener(this);
 
         // scaling can now only be done on x- and y-axis separately
-        mChart.setPinchZoom(false);
+        mChart.setPinchZoom(true);
         mChart.setDrawGridBackground(false);
         // mChart.setDrawYLabels(false);
 

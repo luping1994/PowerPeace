@@ -6,12 +6,9 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.TextView;
 
 import net.suntrans.powerpeace.BuildConfig;
 import net.suntrans.powerpeace.R;
-import net.suntrans.powerpeace.api.RetrofitHelper;
 import net.suntrans.powerpeace.databinding.ActivityAboutBinding;
 import net.suntrans.powerpeace.utils.StatusBarCompat;
 

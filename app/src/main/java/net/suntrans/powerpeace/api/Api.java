@@ -3,6 +3,7 @@ package net.suntrans.powerpeace.api;
 
 import net.suntrans.powerpeace.bean.AccountInfo;
 import net.suntrans.powerpeace.bean.Ameter3Entity;
+import net.suntrans.powerpeace.bean.AppInfo;
 import net.suntrans.powerpeace.bean.BuildingResult;
 import net.suntrans.powerpeace.bean.ChannelInfo;
 import net.suntrans.powerpeace.bean.ChannelStatus;
@@ -12,6 +13,7 @@ import net.suntrans.powerpeace.bean.HisEntity;
 import net.suntrans.powerpeace.bean.LogInfoEntity;
 import net.suntrans.powerpeace.bean.LoginEntity;
 import net.suntrans.powerpeace.bean.MenuBean;
+import net.suntrans.powerpeace.bean.MessageEntity;
 import net.suntrans.powerpeace.bean.MsgEntity;
 import net.suntrans.powerpeace.bean.ResultBody;
 import net.suntrans.powerpeace.bean.RoomInfolEntity;
@@ -303,4 +305,16 @@ public interface Api {
     @FormUrlEncoded
     @POST("api/inquiry/Inquiry_3Ammeter_History")
     Observable<HisEntity> getZHCurHis(@FieldMap Map<String, String> map);
+
+    /**
+     * 管查询三相电表实时历史数据
+     *
+     * @param
+     * @return
+     */
+    @POST("api/message")
+    Observable<MessageEntity> getMessage();
+
+    @POST("https://www.pgyer.com/apiv2/app/check")
+    Observable<AppInfo> checkAppUpdate();
 }

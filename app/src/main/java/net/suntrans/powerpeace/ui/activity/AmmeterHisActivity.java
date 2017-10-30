@@ -10,6 +10,7 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.RadioGroup;
@@ -77,6 +78,7 @@ public class AmmeterHisActivity extends BasedActivity implements View.OnClickLis
     private int mDay;
     private int checkedId;
     private CompatDatePickerDialog pickerDialog;
+    private String unit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,14 +93,14 @@ public class AmmeterHisActivity extends BasedActivity implements View.OnClickLis
         code = getIntent().getStringExtra("code");
         String title = getIntent().getStringExtra("title");
         if (title == null)
-            binding.toolbar.setTitle(String.format(getString(R.string.title_room_detail_his_1),paramName));
+            binding.toolbar.setTitle(String.format(getString(R.string.title_room_detail_his_1), paramName));
         else
-            binding.toolbar.setTitle(String.format(getString(R.string.title_room_detail_his_2),title,paramName));
+            binding.toolbar.setTitle(String.format(getString(R.string.title_room_detail_his_2), title, paramName));
         stateView = StateView.inject(binding.content);
         stateView.setOnRetryClickListener(new StateView.OnRetryClickListener() {
             @Override
             public void onRetryClick() {
-                getData(binding.startTime.getText().toString(),binding.endTime.getText().toString());
+                getData(binding.startTime.getText().toString(), binding.endTime.getText().toString());
             }
         });
         setSupportActionBar(binding.toolbar);
@@ -152,23 +154,31 @@ public class AmmeterHisActivity extends BasedActivity implements View.OnClickLis
                 String startTime = binding.startTime.getText().toString();
                 String endTime = binding.endTime.getText().toString();
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                long startTimeLong=0;
-                long endTimeLong=0;
+                long startTimeLong = 0;
+                long endTimeLong = 0;
                 try {
-                    startTimeLong  = sdf.parse(startTime).getTime();
-                    endTimeLong  = sdf.parse(endTime).getTime();
+                    startTimeLong = sdf.parse(startTime).getTime();
+                    endTimeLong = sdf.parse(endTime).getTime();
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                if (startTimeLong>endTimeLong){
+                if (startTimeLong > endTimeLong) {
                     UiUtils.showToast(getString(R.string.tips_time_is_error));
                     return;
                 }
-                getData(startTime,endTime);
+                getData(startTime, endTime);
             }
         });
 
-        binding.unit.setText(paramName+"("+getIntent().getStringExtra("unit")+")");
+        unit = getIntent().getStringExtra("unit");
+        if (!TextUtils.isEmpty(unit)) {
+
+            binding.unit.setText(paramName + "(" + unit + ")");
+        } else {
+            binding.unit.setText(paramName);
+
+        }
+
     }
 
     private void initData() {
@@ -184,6 +194,7 @@ public class AmmeterHisActivity extends BasedActivity implements View.OnClickLis
 
         dictionaries.put("功率因数", "100004");
         dictionaries.put("功率因数Unit", "");
+        dictionaries.put("功率因素Unit", "");
 
         dictionaries.put("电表值", "100005");
         dictionaries.put("电表值Unit", "(度)");
@@ -322,14 +333,14 @@ public class AmmeterHisActivity extends BasedActivity implements View.OnClickLis
     @Override
     protected void onResume() {
         super.onResume();
-        getData(binding.startTime.getText().toString(),binding.endTime.getText().toString());
+        getData(binding.startTime.getText().toString(), binding.endTime.getText().toString());
 //        ArrayList<String> pastDays = DateUtils.getPastDays(10);
 
 //        System.out.println(pastDays);
     }
 
 
-    private void getData(String startTime,String endTime) {
+    private void getData(String startTime, String endTime) {
         LogUtil.i("room id is:" + room_id);
         stateView.showLoading();
         binding.mainContent.setVisibility(View.INVISIBLE);
@@ -387,7 +398,7 @@ public class AmmeterHisActivity extends BasedActivity implements View.OnClickLis
         values.clear();
         SimpleDateFormat mFormat = new SimpleDateFormat("yy-MM-dd HH:mm:ss");//created_at=2017-10-23 15:30:29
 
-        for (int i = hisEntity.info.size()-1; i >=0 ; i--) {
+        for (int i = hisEntity.info.size() - 1; i >= 0; i--) {
             Date parse = mFormat.parse(hisEntity.info.get(i).created_at);
 
             float val = 0f;
@@ -403,13 +414,13 @@ public class AmmeterHisActivity extends BasedActivity implements View.OnClickLis
                 binding.mChart.getData().getDataSetCount() > 0) {
             set1 = (LineDataSet) binding.mChart.getData().getDataSetByIndex(0);
             set1.setValues(values);
-            set1.setLabel(dictionaries.get(mDisplayType) + paramName + dictionaries.get(paramName + "Unit"));
+            set1.setLabel( paramName + dictionaries.get(paramName + "Unit"));
 
             binding.mChart.getData().notifyDataChanged();
             binding.mChart.notifyDataSetChanged();
         } else {
             // create a dataset and give it a type
-            set1 = new LineDataSet(values, dictionaries.get(mDisplayType) + paramName + dictionaries.get(paramName + "Unit"));
+            set1 = new LineDataSet(values, paramName + dictionaries.get(paramName + "Unit"));
 
             set1.setDrawIcons(false);
 

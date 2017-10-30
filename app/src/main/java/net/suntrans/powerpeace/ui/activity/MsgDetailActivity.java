@@ -61,7 +61,8 @@ public class MsgDetailActivity extends BasedActivity implements SwipeRefreshLayo
             }
         });
 
-        binding.webview.loadUrl("file:///android_asset/letter.html");
+        String url = getIntent().getStringExtra("url");
+        binding.webview.loadUrl(url);
     }
 
     @Override

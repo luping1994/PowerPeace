@@ -66,7 +66,7 @@ public class MyService extends Service {
 
     }
 
-    class MyBinder extends Binder {
+    public class MyBinder extends Binder {
         public void startDownload() {
             String apkName = "hp_" + info.versionName + "_" + info.versionCode + ".apk";
 
@@ -84,7 +84,7 @@ public class MyService extends Service {
             request.setDestinationUri(Uri.fromFile(file));
             //添加请求 开始下载
             downloadId = downloadManager.enqueue(request);
-            registerContentObserver();
+//            registerContentObserver();
         }
     }
 

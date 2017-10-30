@@ -2,9 +2,11 @@ package net.suntrans.powerpeace.ui.activity;
 
 import android.app.ActivityOptions;
 import android.app.DownloadManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.database.Cursor;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
@@ -12,12 +14,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.IBinder;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 
 import com.alibaba.fastjson.JSON;
+import com.pgyersdk.Pgy;
 import com.pgyersdk.update.PgyUpdateManager;
 import com.pgyersdk.update.UpdateManagerListener;
 
@@ -25,6 +29,7 @@ import com.pgyersdk.update.UpdateManagerListener;
 import net.suntrans.looney.utils.UiUtils;
 import net.suntrans.powerpeace.App;
 import net.suntrans.powerpeace.BuildConfig;
+import net.suntrans.powerpeace.MyService;
 import net.suntrans.powerpeace.R;
 import net.suntrans.powerpeace.bean.Version;
 import net.suntrans.powerpeace.databinding.ActivitySettingBinding;
@@ -32,6 +37,7 @@ import net.suntrans.powerpeace.ui.fragment.DownLoadFrgment;
 import net.suntrans.powerpeace.utils.StatusBarCompat;
 
 import java.io.File;
+import java.sql.SQLOutput;
 
 import static net.suntrans.powerpeace.R.id.signOut;
 
@@ -65,17 +71,18 @@ public class SettingActivity extends BasedActivity {
     @Override
     protected void onDestroy() {
         handler.removeCallbacksAndMessages(null);
-//        try {
-//            PgyUpdateManager.unregister();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        try {
+            PgyUpdateManager.unregister();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         super.onDestroy();
     }
 
     private void init() {
         hasNewVersion = false;
         versionName = BuildConfig.VERSION_NAME;
+
         PgyUpdateManager.register(this, "net.suntrans.powerpeace.fileProvider", new UpdateManagerListener() {
 
             @Override
@@ -93,7 +100,10 @@ public class SettingActivity extends BasedActivity {
             public void onUpdateAvailable(String s) {
                 hasNewVersion = true;
                 try {
+//                    System.out.println(s);
                     Version version = JSON.parseObject(s, Version.class);
+
+
                     versionInfo = version.data;
                     versionName = versionInfo.versionName;
                     result = s;
@@ -127,9 +137,10 @@ public class SettingActivity extends BasedActivity {
                 break;
             case R.id.checkVersion:
                 if (hasNewVersion) {
-                    if (versionInfo == null || versionInfo.appUrl == null) {
+                    if (versionInfo == null || versionInfo.downloadURL == null) {
                         break;
                     }
+
                     showUpdateDialog(result);
 //                    startDownLoad();
                 } else {
@@ -165,7 +176,9 @@ public class SettingActivity extends BasedActivity {
     }
 
     private void signOut() {
-        App.getSharedPreferences().edit().putString("token", "-1").commit();
+        App.getSharedPreferences().edit().putString("token", "-1")
+                .putString("password","")
+                .commit();
         killAll();
         Intent intent = new Intent(this, Login1Activity.class);
         intent.putExtra(
@@ -237,5 +250,10 @@ public class SettingActivity extends BasedActivity {
         DownLoadFrgment frgment = DownLoadFrgment.newInstance(versionInfo, apkName, result);
         frgment.show(getSupportFragmentManager(), "DownloadFragment");
     }
+
+
+//    private void checkUpdateStatus(){
+//        api
+//    }
 }
 

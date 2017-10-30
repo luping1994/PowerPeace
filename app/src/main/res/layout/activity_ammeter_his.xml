@@ -165,7 +165,7 @@
                         android:paddingLeft="16dp"
                         android:text=""
                         android:textColor="@color/black"
-                        android:textSize="12sp" />
+                        android:textSize="10sp" />
 
                     <com.github.mikephil.charting.charts.LineChart
 

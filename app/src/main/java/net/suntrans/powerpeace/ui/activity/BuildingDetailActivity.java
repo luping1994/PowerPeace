@@ -34,7 +34,7 @@ public class BuildingDetailActivity extends BasedActivity implements BasedFragme
 
 
         FloorManagerFragment floorManagerFragment = FloorManagerFragment.newInstance(getIntent().getStringExtra("floor_id"));
-        getSupportFragmentManager().beginTransaction().replace(R.id.content,floorManagerFragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.content,floorManagerFragment).commitAllowingStateLoss();
     }
 
 

@@ -2,6 +2,7 @@ package net.suntrans.powerpeace;
 
 import android.content.Intent;
 
+import com.pgyersdk.Pgy;
 import com.squareup.leakcanary.LeakCanary;
 import com.tencent.bugly.crashreport.CrashReport;
 
@@ -32,15 +33,16 @@ public class App extends AppBase{
     public void onCreate() {
         super.onCreate();
 //        application =this;
-        if (LeakCanary.isInAnalyzerProcess(this)) {
-            // This process is dedicated to LeakCanary for heap analysis.
-            // You should not init your app in this process.
-            return;
-        }
-        LeakCanary.install(this);
+//        if (LeakCanary.isInAnalyzerProcess(this)) {
+//            // This process is dedicated to LeakCanary for heap analysis.
+//            // You should not init your app in this process.
+//            return;
+//        }
+//        LeakCanary.install(this);
         startService(new Intent(this,MyService.class));
         if (!DEBUG){
             CrashReport.initCrashReport(getApplicationContext(), "fd77fe012a", false);
         }
+        Pgy.init(this,"c49751bc841e2b3a6115ced0b185e789");
     }
 }

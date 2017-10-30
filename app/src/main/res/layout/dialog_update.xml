@@ -70,7 +70,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:minHeight="40dp"
-                android:text="升级"
+                android:text="下载apk"
                 android:textColor="@android:color/white"
                 android:textSize="15sp"/>
 

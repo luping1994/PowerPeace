@@ -167,15 +167,31 @@ public class ZHCurHisActivity extends BasedActivity implements View.OnClickListe
         unit = getIntent().getStringExtra("unit");
         sno = getIntent().getStringExtra("sno");
         datapoint = getIntent().getStringExtra("datapoint");
-        if (paramName.contains("A") || paramName.contains("B") || paramName.contains("C")) {
-            threeLine = true;
+        if (paramName != null) {
+
+            if (paramName.contains("A") || paramName.contains("B") || paramName.contains("C")) {
+                threeLine = true;
+            }
         }
         if (threeLine) {
             binding.toolbar.setTitle("");
         } else {
             binding.toolbar.setTitle(paramName);
         }
-        binding.unit.setText(paramName+"("+unit+")");
+        if (paramName != null) {
+            String name = paramName;
+            if (name.contains("A")) {
+                name = name.replace("A", "三");
+            }
+            if (name.contains("B")) {
+                name = name.replace("B", "三");
+            }
+            if (name.contains("C")) {
+                name = name.replace("C", "三");
+            }
+            binding.unit.setText(name + "(" + unit + ")");
+        }
+
 
     }
 

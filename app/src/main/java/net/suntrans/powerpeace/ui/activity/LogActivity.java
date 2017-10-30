@@ -12,18 +12,13 @@ import android.widget.RadioGroup;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
-import net.suntrans.looney.fragments.DataPickerDialogFragment;
-import net.suntrans.looney.utils.LogUtil;
-import net.suntrans.looney.widgets.CompatDatePickerDialog;
 import net.suntrans.powerpeace.R;
 import net.suntrans.powerpeace.api.ApiHelper;
 import net.suntrans.powerpeace.bean.LogInfoEntity;
-import net.suntrans.powerpeace.bean.MenuBean;
-import net.suntrans.powerpeace.bean.PostageEntity;
 import net.suntrans.powerpeace.bean.UserInfoEntity;
 import net.suntrans.powerpeace.databinding.ActivityLogBinding;
-import net.suntrans.powerpeace.databinding.ActivityPostageHisBinding;
 import net.suntrans.powerpeace.ui.decoration.DefaultDecoration;
+import net.suntrans.powerpeace.ui.fragment.LogDialogFragment;
 import net.suntrans.powerpeace.utils.StatusBarCompat;
 import net.suntrans.stateview.StateView;
 
@@ -31,10 +26,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import static android.R.attr.data;
-import static android.R.attr.fragment;
-
-public class LogActivity extends BasedActivity implements View.OnClickListener, DataPickerDialogFragment.OnDateSetChangerListener, ApiHelper.OnDataGetListener, StateView.OnRetryClickListener {
+public class LogActivity extends BasedActivity implements View.OnClickListener, LogDialogFragment.OnDateSetChangerListener, ApiHelper.OnDataGetListener, StateView.OnRetryClickListener {
 
     private ActivityLogBinding binding;
     private String date;
@@ -176,8 +168,8 @@ public class LogActivity extends BasedActivity implements View.OnClickListener, 
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.time) {
-            DataPickerDialogFragment
-                    fragment = new DataPickerDialogFragment();
+            LogDialogFragment
+                    fragment = new LogDialogFragment();
             fragment.setListener(this);
             fragment.show(getSupportFragmentManager(), "dateDialogFragment");
         }

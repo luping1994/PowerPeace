@@ -7,8 +7,8 @@ android {
         applicationId "net.suntrans.powerpeace"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 24
-        versionName "V0.5.1"
+        versionCode 26
+        versionName "V0.5.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     dataBinding {
@@ -38,20 +38,18 @@ android {
         // but continue the build even when errors are found:
         abortOnError false
     }
-    applicationVariants.all { variant ->
-        variant.outputs.each { output ->
-            def outputFile = output.outputFile
-            def fileName
-            if (outputFile != null && outputFile.name.endsWith('.apk')) {
-                if (variant.buildType.name.equals('release')) {
-                    fileName = "hp_${defaultConfig.versionName}_${defaultConfig.versionCode}.apk"
-                } else if (variant.buildType.name.equals('debug')) {
-                    fileName = "hp_${defaultConfig.versionName}_${defaultConfig.versionCode}_debug.apk"
-                }
-                output.outputFile = new File(outputFile.parent, fileName)
-            }
-        }
-    }
+
+//    applicationVariants.all { variant ->
+//        variant.outputs.each { output ->
+//            def file = output.outputFile
+//            output.outputFile = new File(file.parent, file.name.replace(".apk", "-" + defaultConfig.versionName + ".apk"))
+//        }
+//    }
+//    android.applicationVariants.all { variant ->
+//        variant.outputs.all {
+//                outputFileName = "hp_${variant.versionName}_${variant.versionCode}.apk"
+//        }
+//    }
 }
 repositories {
     flatDir { dirs 'libs' }

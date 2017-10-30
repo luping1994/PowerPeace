@@ -33,12 +33,12 @@
 
 
         <net.suntrans.looney.widgets.EditView
-            android:digits="@string/abcd123"
             android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:layout_marginTop="20dp"
             android:background="@color/white"
+            android:digits="@string/abcd123"
             android:hint="@string/prompt_email"
             android:inputType="textEmailAddress"
             android:maxLength="20"
@@ -49,14 +49,13 @@
 
 
         <net.suntrans.looney.widgets.EditView
-            android:digits="@string/abcd123"
             android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:layout_marginTop="2dp"
             android:background="@color/white"
+            android:digits="@string/abcd123"
             android:hint="@string/prompt_password"
-            android:imeActionId="@+id/login"
             android:imeActionLabel="@string/action_sign_in_short"
             android:imeOptions="actionUnspecified"
             android:inputType="textPassword"
@@ -79,11 +78,11 @@
             android:textStyle="bold" />
 
         <RelativeLayout
-            android:visibility="invisible"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:paddingLeft="16dp"
-            android:paddingRight="16dp">
+            android:paddingRight="16dp"
+            android:visibility="invisible">
 
             <TextView
                 android:id="@+id/wangjimima"
@@ -108,12 +107,12 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:layout_width="72dp"
-                android:layout_height="50dp"
+                android:layout_width="150dp"
+                android:layout_height="29.5dp"
                 android:layout_above="@+id/guangwang"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="8dp"
-                android:src="@drawable/st_logo" />
+                android:src="@drawable/suntrans_logo_white_h" />
 
             <TextView
                 android:id="@+id/guangwang"

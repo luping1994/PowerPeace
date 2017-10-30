@@ -86,7 +86,7 @@ public class StudentMainActivity extends BasedActivity implements View.OnClickLi
         toggle.syncState();
         room_id = App.getSharedPreferences().getString("room_id", "-1");
         SusheDetailFragment fragment = SusheDetailFragment.newInstance(room_id, String.valueOf(Constants.ROLE_ADMIN));
-        getSupportFragmentManager().beginTransaction().replace(R.id.content, fragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.content, fragment).commitAllowingStateLoss();
 
         initRecyclerView();
 

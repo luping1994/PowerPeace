@@ -7,6 +7,7 @@
     <string name="tips_progress_is_crash">程序开小差了</string>
     <string name="title_exit">退出</string>
     <string name="abcd123">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789</string>
+    <string name="email">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@.</string>
     <string name="school_name">甘肃中医药大学</string>
 
 
@@ -18,7 +19,7 @@
     <string name="tips_check_info_error">从服务器检索信息时出错!</string>
     <!-- 登录相关 -->
     <string name="prompt_email">请输入帐号或学号</string>
-    <string name="prompt_password">密码</string>
+    <string name="prompt_password">请输入密码</string>
     <string name="action_sign_in">登录</string>
     <string name="action_sign_in_short">登录</string>
     <string name="error_invalid_email">账号无效</string>
@@ -35,7 +36,7 @@
 
     <!-- 关于、公司、版权 -->
     <string name="company_reserved">Copyright © 2017 广州三川控制系统工程设备有限公司版权所有</string>
-    <string name="company_name_CH">广州三川控制系统工程设备有限公司版权所有</string>
+    <string name="company_name_CH">广州三川控制系统工程设备有限公司</string>
     <string name="company_name_EN">Copyright © 2017 Suntrans. All rights reserved.</string>
 
 

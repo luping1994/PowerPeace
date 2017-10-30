@@ -212,7 +212,7 @@
                 <ImageView
                     android:layout_width="36dp"
                     android:layout_height="36dp"
-                    android:src="@drawable/ic_butie" />
+                    android:src="@drawable/ic_money" />
 
                 <TextView
                     android:layout_width="wrap_content"

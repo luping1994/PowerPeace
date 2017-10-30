@@ -29,146 +29,8 @@
             android:layout_height="match_parent"
             android:background="#f2f4f5">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-
-                <LinearLayout
-                    android:id="@+id/root"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:clickable="true"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:visibility="visible">
-
-                    <ImageView
-                        android:id="@+id/warn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="16dp"
-                        android:src="@drawable/ic_warning" />
-
-                    <RelativeLayout
-                        android:layout_weight="1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="?attr/selectableItemBackground">
-
-                        <TextView
-                            android:id="@+id/msg"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10.0dip"
-                            android:layout_marginRight="@dimen/activity_horizontal_margin"
-                            android:ellipsize="end"
-                            android:gravity="center_vertical"
-                            android:maxLines="1"
-                            android:text="致2017届新生的一封信"
-                            android:textColor="@color/black"
-                            android:textSize="17sp" />
-
-                        <TextView
-                            android:id="@+id/time"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/msg"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="10.0dip"
-                            android:layout_marginRight="@dimen/activity_horizontal_margin"
-                            android:layout_marginTop="4dp"
-                            android:layout_weight="1"
-                            android:ellipsize="end"
-                            android:gravity="center_vertical"
-                            android:maxLines="1"
-                            android:text="2017-05-26 14:59:10"
-                            android:textSize="14sp" />
-
-
-                    </RelativeLayout>
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginRight="16dp"
-                        android:src="@drawable/ic_arrow_right" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/secondtextcolor" />
-
-                <LinearLayout
-
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:clickable="true"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:visibility="gone">
-
-                    <ImageView
-                        android:id="@+id/warn1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="16dp"
-                        android:src="@drawable/ic_warning" />
-
-                    <RelativeLayout
-                        android:layout_weight="1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="?attr/selectableItemBackground">
-
-                        <TextView
-                            android:id="@+id/msg1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10.0dip"
-                            android:layout_marginRight="@dimen/activity_horizontal_margin"
-                            android:ellipsize="end"
-                            android:gravity="center_vertical"
-                            android:maxLines="1"
-                            android:text="停电通知"
-                            android:textColor="@color/black"
-                            android:textSize="17sp" />
-
-                        <TextView
-                            android:id="@+id/time1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/msg1"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="10.0dip"
-                            android:layout_marginRight="@dimen/activity_horizontal_margin"
-                            android:layout_marginTop="4dp"
-                            android:layout_weight="1"
-                            android:ellipsize="end"
-                            android:gravity="center_vertical"
-                            android:maxLines="1"
-                            android:text="2017-05-26 14:59:10"
-                            android:textSize="14sp" />
-
-
-                    </RelativeLayout>
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginRight="16dp"
-                        android:src="@drawable/ic_arrow_right" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/secondtextcolor" />
-            </LinearLayout>
-
             <TextView
+                android:id="@+id/tips"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -180,9 +42,10 @@
                 android:id="@+id/refreshLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <android.support.v7.widget.RecyclerView
+                    app:layoutManager="@string/LinearLayoutManager"
                     android:id="@+id/recyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
@@ -190,7 +53,5 @@
                 </android.support.v7.widget.RecyclerView>
             </android.support.v4.widget.SwipeRefreshLayout>
         </FrameLayout>
-
-
     </LinearLayout>
 </layout>

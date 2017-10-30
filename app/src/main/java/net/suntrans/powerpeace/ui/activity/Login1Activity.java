@@ -280,7 +280,7 @@ public class Login1Activity extends BasedActivity {
         super.onDestroy();
         handler.removeCallbacksAndMessages(null);
 //        try {
-            PgyUpdateManager.unregister();
+//            PgyUpdateManager.unregister();
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
@@ -398,6 +398,7 @@ public class Login1Activity extends BasedActivity {
     private static final int START_MAIN_LEADER = 3;
     private static final int START_MAIN_FLOOR_MANAGER = 4;
     private static final int START_BUILDING_MANAGER_MAIN = 5;
+
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {

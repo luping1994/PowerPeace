@@ -92,6 +92,7 @@ public class MainActivity extends BasedActivity implements View.OnClickListener
 //                    e.printStackTrace();
 //                }
 //            }
+//        binding.navView.header.imageView
 //        }
 
     }

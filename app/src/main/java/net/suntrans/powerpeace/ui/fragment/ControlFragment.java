@@ -146,7 +146,7 @@ public class ControlFragment extends BasedFragment {
                 .compose(this.<ResultBody>bindUntilEvent(FragmentEvent.DESTROY_VIEW))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<ResultBody>() {
+                .subscribe(new BaseSubscriber<ResultBody>(getContext()) {
                     @Override
                     public void onCompleted() {
 
@@ -154,8 +154,8 @@ public class ControlFragment extends BasedFragment {
 
                     @Override
                     public void onError(Throwable e) {
+                       super.onError(e);
                         e.printStackTrace();
-                        UiUtils.showToast(getString(R.string.control_failed));
                         if (dialog != null)
                             dialog.dismiss();
                     }
