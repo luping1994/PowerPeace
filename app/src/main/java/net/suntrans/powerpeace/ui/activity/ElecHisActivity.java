@@ -296,7 +296,7 @@ public class ElecHisActivity extends BasedActivity implements OnChartValueSelect
                     for (int j = 0; j < dayDatas.size(); j++) {
                         if ((dayDatas.get(j).x) == i) {
                             val = Float.parseFloat(dayDatas.get(j).data);
-                            System.out.println(i+":"+dayDatas.get(j).data+"");
+//                            System.out.println(i+":"+dayDatas.get(j).data+"");
                         }
                     }
                     yVals1.add(new BarEntry(i, val));
@@ -367,7 +367,7 @@ public class ElecHisActivity extends BasedActivity implements OnChartValueSelect
             public void run() {
                 showSuccessState();
             }
-        }, 1000);
+        }, 200);
     }
 
     @Override

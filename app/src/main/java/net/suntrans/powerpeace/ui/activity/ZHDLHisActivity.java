@@ -14,6 +14,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -36,6 +37,7 @@ import net.suntrans.powerpeace.bean.Ameter3Entity;
 import net.suntrans.powerpeace.bean.HisEntity;
 import net.suntrans.powerpeace.chart.DayAxisValueFormatter;
 import net.suntrans.powerpeace.chart.MyAxisValueFormatter2;
+import net.suntrans.powerpeace.chart.XYMarkerView;
 import net.suntrans.powerpeace.rx.BaseSubscriber;
 import net.suntrans.powerpeace.ui.fragment.ZongheFragmentPart1;
 
@@ -71,6 +73,7 @@ public class ZHDLHisActivity extends BasedActivity implements OnChartValueSelect
     private List<Ameter3Entity.DataBean.HisItem> monthDatas;
     private List<Ameter3Entity.DataBean.HisItem> yearDatas;
 
+    private TextView timeSb;
 
     int currentType = DayAxisValueFormatter.DAYS;
     private String requestType;
@@ -97,7 +100,10 @@ public class ZHDLHisActivity extends BasedActivity implements OnChartValueSelect
         mDay = c.get(Calendar.DAY_OF_MONTH);
 
         time = (TextView) findViewById(R.id.time);
+        timeSb = (TextView) findViewById(R.id.timeSb);
+
         time.setText(mYear + "-" + pad(mMonth) + "-" + pad(mDay));
+        timeSb.setText(mYear + "-" + pad(mMonth) + "-" + pad(mDay));
 
         currentRaidoId = R.id.radio0;
         upDateDes();
@@ -161,14 +167,14 @@ public class ZHDLHisActivity extends BasedActivity implements OnChartValueSelect
         mChart.setDrawBarShadow(false);
         mChart.setDrawValueAboveBar(true);
         mChart.getAxisRight().setEnabled(false);
-        mChart.setTouchEnabled(false);
+        mChart.setTouchEnabled(true);
         mChart.getDescription().setEnabled(false);
         // if more than 60 entries are displayed in the chart, no values will be
         // drawn
         mChart.setMaxVisibleValueCount(60);
 
         // scaling can now only be done on x- and y-axis separately
-        mChart.setPinchZoom(false);
+        mChart.setPinchZoom(true);
         mChart.setDrawGridBackground(false);
         // mChart.setDrawYLabels(false);
 
@@ -181,6 +187,24 @@ public class ZHDLHisActivity extends BasedActivity implements OnChartValueSelect
         xAxis.setGranularity(1f); // only intervals of 1 day
         xAxis.setLabelCount(12);
 //        xAxis.setValueFormatter(xAxisFormatter);
+        xAxis.setValueFormatter(new IAxisValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                int values = (int) value;
+                if (currentType == DayAxisValueFormatter.YEARS) {
+                    if (values % 2 == 0) {
+                        return values + "";
+                    }
+                    return "";
+                } else {
+                    if (values % 2 == 0) {
+                        return "";
+                    }
+                    return values + "";
+                }
+
+            }
+        });
 
         IAxisValueFormatter custom = new MyAxisValueFormatter2();
 
@@ -217,6 +241,10 @@ public class ZHDLHisActivity extends BasedActivity implements OnChartValueSelect
 //        XYMarkerView mv = new XYMarkerView(this, xAxisFormatter);
 //        mv.setChartView(mChart); // For bounds control
 //        mChart.setMarker(mv); // Set the marker to the chart
+
+        XYMarkerView mv = new XYMarkerView(this, xAxisFormatter);
+        mv.setChartView(mChart); // For bounds control
+        mChart.setMarker(mv); // Set the marker to the chart
 
     }
 
@@ -256,13 +284,16 @@ public class ZHDLHisActivity extends BasedActivity implements OnChartValueSelect
                     float val = 0;
                     for (int j = 0; j < dayDatas.size(); j++) {
                         if ((dayDatas.get(j).x) == i) {
-                            val = Float.parseFloat(dayDatas.get(j).data);
-//                            System.out.println(i+":"+dayDatas.get(j).data+"");
+                            if (dayDatas.get(j).data != null)
+                                val = Float.parseFloat(dayDatas.get(j).data);
                         }
                     }
                     yVals1.add(new BarEntry(i, val));
                 }
+                timeSb.setText(mYear + "年" + pad(mMonth) + "月" + pad(mDay) + "日");
+                mChart.getXAxis().setLabelCount(24);
                 break;
+
             case 2:
                 if (monthDatas == null)
                     break;
@@ -270,11 +301,14 @@ public class ZHDLHisActivity extends BasedActivity implements OnChartValueSelect
                     float val = 0;
                     for (int j = 0; j < monthDatas.size(); j++) {
                         if (monthDatas.get(j).x == i) {
-                            val = Float.parseFloat(monthDatas.get(j).data);
+                            if (monthDatas.get(j).data != null)
+                                val = Float.parseFloat(monthDatas.get(j).data);
                         }
                     }
                     yVals1.add(new BarEntry(i, val));
                 }
+                timeSb.setText(mYear + "年" + pad(mMonth) + "月");
+                mChart.getXAxis().setLabelCount(31);
                 break;
             case 3:
                 if (yearDatas == null)
@@ -283,11 +317,15 @@ public class ZHDLHisActivity extends BasedActivity implements OnChartValueSelect
                     float val = 0;
                     for (int j = 0; j < yearDatas.size(); j++) {
                         if (yearDatas.get(j).x == i) {
-                            val = Float.parseFloat(yearDatas.get(j).data);
+                            if (yearDatas.get(j).data != null)
+                                val = Float.parseFloat(yearDatas.get(j).data);
                         }
                     }
                     yVals1.add(new BarEntry(i, val));
                 }
+                timeSb.setText(mYear + "年");
+                mChart.getXAxis().setLabelCount(12);
+
                 break;
         }
 
@@ -320,7 +358,7 @@ public class ZHDLHisActivity extends BasedActivity implements OnChartValueSelect
             public void run() {
                 showSuccessState();
             }
-        }, 1000);
+        }, 200);
     }
 
     @Override

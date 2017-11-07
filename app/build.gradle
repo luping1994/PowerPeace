@@ -45,11 +45,11 @@ android {
 //            output.outputFile = new File(file.parent, file.name.replace(".apk", "-" + defaultConfig.versionName + ".apk"))
 //        }
 //    }
-//    android.applicationVariants.all { variant ->
-//        variant.outputs.all {
-//                outputFileName = "hp_${variant.versionName}_${variant.versionCode}.apk"
-//        }
-//    }
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+                outputFileName = "hp_${variant.versionName}_${variant.versionCode}.apk"
+        }
+    }
 }
 repositories {
     flatDir { dirs 'libs' }

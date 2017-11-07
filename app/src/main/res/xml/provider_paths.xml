@@ -16,6 +16,6 @@
         path="." />
     <external-path
         name="download"
-        path="" />
+        path="/" />
 
 </paths>
