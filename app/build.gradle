@@ -51,6 +51,18 @@ android {
         }
     }
 }
+
+apply plugin: 'replugin-plugin-gradle'
+
+repluginPluginConfig {
+
+//插件名
+    pluginName = "demo3"
+//宿主app的包名
+    hostApplicationId = "com.qihoo360.replugin.sample.host"
+//宿主app的启动activity
+    hostAppLauncherActivity = "com.qihoo360.replugin.sample.host.MainActivity"
+}
 repositories {
     flatDir { dirs 'libs' }
 }
@@ -89,4 +101,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
+    compile 'com.qihoo360.replugin:replugin-plugin-lib:2.2.1'
 }
