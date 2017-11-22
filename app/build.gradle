@@ -81,12 +81,12 @@ dependencies {
     compile project(':stateview')
 
     //其中latest.release指代最新Bugly SDK版本号，也可以指定明确的版本号，例如2.2.0
+    compile 'com.trello:rxlifecycle-components:1.0'
 
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
     compile 'io.reactivex:rxandroid:1.2.1'
     compile 'io.reactivex:rxjava:1.1.6'
-    compile 'com.trello:rxlifecycle-components:1.0'
     compile 'com.squareup.retrofit2:retrofit:2.2.0'
     compile 'com.alibaba:fastjson:1.1.56.android'
     compile 'com.pgyersdk:sdk:2.7.6'

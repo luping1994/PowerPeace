@@ -45,7 +45,6 @@ public class HelpActivity extends BasedActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         binding.progressbar.setProgress(0);
-        WebSettings settings = binding.webview.getSettings();
         binding.refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
@@ -53,6 +52,8 @@ public class HelpActivity extends BasedActivity {
                 binding.webview.reload();
             }
         });
+        WebSettings settings = binding.webview.getSettings();
+
         settings.setJavaScriptEnabled(true);
         binding.webview.setWebViewClient(new WebViewClient() {
             @Override

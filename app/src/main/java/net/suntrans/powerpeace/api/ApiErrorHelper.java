@@ -3,15 +3,12 @@ package net.suntrans.powerpeace.api;
 import android.content.Context;
 import android.content.Intent;
 
-import net.suntrans.looney.utils.LogUtil;
 import net.suntrans.looney.utils.UiUtils;
 import net.suntrans.powerpeace.R;
 import net.suntrans.powerpeace.rx.RxBus;
 import net.suntrans.powerpeace.ui.activity.AlertActivity;
-import net.suntrans.powerpeace.ui.activity.BasedActivity;
 
 import java.io.IOException;
-import java.util.EventListener;
 
 import retrofit2.adapter.rxjava.HttpException;
 
