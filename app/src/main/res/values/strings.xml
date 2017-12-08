@@ -52,16 +52,16 @@
 
 
     <!-- 用电量历史数据描述 -->
-    <string name="ele_his_day_des">%1$s年%2$s月%3$s日各小时用电量柱形图(单位:度)</string>
-    <string name="ele_his_month_des">%1$s年%2$s月每日用电量柱形图(单位:度)</string>
-    <string name="ele_his_year_des">%1$s年各月份用电量柱形图(单位:度)</string>
+    <string name="ele_his_day_des">%1$s年%2$s月%3$s日各小时用电量柱形图(单位:kW·h)</string>
+    <string name="ele_his_month_des">%1$s年%2$s月每日用电量柱形图(单位:kW·h)</string>
+    <string name="ele_his_year_des">%1$s年各月份用电量柱形图(单位:kW·h)</string>
     <string name="title_ele_his">%1$s用电量历史记录</string>
 
 
     <!-- 损耗历史数据描述 -->
-    <string name="sh_his_day_des">%1$s年%2$s月%3$s日各小时损耗电量统计(单位:度)</string>
-    <string name="sh_his_month_des">%1$s年%2$s月每日损耗电量统计(单位:度)</string>
-    <string name="sh_his_year_des">%1$s年各月份损耗电量统计(单位:度)</string>
+    <string name="sh_his_day_des">%1$s年%2$s月%3$s日各小时损耗电量统计(单位:kW·h)</string>
+    <string name="sh_his_month_des">%1$s年%2$s月每日损耗电量统计(单位:kW·h)</string>
+    <string name="sh_his_year_des">%1$s年各月份损耗电量统计(单位:kW·h)</string>
 
 
     <string name="choose_date">选择日期</string>

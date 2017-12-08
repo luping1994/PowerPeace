@@ -13,6 +13,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.tencent.bugly.Bugly;
@@ -73,6 +74,7 @@ public class HelpActivity extends BasedActivity {
         });
 
         binding.webview.loadUrl(getString(R.string.activity_help_url));
+
     }
 
     @Override

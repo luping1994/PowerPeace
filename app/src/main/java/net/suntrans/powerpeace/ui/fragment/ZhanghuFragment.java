@@ -100,11 +100,11 @@ public class ZhanghuFragment extends BasedFragment implements View.OnClickListen
     }
 
     private void refreshLayout(AccountInfo info) {
-        binding.dayuse.setText(info.getDayuse()==null?"--":info.getDayuse()+"度");
+        binding.dayuse.setText(info.getDayuse()==null?"--":info.getDayuse()+"kW·h");
         binding.balans.setText(info.getBalans()==null?"--":info.getBalans()+"元");
-        binding.monthuse.setText(info.getMonthuse()==null?"--":info.getMonthuse()+"度");
+        binding.monthuse.setText(info.getMonthuse()==null?"--":info.getMonthuse()+"kW·h");
         binding.status.setText(info.getStatus()==null?"--":info.getStatus());
-        binding.totaluse.setText(info.getTotaluse()==null?"--":info.getTotaluse()+"度");
+        binding.totaluse.setText(info.getTotaluse()==null?"--":info.getTotaluse()+"kW·h");
     }
 
 

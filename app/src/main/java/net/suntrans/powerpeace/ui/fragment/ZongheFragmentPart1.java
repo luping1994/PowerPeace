@@ -115,9 +115,9 @@ public class ZongheFragmentPart1 extends BasedFragment implements View.OnClickLi
                         if (binding.refreshLayout != null)
                             binding.refreshLayout.setRefreshing(false);
                         ZHEnergyEntity.DataBean info = zhbFloorEntity.data.get(0);
-                        binding.yongdian.EDayValue.setText(info.ElectricityDAY + "度");
-                        binding.yongdian.EMonthValue.setText(info.ElectricityMonth + "度");
-                        binding.yongdian.EValue.setText(info.ElectricityTotal + "度");
+                        binding.yongdian.EDayValue.setText(info.ElectricityDAY + "kW·h");
+                        binding.yongdian.EMonthValue.setText(info.ElectricityMonth + "kW·h");
+                        binding.yongdian.EValue.setText(info.ElectricityTotal + "kW·h");
 
                         binding.dianfei.benrixiaofei.setText(info.DayCost + "元");
                         binding.dianfei.benyuexiaofei.setText(info.MonthCost + "元");
@@ -127,13 +127,13 @@ public class ZongheFragmentPart1 extends BasedFragment implements View.OnClickLi
                         binding.dianfei.benyueyucun.setText(info.MonthStore + "元");
                         binding.dianfei.bennianyucun.setText(info.YearStore + "元");
 
-                        binding.sunhao.daySuohao.setText(info.DayLoss + "度");
+                        binding.sunhao.daySuohao.setText(info.DayLoss + "kW·h");
                         binding.sunhao.daySunhaoPer.setText(info.DayLossPercent + "%");
 
-                        binding.sunhao.monthSuohao.setText(info.MonthLoss + "度");
+                        binding.sunhao.monthSuohao.setText(info.MonthLoss + "kW·h");
                         binding.sunhao.monthSunhaoPer.setText(info.MonthLossPercent + "%");
 
-                        binding.sunhao.allSuohao.setText(info.TotalLoss + "度");
+                        binding.sunhao.allSuohao.setText(info.TotalLoss + "kW·h");
                         binding.sunhao.zongSunhaoPer.setText(info.TotalLossPercent + "%");
 
                     }

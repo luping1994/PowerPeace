@@ -10,6 +10,7 @@ import android.os.SystemClock;
 import android.support.annotation.IdRes;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.KeyEvent;
@@ -20,6 +21,7 @@ import android.widget.RadioGroup;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.pgyersdk.update.PgyUpdateManager;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import net.suntrans.looney.utils.UiUtils;
 import net.suntrans.powerpeace.adapter.FragmentAdapter;
@@ -75,6 +77,7 @@ public class MainActivity extends BasedActivity implements View.OnClickListener
 
         toggle.syncState();
         init();
+//        SwipeRefreshLayout
 //        , new UpdateManagerListener() {
 //
 //            @Override

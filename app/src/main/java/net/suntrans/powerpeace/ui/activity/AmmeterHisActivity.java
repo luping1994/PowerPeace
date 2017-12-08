@@ -190,17 +190,17 @@ public class AmmeterHisActivity extends BasedActivity implements View.OnClickLis
         dictionaries.put("电流", "100002");
 
         dictionaries.put("功率", "100003");
-        dictionaries.put("功率Unit", "(W)");
+        dictionaries.put("功率Unit", "(kW)");
 
         dictionaries.put("功率因数", "100004");
         dictionaries.put("功率因数Unit", "");
         dictionaries.put("功率因素Unit", "");
 
         dictionaries.put("电表值", "100005");
-        dictionaries.put("电表值Unit", "(度)");
+        dictionaries.put("电表值Unit", "(kW·h)");
 
         dictionaries.put("用电量", "100007");
-        dictionaries.put("用电量Unit", "(度)");
+        dictionaries.put("用电量Unit", "(kW·h)");
 
 
         dictionaries.put(DISPLAY_DAY, "");

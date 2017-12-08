@@ -22,11 +22,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class RetrofitHelper {
-
-//    public static final String BASE_URL = "http://g.suntrans.net:8088/SuntransTest-Peace/";
-//    public static final String BASE_URL = "http://gszy.suntrans-cloud.com:8080/gszyapp/";
-    public static final String BASE_URL = "http://gszy.suntrans-cloud.com/";
-
+    //UnknownHostException
+    public static final String BASE_URL = "http://gszydx.suntrans-cloud.com:7088/";
     private static OkHttpClient mOkHttpClient;
 
     static {
@@ -37,7 +34,7 @@ public class RetrofitHelper {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .client(mOkHttpClient)
-                    .addConverterFactory(MyGsonConverterFactory.create())
+                .addConverterFactory(MyGsonConverterFactory.create())
 //                .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
@@ -75,7 +72,7 @@ public class RetrofitHelper {
 //                            newBody =    addParamsToFormBody();
 //                        }
                         Request newRequest = original.newBuilder()
-                                .header("Authorization","Bearer "+ header)
+                                .header("Authorization", "Bearer " + header)
                                 .method(original.method(), newBody)
                                 .build();
 

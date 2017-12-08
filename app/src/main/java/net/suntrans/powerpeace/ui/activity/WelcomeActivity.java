@@ -29,6 +29,7 @@ import net.suntrans.powerpeace.bean.UserInfoEntity;
 import net.suntrans.powerpeace.bean.Version;
 import net.suntrans.powerpeace.rx.BaseSubscriber;
 import net.suntrans.powerpeace.ui.fragment.WelcomeDownLoadFrgment;
+import net.suntrans.powerpeace.utils.NetworkUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,8 +37,10 @@ import java.util.List;
 import me.weyye.hipermission.HiPermission;
 import me.weyye.hipermission.PermissionCallback;
 import me.weyye.hipermission.PermissonItem;
+import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -77,7 +80,7 @@ public class WelcomeActivity extends BasedActivity implements WelcomeDownLoadFrg
                                 .setPositiveButton(R.string.enter_app, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        check();
+                                        checkNetwork();
                                     }
                                 }).setNegativeButton(R.string.title_exit, new DialogInterface.OnClickListener() {
                             @Override
@@ -92,7 +95,7 @@ public class WelcomeActivity extends BasedActivity implements WelcomeDownLoadFrg
                     public void onFinish() {
 //                        LogUtil.i("结束了我的儿子");
 
-                        check();
+                        checkNetwork();
                     }
 
                     @Override
@@ -107,6 +110,35 @@ public class WelcomeActivity extends BasedActivity implements WelcomeDownLoadFrg
                 });
     }
 
+    private void checkNetwork(){
+//        check();
+        String[] urls = {"gszydx.suntrans-cloud.com", "gszydx.suntrans-cloud1.com"};
+        Observable.from(urls)
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .filter(new Func1<String, Boolean>() {
+                    @Override
+                    public Boolean call(String url) {
+                        return NetworkUtils.ping(url);
+                    }
+                })
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onCompleted() {
+                        check();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+                        System.out.println(s);
+                    }
+                });
+    }
     private void check() {
 
         String token = App.getSharedPreferences().getString("token", "-1");
@@ -335,7 +367,7 @@ public class WelcomeActivity extends BasedActivity implements WelcomeDownLoadFrg
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkPermission();
         } else {
-            check();
+            checkNetwork();
         }
     }
 

@@ -136,7 +136,7 @@ public class PersonActivity extends BasedActivity implements View.OnClickListene
     }
 
     private void modifyPassword(String oldpass, String newPass) {
-        if (newPass.length()<6){
+        if (newPass.length() < 6) {
             UiUtils.showToast(getString(R.string.tips_password_lenth_error));
             return;
         }
@@ -191,7 +191,7 @@ public class PersonActivity extends BasedActivity implements View.OnClickListene
     }
 
     private void getUserInfo(String userName, String role) {
-        RetrofitHelper.getApi()
+                 api
                 .getUserInfo(userName, role)
                 .compose(this.<UserInfoEntityOld>bindToLifecycle())
                 .observeOn(AndroidSchedulers.mainThread())
