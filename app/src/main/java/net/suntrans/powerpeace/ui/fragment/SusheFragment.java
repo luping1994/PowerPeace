@@ -43,8 +43,7 @@ import rx.schedulers.Schedulers;
  * 宿舍Fragment
  */
 public class SusheFragment extends BasedFragment {
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+
     private static final java.lang.String TAG = "SusheFragment";
 
 
@@ -245,9 +244,9 @@ public class SusheFragment extends BasedFragment {
 
                 mRefreshType = STATE_VIEW_REFRESH;
 
-                    getSusheDatas(datas.get(xueyuanPosition).departmentID + "",
-                            datas.get(xueyuanPosition).sublist.get(buildingPostion).building + "",
-                            datas.get(xueyuanPosition).sublist.get(buildingPostion).floors.get(floorPostion).floor + "");
+                getSusheDatas(datas.get(xueyuanPosition).departmentID + "",
+                        datas.get(xueyuanPosition).sublist.get(buildingPostion).building + "",
+                        datas.get(xueyuanPosition).sublist.get(buildingPostion).floors.get(floorPostion).floor + "");
 
             }
         });
@@ -303,10 +302,10 @@ public class SusheFragment extends BasedFragment {
     private void getMenuData() {
         stateView.showLoading();
         binding.recyclerView.setVisibility(View.INVISIBLE);
-        RetrofitHelper.getApi().getThreeMenu()
+        mCompositeSubscription.add(api.getThreeMenu()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(new BaseSubscriber<MenuBean>(getActivity()){
+                .subscribe(new BaseSubscriber<MenuBean>(getActivity()) {
                     @Override
                     public void onError(Throwable e) {
                         super.onError(e);
@@ -350,62 +349,9 @@ public class SusheFragment extends BasedFragment {
                         headers = new String[]{xueyuanMenuDatas.get(0), buildingDatas.get(0), floorDatas.get(0)};
                         binding.headerMenu.setDropDownMenu(Arrays.asList(headers), popupViews, binding.root);
 
-                        getSusheDatas(o.info.get(0).departmentID + "", o.info.get(0).sublist.get(0).building + "", o.info.get(0).sublist.get(0).floors.get(0).floor+"");
+                        getSusheDatas(o.info.get(0).departmentID + "", o.info.get(0).sublist.get(0).building + "", o.info.get(0).sublist.get(0).floors.get(0).floor + "");
                     }
-                });
-//        addSubscription(RetrofitHelper.getApi().getThreeMenu(), new BaseSubscriber<MenuBean>(getActivity()) {
-//            @Override
-//            public void onCompleted() {
-//
-//            }
-//
-//            @Override
-//            public void onError(Throwable e) {
-//                super.onError(e);
-//                e.printStackTrace();
-//                stateView.showRetry();
-//            }
-//
-//            @Override
-//            public void onNext(MenuBean o) {
-////                LogUtil.i(o.message);
-//
-//                if (o.info == null || o.info.size() == 0) {
-//                    throw new RuntimeException("菜单为空");
-//                }
-//                if (xueyuanMenuDatas != null)
-//                    xueyuanMenuDatas.clear();
-//                datas.clear();
-//                datas.addAll(o.info);
-//
-//                for (MenuBean.InfoBean info :
-//                        datas) {
-//                    xueyuanMenuDatas.add(info.departmentName);
-//
-//                }
-//
-//                List<MenuBean.InfoBean.SublistBeanX> fristbuildings = datas.get(0).sublist;
-//                for (MenuBean.InfoBean.SublistBeanX build :
-//                        fristbuildings) {
-//                    buildingDatas.add(build.building_name);
-//
-//                }
-//                List<MenuBean.InfoBean.SublistBeanX.SublistBean> fristFloors = datas.get(0).sublist.get(0).floors;
-//                floorDatas.add("全部楼层");
-//                for (MenuBean.InfoBean.SublistBeanX.SublistBean floor :
-//                        fristFloors) {
-//                    floorDatas.add(floor.floor_name);
-//                }
-//
-//                xueyuanAdapter.notifyDataSetChanged();
-//                buildingAdapter.notifyDataSetChanged();
-//                floorAdapter.notifyDataSetChanged();
-//                headers = new String[]{xueyuanMenuDatas.get(0), buildingDatas.get(0), "全部楼层"};
-//                binding.headerMenu.setDropDownMenu(Arrays.asList(headers), popupViews, binding.root);
-//
-//                getSusheDatas(o.info.get(0).departmentID + "", o.info.get(0).sublist.get(0).building + "", "0");
-//            }
-//        });
+                }));
     }
 
     private void getSusheDatas(String departmentID, String building, String floor) {
@@ -415,11 +361,11 @@ public class SusheFragment extends BasedFragment {
         } else if (mRefreshType == SWIP_REFRESH_LAYOUT) {
 
         }
-        RetrofitHelper.getApi().getSusheInfo(departmentID, building, floor)
+        api.getSusheInfo(departmentID, building, floor)
                 .compose(this.<SusheEntity>bindToLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseSubscriber<SusheEntity>(getActivity()){
+                .subscribe(new BaseSubscriber<SusheEntity>(getActivity()) {
 
                     @Override
                     public void onError(Throwable e) {
@@ -432,11 +378,12 @@ public class SusheFragment extends BasedFragment {
                     @Override
                     public void onNext(SusheEntity o) {
                         super.onNext(o);
-                        if (o.info == null || o.info.size() == 0 ) {
+                        if (o.info == null || o.info.size() == 0) {
                             if (mRefreshType == STATE_VIEW_REFRESH) {
                                 stateView.showEmpty();
                                 binding.recyclerView.setVisibility(View.INVISIBLE);
                             } else {
+
                                 binding.refreshLayout.setRefreshing(false);
                             }
                             return;
@@ -457,68 +404,16 @@ public class SusheFragment extends BasedFragment {
                             }
                         }
                         binding.refreshLayout.setRefreshing(false);
-                        if (susheDatas.size()==0){
+                        if (susheDatas.size() == 0) {
                             stateView.showEmpty();
                             binding.recyclerView.setVisibility(View.INVISIBLE);
-                        }else {
+                        } else {
                             binding.recyclerView.setVisibility(View.VISIBLE);
                             stateView.showContent();
                         }
                         adapter.notifyDataSetChanged();
                     }
                 });
-//        addSubscription(RetrofitHelper.getApi().getSusheInfo(departmentID, building, floor), new BaseSubscriber<SusheEntity>(getActivity()) {
-//            @Override
-//            public void onCompleted() {
-//
-//            }
-//
-//            @Override
-//            public void onError(Throwable e) {
-//                super.onError(e);
-//                e.printStackTrace();
-//                stateView.showRetry();
-//                binding.refreshLayout.setRefreshing(false);
-//
-//            }
-//
-//            @Override
-//            public void onNext(SusheEntity o) {
-//                if (o.info == null || o.info.size() == 0 ) {
-//                    if (mRefreshType == STATE_VIEW_REFRESH) {
-//                        stateView.showEmpty();
-//                        binding.recyclerView.setVisibility(View.INVISIBLE);
-//                    } else {
-//                        binding.refreshLayout.setRefreshing(false);
-//                    }
-//                    return;
-//                }
-//
-//                susheDatas.clear();
-//                for (int i = 0; i < o.info.size(); i++) {
-//                    for (int j = 0; j < o.info.get(i).sublist.size(); j++) {
-//                        SusheSelection susheSelection =
-//                                new SusheSelection(j == 0 ? true : false, o.info.get(i).departmentName + "-"
-//                                        + o.info.get(i).building_name + "-" + o.info.get(i).floor_name + "");
-//                        susheSelection.susheName = o.info.get(i).sublist.get(j).dormitory + "";
-//                        susheSelection.room_id = o.info.get(i).sublist.get(j).room_id + "";
-//                        susheSelection.wholeName = o.info.get(i).departmentName + "-"
-//                                + o.info.get(i).building + "舍-" + o.info.get(i).sublist.get(j).dormitory;
-//                        susheSelection.status = o.info.get(i).sublist.get(j).status;
-//                        susheDatas.add(susheSelection);
-//                    }
-//                }
-//                binding.refreshLayout.setRefreshing(false);
-//                if (susheDatas.size()==0){
-//                    stateView.showEmpty();
-//                    binding.recyclerView.setVisibility(View.INVISIBLE);
-//                }else {
-//                    binding.recyclerView.setVisibility(View.VISIBLE);
-//                    stateView.showContent();
-//                }
-//                adapter.notifyDataSetChanged();
-//            }
-//        });
     }
 
     private void getData() {
@@ -530,7 +425,7 @@ public class SusheFragment extends BasedFragment {
 //        if (floorPostion == 0) {
 //            floorParm = "0";
 //        } else {
-            floorParm = datas.get(xueyuanPosition).sublist.get(buildingPostion).floors.get(floorPostion).floor + "";
+        floorParm = datas.get(xueyuanPosition).sublist.get(buildingPostion).floors.get(floorPostion).floor + "";
 //        }
         getSusheDatas(datas.get(xueyuanPosition).departmentID + "",
                 datas.get(xueyuanPosition).sublist.get(buildingPostion).building + "", floorParm);

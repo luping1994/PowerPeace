@@ -31,6 +31,9 @@ import net.suntrans.powerpeace.rx.BaseSubscriber;
 import net.suntrans.powerpeace.ui.fragment.WelcomeDownLoadFrgment;
 import net.suntrans.powerpeace.utils.NetworkUtils;
 
+import java.io.IOException;
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -110,35 +113,37 @@ public class WelcomeActivity extends BasedActivity implements WelcomeDownLoadFrg
                 });
     }
 
-    private void checkNetwork(){
+    private void checkNetwork() {
 //        check();
-        String[] urls = {"gszydx.suntrans-cloud.com", "gszydx.suntrans-cloud1.com"};
-        Observable.from(urls)
-                .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.io())
-                .filter(new Func1<String, Boolean>() {
-                    @Override
-                    public Boolean call(String url) {
-                        return NetworkUtils.ping(url);
-                    }
-                })
-                .subscribe(new Subscriber<String>() {
-                    @Override
-                    public void onCompleted() {
-                        check();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(String s) {
-                        System.out.println(s);
-                    }
-                });
+        check();
+//        String[] urls = {"gszydx.suntrans-cloud.com", "gszydx.suntrans-cloud1.com"};
+//        Observable.from(urls)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(Schedulers.io())
+//                .filter(new Func1<String, Boolean>() {
+//                    @Override
+//                    public Boolean call(String url) {
+//                        return NetworkUtils.ping(url);
+//                    }
+//                })
+//                .subscribe(new Subscriber<String>() {
+//                    @Override
+//                    public void onCompleted() {
+//                        check();
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(String s) {
+//                        System.out.println(s);
+//                    }
+//                });
     }
+
     private void check() {
 
         String token = App.getSharedPreferences().getString("token", "-1");
@@ -188,12 +193,7 @@ public class WelcomeActivity extends BasedActivity implements WelcomeDownLoadFrg
                     Intent intent = new Intent(WelcomeActivity.this, Login1Activity.class);
                     intent.putExtra(
                             Login1Activity.EXTRA_TRANSITION, Login1Activity.TRANSITION_SLIDE_BOTTOM);
-                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                        ActivityOptions transitionActivity = ActivityOptions.makeSceneTransitionAnimation(WelcomeActivity.this);
-                        startActivity(intent, transitionActivity.toBundle());
-                    } else {
                         startActivity(intent);
-                    }
                     finish();
                     break;
                 case START_MAIN_ADMIN:
@@ -242,21 +242,26 @@ public class WelcomeActivity extends BasedActivity implements WelcomeDownLoadFrg
     }
 
 
-    private void LoginFromServer(String username, final String password) {
+    private void LoginFromServer(final String username, final String password) {
         RetrofitHelper.getLoginApi().login(username, password, "password", "100001", "peS4zinqLC2x5pSc2Li98whTbSaC0d1OwrYsqQpL")
-                .compose(this.<LoginEntity>bindToLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<LoginEntity>() {
+                .subscribe(new BaseSubscriber<LoginEntity>(this) {
                     @Override
                     public void onCompleted() {
 
                     }
-
                     @Override
                     public void onError(Throwable e) {
                         e.printStackTrace();
-                        handler.sendEmptyMessageDelayed(START_LOGIN, 1500);
+                        if (e instanceof SocketTimeoutException || e instanceof UnknownHostException){
+                            RetrofitHelper.INNER = !RetrofitHelper.INNER;
+                            App.getSharedPreferences().edit().putBoolean("inner",RetrofitHelper.INNER).commit();
+                            LoginFromServer(username,password);
+                        }else if (e instanceof IOException){
+                            UiUtils.showToast(getResources().getString(R.string.tips_net_work_is_unused));
+                            handler.sendEmptyMessageDelayed(START_LOGIN, 1500);
+                        }
                     }
 
                     @Override
@@ -277,9 +282,7 @@ public class WelcomeActivity extends BasedActivity implements WelcomeDownLoadFrg
 
 
     private void getUserInfo() {
-        RetrofitHelper.getApi()
-                .getUserInfo()
-                .compose(this.<UserInfoEntity>bindToLifecycle())
+        mCompositeSubscription.add(RetrofitHelper.getApi().getUserInfo()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Subscriber<UserInfoEntity>() {
@@ -332,7 +335,7 @@ public class WelcomeActivity extends BasedActivity implements WelcomeDownLoadFrg
                             handler.sendEmptyMessageDelayed(START_LOGIN, 1500);
                         }
                     }
-                });
+                }));
     }
 
 //    private void checkUpdate() {

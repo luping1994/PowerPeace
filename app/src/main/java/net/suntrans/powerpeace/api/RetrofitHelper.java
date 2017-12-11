@@ -23,31 +23,55 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitHelper {
     //UnknownHostException
-    public static final String BASE_URL = "http://gszydx.suntrans-cloud.com:7088/";
+    public static String BASE_URL = "http://gszydx.suntrans-cloud.com:7088/";
+    public static String BASE_URL_INNER = "http://gszynw.suntrans-cloud.com:80/";
+    public static boolean INNER = true;
     private static OkHttpClient mOkHttpClient;
 
     static {
+        INNER = App.getSharedPreferences().getBoolean("inner", true);
         initOkHttpClient();
     }
 
     public static Api getApi() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .client(mOkHttpClient)
-                .addConverterFactory(MyGsonConverterFactory.create())
-//                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .build();
-        return retrofit.create(Api.class);
+        Retrofit retrofit = null;
+        if (INNER) {
+            retrofit = new Retrofit.Builder()
+                    .baseUrl(BASE_URL_INNER)
+                    .client(mOkHttpClient)
+                    .addConverterFactory(MyGsonConverterFactory.create())
+                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                    .build();
+        } else {
+            retrofit = new Retrofit.Builder()
+                    .baseUrl(BASE_URL)
+                    .client(mOkHttpClient)
+                    .addConverterFactory(MyGsonConverterFactory.create())
+                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                    .build();
+        }
+        Api api = retrofit.create(Api.class);
+        return api;
     }
 
     public static Api getLoginApi() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .client(mOkHttpClient)
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .build();
+        Retrofit retrofit = null;
+        if (INNER) {
+            retrofit = new Retrofit.Builder()
+                    .baseUrl(BASE_URL_INNER)
+                    .client(mOkHttpClient)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                    .build();
+        } else {
+            retrofit = new Retrofit.Builder()
+                    .baseUrl(BASE_URL)
+                    .client(mOkHttpClient)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                    .build();
+        }
+
         return retrofit.create(Api.class);
     }
 

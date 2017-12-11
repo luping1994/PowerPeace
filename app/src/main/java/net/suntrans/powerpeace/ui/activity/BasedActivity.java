@@ -32,6 +32,8 @@ import rx.subscriptions.CompositeSubscription;
 public class BasedActivity extends RxAppCompatActivity implements SlidingPaneLayout.PanelSlideListener {
 
     public final static List<BasedActivity> mlist = new LinkedList<>();
+    protected Api api = RetrofitHelper.getApi();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -173,8 +175,7 @@ public class BasedActivity extends RxAppCompatActivity implements SlidingPaneLay
     }
 
 
-    protected Api api = RetrofitHelper.getApi();
-    protected CompositeSubscription mCompositeSubscription;
+    protected CompositeSubscription mCompositeSubscription = new CompositeSubscription();
 
 
     public void addSubscription(Observable observable, Subscriber subscriber) {

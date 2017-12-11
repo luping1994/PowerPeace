@@ -98,7 +98,7 @@ public class ZongheFragmentPart2 extends BasedFragment {
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                System.out.println(datas.get(position).datapoint);
+//                System.out.println(datas.get(position).datapoint);
                 Intent intent = new Intent(getActivity(), ZHCurHisActivity.class);
                 intent.putExtra("paramName",datas.get(position).name);
                 intent.putExtra("datapoint",datas.get(position).datapoint);

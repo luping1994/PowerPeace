@@ -20,7 +20,7 @@ public class NetworkUtils {
      */
     public static boolean ping(String url) {
 
-        System.out.println("==开始ping->"+url);
+//        System.out.println("==开始ping->"+url);
         String result = "";
         try {
             String ip = url;// ping 的地址，可以换成任何一种可靠的外网

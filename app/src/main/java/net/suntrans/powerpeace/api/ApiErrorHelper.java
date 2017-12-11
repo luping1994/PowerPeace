@@ -5,12 +5,15 @@ import android.content.Intent;
 
 import net.suntrans.looney.utils.LogUtil;
 import net.suntrans.looney.utils.UiUtils;
+import net.suntrans.powerpeace.App;
 import net.suntrans.powerpeace.R;
 import net.suntrans.powerpeace.rx.RxBus;
 import net.suntrans.powerpeace.ui.activity.AlertActivity;
 import net.suntrans.powerpeace.ui.activity.BasedActivity;
 
 import java.io.IOException;
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 import java.util.EventListener;
 
 import retrofit2.adapter.rxjava.HttpException;
@@ -23,7 +26,7 @@ public class ApiErrorHelper {
     public static void handleCommonError(final Context context, Throwable e) {
         if (e instanceof HttpException) {
             if (e != null) {
-                if (e.getMessage() != null){
+                if (e.getMessage() != null) {
                     if (e.getMessage().equals("HTTP 401 Unauthorized")) {
                         UiUtils.showToast("账号或密码错误");
                     }
@@ -47,7 +50,15 @@ public class ApiErrorHelper {
                 UiUtils.showToast(((ApiException) e).msg);
             }
         } else if (e instanceof IOException) {
-            UiUtils.showToast(context.getString(R.string.tips_net_work_is_unused));
+            System.out.println("Ioexception");
+            if (e instanceof SocketTimeoutException || e instanceof UnknownHostException) {
+                RetrofitHelper.INNER = !RetrofitHelper.INNER;
+                App.getSharedPreferences().edit().putBoolean("inner", RetrofitHelper.INNER).commit();
+            } else {
+                UiUtils.showToast(context.getString(R.string.tips_net_work_is_unused));
+
+            }
+
         } else {
             UiUtils.showToast("出错了!!!");
         }

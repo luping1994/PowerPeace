@@ -18,7 +18,7 @@ import android.content.Intent;
 
 public class BasedFragment extends LazyLoadFragment {
     protected Api api = RetrofitHelper.getApi();
-    protected CompositeSubscription mCompositeSubscription;
+    protected CompositeSubscription mCompositeSubscription = new CompositeSubscription();
 
 
     public void addSubscription(Observable observable, Subscriber subscriber) {

@@ -180,7 +180,7 @@ public class LogActivity extends BasedActivity implements View.OnClickListener, 
         date = format;
         binding.year.setText(year + getResources().getString(R.string.year));
         binding.month.setText(month + "");
-        System.out.println(month);
+//        System.out.println(month);
         time = format;
         getData(time);
     }

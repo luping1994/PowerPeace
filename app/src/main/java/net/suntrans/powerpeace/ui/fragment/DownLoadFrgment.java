@@ -209,7 +209,7 @@ public class DownLoadFrgment extends DialogFragment {
         Intent intent = new Intent();
         intent.setAction("android.intent.action.VIEW");
         Uri content_url = Uri.parse(info.downloadURL);
-        System.out.println(info.downloadURL);
+//        System.out.println(info.downloadURL);
         intent.setData(content_url);
         startActivity(intent);
         dismiss();

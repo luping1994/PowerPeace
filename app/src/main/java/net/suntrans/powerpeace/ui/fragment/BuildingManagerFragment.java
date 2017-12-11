@@ -120,7 +120,7 @@ public class BuildingManagerFragment extends BasedFragment {
                 if (binding.refreshLayout != null)
                     binding.refreshLayout.setRefreshing(false);
                 stateView.showRetry();
-                binding.refreshLayout.setVisibility(View.INVISIBLE);
+                binding.recyclerView.setVisibility(View.INVISIBLE);
                 e.printStackTrace();
             }
 

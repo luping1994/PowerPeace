@@ -23,6 +23,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.pgyersdk.crash.PgyCrashManager;
 import com.pgyersdk.update.PgyUpdateManager;
 import com.trello.rxlifecycle.android.ActivityEvent;
 
@@ -40,6 +41,9 @@ import net.suntrans.powerpeace.api.RetrofitHelper;
 import net.suntrans.powerpeace.bean.LoginEntity;
 import net.suntrans.powerpeace.bean.UserInfoEntity;
 import net.suntrans.powerpeace.rx.BaseSubscriber;
+
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -288,7 +292,7 @@ public class Login1Activity extends BasedActivity {
 
     private void LoginFromServer(final String username, final String password) {
         RetrofitHelper.getLoginApi().login(username, password, "password", "100001", "peS4zinqLC2x5pSc2Li98whTbSaC0d1OwrYsqQpL")
-                .compose(this.<LoginEntity>bindToLifecycle())
+                .compose(this.<LoginEntity>bindUntilEvent(ActivityEvent.DESTROY))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<LoginEntity>(this) {
@@ -300,9 +304,18 @@ public class Login1Activity extends BasedActivity {
                     @Override
                     public void onError(Throwable e) {
                         e.printStackTrace();
-                        super.onError(e);
-                        if (dialog != null)
-                            dialog.dismiss();
+
+                        if (e instanceof UnknownHostException ||e instanceof SocketTimeoutException){
+                            RetrofitHelper.INNER = !RetrofitHelper.INNER;
+                            LoginFromServer(username,password);
+                            UiUtils.showToast("网络不可用,正在尝试备用地址...");
+                        }else {
+                            if (dialog != null)
+                                dialog.dismiss();
+                            UiUtils.showToast("登录失败");
+//                            super.onError(e);
+                        }
+
                     }
 
                     @Override

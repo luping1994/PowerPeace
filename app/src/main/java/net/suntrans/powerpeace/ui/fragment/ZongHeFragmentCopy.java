@@ -126,7 +126,7 @@ public class ZongHeFragmentCopy extends BasedFragment {
     @Override
     protected void onFragmentFirstVisible() {
         super.onFragmentFirstVisible();
-        System.out.println("zonghe is frist visible!");
+//        System.out.println("zonghe is frist visible!");
         getMenuData();
     }
 

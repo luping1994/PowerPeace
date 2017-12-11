@@ -60,7 +60,7 @@ public interface Api {
                                   @Field("client_id") String client_id,
                                   @Field("client_secret") String client_secret);
 
-    /**
+    /**1
      * 获取管理员首页三级菜单
      *
      * @param
@@ -69,7 +69,7 @@ public interface Api {
     @POST("api/inquiry/Inquiry_Department_Info")
     Observable<MenuBean> getThreeMenu();
 
-    /**
+    /**2
      * 管理员查询宿舍列表
      *
      * @param
@@ -81,7 +81,7 @@ public interface Api {
                                          @Field("building") String building,
                                          @Field("floor") String floor);
 
-    /**
+    /**3
      * 管理员查询宿舍详细信息
      *
      * @param
@@ -91,7 +91,7 @@ public interface Api {
     @POST("api/inquiry/Inquiry_Room_Detail_Byrid")
     Observable<RoomInfolEntity> getSusheDetail(@Field("room_id") String room_id);
 
-    /**
+    /**4
      * 管理员查询宿舍详细信息
      *
      * @param
@@ -101,7 +101,7 @@ public interface Api {
     @POST("api/inquiry/Inquiry_Room_Detail_Bysid")
     Observable<RoomInfolEntity> getSusheDetailBysid(@Field("username") String username);
 
-    /**
+    /**5
      * 管理员查询学生
      *
      * @param
@@ -113,7 +113,7 @@ public interface Api {
                                              @Field("building") String building,
                                              @Field("floor") String floor);
 
-    /**
+    /**6
      * 管理员查询学生
      *
      * @param
@@ -123,7 +123,7 @@ public interface Api {
     @POST("api/inquiry/Inquiry_Student_Detail_BySid")
     Observable<ResultBody<List<StudentDetailInfo>>> getStudentInfoDetail(@Field("studentID") String studentID);
 
-    /**
+    /**7
      * 管理员查询历史数据
      *
      * @param
@@ -133,7 +133,7 @@ public interface Api {
     @POST("api/inquiry/Inquiry_Ammeter_History")
     Observable<HisEntity> getMeterHis(@FieldMap Map<String, String> map);
 
-    /**
+    /**8
      * 管理员查询综合数据
      *
      * @param
@@ -145,7 +145,7 @@ public interface Api {
                                            @Field("building") String building,
                                            @Field("floor") String floor);
 
-    /**
+    /**9
      * 学生用户通过用户名查询用户信息
      *
      * @param
@@ -154,7 +154,7 @@ public interface Api {
     @POST("api/account/baseInfo")
     Observable<UserInfoEntity> getUserInfo();
 
-    /**
+    /**10
      * 学生用户通过用户名查询用户信息
      *
      * @param
@@ -164,7 +164,7 @@ public interface Api {
     @POST("api/inquiry/Inquiry_StudentInfo_Byusername")
     Observable<UserInfoEntityOld> getUserInfo(@Field("username") String username, @Field("role") String role);
 
-    /**
+    /**11
      * 学生用户通过用户名查询rizhi
      *
      * @param

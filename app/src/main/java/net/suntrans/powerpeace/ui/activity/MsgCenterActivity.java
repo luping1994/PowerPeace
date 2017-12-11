@@ -65,7 +65,7 @@ public class MsgCenterActivity extends BasedActivity {
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                System.out.println("onclick");
+//                System.out.println("onclick");
                 Intent intent = new Intent(MsgCenterActivity.this, MsgDetailActivity.class);
                 intent.putExtra("url",datas.get(position).url);
                 startActivity(intent);
