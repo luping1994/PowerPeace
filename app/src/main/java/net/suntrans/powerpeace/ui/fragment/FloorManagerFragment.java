@@ -17,6 +17,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import net.suntrans.looney.utils.UiUtils;
 import net.suntrans.powerpeace.App;
 import net.suntrans.powerpeace.R;
+import net.suntrans.powerpeace.api.RetrofitHelper;
 import net.suntrans.powerpeace.bean.FloorManagerInfo;
 import net.suntrans.powerpeace.bean.ResultBody;
 import net.suntrans.powerpeace.databinding.FragmentFloorManagerBinding;
@@ -152,7 +153,7 @@ public class FloorManagerFragment extends BasedFragment {
     private void getFloor() {
         stateView.showLoading();
         binding.recyclerView.setVisibility(View.INVISIBLE);
-        addSubscription(api.getManagerFloorInfo(floor_id), new BaseSubscriber<ResultBody<List<FloorManagerInfo>>>(getContext()) {
+        addSubscription(RetrofitHelper.getApi().getManagerFloorInfo(floor_id), new BaseSubscriber<ResultBody<List<FloorManagerInfo>>>(getContext()) {
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
@@ -188,7 +189,7 @@ public class FloorManagerFragment extends BasedFragment {
     }
 
     private void refreshData() {
-        addSubscription(api.getManagerFloorInfo(floor_id), new BaseSubscriber<ResultBody<List<FloorManagerInfo>>>(getContext()) {
+        addSubscription(RetrofitHelper.getApi().getManagerFloorInfo(floor_id), new BaseSubscriber<ResultBody<List<FloorManagerInfo>>>(getContext()) {
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
@@ -225,7 +226,7 @@ public class FloorManagerFragment extends BasedFragment {
         map.put("id", id);
         map.put("cmd", cmd);
         map.put("alpha", alpha);
-        addSubscription(api.switchFloor(map), new BaseSubscriber<ResultBody>(getContext()) {
+        addSubscription(RetrofitHelper.getApi().switchFloor(map), new BaseSubscriber<ResultBody>(getContext()) {
             @Override
             public void onNext(ResultBody resultBody) {
                 super.onNext(resultBody);

@@ -18,6 +18,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 
 import net.suntrans.looney.utils.UiUtils;
 import net.suntrans.powerpeace.R;
+import net.suntrans.powerpeace.api.RetrofitHelper;
 import net.suntrans.powerpeace.bean.EleInfo;
 import net.suntrans.powerpeace.bean.ResultBody;
 import net.suntrans.powerpeace.bean.StudentInfo;
@@ -132,7 +133,7 @@ public class StudentInfoFragment extends BasedFragment {
     private void getData(String room_id) {
         stateView.showLoading();
         binding.recyclerView.setVisibility(View.INVISIBLE);
-        addSubscription(api.getStuInfo(room_id), new BaseSubscriber<ResultBody<List<StudentInfo>>>(getContext()) {
+        addSubscription(RetrofitHelper.getApi().getStuInfo(room_id), new BaseSubscriber<ResultBody<List<StudentInfo>>>(getContext()) {
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
@@ -173,7 +174,7 @@ public class StudentInfoFragment extends BasedFragment {
     }
 
     private void reFreshData(String room_id) {
-        addSubscription(api.getStuInfo(room_id), new BaseSubscriber<ResultBody<List<StudentInfo>>>(getContext()) {
+        addSubscription(RetrofitHelper.getApi().getStuInfo(room_id), new BaseSubscriber<ResultBody<List<StudentInfo>>>(getContext()) {
             @Override
             public void onError(Throwable e) {
                 super.onError(e);

@@ -26,6 +26,7 @@ public class BaseSubscriber<T> extends Subscriber<T> {
     public void onStart() {
         if (!UiUtils.isNetworkAvailable()) {
             this.onError(new ApiException(ApiErrorCode.ERROR_NO_INTERNET, "network interrupt"));
+            this.unsubscribe();
             return;
         }
     }

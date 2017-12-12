@@ -33,7 +33,6 @@ public class ApiErrorHelper {
                 }
 
             } else {
-
                 UiUtils.showToast("服务暂不可用");
             }
         } else if (e instanceof ApiException) {
@@ -50,13 +49,12 @@ public class ApiErrorHelper {
                 UiUtils.showToast(((ApiException) e).msg);
             }
         } else if (e instanceof IOException) {
-            System.out.println("Ioexception");
             if (e instanceof SocketTimeoutException || e instanceof UnknownHostException) {
                 RetrofitHelper.INNER = !RetrofitHelper.INNER;
                 App.getSharedPreferences().edit().putBoolean("inner", RetrofitHelper.INNER).commit();
+                UiUtils.showToast("连接失败,请重试！");
             } else {
                 UiUtils.showToast(context.getString(R.string.tips_net_work_is_unused));
-
             }
 
         } else {

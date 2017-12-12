@@ -14,6 +14,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
 import net.suntrans.powerpeace.R;
+import net.suntrans.powerpeace.api.RetrofitHelper;
 import net.suntrans.powerpeace.bean.MessageEntity;
 import net.suntrans.powerpeace.databinding.ActivityMsgCenBinding;
 import net.suntrans.powerpeace.ui.decoration.DefaultDecoration;
@@ -91,7 +92,7 @@ public class MsgCenterActivity extends BasedActivity {
 
     private void getData() {
         binding.refreshLayout.setRefreshing(true);
-        addSubscription(api.getMessage(), new Subscriber<MessageEntity>() {
+        addSubscription(RetrofitHelper.getApi().getMessage(), new Subscriber<MessageEntity>() {
             @Override
             public void onCompleted() {
 

@@ -11,7 +11,34 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin">
 
+                <TextView
+                    android:textSize="16sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:drawableLeft="@drawable/time"
+                    android:drawablePadding="16dp"
+                    android:gravity="center_vertical"
+                    android:text="更新时间"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:drawablePadding="8dp"
+                    android:gravity="center|right"
+                    android:text="----"
+                    />
+
+            </LinearLayout>
             <LinearLayout
                 android:id="@+id/totaluseLL"
                 android:layout_width="match_parent"
@@ -24,8 +51,8 @@
 
                 <ImageView
                     android:id="@+id/image"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:src="@drawable/ic_dl" />
 
                 <TextView
@@ -88,8 +115,8 @@
                 android:paddingRight="16dp">
 
                 <ImageView
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:src="@drawable/ic_dl" />
 
                 <TextView
@@ -149,8 +176,8 @@
                 android:paddingRight="16dp">
 
                 <ImageView
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:src="@drawable/ic_dl" />
 
                 <TextView
@@ -210,8 +237,8 @@
                 android:paddingRight="16dp">
 
                 <ImageView
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:src="@drawable/ic_money" />
 
                 <TextView
@@ -272,8 +299,8 @@
                 android:paddingRight="16dp">
 
                 <ImageView
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:src="@drawable/ic_zhuangtai" />
 
                 <TextView

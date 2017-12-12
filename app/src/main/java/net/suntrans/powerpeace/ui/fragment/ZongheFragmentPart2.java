@@ -17,6 +17,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.trello.rxlifecycle.android.FragmentEvent;
 
 import net.suntrans.powerpeace.R;
+import net.suntrans.powerpeace.api.RetrofitHelper;
 import net.suntrans.powerpeace.bean.ZHEnergyEntity;
 import net.suntrans.powerpeace.bean.ZHEnergyShishiEntity;
 import net.suntrans.powerpeace.databinding.FragmentZhPart1Binding;
@@ -144,7 +145,7 @@ public class ZongheFragmentPart2 extends BasedFragment {
 
     private void getFloor() {
         binding.refreshLayout.setRefreshing(true);
-        api.getZHEnergyShishi(sno)
+        RetrofitHelper.getApi().getZHEnergyShishi(sno)
                 .compose(this.<ZHEnergyShishiEntity>bindUntilEvent(FragmentEvent.DESTROY_VIEW))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())

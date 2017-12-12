@@ -17,6 +17,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import net.suntrans.looney.utils.LogUtil;
 import net.suntrans.powerpeace.R;
 import net.suntrans.powerpeace.adapter.ListDropDownAdapter;
+import net.suntrans.powerpeace.api.RetrofitHelper;
 import net.suntrans.powerpeace.bean.MenuBean;
 import net.suntrans.powerpeace.bean.ZongheEntity;
 import net.suntrans.powerpeace.bean.ZongheSelection;
@@ -155,7 +156,7 @@ public class ZongHeFragment extends BasedFragment {
 
     private void getMenuData() {
 
-        addSubscription(api.getThreeMenu(), new BaseSubscriber<MenuBean>(getActivity()) {
+        addSubscription(RetrofitHelper.getApi().getThreeMenu(), new BaseSubscriber<MenuBean>(getActivity()) {
             @Override
             public void onCompleted() {
 
@@ -213,7 +214,7 @@ public class ZongHeFragment extends BasedFragment {
     private void getZonngheDatas(String departmentID, String building, String floor) {
         LogUtil.i(TAG, departmentID + "." + building + "." + floor);
 
-        addSubscription(api.getZongheData(departmentID, building,floor), new BaseSubscriber<ZongheEntity>(getActivity()) {
+        addSubscription(RetrofitHelper.getApi().getZongheData(departmentID, building,floor), new BaseSubscriber<ZongheEntity>(getActivity()) {
             @Override
             public void onCompleted() {
 

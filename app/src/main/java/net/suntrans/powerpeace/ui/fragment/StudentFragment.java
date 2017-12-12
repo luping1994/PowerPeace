@@ -19,6 +19,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import net.suntrans.looney.utils.LogUtil;
 import net.suntrans.powerpeace.R;
 import net.suntrans.powerpeace.adapter.ListDropDownAdapter;
+import net.suntrans.powerpeace.api.RetrofitHelper;
 import net.suntrans.powerpeace.bean.MenuBean;
 import net.suntrans.powerpeace.bean.StudentInfoEntity;
 import net.suntrans.powerpeace.bean.StudentSelection;
@@ -160,7 +161,7 @@ public class StudentFragment extends BasedFragment {
     private void getMenuData() {
         stateView.showLoading();
         binding.recyclerView.setVisibility(View.INVISIBLE);
-        addSubscription(api.getThreeMenu(), new BaseSubscriber<MenuBean>(getActivity()) {
+        addSubscription(RetrofitHelper.getApi().getThreeMenu(), new BaseSubscriber<MenuBean>(getActivity()) {
             @Override
             public void onCompleted() {
 
@@ -223,7 +224,7 @@ public class StudentFragment extends BasedFragment {
         } else if (mRefreshType == SWIP_REFRESH_LAYOUT) {
 
         }
-        addSubscription(api.getStudent(departmentID, building, floor), new BaseSubscriber<StudentInfoEntity>(getActivity()) {
+        addSubscription(RetrofitHelper.getApi().getStudent(departmentID, building, floor), new BaseSubscriber<StudentInfoEntity>(getActivity()) {
             @Override
             public void onCompleted() {
 

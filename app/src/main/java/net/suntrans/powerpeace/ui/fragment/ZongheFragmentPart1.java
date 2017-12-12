@@ -13,6 +13,7 @@ import com.trello.rxlifecycle.android.ActivityEvent;
 import com.trello.rxlifecycle.android.FragmentEvent;
 
 import net.suntrans.powerpeace.R;
+import net.suntrans.powerpeace.api.RetrofitHelper;
 import net.suntrans.powerpeace.bean.ZHEnergyEntity;
 import net.suntrans.powerpeace.databinding.FragmentZhPart1Binding;
 import net.suntrans.powerpeace.ui.activity.ZHDLHisActivity;
@@ -90,9 +91,9 @@ public class ZongheFragmentPart1 extends BasedFragment implements View.OnClickLi
         binding.refreshLayout.setRefreshing(true);
         Observable<ZHEnergyEntity> total;
         if (null==sno){
-            total= api.getZongheBuildingEnergy("total", floor_ammeter3_id);
+            total= RetrofitHelper.getApi().getZongheBuildingEnergy("total", floor_ammeter3_id);
         }else {
-            total = api.getZongheBuildingEnergy("ammeter3", floor_ammeter3_id);
+            total = RetrofitHelper.getApi().getZongheBuildingEnergy("ammeter3", floor_ammeter3_id);
         }
         total .compose(this.<ZHEnergyEntity>bindUntilEvent(FragmentEvent.DESTROY_VIEW))
                 .observeOn(AndroidSchedulers.mainThread())

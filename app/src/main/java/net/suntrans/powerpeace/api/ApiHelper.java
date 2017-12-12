@@ -48,7 +48,7 @@ public class ApiHelper {
     }
 
     public void getLogInfo(String roomid,String inquirytime, final OnDataGetListener listener) {
-        addSubscription(api.getLogInfo(roomid,inquirytime), new Subscriber<LogInfoEntity>() {
+        addSubscription(RetrofitHelper.getApi().getLogInfo(roomid,inquirytime), new Subscriber<LogInfoEntity>() {
             @Override
             public void onCompleted() {
 

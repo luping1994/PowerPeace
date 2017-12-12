@@ -17,6 +17,7 @@ import com.trello.rxlifecycle.android.ActivityEvent;
 
 import net.suntrans.powerpeace.BuildConfig;
 import net.suntrans.powerpeace.R;
+import net.suntrans.powerpeace.api.RetrofitHelper;
 import net.suntrans.powerpeace.bean.FloorManagerInfo;
 import net.suntrans.powerpeace.bean.ResultBody;
 import net.suntrans.powerpeace.bean.ZHBFloorEntity;
@@ -104,7 +105,7 @@ public class ZHFloorActivity extends BasedActivity {
 
 
     private void getFloor() {
-        api.getZongheBuildingFloor(getIntent().getStringExtra("ammeter3_id"))
+        RetrofitHelper.getApi().getZongheBuildingFloor(getIntent().getStringExtra("ammeter3_id"))
                 .compose(this.<ZHBFloorEntity>bindUntilEvent(ActivityEvent.DESTROY))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())

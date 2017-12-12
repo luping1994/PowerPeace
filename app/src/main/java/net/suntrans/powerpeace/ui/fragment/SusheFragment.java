@@ -18,6 +18,7 @@ import android.widget.ListView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseSectionQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.trello.rxlifecycle.android.FragmentEvent;
 
 import net.suntrans.looney.utils.LogUtil;
 import net.suntrans.powerpeace.R;
@@ -302,7 +303,7 @@ public class SusheFragment extends BasedFragment {
     private void getMenuData() {
         stateView.showLoading();
         binding.recyclerView.setVisibility(View.INVISIBLE);
-        mCompositeSubscription.add(api.getThreeMenu()
+        mCompositeSubscription.add(RetrofitHelper.getApi().getThreeMenu()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new BaseSubscriber<MenuBean>(getActivity()) {
@@ -361,8 +362,8 @@ public class SusheFragment extends BasedFragment {
         } else if (mRefreshType == SWIP_REFRESH_LAYOUT) {
 
         }
-        api.getSusheInfo(departmentID, building, floor)
-                .compose(this.<SusheEntity>bindToLifecycle())
+        RetrofitHelper.getApi().getSusheInfo(departmentID, building, floor)
+                .compose(this.<SusheEntity>bindUntilEvent(FragmentEvent.DESTROY_VIEW))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<SusheEntity>(getActivity()) {

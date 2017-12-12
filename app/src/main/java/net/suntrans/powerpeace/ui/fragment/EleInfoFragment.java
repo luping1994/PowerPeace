@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -44,6 +45,7 @@ public class EleInfoFragment extends BasedFragment {
     private MyAdapter adapter;
 
     private StateView stateView;
+    private TextView time;
 
     public EleInfoFragment() {
         // Required empty public constructor
@@ -93,7 +95,10 @@ public class EleInfoFragment extends BasedFragment {
             }
         });
         binding.recyclerView.addItemDecoration(new DefaultDecoration());
-
+        View view =LayoutInflater.from(getContext()).inflate(R.layout.header_time,binding.recyclerView,false);
+        time = (TextView) view.findViewById(R.id.time);
+        adapter.bindToRecyclerView(binding.recyclerView);
+        adapter.addHeaderView(view);
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -183,6 +188,7 @@ public class EleInfoFragment extends BasedFragment {
                                         info.info.get(i).imgId = R.drawable.ic_dl;
                                     }
                                 }
+                                time.setText(info.updated_at);
                                 datas.addAll(info.info);
                             } else {
                                 UiUtils.showToast(getString(R.string.data_is_empty));
@@ -205,7 +211,7 @@ public class EleInfoFragment extends BasedFragment {
     }
 
     private void refreshData(String room_id) {
-        addSubscription(api.getEleInfo(room_id), new BaseSubscriber<ResultBody<List<EleInfo>>>(getContext()) {
+        addSubscription(RetrofitHelper.getApi().getEleInfo(room_id), new BaseSubscriber<ResultBody<List<EleInfo>>>(getContext()) {
             @Override
             public void onError(Throwable e) {
                 super.onError(e);

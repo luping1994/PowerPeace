@@ -31,6 +31,7 @@ import net.suntrans.looney.utils.UiUtils;
 import net.suntrans.looney.widgets.CompatDatePickerDialog;
 import net.suntrans.powerpeace.R;
 import net.suntrans.powerpeace.adapter.FragmentAdapter;
+import net.suntrans.powerpeace.api.RetrofitHelper;
 import net.suntrans.powerpeace.bean.HisEntity;
 import net.suntrans.powerpeace.chart.MyMarkerView;
 import net.suntrans.powerpeace.databinding.ActivityZhCurHisBinding;
@@ -337,7 +338,7 @@ public class ZHCurHisActivity extends BasedActivity implements View.OnClickListe
         map.put("datapoint", datapoint);
         map.put("beginDate", startTime);
         map.put("endDate", endTime);
-        addSubscription(api.getZHCurHis(map), new BaseSubscriber<HisEntity>(this) {
+        addSubscription(RetrofitHelper.getApi().getZHCurHis(map), new BaseSubscriber<HisEntity>(this) {
             @Override
             public void onError(Throwable e) {
                 super.onError(e);

@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import net.suntrans.looney.widgets.LoadingDialog;
 import net.suntrans.powerpeace.R;
+import net.suntrans.powerpeace.api.RetrofitHelper;
 import net.suntrans.powerpeace.bean.AccountInfo;
 import net.suntrans.powerpeace.bean.ChannelInfo;
 import net.suntrans.powerpeace.bean.ResultBody;
@@ -80,7 +81,7 @@ public class ZhanghuFragment extends BasedFragment implements View.OnClickListen
 
 
     private void getData(String room_id) {
-        addSubscription(api.getAccountInfo(room_id),new BaseSubscriber<ResultBody<AccountInfo>>(getContext()){
+        addSubscription(RetrofitHelper.getApi().getAccountInfo(room_id),new BaseSubscriber<ResultBody<AccountInfo>>(getContext()){
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
@@ -94,6 +95,8 @@ public class ZhanghuFragment extends BasedFragment implements View.OnClickListen
                 super.onNext(info);
                 if (binding.refreshLayout!=null)
                     binding.refreshLayout.setRefreshing(false);
+                binding.time.setText(info.updated_at);
+
                 refreshLayout(info.info);
             }
         });

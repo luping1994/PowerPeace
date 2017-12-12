@@ -22,9 +22,13 @@ import net.suntrans.powerpeace.utils.StatusBarCompat;
 import java.util.ArrayList;
 import java.util.List;
 
+import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
+
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 /**
  * Created by Looney on 2017/9/27.
@@ -91,10 +95,11 @@ public class SearchActivity extends BasedActivity {
         binding.recyclerView.setVisibility(View.INVISIBLE);
         binding.progressBar.setVisibility(View.VISIBLE);
         binding.recyclerView.stopScroll();
-        if (subscribe!=null){
+        if (subscribe != null) {
             subscribe.unsubscribe();
         }
         subscribe = RetrofitHelper.getApi().search(text)
+                .compose(this.<SearchInfoEntity>bindUntilEvent(ActivityEvent.DESTROY))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new BaseSubscriber<SearchInfoEntity>(this) {
@@ -143,8 +148,8 @@ public class SearchActivity extends BasedActivity {
 
     @Override
     protected void onDestroy() {
-        if(subscribe!=null){
-            if (!subscribe.isUnsubscribed()){
+        if (subscribe != null) {
+            if (!subscribe.isUnsubscribed()) {
                 subscribe.unsubscribe();
             }
         }

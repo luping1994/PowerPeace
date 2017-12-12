@@ -6,6 +6,7 @@ import android.support.v7.app.ActionBar;
 
 import net.suntrans.looney.utils.UiUtils;
 import net.suntrans.powerpeace.R;
+import net.suntrans.powerpeace.api.RetrofitHelper;
 import net.suntrans.powerpeace.bean.ResultBody;
 import net.suntrans.powerpeace.bean.StudentDetailInfo;
 import net.suntrans.powerpeace.databinding.ActivityStudentInfoBinding;
@@ -48,7 +49,7 @@ public class StudentInfoActivity extends BasedActivity {
     }
 
     private void getData(){
-        addSubscription(api.getStudentInfoDetail(studentID),new BaseSubscriber<ResultBody<List<StudentDetailInfo>>>(this){
+        addSubscription(RetrofitHelper.getApi().getStudentInfoDetail(studentID),new BaseSubscriber<ResultBody<List<StudentDetailInfo>>>(this){
             @Override
             public void onError(Throwable e) {
                 super.onError(e);

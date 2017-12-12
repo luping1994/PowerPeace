@@ -140,7 +140,7 @@ public class PersonActivity extends BasedActivity implements View.OnClickListene
             UiUtils.showToast(getString(R.string.tips_password_lenth_error));
             return;
         }
-        addSubscription(api.changePassword(oldpass, newPass), new BaseSubscriber<ResultBody>(this) {
+        addSubscription(RetrofitHelper.getApi().changePassword(oldpass, newPass), new BaseSubscriber<ResultBody>(this) {
             @Override
             public void onNext(ResultBody resultBody) {
                 super.onNext(resultBody);
@@ -169,7 +169,7 @@ public class PersonActivity extends BasedActivity implements View.OnClickListene
             UiUtils.showToast(getString(R.string.tips_teltype_error));
             return;
         }
-        addSubscription(api.changePhone(phone), new BaseSubscriber<ResultBody>(this) {
+        addSubscription(RetrofitHelper.getApi().changePhone(phone), new BaseSubscriber<ResultBody>(this) {
             @Override
             public void onNext(ResultBody resultBody) {
                 super.onNext(resultBody);
@@ -191,7 +191,7 @@ public class PersonActivity extends BasedActivity implements View.OnClickListene
     }
 
     private void getUserInfo(String userName, String role) {
-                 api
+        RetrofitHelper.getApi()
                 .getUserInfo(userName, role)
                 .compose(this.<UserInfoEntityOld>bindToLifecycle())
                 .observeOn(AndroidSchedulers.mainThread())

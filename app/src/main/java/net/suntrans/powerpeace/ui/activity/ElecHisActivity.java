@@ -264,13 +264,6 @@ public class ElecHisActivity extends BasedActivity implements OnChartValueSelect
         mChart.getBarBounds((BarEntry) e, bounds);
         MPPointF position = mChart.getPosition(e, YAxis.AxisDependency.LEFT);
 
-        Log.i("bounds", bounds.toString());
-        Log.i("position", position.toString());
-
-        Log.i("x-index",
-                "low: " + mChart.getLowestVisibleX() + ", high: "
-                        + mChart.getHighestVisibleX());
-
         MPPointF.recycleInstance(position);
     }
 
@@ -295,7 +288,11 @@ public class ElecHisActivity extends BasedActivity implements OnChartValueSelect
                     float val = 0;
                     for (int j = 0; j < dayDatas.size(); j++) {
                         if ((dayDatas.get(j).x) == i) {
-                            val = Float.parseFloat(dayDatas.get(j).data);
+                            try {
+                                val = Float.parseFloat(dayDatas.get(j).data);
+                            } catch (NumberFormatException e) {
+                                e.printStackTrace();
+                            }
 //                            System.out.println(i+":"+dayDatas.get(j).data+"");
                         }
                     }
@@ -312,7 +309,11 @@ public class ElecHisActivity extends BasedActivity implements OnChartValueSelect
                     float val = 0;
                     for (int j = 0; j < monthDatas.size(); j++) {
                         if (monthDatas.get(j).x == i) {
-                            val = Float.parseFloat(monthDatas.get(j).data);
+                            try {
+                                val = Float.parseFloat(monthDatas.get(j).data);
+                            } catch (NumberFormatException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                     yVals1.add(new BarEntry(i, val));
@@ -327,7 +328,11 @@ public class ElecHisActivity extends BasedActivity implements OnChartValueSelect
                     float val = 0;
                     for (int j = 0; j < yearDatas.size(); j++) {
                         if (yearDatas.get(j).x == i) {
-                            val = Float.parseFloat(yearDatas.get(j).data);
+                            try {
+                                val = Float.parseFloat(yearDatas.get(j).data);
+                            } catch (NumberFormatException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                     yVals1.add(new BarEntry(i, val));

@@ -19,6 +19,7 @@ import com.trello.rxlifecycle.android.FragmentEvent;
 
 import net.suntrans.powerpeace.R;
 import net.suntrans.powerpeace.adapter.ZHBuildingAdapter;
+import net.suntrans.powerpeace.api.RetrofitHelper;
 import net.suntrans.powerpeace.bean.ZHBuildingEntity;
 import net.suntrans.powerpeace.databinding.FragmentZongheNewBinding;
 import net.suntrans.powerpeace.ui.activity.ZHBuildingEnergyActivity;
@@ -92,7 +93,7 @@ public class ZongheFragmentNew extends BasedFragment {
     }
 
     private void getData() {
-        api.getZongheBuilding()
+        RetrofitHelper.getApi().getZongheBuilding()
                 .compose(this.<ZHBuildingEntity>bindUntilEvent(FragmentEvent.DESTROY_VIEW))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -114,7 +115,7 @@ public class ZongheFragmentNew extends BasedFragment {
                         binding.refreshLayout.setRefreshing(false);
                         datas.clear();
                         datas.addAll(zhBuildingEntity.info);
-                        System.out.println(datas.get(0).ammeter3.size());
+//                        System.out.println(datas.get(0).ammeter3.size());
 
                         adapter.notifyDataSetChanged();
                         for (int i=0; i<datas.size(); i++) {

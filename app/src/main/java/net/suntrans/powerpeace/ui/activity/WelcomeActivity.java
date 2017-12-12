@@ -13,6 +13,8 @@ import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.view.WindowManager;
 
+import com.trello.rxlifecycle.android.ActivityEvent;
+
 import net.suntrans.looney.utils.LogUtil;
 import net.suntrans.looney.utils.UiUtils;
 import net.suntrans.powerpeace.App;
@@ -244,6 +246,7 @@ public class WelcomeActivity extends BasedActivity implements WelcomeDownLoadFrg
 
     private void LoginFromServer(final String username, final String password) {
         RetrofitHelper.getLoginApi().login(username, password, "password", "100001", "peS4zinqLC2x5pSc2Li98whTbSaC0d1OwrYsqQpL")
+                .compose(this.<LoginEntity>bindUntilEvent(ActivityEvent.DESTROY))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<LoginEntity>(this) {

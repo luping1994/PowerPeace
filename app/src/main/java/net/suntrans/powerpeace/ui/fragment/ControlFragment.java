@@ -141,7 +141,7 @@ public class ControlFragment extends BasedFragment {
             dialog.setWaitText(getString(R.string.please_wait));
         }
         dialog.show();
-        api.control(getString(R.string.switch_code), order.addr + "",
+        RetrofitHelper.getApi().control(getString(R.string.switch_code), order.addr + "",
                 order.num + "", order.cmd + "")
                 .compose(this.<ResultBody>bindUntilEvent(FragmentEvent.DESTROY_VIEW))
                 .subscribeOn(Schedulers.io())
@@ -154,7 +154,7 @@ public class ControlFragment extends BasedFragment {
 
                     @Override
                     public void onError(Throwable e) {
-                       super.onError(e);
+                        super.onError(e);
                         e.printStackTrace();
                         if (dialog != null)
                             dialog.dismiss();
@@ -182,12 +182,10 @@ public class ControlFragment extends BasedFragment {
     private void getData(String room_id) {
         stateView.showLoading();
         binding.recyclerView.setVisibility(View.INVISIBLE);
-        if (getDataBody == null) {
-            getDataBody = api.getRoomChannel(room_id)
-                    .compose(this.<ResultBody<List<ChannelInfo>>>bindUntilEvent(FragmentEvent.DESTROY_VIEW))
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeOn(Schedulers.io());
-        }
+        getDataBody = RetrofitHelper.getApi().getRoomChannel(room_id)
+                .compose(this.<ResultBody<List<ChannelInfo>>>bindUntilEvent(FragmentEvent.DESTROY_VIEW))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
 
         getDataBody.subscribe(new BaseSubscriber<ResultBody<List<ChannelInfo>>>(getContext()) {
             @Override
@@ -223,12 +221,10 @@ public class ControlFragment extends BasedFragment {
     }
 
     private void refreshData(String room_id) {
-        if (getDataBody == null) {
-            getDataBody = api.getRoomChannel(room_id)
-                    .compose(this.<ResultBody<List<ChannelInfo>>>bindUntilEvent(FragmentEvent.DESTROY_VIEW))
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeOn(Schedulers.io());
-        }
+        getDataBody = RetrofitHelper.getApi().getRoomChannel(room_id)
+                .compose(this.<ResultBody<List<ChannelInfo>>>bindUntilEvent(FragmentEvent.DESTROY_VIEW))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
         getDataBody.subscribe(new BaseSubscriber<ResultBody<List<ChannelInfo>>>(getContext()) {
             @Override
             public void onError(Throwable e) {
@@ -255,49 +251,49 @@ public class ControlFragment extends BasedFragment {
     }
 
     private void getStatus(String room_id) {
-        if (getStatusBody == null) {
-            getStatusBody = api.getChannelStatusOnly(room_id)
-                    .compose(this.<ResultBody<List<ChannelStatus>>>bindUntilEvent(FragmentEvent.DESTROY_VIEW))
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeOn(Schedulers.io());
-        }
-        getStatusBody.subscribe(new BaseSubscriber<ResultBody<List<ChannelStatus>>>(getContext()) {
-            @Override
-            public void onError(Throwable e) {
-                super.onError(e);
-                e.printStackTrace();
-                if (binding.refreshLayout != null)
-                    binding.refreshLayout.setRefreshing(false);
-                if (dialog != null)
-                    dialog.dismiss();
-            }
 
-            @Override
-            public void onNext(ResultBody<List<ChannelStatus>> info) {
-                super.onNext(info);
-                if (binding.refreshLayout != null)
-                    binding.refreshLayout.setRefreshing(false);
-                if (dialog != null)
-                    dialog.dismiss();
-                if (info.info == null) {
-                    UiUtils.showToast(getString(R.string.data_empty));
-                    return;
-                }
-                for (int i = 0; i < datas.size(); i++) {
-                    for (int j = 0; j < info.info.size(); j++) {
-                        if (datas.get(i).num.equals(info.info.get(j).num)) {
-                            datas.get(i).status = info.info.get(j).status;
-                        }
+        RetrofitHelper.getApi().getChannelStatusOnly(room_id)
+                .compose(this.<ResultBody<List<ChannelStatus>>>bindUntilEvent(FragmentEvent.DESTROY_VIEW))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new BaseSubscriber<ResultBody<List<ChannelStatus>>>(getContext()) {
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        e.printStackTrace();
+                        if (binding.refreshLayout != null)
+                            binding.refreshLayout.setRefreshing(false);
+                        if (dialog != null)
+                            dialog.dismiss();
                     }
-                }
 
-                adapter.notifyDataSetChanged();
+                    @Override
+                    public void onNext(ResultBody<List<ChannelStatus>> info) {
+                        super.onNext(info);
+                        if (binding.refreshLayout != null)
+                            binding.refreshLayout.setRefreshing(false);
+                        if (dialog != null)
+                            dialog.dismiss();
+                        if (info.info == null) {
+                            UiUtils.showToast(getString(R.string.data_empty));
+                            return;
+                        }
+                        for (int i = 0; i < datas.size(); i++) {
+                            for (int j = 0; j < info.info.size(); j++) {
+                                if (datas.get(i).num.equals(info.info.get(j).num)) {
+                                    datas.get(i).status = info.info.get(j).status;
+                                }
+                            }
+                        }
 
-            }
-        });
+                        adapter.notifyDataSetChanged();
+
+                    }
+                });
     }
 
     private Handler handler = new Handler();
+
     @Override
     public void onDestroy() {
         handler.removeCallbacksAndMessages(null);

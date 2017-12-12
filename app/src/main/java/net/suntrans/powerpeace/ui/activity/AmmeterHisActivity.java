@@ -32,6 +32,7 @@ import net.suntrans.looney.utils.LogUtil;
 import net.suntrans.looney.utils.UiUtils;
 import net.suntrans.looney.widgets.CompatDatePickerDialog;
 import net.suntrans.powerpeace.R;
+import net.suntrans.powerpeace.api.RetrofitHelper;
 import net.suntrans.powerpeace.bean.HisEntity;
 import net.suntrans.powerpeace.databinding.ActivityAmmeterHisBinding;
 import net.suntrans.powerpeace.rx.BaseSubscriber;
@@ -349,7 +350,7 @@ public class AmmeterHisActivity extends BasedActivity implements View.OnClickLis
         map.put("datapoint", code);
         map.put("beginDate", startTime);
         map.put("endDate", endTime);
-        addSubscription(api.getMeterHis(map), new BaseSubscriber<HisEntity>(this) {
+        addSubscription(RetrofitHelper.getApi().getMeterHis(map), new BaseSubscriber<HisEntity>(this) {
             @Override
             public void onError(Throwable e) {
                 super.onError(e);

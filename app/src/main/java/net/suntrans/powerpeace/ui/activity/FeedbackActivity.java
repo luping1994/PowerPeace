@@ -12,6 +12,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.RadioGroup;
 
+import com.trello.rxlifecycle.android.ActivityEvent;
+
 import net.suntrans.looney.utils.LogUtil;
 import net.suntrans.looney.utils.UiUtils;
 import net.suntrans.looney.widgets.LoadingDialog;
@@ -125,7 +127,7 @@ public class FeedbackActivity extends BasedActivity implements View.OnClickListe
         }
         LogUtil.i(jsonObject.toString());
         RetrofitHelper.getApi().postSuggestion(jsonObject.toString())
-                .compose(this.<ResultBody>bindToLifecycle())
+                .compose(this.<ResultBody>bindUntilEvent(ActivityEvent.DESTROY))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new BaseSubscriber<ResultBody>(this) {

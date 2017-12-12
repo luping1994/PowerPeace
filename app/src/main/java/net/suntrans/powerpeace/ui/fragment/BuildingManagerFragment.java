@@ -20,6 +20,7 @@ import net.suntrans.looney.utils.UiUtils;
 import net.suntrans.powerpeace.App;
 import net.suntrans.powerpeace.R;
 import net.suntrans.powerpeace.adapter.DividerItemDecoration;
+import net.suntrans.powerpeace.api.RetrofitHelper;
 import net.suntrans.powerpeace.bean.BuildingResult;
 import net.suntrans.powerpeace.bean.FloorManagerInfo;
 import net.suntrans.powerpeace.bean.ResultBody;
@@ -113,7 +114,7 @@ public class BuildingManagerFragment extends BasedFragment {
         stateView.showLoading();
         binding.recyclerView.setVisibility(View.INVISIBLE);
 //        System.out.println("getFloor");
-        addSubscription(api.getBuildings(), new BaseSubscriber<BuildingResult>(getContext()) {
+        addSubscription(RetrofitHelper.getApi().getBuildings(), new BaseSubscriber<BuildingResult>(getContext()) {
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
@@ -149,7 +150,7 @@ public class BuildingManagerFragment extends BasedFragment {
     }
 
     private void refreshData() {
-        addSubscription(api.getBuildings(), new BaseSubscriber<BuildingResult>(getContext()) {
+        addSubscription(RetrofitHelper.getApi().getBuildings(), new BaseSubscriber<BuildingResult>(getContext()) {
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
@@ -185,7 +186,7 @@ public class BuildingManagerFragment extends BasedFragment {
         map.put("id", id);
         map.put("cmd", cmd);
         map.put("alpha", alpha);
-        addSubscription(api.switchFloor(map), new BaseSubscriber<ResultBody>(getContext()) {
+        addSubscription(RetrofitHelper.getApi().switchFloor(map), new BaseSubscriber<ResultBody>(getContext()) {
             @Override
             public void onNext(ResultBody resultBody) {
                 super.onNext(resultBody);

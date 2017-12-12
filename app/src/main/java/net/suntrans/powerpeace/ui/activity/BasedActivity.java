@@ -32,7 +32,7 @@ import rx.subscriptions.CompositeSubscription;
 public class BasedActivity extends RxAppCompatActivity implements SlidingPaneLayout.PanelSlideListener {
 
     public final static List<BasedActivity> mlist = new LinkedList<>();
-    protected Api api = RetrofitHelper.getApi();
+//    protected Api api = RetrofitHelper.getApi();
 
 
     @Override
