@@ -25,6 +25,7 @@ import net.suntrans.powerpeace.LeaderMainActivity;
 import net.suntrans.powerpeace.MainActivity;
 import net.suntrans.powerpeace.R;
 import net.suntrans.powerpeace.StudentMainActivity;
+import net.suntrans.powerpeace.api.ApiException;
 import net.suntrans.powerpeace.api.RetrofitHelper;
 import net.suntrans.powerpeace.bean.LoginEntity;
 import net.suntrans.powerpeace.bean.UserInfoEntity;
@@ -264,6 +265,9 @@ public class WelcomeActivity extends BasedActivity implements WelcomeDownLoadFrg
                         }else if (e instanceof IOException){
                             UiUtils.showToast(getResources().getString(R.string.tips_net_work_is_unused));
                             handler.sendEmptyMessageDelayed(START_LOGIN, 1500);
+                        }else if (e instanceof ApiException){
+                            super.onError(e);
+                            handler.sendEmptyMessageDelayed(START_LOGIN, 1500);
                         }
                     }
 
@@ -275,7 +279,6 @@ public class WelcomeActivity extends BasedActivity implements WelcomeDownLoadFrg
                             getUserInfo();
                         } else {
                             handler.sendEmptyMessageDelayed(START_LOGIN, 1500);
-
                             UiUtils.showToast(getResources().getString(R.string.username_password_is_error));
                         }
 

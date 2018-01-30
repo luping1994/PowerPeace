@@ -64,6 +64,7 @@ public class LeaderMainActivity extends BasedActivity implements View.OnClickLis
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
+
         }
     };
     private String username;

@@ -13,6 +13,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -22,14 +23,16 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class RetrofitHelper {
+    private static final long DEFAULT_TIMEOUT = 4;
     //UnknownHostException
     public static String BASE_URL = "http://gszydx.suntrans-cloud.com:7088/";
+//    public static String BASE_URL = "http://gszynw.suntrans-cloud.com:80/";
     public static String BASE_URL_INNER = "http://gszynw.suntrans-cloud.com:80/";
-    public static boolean INNER = true;
+    public static boolean INNER = false;
     private static OkHttpClient mOkHttpClient;
 
     static {
-        INNER = App.getSharedPreferences().getBoolean("inner", true);
+        INNER = App.getSharedPreferences().getBoolean("inner", false);
         initOkHttpClient();
     }
 
@@ -101,17 +104,22 @@ public class RetrofitHelper {
                                 .build();
 
                         Response response = chain.proceed(newRequest);
+
                         return response;
                     }
                 };
 
-
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
         if (mOkHttpClient == null) {
             synchronized (RetrofitHelper.class) {
                 if (mOkHttpClient == null) {
                     mOkHttpClient = new OkHttpClient.Builder()
                             .addInterceptor(netInterceptor)
-                            .connectTimeout(8, TimeUnit.SECONDS)
+                            .addInterceptor(logging)
+                            .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
+                            .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
+                            .readTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                             .build();
                 }
             }

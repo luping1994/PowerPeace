@@ -304,12 +304,13 @@ public class Login1Activity extends BasedActivity {
                     @Override
                     public void onError(Throwable e) {
 
+                        e.printStackTrace();
                         if (e instanceof UnknownHostException ||e instanceof SocketTimeoutException){
                             RetrofitHelper.INNER = !RetrofitHelper.INNER;
                             App.getSharedPreferences().edit().putBoolean("inner",RetrofitHelper.INNER).commit();
                             LoginFromServer(username,password);
 
-                            UiUtils.showToast("网络不可用,正在尝试备用地址...");
+                            UiUtils.showToast("服务器不可用,正在尝试备用地址...");
                         }else {
                             if (dialog != null)
                                 dialog.dismiss();

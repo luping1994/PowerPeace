@@ -245,7 +245,6 @@ public class MainActivity extends BasedActivity implements View.OnClickListener
         switch (view.getId()) {
             case R.id.exit:
                 android.os.Process.killProcess(android.os.Process.myPid());
-
                 break;
             case R.id.setting:
                 binding.drawer.closeDrawers();
