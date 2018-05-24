@@ -245,7 +245,7 @@ public class ZHCurHisActivity extends BasedActivity implements View.OnClickListe
         xAxis.setGridLineWidth(1f);
         xAxis.setGranularity(1f);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setLabelCount(3);
+//        xAxis.setLabelCount(3);
         xAxis.setDrawLabels(true);
         xAxis.setValueFormatter(new IAxisValueFormatter() {
 
@@ -614,13 +614,17 @@ public class ZHCurHisActivity extends BasedActivity implements View.OnClickListe
             binding.viewpager.setAdapter(adapter);
             binding.tabLayout.setupWithViewPager(binding.viewpager);
         } else {
-            ZhCurHisItemFragment fragment1 = (ZhCurHisItemFragment) adapter.getItem(0);
-            ZhCurHisItemFragment fragment2 = (ZhCurHisItemFragment) adapter.getItem(1);
-            ZhCurHisItemFragment fragment3 = (ZhCurHisItemFragment) adapter.getItem(2);
-            fragment1.setData(hisEntity.AInfo.data);
-            fragment2.setData(hisEntity.BInfo.data);
-            fragment3.setData(hisEntity.CInfo.data);
-
+            if (!threeLine) {
+                ZhCurHisItemFragment fragment1 = (ZhCurHisItemFragment) adapter.getItem(0);
+                fragment1.setData(hisEntity.info);
+            }else {
+                ZhCurHisItemFragment fragment1 = (ZhCurHisItemFragment) adapter.getItem(0);
+                ZhCurHisItemFragment fragment2 = (ZhCurHisItemFragment) adapter.getItem(1);
+                ZhCurHisItemFragment fragment3 = (ZhCurHisItemFragment) adapter.getItem(2);
+                fragment1.setData(hisEntity.AInfo.data);
+                fragment2.setData(hisEntity.BInfo.data);
+                fragment3.setData(hisEntity.CInfo.data);
+            }
         }
 
     }

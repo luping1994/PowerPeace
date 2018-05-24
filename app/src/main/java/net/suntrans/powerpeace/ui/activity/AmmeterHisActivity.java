@@ -466,8 +466,6 @@ public class AmmeterHisActivity extends BasedActivity implements View.OnClickLis
     }
 
     private List<HisEntity.EleParmHisItem> datas = new ArrayList<>();
-
-
     class MyAdapter extends BaseQuickAdapter<HisEntity.EleParmHisItem, BaseViewHolder> {
 
         public MyAdapter(@LayoutRes int layoutResId, @Nullable List<HisEntity.EleParmHisItem> data) {
