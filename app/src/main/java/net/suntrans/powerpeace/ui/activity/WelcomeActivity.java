@@ -244,6 +244,7 @@ public class WelcomeActivity extends BasedActivity implements WelcomeDownLoadFrg
 //        }
     }
 
+    private int loginCount = 0;
 
     private void LoginFromServer(final String username, final String password) {
         RetrofitHelper.getLoginApi().login(username, password, "password", "100001", "peS4zinqLC2x5pSc2Li98whTbSaC0d1OwrYsqQpL")
@@ -259,13 +260,21 @@ public class WelcomeActivity extends BasedActivity implements WelcomeDownLoadFrg
                     public void onError(Throwable e) {
                         e.printStackTrace();
                         if (e instanceof SocketTimeoutException || e instanceof UnknownHostException){
+                            loginCount++;
                             RetrofitHelper.INNER = !RetrofitHelper.INNER;
-                            App.getSharedPreferences().edit().putBoolean("inner",RetrofitHelper.INNER).commit();
-                            LoginFromServer(username,password);
+                            App.getSharedPreferences().edit().putBoolean("inner", RetrofitHelper.INNER).commit();
+                            if (loginCount < 3) {
+                                LoginFromServer(username, password);
+                                UiUtils.showToast("服务器不可用,正在尝试备用地址...");
+
+                            } else {
+                                UiUtils.showToast("连接服务器失败!");
+                                handler.sendEmptyMessageDelayed(START_LOGIN, 1500);
+                            }
                         }else if (e instanceof IOException){
                             UiUtils.showToast(getResources().getString(R.string.tips_net_work_is_unused));
                             handler.sendEmptyMessageDelayed(START_LOGIN, 1500);
-                        }else if (e instanceof ApiException){
+                        }else {
                             super.onError(e);
                             handler.sendEmptyMessageDelayed(START_LOGIN, 1500);
                         }

@@ -80,6 +80,7 @@ public class ZongheFragmentPart2 extends BasedFragment {
         map.put("",R.drawable.ic_gonglvyinsu);
         map.put("℃",R.drawable.ic_wendu);
         map.put("度",R.drawable.ic_dl);
+        map.put("KW·H",R.drawable.ic_dl);
     }
 
     @Override
@@ -177,5 +178,8 @@ public class ZongheFragmentPart2 extends BasedFragment {
                     }
                 });
     }
+
+
+
 
 }

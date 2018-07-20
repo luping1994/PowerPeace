@@ -254,7 +254,7 @@ public class Login1Activity extends BasedActivity {
                 dialog.setCancelable(false);
             }
             dialog.show();
-
+            loginCount=0;
             LoginFromServer(email, password);
 //            handler.postDelayed(new Runnable() {
 //                @Override
@@ -290,6 +290,8 @@ public class Login1Activity extends BasedActivity {
 //        }
     }
 
+    private int loginCount = 0;
+
     private void LoginFromServer(final String username, final String password) {
         RetrofitHelper.getLoginApi().login(username, password, "password", "100001", "peS4zinqLC2x5pSc2Li98whTbSaC0d1OwrYsqQpL")
                 .compose(this.<LoginEntity>bindUntilEvent(ActivityEvent.DESTROY))
@@ -305,13 +307,24 @@ public class Login1Activity extends BasedActivity {
                     public void onError(Throwable e) {
 
                         e.printStackTrace();
-                        if (e instanceof UnknownHostException ||e instanceof SocketTimeoutException){
+                        if (e instanceof UnknownHostException || e instanceof SocketTimeoutException) {
+                            loginCount++;
                             RetrofitHelper.INNER = !RetrofitHelper.INNER;
-                            App.getSharedPreferences().edit().putBoolean("inner",RetrofitHelper.INNER).commit();
-                            LoginFromServer(username,password);
+                            App.getSharedPreferences().edit().putBoolean("inner", RetrofitHelper.INNER).commit();
 
-                            UiUtils.showToast("服务器不可用,正在尝试备用地址...");
-                        }else {
+                            if (loginCount < 3) {
+
+                                LoginFromServer(username, password);
+                                UiUtils.showToast("服务器不可用,正在尝试备用地址...");
+
+                            } else {
+
+                                if (dialog != null)
+                                    dialog.dismiss();
+                                UiUtils.showToast("连接服务器失败!");
+                            }
+
+                        } else {
                             if (dialog != null)
                                 dialog.dismiss();
                             super.onError(e);
@@ -323,8 +336,8 @@ public class Login1Activity extends BasedActivity {
                     public void onNext(LoginEntity result) {
                         if (result.getAccess_token() != null) {
                             App.getSharedPreferences().edit().putString("token", result.getAccess_token())
-                                    .putString("username",username)
-                                    .putString("password",password)
+                                    .putString("username", username)
+                                    .putString("password", password)
                                     .commit();
                             getUserInfo();
                         } else {
@@ -338,8 +351,8 @@ public class Login1Activity extends BasedActivity {
 
 
     private void getUserInfo() {
-        if (dialog!=null)
-        dialog.setWaitText(getString(R.string.validate_userinfo));
+        if (dialog != null)
+            dialog.setWaitText(getString(R.string.validate_userinfo));
         RetrofitHelper.getApi()
                 .getUserInfo()
                 .compose(this.<UserInfoEntity>bindUntilEvent(ActivityEvent.DESTROY))
@@ -370,8 +383,8 @@ public class Login1Activity extends BasedActivity {
 
                             App.getSharedPreferences().edit().putString("room_id", info.info.room_id + "")
                                     .putString("studentID", info.info.id)
-                                    .putString("username",info.info.username)
-                                    .putString("floor_id",info.info.floor_id)
+                                    .putString("username", info.info.username)
+                                    .putString("floor_id", info.info.floor_id)
                                     .putInt("role", info.info.role_id)
                                     .commit();
                             switch (info.info.role_id) {

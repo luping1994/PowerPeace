@@ -60,7 +60,9 @@ public class BuildingManagerMainActivity extends BasedActivity implements View.O
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_building_main);
         initRecyclerView();
         StatusBarCompat.compat(binding.headerView);
