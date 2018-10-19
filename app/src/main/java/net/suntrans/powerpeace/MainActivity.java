@@ -1,5 +1,6 @@
 package net.suntrans.powerpeace;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
@@ -10,7 +11,6 @@ import android.os.SystemClock;
 import android.support.annotation.IdRes;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.KeyEvent;
@@ -21,11 +21,10 @@ import android.widget.RadioGroup;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.pgyersdk.update.PgyUpdateManager;
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import net.suntrans.looney.utils.UiUtils;
+import net.suntrans.powerpeace.adapter.AdminNavViewAdapter;
 import net.suntrans.powerpeace.adapter.FragmentAdapter;
-import net.suntrans.powerpeace.adapter.NavViewAdapter;
 import net.suntrans.powerpeace.bean.Version;
 import net.suntrans.powerpeace.databinding.ActivityMainBinding;
 import net.suntrans.powerpeace.network.WebSocketService;
@@ -36,12 +35,12 @@ import net.suntrans.powerpeace.ui.activity.MsgCenterActivity;
 import net.suntrans.powerpeace.ui.activity.PersonActivity;
 import net.suntrans.powerpeace.ui.activity.SearchActivity;
 import net.suntrans.powerpeace.ui.activity.SettingActivity;
+import net.suntrans.powerpeace.ui.activity.YichangActivity;
 import net.suntrans.powerpeace.ui.decoration.DefaultDecoration;
 import net.suntrans.powerpeace.ui.fragment.BasedFragment;
 import net.suntrans.powerpeace.ui.fragment.DownLoadFrgment;
 import net.suntrans.powerpeace.ui.fragment.StudentFragment;
 import net.suntrans.powerpeace.ui.fragment.SusheFragment;
-import net.suntrans.powerpeace.ui.fragment.ZongHeFragmentCopy;
 import net.suntrans.powerpeace.ui.fragment.ZongheFragmentNew;
 import net.suntrans.powerpeace.utils.StatusBarCompat;
 
@@ -74,35 +73,14 @@ public class MainActivity extends BasedActivity implements View.OnClickListener
                 this, binding.drawer, binding.toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 
         binding.drawer.setDrawerListener(toggle);
-
         toggle.syncState();
+
         init();
-//        SwipeRefreshLayout
-//        , new UpdateManagerListener() {
-//
-//            @Override
-//            public void onNoUpdateAvailable() {
-//
-//            }
-//
-//            @Override
-//            public void onUpdateAvailable(String s) {
-//                try {
-//                    System.out.println(s);
-//                    Version version = JSON.parseObject(s, Version.class);
-//                    showUpdateDialog(s, version.data);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        binding.navView.header.imageView
-//        }
 
     }
 
     private void showUpdateDialog(String result, Version.VersionInfo versionInfo) {
         String apkName = "hp_" + versionInfo.versionName + "_" + versionInfo.versionCode + ".apk";
-
         DownLoadFrgment frgment = DownLoadFrgment.newInstance(versionInfo, apkName, result);
         frgment.show(getSupportFragmentManager(), "DownloadFragment");
     }
@@ -113,7 +91,7 @@ public class MainActivity extends BasedActivity implements View.OnClickListener
 //        intent.setClass(this, WebSocketService.class);
 //        bindService(intent, connection, ContextWrapper.BIND_AUTO_CREATE);
 
-        NavViewAdapter navViewAdapter = new NavViewAdapter(NavViewAdapter.getLayoutRes(), NavViewAdapter.getItems());
+        AdminNavViewAdapter navViewAdapter = new AdminNavViewAdapter(AdminNavViewAdapter.getLayoutRes(), AdminNavViewAdapter.getItems());
         navViewAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -126,23 +104,26 @@ public class MainActivity extends BasedActivity implements View.OnClickListener
                         handler.sendEmptyMessageDelayed(START_MSG_ACTIVITY, 400);
                         break;
                     case 2:
-                        handler.sendEmptyMessageDelayed(START_INTERNET_ACTIVITY, 400);
-
+                        handler.sendEmptyMessageDelayed(START_YICHANG_ACTIVITY, 400);
                         break;
                     case 3:
+                        handler.sendEmptyMessageDelayed(START_INTERNET_ACTIVITY, 400);
+                        break;
+                    case 4:
                         handler.sendEmptyMessageDelayed(START_SETTING_ACTIVITY, 400);
 
                         break;
-                    case 4:
+                    case 5:
                         handler.sendEmptyMessageDelayed(START_FEEDBACK_ACTIVITY, 400);
 
                         break;
 
-                    case 5:
+                    case 6:
                         handler.sendEmptyMessageDelayed(START_ABOUT_ACTIVITY, 400);
 
                         break;
-                    case 6:
+
+                    case 7:
                         android.os.Process.killProcess(android.os.Process.myPid());
                         break;
                 }
@@ -255,7 +236,6 @@ public class MainActivity extends BasedActivity implements View.OnClickListener
 
 
     private long[] mHits = new long[2];
-
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -263,15 +243,15 @@ public class MainActivity extends BasedActivity implements View.OnClickListener
                 binding.drawer.closeDrawers();
                 return true;
             }
-
-            System.arraycopy(mHits, 1, mHits, 0, mHits.length - 1);
-            mHits[mHits.length - 1] = SystemClock.uptimeMillis();
-            if (mHits[0] >= (SystemClock.uptimeMillis() - 2000)) {
-//                finish();
-                android.os.Process.killProcess(android.os.Process.myPid());
-            } else {
-                UiUtils.showToast(getString(R.string.tips_press_twice_exit));
-            }
+            moveTaskToBack(true);
+//            System.arraycopy(mHits, 1, mHits, 0, mHits.length - 1);
+//            mHits[mHits.length - 1] = SystemClock.uptimeMillis();
+//            if (mHits[0] >= (SystemClock.uptimeMillis() - 2000)) {
+////                finish();
+//                android.os.Process.killProcess(android.os.Process.myPid());
+//            } else {
+//                UiUtils.showToast(getString(R.string.tips_press_twice_exit));
+//            }
             return true;
         }
         return super.onKeyDown(keyCode, event);
@@ -303,7 +283,9 @@ public class MainActivity extends BasedActivity implements View.OnClickListener
     private static final int START_INTERNET_ACTIVITY = 3;
     private static final int START_ABOUT_ACTIVITY = 4;
     private static final int START_FEEDBACK_ACTIVITY = 5;
+    private static final int START_YICHANG_ACTIVITY = 6;
 
+    @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -328,6 +310,8 @@ public class MainActivity extends BasedActivity implements View.OnClickListener
                     intent.setAction("android.intent.action.VIEW");
                     Uri content_url = Uri.parse("http://www.suntrans.net");
                     intent.setData(content_url);
+                case START_YICHANG_ACTIVITY:
+                    intent.setClass(MainActivity.this, YichangActivity.class);
                     break;
             }
             startActivity(intent);

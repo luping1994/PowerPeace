@@ -206,6 +206,24 @@ public class ControlFragment extends BasedFragment {
                     binding.refreshLayout.setRefreshing(false);
                 if (dialog != null)
                     dialog.dismiss();
+                for (ChannelInfo info :
+                        listResultBody.info) {
+                    if ("房间".equals(info.name)) {
+                        info.name=getString(R.string.item_room);
+                    }else if ("阳台".equals(info.name)){
+                        info.name=getString(R.string.item_yangtai);
+
+                    }else if ("卫生间".equals(info.name)){
+                        info.name=getString(R.string.item_weishengjian);
+
+                    }else if ("插座".equals(info.name)){
+                        info.name=getString(R.string.item_chazuo);
+
+                    } else if ("备用".equals(info.name)) {
+                        info.name=getString(R.string.item_beiyong);
+
+                    }
+                }
                 datas.clear();
                 datas.addAll(listResultBody.info);
                 if (datas.size() == 0) {

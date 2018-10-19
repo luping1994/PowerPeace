@@ -104,9 +104,9 @@ public class ZhanghuFragment extends BasedFragment implements View.OnClickListen
 
     private void refreshLayout(AccountInfo info) {
         binding.dayuse.setText(info.getDayuse()==null?"--":info.getDayuse()+"kW·h");
-        binding.balans.setText(info.getBalans()==null?"--":info.getBalans()+"元");
+        binding.balans.setText(info.getBalans()==null?"--":info.getBalans()+getString(R.string.unit_rmb));
         binding.monthuse.setText(info.getMonthuse()==null?"--":info.getMonthuse()+"kW·h");
-        binding.status.setText(info.getStatus()==null?"--":info.getStatus());
+        binding.status.setText(info.getStatus()==null?"--":info.getStatus().equals("正常")?getString(R.string.item_normal):info.getStatus());
         binding.totaluse.setText(info.getTotaluse()==null?"--":info.getTotaluse()+"kW·h");
     }
 
@@ -128,13 +128,13 @@ public class ZhanghuFragment extends BasedFragment implements View.OnClickListen
                 || v.getId() == R.id.totaluseLL) {
             Intent intent3 = new Intent(getActivity(), ElecHisActivity.class);
             intent3.putExtra("title", getActivity().getIntent().getStringExtra("title"));
-            intent3.putExtra("paramName", "用电量");
+            intent3.putExtra("paramName", getString(R.string.item_yongdianliang));
             intent3.putExtra("room_id", room_id);
             startActivity(intent3);
         } else if (v.getId()==R.id.balansLL) {
             Intent intent3 = new Intent(getActivity(), PostageHisActivity.class);
             intent3.putExtra("title", getActivity().getIntent().getStringExtra("title"));
-            intent3.putExtra("paramName", "用电量");
+            intent3.putExtra("paramName", getString(R.string.item_yongdianliang));
             intent3.putExtra("room_id", room_id);
             startActivity(intent3);
         }

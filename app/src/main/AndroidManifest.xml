@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="net.suntrans.powerpeace">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -9,10 +10,11 @@
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <!-- 可选 -->
-    <uses-permission android:name="android.permission.READ_LOGS" />
+    <!--<uses-permission android:name="android.permission.READ_LOGS" />-->
 
     <!-- 获取logcat日志 -->
     <application
+        tools:replace="label,allowBackup"
         android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -146,6 +148,24 @@
         <activity
             android:name=".ui.activity.ZHBuildingEnergyActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".ui.activity.YichangActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activity.MsgAddActivity" />
+
+
+        <receiver
+            android:name=".broadcast.JpushReceive"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.REGISTRATION" />
+                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" />
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" />
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_CLICK_ACTION" />
+                <action android:name="cn.jpush.android.intent.ACTION_NOTIFICATION_RECEIVED" />
+                <action android:name="cn.jpush.android.intent.CONNECTION" />
+                <category android:name="net.suntrans.powerpeace" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

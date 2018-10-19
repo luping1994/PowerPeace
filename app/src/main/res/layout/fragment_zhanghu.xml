@@ -11,6 +11,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -19,14 +20,14 @@
                 android:paddingRight="@dimen/activity_horizontal_margin">
 
                 <TextView
-                    android:textSize="16sp"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:drawableLeft="@drawable/time"
                     android:drawablePadding="16dp"
                     android:gravity="center_vertical"
-                    android:text="采集时间"
-                    android:textColor="@color/black" />
+                    android:text="@string/title_caijishijian"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/time"
@@ -35,10 +36,10 @@
                     android:layout_weight="1"
                     android:drawablePadding="8dp"
                     android:gravity="center|right"
-                    android:text="----"
-                    />
+                    android:text="----" />
 
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/totaluseLL"
                 android:layout_width="match_parent"
@@ -56,16 +57,19 @@
                     android:src="@drawable/ic_dl" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:maxLines="1"
+                    android:layout_weight="1.2"
+                    android:ellipsize="end"
+                    android:layout_width="0dp"
+                    android:gravity="center_vertical"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="16dp"
-                    android:gravity="center"
-                    android:text="总用电量"
+                    android:text="@string/title_zong_ydl"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
 
                 <RelativeLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="16dp"
                     android:layout_weight="1">
@@ -120,16 +124,20 @@
                     android:src="@drawable/ic_dl" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:maxLines="1"
+                    android:layout_weight="1.8"
+                    android:ellipsize="end"
+                    android:layout_width="0dp"
+                    android:gravity="center_vertical"
+
                     android:layout_height="match_parent"
                     android:layout_marginLeft="16dp"
-                    android:gravity="center"
-                    android:text="当月用电量"
+                    android:text="@string/title_month_ydl"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
 
                 <RelativeLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="16dp"
                     android:layout_weight="1">
@@ -160,6 +168,7 @@
                     </LinearLayout>
                 </RelativeLayout>
             </LinearLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -181,16 +190,19 @@
                     android:src="@drawable/ic_dl" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:maxLines="1"
+                    android:layout_weight="1.8"
+                    android:ellipsize="end"
+                    android:layout_width="0dp"
+                    android:gravity="center_vertical"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="16dp"
-                    android:gravity="center"
-                    android:text="当日用电量"
+                    android:text="@string/title_day_ydl"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
 
                 <RelativeLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="16dp"
                     android:layout_weight="1">
@@ -221,6 +233,7 @@
                     </LinearLayout>
                 </RelativeLayout>
             </LinearLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -242,16 +255,22 @@
                     android:src="@drawable/ic_money" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:maxLines="1"
+                    android:layout_weight="2"
+                    android:ellipsize="end"
+                    android:layout_width="0dp"
+                    android:gravity="center_vertical"
+
+
                     android:layout_height="match_parent"
                     android:layout_marginLeft="16dp"
-                    android:gravity="center"
-                    android:text="账户余额"
+                    android:text="@string/title_yu_er"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
 
                 <RelativeLayout
-                    android:layout_width="match_parent"
+
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="16dp"
                     android:layout_weight="1">
@@ -304,16 +323,20 @@
                     android:src="@drawable/ic_zhuangtai" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:maxLines="1"
+                    android:layout_weight="2"
+                    android:ellipsize="end"
+                    android:layout_width="0dp"
+                    android:gravity="center_vertical"
+
                     android:layout_height="match_parent"
                     android:layout_marginLeft="16dp"
-                    android:gravity="center"
-                    android:text="账户状态"
+                    android:text="@string/title_account_info"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
 
                 <RelativeLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="16dp"
                     android:layout_weight="1">
@@ -335,13 +358,13 @@
                             android:text="--" />
 
                         <ImageView
-                            android:visibility="invisible"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:layout_gravity="center_vertical"
-                            android:src="@drawable/ic_arrow_right" />
+                            android:src="@drawable/ic_arrow_right"
+                            android:visibility="invisible" />
                     </LinearLayout>
                 </RelativeLayout>
             </LinearLayout>

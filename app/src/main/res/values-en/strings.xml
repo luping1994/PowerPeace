@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tx_log">Status record</string>
+
+    <string name="ele_state">Power status</string>
+    <string name="account_info">Account information</string>
+    <string name="ele_info">Electricity information</string>
+    <string name="str_info">Student information</string>
+    <string name="detail_info">Dormitory details</string>
+
+    <string name="data_is_empty">empty data</string>
+
+
+    <string name="item_yongdianliang">electricity consumption</string>
+    <string name="title_caijishijian">Acquisition time</string>
+    <string name="title_zong_ydl">Total electricity consumption</string>
+    <string name="title_month_ydl">Monthly electricity consumption</string>
+    <string name="title_day_ydl">Daily electricity consumption</string>
+    <string name="title_yu_er">Account balance</string>
+    <string name="title_account_info">Account status</string>
+    <string name="unit_rmb">yuan</string>
+
+
+    <string name="title_dianya">Voltage</string>
+    <string name="title_dianliu">Current</string>
+    <string name="title_gonglv">Power</string>
+    <string name="title_gonglvyinshu">Power rate</string>
+    <string name="title_dianbiaozhi">Meter reading</string>
+
+    <string name="item_room">Room</string>
+    <string name="item_yangtai">Balcony</string>
+    <string name="item_weishengjian">Toilet</string>
+    <string name="item_chazuo">Socket</string>
+    <string name="item_beiyong">Backup</string>
+    <string name="item_normal" >Normal</string>
+
+</resources>

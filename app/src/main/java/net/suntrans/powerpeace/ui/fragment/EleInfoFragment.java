@@ -174,18 +174,27 @@ public class EleInfoFragment extends BasedFragment {
                                 for (int i = 0; i < info.info.size(); i++) {
                                     if (info.info.get(i).code.equals("100001")) {
                                         info.info.get(i).imgId = R.drawable.ic_dianya;
+                                        info.info.get(i).name = getString(R.string.title_dianya);
                                     }
                                     if (info.info.get(i).code.equals("100002")) {
                                         info.info.get(i).imgId = R.drawable.ic_dianliu;
+                                        info.info.get(i).name = getString(R.string.title_dianliu);
+
                                     }
                                     if (info.info.get(i).code.equals("100003")) {
                                         info.info.get(i).imgId = R.drawable.ic_gonglv;
+                                        info.info.get(i).name = getString(R.string.title_gonglv);
+
                                     }
                                     if (info.info.get(i).code.equals("100004")) {
                                         info.info.get(i).imgId = R.drawable.ic_gonglvyinsu;
+                                        info.info.get(i).name = getString(R.string.title_gonglvyinshu);
+
                                     }
                                     if (info.info.get(i).code.equals("100005")) {
                                         info.info.get(i).imgId = R.drawable.ic_dl;
+                                        info.info.get(i).name = getString(R.string.title_dianbiaozhi);
+
                                     }
                                 }
                                 time.setText(info.updated_at);

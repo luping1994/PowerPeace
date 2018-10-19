@@ -61,9 +61,7 @@ public class MyService extends Service {
         info = intent.getParcelableExtra("info");
         apkName = intent.getStringExtra("apkName");
         result = intent.getStringExtra("result");
-
         registerReceiver(receiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
-
     }
 
     public class MyBinder extends Binder {

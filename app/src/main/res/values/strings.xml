@@ -29,7 +29,7 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
-    <string name="validating_password">正在验证,第一次登录可能耗时较长...</string>
+    <string name="validating_password">正在验证您的用户名和密码...</string>
     <string name="username_password_is_error">用户名或密码错误</string>
     <string name="getuserinfo_occor_error">获取用户信息失败</string>
     <string name="validate_userinfo">正在获取您的身份信息...</string>
@@ -77,6 +77,8 @@
     <string name="account_info">账户信息</string>
     <string name="ele_info">用电信息</string>
     <string name="str_info">学生信息</string>
+
+
     <string name="data_empty">数据为空</string>
     <string name="please_wait">请稍后</string>
     <string name="control_failed">控制失败</string>
@@ -317,5 +319,28 @@
     <string name="open_all">全部打开</string>
     <string name="cloose_all">全部关闭</string>
     <string name="update_time">更新时间</string>
+    <string name="unit_rmb">元</string>
+
+
+    <string name="item_yongdianliang">用电量</string>
+    <string name="title_caijishijian">采集时间</string>
+    <string name="title_zong_ydl">总用电量</string>
+    <string name="title_month_ydl">当月用电量</string>
+    <string name="title_day_ydl">当日用电量</string>
+    <string name="title_yu_er">账户余额</string>
+    <string name="title_account_info">账户状态</string>
+
+
+    <string name="title_dianya">电压</string>
+    <string name="title_dianliu">电流</string>
+    <string name="title_gonglv">功率</string>
+    <string name="title_gonglvyinshu">功率因数</string>
+    <string name="title_dianbiaozhi">电度数</string>
+    <string name="item_room">房间</string>
+    <string name="item_yangtai">阳台</string>
+    <string name="item_weishengjian">卫生间</string>
+    <string name="item_chazuo">插座</string>
+    <string name="item_beiyong">备用</string>
+    <string name="item_normal" >正常</string>
 
 </resources>

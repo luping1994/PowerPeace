@@ -8,6 +8,8 @@ import com.tencent.bugly.crashreport.CrashReport;
 
 import net.suntrans.looney.AppBase;
 
+import cn.jpush.android.api.JPushInterface;
+
 import static net.suntrans.powerpeace.BuildConfig.DEBUG;
 
 /**
@@ -44,5 +46,8 @@ public class App extends AppBase {
             CrashReport.initCrashReport(getApplicationContext(), "fd77fe012a", false);
         }
         Pgy.init(this, "c49751bc841e2b3a6115ced0b185e789");
+
+        JPushInterface.setDebugMode(!DEBUG);
+        JPushInterface.init(this);
     }
 }

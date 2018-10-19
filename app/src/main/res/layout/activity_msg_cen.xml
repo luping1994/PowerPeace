@@ -38,11 +38,7 @@
                 android:text="暂无更多消息"
                 android:visibility="gone" />
 
-            <android.support.v4.widget.SwipeRefreshLayout
-                android:id="@+id/refreshLayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="visible">
+
 
                 <android.support.v7.widget.RecyclerView
                     app:layoutManager="@string/LinearLayoutManager"
@@ -51,7 +47,6 @@
                     android:layout_height="match_parent">
 
                 </android.support.v7.widget.RecyclerView>
-            </android.support.v4.widget.SwipeRefreshLayout>
         </FrameLayout>
     </LinearLayout>
 </layout>

@@ -13,9 +13,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/item_press_true"
-            app:tabGravity="fill"
-            app:tabMaxWidth="0dp"
+            app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
             app:tabMode="fixed"
+            app:tabGravity="fill"
             app:tabIndicatorColor="@color/colorPrimary"
             app:tabSelectedTextColor="@color/colorPrimary">
 

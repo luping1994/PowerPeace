@@ -23,13 +23,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class RetrofitHelper {
-    private static final long DEFAULT_TIMEOUT = 4;
+    private static final int DEFAULT_TIMEOUT = 10;
     //UnknownHostException
     public static String BASE_URL = "http://gszydx.suntrans-cloud.com:7088/";
-//    public static String BASE_URL = "http://gszynw.suntrans-cloud.com:80/";
-    public static String BASE_URL_INNER = "http://gszynw.suntrans-cloud.com:80/";
+//  public static String BASE_URL = "http://gszynw.suntrans-cloud.com:80/";
+//  public static String BASE_URL_INNER = "http://gszynw.suntrans-cloud.com:80/";
     public static boolean INNER = false;
     private static OkHttpClient mOkHttpClient;
+    private static Api api = null;
 
     static {
         INNER = App.getSharedPreferences().getBoolean("inner", false);
@@ -37,43 +38,56 @@ public class RetrofitHelper {
     }
 
     public static Api getApi() {
-        Retrofit retrofit = null;
-        if (INNER) {
-            retrofit = new Retrofit.Builder()
-                    .baseUrl(BASE_URL_INNER)
-                    .client(mOkHttpClient)
-                    .addConverterFactory(MyGsonConverterFactory.create())
-                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                    .build();
-        } else {
-            retrofit = new Retrofit.Builder()
+
+//        if (INNER) {
+//            retrofit = new Retrofit.Builder()
+//                    .baseUrl(BASE_URL_INNER)
+//                    .client(mOkHttpClient)
+//                    .addConverterFactory(MyGsonConverterFactory.create())
+//                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+//                    .build();
+//        } else {
+        if (api == null) {
+            Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .client(mOkHttpClient)
                     .addConverterFactory(MyGsonConverterFactory.create())
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .build();
+//        }
+            api = retrofit.create(Api.class);
         }
-        Api api = retrofit.create(Api.class);
+
         return api;
+    }
+
+    public static Api getYichangApi() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .client(mOkHttpClient)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .build();
+        return retrofit.create(Api.class);
     }
 
     public static Api getLoginApi() {
         Retrofit retrofit = null;
-        if (INNER) {
-            retrofit = new Retrofit.Builder()
-                    .baseUrl(BASE_URL_INNER)
-                    .client(mOkHttpClient)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                    .build();
-        } else {
-            retrofit = new Retrofit.Builder()
-                    .baseUrl(BASE_URL)
-                    .client(mOkHttpClient)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                    .build();
-        }
+//        if (INNER) {
+//            retrofit = new Retrofit.Builder()
+//                    .baseUrl(BASE_URL_INNER)
+//                    .client(mOkHttpClient)
+//                    .addConverterFactory(GsonConverterFactory.create())
+//                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+//                    .build();
+//        } else {
+        retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .client(mOkHttpClient)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .build();
+//        }
 
         return retrofit.create(Api.class);
     }
@@ -98,14 +112,13 @@ public class RetrofitHelper {
 //                        } else {
 //                            newBody =    addParamsToFormBody();
 //                        }
+
                         Request newRequest = original.newBuilder()
                                 .header("Authorization", "Bearer " + header)
                                 .method(original.method(), newBody)
                                 .build();
 
-                        Response response = chain.proceed(newRequest);
-
-                        return response;
+                        return chain.proceed(newRequest);
                     }
                 };
 
@@ -116,7 +129,7 @@ public class RetrofitHelper {
                 if (mOkHttpClient == null) {
                     mOkHttpClient = new OkHttpClient.Builder()
                             .addInterceptor(netInterceptor)
-                            .addInterceptor(logging)
+//                            .addInterceptor(logging)
                             .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                             .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                             .readTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)

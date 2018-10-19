@@ -26,6 +26,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.pgyersdk.update.PgyUpdateManager;
 
 import net.suntrans.looney.utils.UiUtils;
+import net.suntrans.powerpeace.adapter.AdminNavViewAdapter;
 import net.suntrans.powerpeace.adapter.FragmentAdapter;
 import net.suntrans.powerpeace.adapter.NavViewAdapter;
 import net.suntrans.powerpeace.bean.Version;
@@ -39,6 +40,7 @@ import net.suntrans.powerpeace.ui.activity.MsgCenterActivity;
 import net.suntrans.powerpeace.ui.activity.PersonActivity;
 import net.suntrans.powerpeace.ui.activity.SearchActivity;
 import net.suntrans.powerpeace.ui.activity.SettingActivity;
+import net.suntrans.powerpeace.ui.activity.YichangActivity;
 import net.suntrans.powerpeace.ui.decoration.DefaultDecoration;
 import net.suntrans.powerpeace.ui.fragment.BasedFragment;
 import net.suntrans.powerpeace.ui.fragment.DownLoadFrgment;
@@ -129,7 +131,7 @@ public class LeaderMainActivity extends BasedActivity implements View.OnClickLis
 //        intent.setClass(this, WebSocketService.class);
 //        bindService(intent, connection, ContextWrapper.BIND_AUTO_CREATE);
 
-        NavViewAdapter navViewAdapter = new NavViewAdapter(NavViewAdapter.getLayoutRes(), NavViewAdapter.getItems());
+        AdminNavViewAdapter navViewAdapter = new AdminNavViewAdapter(AdminNavViewAdapter.getLayoutRes(), AdminNavViewAdapter.getItems());
         navViewAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -142,23 +144,24 @@ public class LeaderMainActivity extends BasedActivity implements View.OnClickLis
                         handler.sendEmptyMessageDelayed(START_MSG_ACTIVITY, 400);
                         break;
                     case 2:
-                        handler.sendEmptyMessageDelayed(START_INTERNET_ACTIVITY, 400);
-
+                        handler.sendEmptyMessageDelayed(START_YICHANG_ACTIVITY, 400);
                         break;
                     case 3:
+                        handler.sendEmptyMessageDelayed(START_INTERNET_ACTIVITY, 400);
+                        break;
+                    case 4:
                         handler.sendEmptyMessageDelayed(START_SETTING_ACTIVITY, 400);
 
                         break;
-                    case 4:
+                    case 5:
                         handler.sendEmptyMessageDelayed(START_FEEDBACK_ACTIVITY, 400);
-
                         break;
 
-                    case 5:
+                    case 6:
                         handler.sendEmptyMessageDelayed(START_ABOUT_ACTIVITY, 400);
 
                         break;
-                    case 6:
+                    case 7:
                         android.os.Process.killProcess(android.os.Process.myPid());
                         break;
                 }
@@ -275,15 +278,7 @@ public class LeaderMainActivity extends BasedActivity implements View.OnClickLis
                 binding.drawer.closeDrawers();
                 return true;
             }
-
-            System.arraycopy(mHits, 1, mHits, 0, mHits.length - 1);
-            mHits[mHits.length - 1] = SystemClock.uptimeMillis();
-            if (mHits[0] >= (SystemClock.uptimeMillis() - 2000)) {
-//                finish();
-                android.os.Process.killProcess(android.os.Process.myPid());
-            } else {
-                UiUtils.showToast(getString(R.string.tips_press_twice_exit));
-            }
+            moveTaskToBack(true);
             return true;
         }
         return super.onKeyDown(keyCode, event);
@@ -315,35 +310,45 @@ public class LeaderMainActivity extends BasedActivity implements View.OnClickLis
     private static final int START_INTERNET_ACTIVITY = 3;
     private static final int START_ABOUT_ACTIVITY = 4;
     private static final int START_FEEDBACK_ACTIVITY = 5;
+    private static final int START_YICHANG_ACTIVITY = 6;
+
 
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
+
             Intent intent = new Intent();
+
             switch (msg.what) {
+
                 case START_MSG_ACTIVITY:
                     intent.setClass(LeaderMainActivity.this, MsgCenterActivity.class);
                     break;
                 case START_SETTING_ACTIVITY:
                     intent.setClass(LeaderMainActivity.this, SettingActivity.class);
                     break;
+
                 case START_HELP_ACTIVITY:
                     intent.setClass(LeaderMainActivity.this, HelpActivity.class);
                     break;
+
                 case START_ABOUT_ACTIVITY:
                     intent.setClass(LeaderMainActivity.this, AboutActivity.class);
                     break;
                 case START_FEEDBACK_ACTIVITY:
                     intent.setClass(LeaderMainActivity.this, HelpActivity.class);
                     break;
+                case START_YICHANG_ACTIVITY:
+                    intent.setClass(LeaderMainActivity.this, YichangActivity.class);
+                    break;
                 case START_INTERNET_ACTIVITY:
                     intent.setAction("android.intent.action.VIEW");
                     Uri content_url = Uri.parse("http://www.suntrans.net");
                     intent.setData(content_url);
                     break;
+
             }
             startActivity(intent);
-
         }
     };
 

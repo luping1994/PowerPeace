@@ -1,14 +1,10 @@
 package net.suntrans.powerpeace.adapter;
-
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.widget.ImageView;
-
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-
 import net.suntrans.powerpeace.R;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,8 +12,16 @@ import java.util.List;
  * Created by Looney on 2017/9/13.
  */
 
-public class NavViewAdapter extends BaseQuickAdapter<NavViewItem,BaseViewHolder>{
+public class NavViewAdapter extends BaseQuickAdapter<NavViewItem, BaseViewHolder> {
 
+    public static final int HOME_PAGE = 0;
+    public static final int MESSAGE = 1;
+    public static final int YICHANG = 2;
+    public static final int SETTING = 3;
+    public static final int ABOUT = 4;
+    public static final int WEB = 5;
+    public static final int HELP = 6;
+    public static final int EXIT = 7;
 
     public NavViewAdapter(@LayoutRes int layoutResId, @Nullable List<NavViewItem> data) {
         super(layoutResId, data);
@@ -25,20 +29,20 @@ public class NavViewAdapter extends BaseQuickAdapter<NavViewItem,BaseViewHolder>
 
     @Override
     protected void convert(BaseViewHolder helper, NavViewItem item) {
-        helper.setText(R.id.msg,item.getName());
+        helper.setText(R.id.msg, item.getName());
         ImageView view = helper.getView(R.id.image);
         view.setImageResource(item.getImageResID());
     }
 
-    public static List<NavViewItem> getItems(){
+    public static List<NavViewItem> getItems() {
         List<NavViewItem> navViewItems = new ArrayList<>();
-        NavViewItem item0 = new NavViewItem(R.drawable.ic_home,"主页");
-        NavViewItem item1 = new NavViewItem(R.drawable.ic_msg,"消息");
-        NavViewItem item2 = new NavViewItem(R.drawable.ic_setting,"设置");
-        NavViewItem item3 = new NavViewItem(R.drawable.ic_info_nav,"关于");
-        NavViewItem item4 = new NavViewItem(R.drawable.internet,"官网");
-        NavViewItem item5= new NavViewItem(R.drawable.ic_jianyi,"帮助与反馈");
-        NavViewItem item6 = new NavViewItem(R.drawable.ic_exit,"退出");
+        NavViewItem item0 = new NavViewItem(R.drawable.ic_home, "主页");
+        NavViewItem item1 = new NavViewItem(R.drawable.ic_msg, "消息");
+        NavViewItem item2 = new NavViewItem(R.drawable.ic_setting, "设置");
+        NavViewItem item3 = new NavViewItem(R.drawable.ic_info_nav, "关于");
+        NavViewItem item4 = new NavViewItem(R.drawable.internet, "官网");
+        NavViewItem item5 = new NavViewItem(R.drawable.ic_jianyi, "帮助与反馈");
+        NavViewItem item6 = new NavViewItem(R.drawable.ic_exit, "退出");
 
         navViewItems.add(item0);
         navViewItems.add(item1);
@@ -50,7 +54,7 @@ public class NavViewAdapter extends BaseQuickAdapter<NavViewItem,BaseViewHolder>
         return navViewItems;
     }
 
-    public static int getLayoutRes(){
+    public static int getLayoutRes() {
         return R.layout.item_nav;
     }
 }

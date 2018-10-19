@@ -25,6 +25,7 @@ import net.suntrans.powerpeace.LeaderMainActivity;
 import net.suntrans.powerpeace.MainActivity;
 import net.suntrans.powerpeace.R;
 import net.suntrans.powerpeace.StudentMainActivity;
+import net.suntrans.powerpeace.api.Api;
 import net.suntrans.powerpeace.api.ApiException;
 import net.suntrans.powerpeace.api.RetrofitHelper;
 import net.suntrans.powerpeace.bean.LoginEntity;
@@ -100,7 +101,6 @@ public class WelcomeActivity extends BasedActivity implements WelcomeDownLoadFrg
                     @Override
                     public void onFinish() {
 //                        LogUtil.i("结束了我的儿子");
-
                         checkNetwork();
                     }
 
@@ -156,25 +156,44 @@ public class WelcomeActivity extends BasedActivity implements WelcomeDownLoadFrg
         if (userName.equals("-1") || token.equals("-1")) {
             handler.sendEmptyMessageDelayed(START_LOGIN, 1500);
         } else {
+            long expires_in = App.getSharedPreferences().getLong("expires_in", 0l);
+            long loginedTime = App.getSharedPreferences().getLong("currentTimeMillis", 0l);
+            long currentTimeMillis = System.currentTimeMillis();
+
+            if (currentTimeMillis - 3600 * 1000 >= (loginedTime + expires_in * 1000)) {    //token过期了
+                handler.sendEmptyMessageDelayed(START_LOGIN, 1800);
+                return;
+            }
             int role = App.getSharedPreferences().getInt("role", -1);
-            LogUtil.i(userName + "," + role);
-            LoginFromServer(userName, password);
-//            if (role == 0) {
-//                handler.sendEmptyMessageDelayed(START_MAIN_ADMIN, 1500);
-//            } else if (role == 1) {
-//                String roomid = App.getSharedPreferences().getString("room_id", "-1");
-//
-//                if (roomid.equals("-1")) {
-//                    handler.sendEmptyMessageDelayed(START_LOGIN, 1500);
-//
-//                } else {
-//
-//                    handler.sendEmptyMessageDelayed(START_MAIN_STU, 1500);
-//                }
-//
-//            } else {
-//                handler.sendEmptyMessageDelayed(START_LOGIN, 1500);
-//            }
+            int what;
+            switch (role) {
+
+                case Constants.ROLE_APARTMENT://公寓管理人员
+                    what = START_BUILDING_MANAGER_MAIN;
+                    break;
+                case Constants.ROLE_MANAGER://运维人员
+
+                case Constants.ROLE_ADMIN://管理员
+                    what = START_MAIN_ADMIN;
+
+                    break;
+                case Constants.ROLE_OFFICER://办公人员
+                case Constants.ROLE_SCHOOL_LEADER://校领导
+                    what = START_MAIN_LEADER;
+
+                    break;
+                case Constants.ROLE_FLOOR://楼栋管理员
+                    what = START_MAIN_FLOOR_MANAGER;
+
+                    break;
+                case Constants.ROLE_STUDENT://学生
+                    what = START_MAIN_STU;
+
+                    break;
+                default:
+                    what = START_LOGIN;
+            }
+            handler.sendEmptyMessageDelayed(what, 1800);
 
         }
 
@@ -185,8 +204,8 @@ public class WelcomeActivity extends BasedActivity implements WelcomeDownLoadFrg
     private static final int START_LOGIN = 0;
     private static final int START_MAIN_ADMIN = 1;
     private static final int START_MAIN_STU = 2;
-    private static final int START_LEADER_MAIN = 3;
-    private static final int START_FLOOR_MANAGER_MAIN = 4;
+    private static final int START_MAIN_LEADER = 3;
+    private static final int START_MAIN_FLOOR_MANAGER = 4;
     private static final int START_BUILDING_MANAGER_MAIN = 5;
     Handler handler = new Handler() {
         @Override
@@ -196,7 +215,7 @@ public class WelcomeActivity extends BasedActivity implements WelcomeDownLoadFrg
                     Intent intent = new Intent(WelcomeActivity.this, Login1Activity.class);
                     intent.putExtra(
                             Login1Activity.EXTRA_TRANSITION, Login1Activity.TRANSITION_SLIDE_BOTTOM);
-                        startActivity(intent);
+                    startActivity(intent);
                     finish();
                     break;
                 case START_MAIN_ADMIN:
@@ -211,13 +230,13 @@ public class WelcomeActivity extends BasedActivity implements WelcomeDownLoadFrg
 
                     finish();
                     break;
-                case START_LEADER_MAIN:
+                case START_MAIN_LEADER:
                     startActivity(new Intent(WelcomeActivity.this, LeaderMainActivity.class));
                     overridePendingTransition(R.anim.main_open_enter, R.anim.main_open_exit);
 
                     finish();
                     break;
-                case START_FLOOR_MANAGER_MAIN:
+                case START_MAIN_FLOOR_MANAGER:
                     startActivity(new Intent(WelcomeActivity.this, FloorMainActivity.class));
                     overridePendingTransition(R.anim.main_open_enter, R.anim.main_open_exit);
 
@@ -246,8 +265,10 @@ public class WelcomeActivity extends BasedActivity implements WelcomeDownLoadFrg
 
     private int loginCount = 0;
 
+    private Api api = RetrofitHelper.getLoginApi();
+
     private void LoginFromServer(final String username, final String password) {
-        RetrofitHelper.getLoginApi().login(username, password, "password", "100001", "peS4zinqLC2x5pSc2Li98whTbSaC0d1OwrYsqQpL")
+        api.login(username, password, "password", "100001", "peS4zinqLC2x5pSc2Li98whTbSaC0d1OwrYsqQpL")
                 .compose(this.<LoginEntity>bindUntilEvent(ActivityEvent.DESTROY))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -256,35 +277,25 @@ public class WelcomeActivity extends BasedActivity implements WelcomeDownLoadFrg
                     public void onCompleted() {
 
                     }
+
                     @Override
                     public void onError(Throwable e) {
                         e.printStackTrace();
-                        if (e instanceof SocketTimeoutException || e instanceof UnknownHostException){
-                            loginCount++;
-                            RetrofitHelper.INNER = !RetrofitHelper.INNER;
-                            App.getSharedPreferences().edit().putBoolean("inner", RetrofitHelper.INNER).commit();
-                            if (loginCount < 3) {
-                                LoginFromServer(username, password);
-                                UiUtils.showToast("服务器不可用,正在尝试备用地址...");
-
-                            } else {
-                                UiUtils.showToast("连接服务器失败!");
-                                handler.sendEmptyMessageDelayed(START_LOGIN, 1500);
-                            }
-                        }else if (e instanceof IOException){
+                        if (e instanceof SocketTimeoutException || e instanceof UnknownHostException) {
+                            UiUtils.showToast("网络出错!");
+                        } else if (e instanceof IOException) {
                             UiUtils.showToast(getResources().getString(R.string.tips_net_work_is_unused));
-                            handler.sendEmptyMessageDelayed(START_LOGIN, 1500);
-                        }else {
+                        } else {
                             super.onError(e);
-                            handler.sendEmptyMessageDelayed(START_LOGIN, 1500);
                         }
+                        handler.sendEmptyMessageDelayed(START_LOGIN, 1500);
                     }
 
                     @Override
                     public void onNext(LoginEntity result) {
                         if (result.getAccess_token() != null) {
                             App.getSharedPreferences().edit().putString("token", result.getAccess_token())
-                                    .commit();
+                                    .apply();
                             getUserInfo();
                         } else {
                             handler.sendEmptyMessageDelayed(START_LOGIN, 1500);
@@ -325,25 +336,28 @@ public class WelcomeActivity extends BasedActivity implements WelcomeDownLoadFrg
                                     .commit();
                             switch (info.info.role_id) {
                                 case Constants.ROLE_APARTMENT://公寓管理人员
-                                    handler.sendEmptyMessageDelayed(START_BUILDING_MANAGER_MAIN, 1000);
+                                    handler.sendEmptyMessage(START_BUILDING_MANAGER_MAIN);
                                     break;
                                 case Constants.ROLE_MANAGER://运维人员
+//                                    UiUtils.showToast("暂不支持" + info.info.role_name + "登录本系统");
+//                                    break;
                                 case Constants.ROLE_ADMIN://管理员
-                                    handler.sendEmptyMessageDelayed(START_MAIN_ADMIN, 1000);
+                                    handler.sendEmptyMessage(START_MAIN_ADMIN);
                                     break;
                                 case Constants.ROLE_OFFICER://办公人员
                                 case Constants.ROLE_SCHOOL_LEADER://校领导
-                                    handler.sendEmptyMessageDelayed(START_LEADER_MAIN, 1000);
+                                    handler.sendEmptyMessage(START_MAIN_LEADER);
                                     break;
                                 case Constants.ROLE_FLOOR://楼栋管理员
-                                    handler.sendEmptyMessageDelayed(START_FLOOR_MANAGER_MAIN, 1000);
+                                    handler.sendEmptyMessage(START_MAIN_FLOOR_MANAGER);
                                     break;
                                 case Constants.ROLE_STUDENT://学生
-                                    handler.sendEmptyMessageDelayed(START_MAIN_STU, 1000);
+                                    handler.sendEmptyMessage(START_MAIN_STU);
+
                                     break;
                                 default:
-                                    handler.sendEmptyMessageDelayed(START_LOGIN, 1500);
-                                    break;
+                                    handler.sendEmptyMessage(START_LOGIN);
+
                             }
 
                         } else {

@@ -4,13 +4,13 @@ package net.suntrans.powerpeace.bean;
  * Created by Looney on 2017/9/7.
  */
 
-public class ResultBody<T> {
+public class ResultBody2<T> {
     public int code;
     public String message;
-    public T info;
+    public T list;
     public String updated_at;
 
     public boolean isOk() {
-        return code==1||code==200;
+        return code==200;
     }
 }

@@ -1,15 +1,28 @@
 apply plugin: 'com.android.application'
-
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion 25
     buildToolsVersion rootProject.buildToolsVersion
     defaultConfig {
         applicationId "net.suntrans.powerpeace"
-        minSdkVersion 16
+        minSdkVersion 18
         targetSdkVersion 25
-        versionCode 33
-        versionName "V0.6.6"
+        versionCode 36
+        versionName "V0.7.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        ndk {
+            //选择要添加的对应cpu类型的.so库。
+            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a','x86', 'x86_64'
+            // 还可以添加 'x86', 'x86_64', 'mips', 'mips64'
+        }
+
+        manifestPlaceholders = [
+                JPUSH_PKGNAME : "net.suntrans.powerpeace",
+                JPUSH_APPKEY : "127e16e40072bc69bc0e210c", //JPush上注册的包名对应的appkey.
+                JPUSH_CHANNEL : "developer-default", //暂时填写默认值即可.
+        ]
     }
     dataBinding {
         enabled = true
@@ -53,6 +66,7 @@ android {
 }
 repositories {
     flatDir { dirs 'libs' }
+    mavenCentral()
 }
 
 
@@ -67,6 +81,7 @@ dependencies {
     compile 'com.android.support:cardview-v7:' + rootProject.supportLibVersion
     compile project(':looney')
     compile project(':stateview')
+    kapt "com.android.databinding:compiler:2.3.2"
 
     //其中latest.release指代最新Bugly SDK版本号，也可以指定明确的版本号，例如2.2.0
 
@@ -89,6 +104,8 @@ dependencies {
     testCompile 'junit:junit:4.12'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
-
+    compile 'cn.jiguang.sdk:jpush:3.1.1'  // 此处以JPush 3.1.1 版本为例。
+    compile 'cn.jiguang.sdk:jcore:1.1.9'  // 此处以JCore 1.1.9 版本为例。
     implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

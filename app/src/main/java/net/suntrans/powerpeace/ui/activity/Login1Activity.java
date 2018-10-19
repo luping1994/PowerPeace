@@ -1,5 +1,6 @@
 package net.suntrans.powerpeace.ui.activity;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -45,6 +46,7 @@ import net.suntrans.powerpeace.rx.BaseSubscriber;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 
+import cn.jpush.android.api.JPushInterface;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -305,25 +307,14 @@ public class Login1Activity extends BasedActivity {
 
                     @Override
                     public void onError(Throwable e) {
-
                         e.printStackTrace();
                         if (e instanceof UnknownHostException || e instanceof SocketTimeoutException) {
                             loginCount++;
-                            RetrofitHelper.INNER = !RetrofitHelper.INNER;
-                            App.getSharedPreferences().edit().putBoolean("inner", RetrofitHelper.INNER).commit();
-
-                            if (loginCount < 3) {
-
-                                LoginFromServer(username, password);
-                                UiUtils.showToast("服务器不可用,正在尝试备用地址...");
-
-                            } else {
-
-                                if (dialog != null)
-                                    dialog.dismiss();
-                                UiUtils.showToast("连接服务器失败!");
-                            }
-
+//                            RetrofitHelper.INNER = !RetrofitHelper.INNER;
+//                            App.getSharedPreferences().edit().putBoolean("inner", RetrofitHelper.INNER).commit();
+                            if (dialog != null)
+                                dialog.dismiss();
+                            UiUtils.showToast("网络出错!请检查网络后再试");
                         } else {
                             if (dialog != null)
                                 dialog.dismiss();
@@ -335,10 +326,15 @@ public class Login1Activity extends BasedActivity {
                     @Override
                     public void onNext(LoginEntity result) {
                         if (result.getAccess_token() != null) {
-                            App.getSharedPreferences().edit().putString("token", result.getAccess_token())
+                            JPushInterface.setAlias(Login1Activity.this,0,username);
+                            long currentTimeMillis = System.currentTimeMillis();
+                            App.getSharedPreferences().edit()
+                                    .putString("token", result.getAccess_token())
+                                    .putLong("expires_in",result.getExpires_in())
+                                    .putLong("currentTimeMillis",currentTimeMillis)
                                     .putString("username", username)
                                     .putString("password", password)
-                                    .commit();
+                                    .apply();
                             getUserInfo();
                         } else {
                             if (dialog != null)
@@ -383,6 +379,7 @@ public class Login1Activity extends BasedActivity {
 
                             App.getSharedPreferences().edit().putString("room_id", info.info.room_id + "")
                                     .putString("studentID", info.info.id)
+                                    .putString("user_id", info.info.id)
                                     .putString("username", info.info.username)
                                     .putString("floor_id", info.info.floor_id)
                                     .putInt("role", info.info.role_id)

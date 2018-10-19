@@ -13,6 +13,7 @@ import net.suntrans.powerpeace.bean.HisEntity;
 import net.suntrans.powerpeace.bean.LogInfoEntity;
 import net.suntrans.powerpeace.bean.LoginEntity;
 import net.suntrans.powerpeace.bean.MenuBean;
+import net.suntrans.powerpeace.bean.MessageCenter;
 import net.suntrans.powerpeace.bean.MessageEntity;
 import net.suntrans.powerpeace.bean.MsgEntity;
 import net.suntrans.powerpeace.bean.ResultBody;
@@ -24,6 +25,7 @@ import net.suntrans.powerpeace.bean.StudentInfoEntity;
 import net.suntrans.powerpeace.bean.SusheEntity;
 import net.suntrans.powerpeace.bean.UserInfoEntity;
 import net.suntrans.powerpeace.bean.UserInfoEntityOld;
+import net.suntrans.powerpeace.bean.YichangEntity;
 import net.suntrans.powerpeace.bean.ZHBFloorEntity;
 import net.suntrans.powerpeace.bean.ZHBuildingEntity;
 import net.suntrans.powerpeace.bean.ZHEnergyEntity;
@@ -317,4 +319,33 @@ public interface Api {
 
     @POST("https://www.pgyer.com/apiv2/app/check")
     Observable<AppInfo> checkAppUpdate();
+
+    @FormUrlEncoded
+    @POST("api/abnormal/abnormal_list")
+    Observable<YichangEntity> getYichang(@FieldMap Map<String,String> map);
+
+    /**
+     * 获取消息
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api/notice/index")
+    Observable<MessageCenter> getNoticeIndex(@Field("page") String page);
+
+   /**
+     * 添加消息
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api/notice/add")
+    Observable<ResultBody> addNotice(@Field("message") String message,@Field("delay") String delay);
+
+    /**
+     * 添加消息
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api/notice/del")
+    Observable<ResultBody> deleteNotice(@Field("id") String id);
+
 }

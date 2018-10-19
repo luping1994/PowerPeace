@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="weekItem">
+        <item>星期一</item>
+        <item>星期二</item>
+        <item>星期三</item>
+        <item>星期四</item>
+        <item>星期五</item>
+        <item>星期六</item>
+        <item>星期日</item>
+    </string-array>
+    <string-array name="channelType">
+        <item>照明</item>
+        <item>插座</item>
+
+    </string-array>
+
+    <string-array name="yichangType">
+        <item>大功率电器</item>
+        <item>恶性负载</item>
+        <item>配电箱异常</item>
+        <item>设备离线</item>
+    </string-array>
+
+    <string-array name="delay">
+        <item>1天</item>
+        <item>2天</item>
+        <item>3天</item>
+        <item>4天</item>
+        <item>5天</item>
+        <item>6天</item>
+        <item>7天</item>
+    </string-array>
+
+    <string-array name="logsType">
+        <item>单通道</item>
+        <item>场景</item>
+    </string-array>
+</resources>
